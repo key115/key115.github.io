@@ -221,6 +221,8 @@
 <noscript><style>.rv{opacity:1;transform:none;}.lang-root[data-lang="ja"]{display:none;}</style></noscript>
 </head>
 <body>
+<!-- App Store CTA pending review: after approval, replace href="#" on the three
+     [data-appstore] links below with the Mac App Store URL (JS auto-enables them). -->
 
   <div class="lang-root" data-lang="en">
     <nav class="nav">
@@ -797,7 +799,7 @@
     if(d){ e.preventDefault(); var root=d.closest('.lang-root'); var w=root&&root.querySelector('.demo-interactive');
            if(w) w.classList.toggle('on', d.getAttribute('data-demo')==='run'); return; }
     var a=e.target.closest('[data-appstore]');
-    if(a){ e.preventDefault(); } // Mac App Store link pending review
+    if(a && a.getAttribute('href')==='#'){ e.preventDefault(); } // only block the pending-review placeholder
   });
 
   function onScroll(){ var on=window.scrollY>8; document.querySelectorAll('.nav').forEach(function(n){ n.classList.toggle('scrolled', on); }); }
