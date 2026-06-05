@@ -94,7 +94,7 @@
   .langtog{ display:inline-flex; border:1px solid var(--line2); border-radius:9px; overflow:hidden; font-family:var(--mono); }
   .langtog button{
     font-family:var(--mono); font-size:12.5px; padding:7px 11px; background:transparent; color:var(--muted);
-    border:none; cursor:pointer; letter-spacing:.5px;
+    border:none; cursor:pointer; letter-spacing:.5px; white-space:nowrap;
   }
   .langtog button.on{ background:var(--ink); color:var(--bg); font-weight:700; }
 
@@ -215,6 +215,8 @@
     .pad{ padding:68px 0; }
     .hide-sm{ display:none; }
     .pgrid{ grid-template-columns:1fr !important; gap:34px !important; }
+    .nav .row{ gap:11px; }
+    .brand small{ display:none; }
   }
   ::selection{ background:var(--accent); color:#fff; }
 </style>
