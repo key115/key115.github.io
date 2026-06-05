@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redact Shot — Erase secrets before you share | スミ消し</title>
+<meta name="description" content="Redact Shot (スミ消し) is a privacy-first Mac app that blacks out emails, tokens, names and figures in your screenshots before you share. Fully on-device — zero network, irreversible black box, one-time purchase.">
+<meta name="theme-color" content="#0d0d10">
+<link rel="canonical" href="https://key115.github.io/redactshot/">
+<link rel="icon" href="assets/appicon.png">
+<link rel="apple-touch-icon" href="assets/appicon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Redact Shot">
+<meta property="og:title" content="Redact Shot — Erase secrets before you share">
+<meta property="og:description" content="Black out the secrets in your screenshots, right before you share. Fully on-device: zero network, irreversible black box, one-time purchase.">
+<meta property="og:url" content="https://key115.github.io/redactshot/">
+<meta property="og:image" content="https://key115.github.io/redactshot/assets/og.png">
+<meta property="og:image:width" content="2560">
+<meta property="og:image:height" content="1600">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Redact Shot — Erase secrets before you share">
+<meta name="twitter:description" content="Black out the secrets in your screenshots, right before you share. Fully on-device.">
+<meta name="twitter:image" content="https://key115.github.io/redactshot/assets/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d10; --bg2:#15151b; --bg3:#1b1b22;
+    --line:#27272f; --line2:#33333d;
+    --ink:#f4f2ea; --muted:#a3a1ab; --muted2:#75737d;
+    --accent:#d83f2c; --accent2:#ef6a4a; --on-accent:#fff;
+    --sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-weight:400; line-height:1.6;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;}
+  h1,h2,h3,p{margin:0;}
+  img{max-width:100%;}
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+  .mono{ font-family:var(--mono); }
+  .kicker{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:2.5px;
+    text-transform:uppercase; color:var(--accent2); font-weight:500;
+    display:inline-flex; align-items:center; gap:9px;
+  }
+  .kicker::before{ content:""; width:22px; height:1.5px; background:var(--accent); }
+  .kicker.center{ justify-content:center; }
+  .muted{ color:var(--muted); }
+
+  /* buttons */
+  .btn{
+    display:inline-flex; align-items:center; gap:9px; justify-content:center;
+    font-family:var(--sans); font-weight:700; font-size:15.5px;
+    padding:13px 22px; border-radius:11px; cursor:pointer; border:1.5px solid transparent;
+    text-decoration:none; transition:transform .15s ease, background .15s ease, border-color .15s;
+    white-space:nowrap;
+  }
+  .btn:active{ transform:translateY(1px); }
+  .btn.primary{ background:var(--accent); color:var(--on-accent); }
+  .btn.primary:hover{ background:var(--accent2); }
+  .btn.ghost{ background:transparent; color:var(--ink); border-color:var(--line2); }
+  .btn.ghost:hover{ border-color:var(--muted); }
+  .btn .ic{ width:17px;height:17px; display:block; }
+  .btn.sm{ padding:9px 15px; font-size:14px; }
+
+  /* chips */
+  .chips{ display:flex; gap:10px; flex-wrap:wrap; }
+  .chip{
+    display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+    font-size:13.5px; color:var(--muted); padding:7px 13px;
+    border:1px solid var(--line2); border-radius:999px; background:var(--bg2);
+  }
+  .chip .d{ width:7px;height:7px;border-radius:50%;background:var(--accent); flex:0 0 auto;}
+
+  /* nav */
+  .nav{
+    position:sticky; top:0; z-index:60;
+    border-bottom:1px solid transparent; transition:background .25s, border-color .25s, backdrop-filter .25s;
+  }
+  .nav.scrolled{ background:rgba(13,13,16,.82); backdrop-filter:blur(14px); border-bottom-color:var(--line); }
+  .nav .row{ display:flex; align-items:center; gap:18px; height:64px; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:700; font-size:17px; letter-spacing:.2px; white-space:nowrap;}
+  .brand img{ width:30px;height:30px;border-radius:7px; display:block; }
+  .brand small{ display:block; font-family:var(--mono); font-size:10px; color:var(--muted2); letter-spacing:1px; font-weight:400;}
+  .nav .spacer{ flex:1; }
+  .langtog{ display:inline-flex; border:1px solid var(--line2); border-radius:9px; overflow:hidden; font-family:var(--mono); }
+  .langtog button{
+    font-family:var(--mono); font-size:12.5px; padding:7px 11px; background:transparent; color:var(--muted);
+    border:none; cursor:pointer; letter-spacing:.5px;
+  }
+  .langtog button.on{ background:var(--ink); color:var(--bg); font-weight:700; }
+
+  /* sections */
+  section{ position:relative; }
+  .pad{ padding:96px 0; }
+  .pad-sm{ padding:64px 0; }
+  h2.h{ font-weight:900; font-size:clamp(28px,3.6vw,46px); line-height:1.18; letter-spacing:-.01em; }
+  .lead{ font-size:clamp(16px,1.5vw,18.5px); color:var(--muted); max-width:54ch; line-height:1.7; }
+  .pgrid{ display:grid; grid-template-columns:1fr 1fr; gap:54px; align-items:center; }
+  .center-col{ text-align:center; max-width:720px; margin:0 auto 46px; }
+
+  /* hero */
+  .hero{ padding:62px 0 88px; }
+  .hero-grid{ display:grid; grid-template-columns:1.02fr 1fr; gap:54px; align-items:center; }
+  h1.hero-h{ font-weight:900; font-size:clamp(38px,5.6vw,68px); line-height:1.12; letter-spacing:-.02em; margin:18px 0 0; }
+  h1.hero-h .accent{ color:var(--accent2); }
+  .hero .lead{ margin-top:22px; }
+  .hero-cta{ display:flex; gap:13px; flex-wrap:wrap; margin-top:30px; }
+  .hero-chips{ margin-top:26px; }
+  .glow{ position:absolute; pointer-events:none; filter:blur(90px); opacity:.5; z-index:0; }
+
+  /* window screenshot frame */
+  .shot{ position:relative; }
+  .shot img{
+    width:100%; height:auto; display:block; border-radius:13px;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:0 50px 90px -28px rgba(0,0,0,.85), 0 8px 30px -10px rgba(0,0,0,.6);
+  }
+  .shot .ring{ position:absolute; inset:-1px; border-radius:14px; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(255,255,255,.05); }
+  .tag-float{
+    position:absolute; font-family:var(--mono); font-size:12px; letter-spacing:.5px;
+    background:var(--accent); color:#fff; padding:7px 12px; border-radius:9px; font-weight:500;
+    box-shadow:0 14px 30px -8px rgba(216,63,44,.6);
+  }
+
+  /* stat cards */
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .card{ background:var(--bg2); border:1px solid var(--line); border-radius:16px; padding:26px; }
+  .card .num{ font-family:var(--mono); font-size:13px; color:var(--accent2); letter-spacing:1px; }
+  .stat-ico{ width:34px;height:34px;border-radius:9px;background:var(--bg3); border:1px solid var(--line2); display:flex;align-items:center;justify-content:center; margin-bottom:16px; color:var(--accent2);}
+
+  /* masks */
+  .mask-sw{ height:60px; border-radius:9px; margin-bottom:16px; border:1px solid var(--line2); overflow:hidden;}
+  .sw-black{ background:#000; }
+  .sw-mosaic{ background-image:repeating-conic-gradient(#3a3a42 0 25%,#52525c 0 50%); background-size:14px 14px; }
+  .sw-blur{ background:linear-gradient(100deg,#5b5b66,#2f2f37 45%,#6a6a74); filter:blur(2px); }
+  .pill{ font-family:var(--mono); font-size:11.5px; padding:3px 9px; border-radius:6px; letter-spacing:.4px; display:inline-block; }
+  .pill.good{ background:rgba(216,63,44,.16); color:var(--accent2); border:1px solid rgba(216,63,44,.4); }
+  .pill.warn{ background:var(--bg3); color:var(--muted); border:1px solid var(--line2); }
+
+  /* before/after demo */
+  .demo-win{
+    background:#f6f5f2; color:#222; border-radius:12px; overflow:hidden; max-width:520px; width:100%;
+    box-shadow:0 50px 90px -30px rgba(0,0,0,.8); border:1px solid rgba(255,255,255,.08);
+  }
+  .demo-bar{ display:flex; align-items:center; gap:7px; padding:11px 14px; background:#eceae5; border-bottom:1px solid #ddd;}
+  .demo-bar i{ width:11px;height:11px;border-radius:50%; display:block; }
+  .demo-bar i:nth-child(1){background:#ff5f57;} .demo-bar i:nth-child(2){background:#febc2e;} .demo-bar i:nth-child(3){background:#28c840;}
+  .demo-bar .t{ margin:0 auto; font-size:12.5px; color:#666; padding-right:36px; font-weight:500; white-space:nowrap;}
+  .drow{ display:grid; grid-template-columns:92px 1fr; gap:14px; align-items:center; padding:13px 18px; border-bottom:1px solid #ececec;}
+  .drow:last-child{ border-bottom:none; }
+  .drow .k{ font-size:13.5px; color:#8a8780; }
+  .drow .v{ position:relative; height:21px; display:flex; align-items:center; }
+  .drow .v .txt{ font-size:14.5px; color:#2b2b2b; white-space:nowrap; overflow:hidden; font-family:var(--mono);}
+  .drow .v .cover{ position:absolute; left:-2px; top:0; bottom:0; width:0; background:#000; border-radius:2px; transition:width .55s cubic-bezier(.6,0,.15,1);}
+  .demo-win.on .drow:not(.keep) .v .cover{ width:calc(100% + 4px); }
+
+  /* personas */
+  .plist{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .prow{ display:flex; gap:16px; align-items:flex-start; background:var(--bg2); border:1px solid var(--line); border-radius:14px; padding:20px 22px;}
+  .ptag{ font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.5px; color:var(--accent2); border:1px solid rgba(216,63,44,.4); background:rgba(216,63,44,.1); padding:6px 9px; border-radius:8px; flex:0 0 auto; min-width:52px; text-align:center;}
+
+  /* spec table */
+  .spec{ border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .spec .hr{ display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; }
+  .spec .hr.head{ background:var(--bg3); }
+  .spec .hr:not(:first-child){ border-top:1px solid var(--line); }
+  .spec .c{ padding:15px 18px; font-size:14px; border-left:1px solid var(--line); }
+  .spec .c:first-child{ border-left:none; color:var(--muted); }
+  .spec .head .c{ font-weight:700; color:var(--ink); }
+  .spec .head .c:nth-child(2){ color:var(--accent2); }
+
+  /* privacy panel (entitlements mock) */
+  .perm{ background:var(--bg2); border:1px solid var(--line); border-radius:16px; padding:14px 22px; width:100%; max-width:430px; }
+  .perm .pr{ display:flex; align-items:center; gap:14px; padding:14px 2px; border-bottom:1px solid var(--line); }
+  .perm .pr:last-child{ border-bottom:none; }
+  .perm .ck{ width:24px;height:24px;border-radius:7px; display:flex;align-items:center;justify-content:center; flex:0 0 auto; font-family:var(--mono); font-weight:700; font-size:13px; line-height:1;}
+  .perm .ck.no{ color:var(--accent2); border:1px solid rgba(216,63,44,.45); background:rgba(216,63,44,.12); }
+  .perm .ck.yes{ color:var(--ink); border:1px solid var(--line2); background:var(--bg3); }
+  .perm .pt{ font-size:14.5px; }
+  .perm .ps{ font-family:var(--mono); font-size:11.5px; color:var(--muted2); letter-spacing:.3px; margin-top:2px; }
+
+  /* cta */
+  .cta-band{ border:1px solid var(--line); border-radius:22px; background:
+      radial-gradient(120% 160% at 0% 0%, rgba(216,63,44,.14), transparent 55%), var(--bg2); padding:58px 48px; text-align:center; }
+
+  /* footer */
+  footer{ border-top:1px solid var(--line); padding:40px 0 56px; }
+  .foot{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; font-size:13.5px; color:var(--muted); }
+  footer a{ color:var(--muted); text-decoration:none; }
+  footer a:hover{ color:var(--ink); }
+
+  /* reveal */
+  .rv{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .rv.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){ .rv{ opacity:1; transform:none; transition:none; } html{scroll-behavior:auto;} }
+
+  /* bilingual roots */
+  .lang-root[hidden]{ display:none; }
+
+  @media (max-width:880px){
+    .hero-grid{ grid-template-columns:1fr; gap:40px; }
+    .grid3{ grid-template-columns:1fr; }
+    .plist{ grid-template-columns:1fr; }
+    .spec .hr{ grid-template-columns:1.1fr 1fr 1fr 1fr; }
+    .spec .c{ padding:12px 11px; font-size:12.5px;}
+    .pad{ padding:68px 0; }
+    .hide-sm{ display:none; }
+    .pgrid{ grid-template-columns:1fr !important; gap:34px !important; }
+  }
+  ::selection{ background:var(--accent); color:#fff; }
+</style>
+<noscript><style>.rv{opacity:1;transform:none;}.lang-root[data-lang="ja"]{display:none;}</style></noscript>
+</head>
+<body>
+
+  <div class="lang-root" data-lang="en">
+    <nav class="nav">
+      <div class="wrap row">
+        <a href="#top" class="brand">
+          <img src="assets/appicon.png" alt="" width="30" height="30">
+          <span>Redact Shot<small>スミ消し · for macOS</small></span>
+        </a>
+        <span class="spacer"></span>
+        <a href="#how" class="btn ghost sm hide-sm">How it works</a>
+        <div class="langtog" role="group" aria-label="language">
+          <button type="button" data-setlang="en" class="on">EN</button>
+          <button type="button" data-setlang="ja">日本語</button>
+        </div>
+        <a href="#" data-appstore class="btn primary sm"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Get it</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div class="glow" style="width:520px;height:520px;background:var(--accent);top:-120px;right:-60px;"></div>
+      <div class="wrap hero-grid">
+        <div style="position:relative;z-index:1;">
+          <span class="kicker">On-device · destructive redaction</span>
+          <h1 class="hero-h">Erase secrets,<br>on your <span class="accent">own device</span>.</h1>
+          <p class="lead">Drag over the emails, tokens, names and figures caught in your screenshot — right before you share. Black box overwrites the pixels, so there&rsquo;s nothing left to recover.</p>
+          <div class="hero-cta">
+            <a href="#" data-appstore class="btn primary"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Get on the Mac App Store</a>
+            <a href="#how" class="btn ghost">See how it works</a>
+          </div>
+          <div class="hero-chips chips">
+            <span class="chip"><span class="d"></span>Zero network</span>
+            <span class="chip"><span class="d"></span>Irreversible black box</span>
+            <span class="chip"><span class="d"></span>One-time purchase</span>
+          </div>
+        </div>
+        <div class="shot" style="z-index:1;">
+      <div class="demo-win on">
+        <div class="demo-bar"><i></i><i></i><i></i><span class="t">Account Settings</span></div>
+        <div class="drow">
+          <div class="k">Email</div>
+          <div class="v"><span class="txt">tanaka.k@example.co.jp</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">API key</div>
+          <div class="v"><span class="txt">sk-live-9f3a8b2c7d1e4f6a</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">Name</div>
+          <div class="v"><span class="txt">山田 太郎</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">Phone</div>
+          <div class="v"><span class="txt">090-1234-5678</span><span class="cover"></span></div>
+        </div>
+        <div class="drow keep">
+          <div class="k">Plan</div>
+          <div class="v"><span class="txt">Pro</span><span class="cover"></span></div>
+        </div>
+      </div>
+          <span class="ring"></span>
+          <span class="tag-float" style="top:31%;left:-14px;">drag to select</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" id="privacy">
+      <div class="wrap">
+        <div class="rv center-col">
+          <span class="kicker center">Why it's safe</span>
+          <h2 class="h" style="margin-top:14px;">Zero network. Everything stays local.</h2>
+          <p class="lead" style="margin:18px auto 0;">Uploading a sensitive screenshot to an online editor or AI breaks the rules at many workplaces. Redact Shot has no networking at all — so that risk simply isn&rsquo;t there.</p>
+        </div>
+        <div class="grid3">
+          <div class="rv card" style="transition-delay:0ms;">
+            <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.2"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/></svg></div>
+            <h3 style="font-size:21px;font-weight:700;">Zero network</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">Your image is never sent anywhere. All processing stays on the Mac.</p>
+          </div>
+          <div class="rv card" style="transition-delay:80ms;">
+            <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="12" x2="15" y2="12"/><line x1="5" y1="16" x2="17" y2="16"/><line x1="4.5" y1="4.5" x2="19.5" y2="19.5" stroke-width="2"/></svg></div>
+            <h3 style="font-size:21px;font-weight:700;">No collection</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">No data collection, no analytics, no account.</p>
+          </div>
+          <div class="rv card" style="transition-delay:160ms;">
+            <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="1.5" fill="currentColor"/></svg></div>
+            <h3 style="font-size:21px;font-weight:700;">No recovery</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">Black box overwrites the original pixels — no layers to undo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad-sm" id="how">
+      <div class="wrap pgrid">
+        <div class="rv">
+          <span class="kicker">One-pass demo</span>
+          <h2 class="h" style="margin-top:14px;">Box it. Erase it. Done.</h2>
+          <p class="lead" style="margin-top:18px;">Just drag a box around anything you want gone — as many as you like. Under the black box, nothing remains.</p>
+          <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;">
+            <button type="button" class="btn primary" data-demo="run">▶ Run redaction</button>
+            <button type="button" class="btn ghost" data-demo="reset">↺ Reset</button>
+          </div>
+          <p class="mono" style="font-size:12px;color:var(--muted2);margin-top:16px;">* the real app uses drag; this button replays the motion</p>
+        </div>
+        <div class="rv" style="display:flex;justify-content:center;">
+      <div class="demo-win demo-interactive">
+        <div class="demo-bar"><i></i><i></i><i></i><span class="t">Account Settings</span></div>
+        <div class="drow">
+          <div class="k">Email</div>
+          <div class="v"><span class="txt">tanaka.k@example.co.jp</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">API key</div>
+          <div class="v"><span class="txt">sk-live-9f3a8b2c7d1e4f6a</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">Name</div>
+          <div class="v"><span class="txt">山田 太郎</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">Phone</div>
+          <div class="v"><span class="txt">090-1234-5678</span><span class="cover"></span></div>
+        </div>
+        <div class="drow keep">
+          <div class="k">Plan</div>
+          <div class="v"><span class="txt">Pro</span><span class="cover"></span></div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" id="masks">
+      <div class="wrap">
+        <div class="rv" style="max-width:640px;margin-bottom:42px;">
+          <span class="kicker">Three masks</span>
+          <h2 class="h" style="margin-top:14px;">Pick your mask by risk.</h2>
+          <p class="lead" style="margin-top:18px;">Shapes: rectangle, ellipse, or freehand. For certainty, choose black box. The app spells out the recovery risk, too.</p>
+        </div>
+        <div class="grid3" style="margin-bottom:26px;">
+          <div class="rv card" style="transition-delay:0ms;">
+            <div class="mask-sw sw-black"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <h3 style="font-size:21px;font-weight:700;">Black box</h3>
+              <span class="pill good">default · irreversible</span>
+            </div>
+            <p class="muted" style="font-size:14.5px;">Overwrites the original pixels. The one to use when it must truly be gone.</p>
+          </div>
+          <div class="rv card" style="transition-delay:70ms;">
+            <div class="mask-sw sw-mosaic"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <h3 style="font-size:21px;font-weight:700;">Pixelate</h3>
+              <span class="pill warn">tidy look</span>
+            </div>
+            <p class="muted" style="font-size:14.5px;">Coarse tiles. Looks neat, but may be reversible.</p>
+          </div>
+          <div class="rv card" style="transition-delay:140ms;">
+            <div class="mask-sw sw-blur"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <h3 style="font-size:21px;font-weight:700;">Blur</h3>
+              <span class="pill warn">soft hide</span>
+            </div>
+            <p class="muted" style="font-size:14.5px;">Softens the area. This one may be reversible too.</p>
+          </div>
+        </div>
+        <div class="rv spec">
+          <div class="hr head">
+            <div class="c"></div>
+            <div class="c">Black box</div>
+            <div class="c">Pixelate</div>
+            <div class="c">Blur</div>
+          </div>
+          <div class="hr"><div class="c">Recovery risk</div><div class="c">None</div><div class="c">Possible</div><div class="c">Possible</div></div>
+          <div class="hr"><div class="c">Certainty</div><div class="c">◎</div><div class="c">△</div><div class="c">△</div></div>
+          <div class="hr"><div class="c">Best for</div><div class="c">real secrets</div><div class="c">light cover</div><div class="c">light cover</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" id="who">
+      <div class="wrap">
+        <div class="rv" style="max-width:640px;margin-bottom:40px;">
+          <span class="kicker">Who it's for</span>
+          <h2 class="h" style="margin-top:14px;">The more proof you share, the more it earns its keep.</h2>
+        </div>
+        <div class="plist">
+          <div class="rv prow" style="transition-delay:0ms;">
+            <span class="ptag">DEV</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">Developers</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">Logs and tokens caught in PR and ticket screenshots.</p>
+            </div>
+          </div>
+          <div class="rv prow" style="transition-delay:70ms;">
+            <span class="ptag">CS</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">Support</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">Scrub customer PII before sharing internally.</p>
+            </div>
+          </div>
+          <div class="rv prow" style="transition-delay:0ms;">
+            <span class="ptag">FIN</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">Finance</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">Hide accounts, amounts and names in evidence.</p>
+            </div>
+          </div>
+          <div class="rv prow" style="transition-delay:70ms;">
+            <span class="ptag">SOLO</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">Freelancers</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">Send invoice and contract shots with confidence.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad-sm">
+      <div class="wrap pgrid">
+        <div class="rv" style="display:flex;justify-content:center;"><div class="perm">
+        <div class="pr">
+          <span class="ck yes">✓</span>
+          <div><div class="pt">Read & write the files you pick</div><div class="ps">you choose</div></div>
+        </div>
+        <div class="pr">
+          <span class="ck no">✕</span>
+          <div><div class="pt">Network access</div><div class="ps">no entitlement</div></div>
+        </div>
+        <div class="pr">
+          <span class="ck no">✕</span>
+          <div><div class="pt">Data collection & analytics</div><div class="ps">none, ever</div></div>
+        </div>
+        <div class="pr">
+          <span class="ck no">✕</span>
+          <div><div class="pt">Notifications</div><div class="ps">never</div></div>
+        </div>
+      </div>
+        </div>
+        <div class="rv">
+          <span class="kicker">By design</span>
+          <h2 class="h" style="margin-top:14px;">The image never leaves this Mac.</h2>
+          <p class="lead" style="margin-top:18px;">It runs sandboxed, asking only for read/write on the files you pick. It holds no network entitlement. It never notifies.</p>
+          <div class="chips" style="margin-top:22px;"><span class="chip">App Sandbox</span><span class="chip">No network entitlement</span><span class="chip">macOS 14+</span><span class="chip">日本語 / English</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad-sm">
+      <div class="wrap">
+        <div class="rv cta-band">
+          <span class="kicker center">The last checkpoint</span>
+          <h2 class="h" style="margin-top:14px;">Five seconds to safe, before you paste.</h2>
+          <div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:26px;">
+            <a href="#" data-appstore class="btn primary"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Get on the Mac App Store</a>
+            <span class="chip">One-time · zero network</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap foot">
+        <a href="#top" class="brand" style="font-size:15px;">
+          <img src="assets/appicon.png" alt="" width="26" height="26">
+          <span>Redact Shot</span>
+        </a>
+        <span class="spacer" style="flex:1;"></span>
+        <a href="privacy.html">Privacy</a>
+        <a href="support.html">Support</a>
+        <span class="mono" style="color:var(--muted2);">© 2026 RedactShot</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="lang-root" data-lang="ja" hidden>
+    <nav class="nav">
+      <div class="wrap row">
+        <a href="#top-ja" class="brand">
+          <img src="assets/appicon.png" alt="" width="30" height="30">
+          <span>Redact Shot<small>スミ消し · macOS</small></span>
+        </a>
+        <span class="spacer"></span>
+        <a href="#how-ja" class="btn ghost sm hide-sm">仕組み</a>
+        <div class="langtog" role="group" aria-label="language">
+          <button type="button" data-setlang="en">EN</button>
+          <button type="button" data-setlang="ja" class="on">日本語</button>
+        </div>
+        <a href="#" data-appstore class="btn primary sm"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>入手</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top-ja">
+      <div class="glow" style="width:520px;height:520px;background:var(--accent);top:-120px;right:-60px;"></div>
+      <div class="wrap hero-grid">
+        <div style="position:relative;z-index:1;">
+          <span class="kicker">オンデバイス · 破壊的伏せ字</span>
+          <h1 class="hero-h">機密は、<br>端末の中で<span class="accent">消す</span>。</h1>
+          <p class="lead">スクショに写り込んだメール・トークン・氏名・金額を、共有する直前にドラッグでひと塗り。黒塗りはピクセルを物理的に破壊するから、あとから復元できない。</p>
+          <div class="hero-cta">
+            <a href="#" data-appstore class="btn primary"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Mac App Store で入手</a>
+            <a href="#how-ja" class="btn ghost">仕組みを見る</a>
+          </div>
+          <div class="hero-chips chips">
+            <span class="chip"><span class="d"></span>通信ゼロ</span>
+            <span class="chip"><span class="d"></span>黒塗りは不可逆</span>
+            <span class="chip"><span class="d"></span>買い切り</span>
+          </div>
+        </div>
+        <div class="shot" style="z-index:1;">
+      <div class="demo-win on">
+        <div class="demo-bar"><i></i><i></i><i></i><span class="t">アカウント設定</span></div>
+        <div class="drow">
+          <div class="k">メール</div>
+          <div class="v"><span class="txt">tanaka.k@example.co.jp</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">APIキー</div>
+          <div class="v"><span class="txt">sk-live-9f3a8b2c7d1e4f6a</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">氏名</div>
+          <div class="v"><span class="txt">山田 太郎</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">電話</div>
+          <div class="v"><span class="txt">090-1234-5678</span><span class="cover"></span></div>
+        </div>
+        <div class="drow keep">
+          <div class="k">プラン</div>
+          <div class="v"><span class="txt">Pro</span><span class="cover"></span></div>
+        </div>
+      </div>
+          <span class="ring"></span>
+          <span class="tag-float" style="top:31%;left:-14px;">ドラッグで選択</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" id="privacy-ja">
+      <div class="wrap">
+        <div class="rv center-col">
+          <span class="kicker center">なぜ安全か</span>
+          <h2 class="h" style="margin-top:14px;">通信ゼロ。すべて、端末の中。</h2>
+          <p class="lead" style="margin:18px auto 0;">機密スクショをオンライン編集や生成AIに上げるのは、多くの職場でルール違反。スミ消しは通信そのものを持たないから、その心配がない。</p>
+        </div>
+        <div class="grid3">
+          <div class="rv card" style="transition-delay:0ms;">
+            <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.2"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/></svg></div>
+            <h3 style="font-size:21px;font-weight:700;">通信ゼロ</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">画像を外部に一切送らない。すべて端末内で処理。</p>
+          </div>
+          <div class="rv card" style="transition-delay:80ms;">
+            <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><line x1="5" y1="8" x2="19" y2="8"/><line x1="5" y1="12" x2="15" y2="12"/><line x1="5" y1="16" x2="17" y2="16"/><line x1="4.5" y1="4.5" x2="19.5" y2="19.5" stroke-width="2"/></svg></div>
+            <h3 style="font-size:21px;font-weight:700;">収集ゼロ</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">データ収集も解析もなし。アカウント不要。</p>
+          </div>
+          <div class="rv card" style="transition-delay:160ms;">
+            <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="10" rx="1.5" fill="currentColor"/></svg></div>
+            <h3 style="font-size:21px;font-weight:700;">復元不能</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">黒塗りは元のピクセルを置換。レイヤ復元できない。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad-sm" id="how-ja">
+      <div class="wrap pgrid">
+        <div class="rv">
+          <span class="kicker">ひと塗りデモ</span>
+          <h2 class="h" style="margin-top:14px;">囲んで、消す。それだけ。</h2>
+          <p class="lead" style="margin-top:18px;">隠したい場所をドラッグで囲むだけ。何箇所でも。黒塗りした下には、何も残らない。</p>
+          <div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;">
+            <button type="button" class="btn primary" data-demo="run">▶ 黒塗りを実行</button>
+            <button type="button" class="btn ghost" data-demo="reset">↺ もとに戻す</button>
+          </div>
+          <p class="mono" style="font-size:12px;color:var(--muted2);margin-top:16px;">※ 実機はドラッグ操作。ここはボタンで動きを再現。</p>
+        </div>
+        <div class="rv" style="display:flex;justify-content:center;">
+      <div class="demo-win demo-interactive">
+        <div class="demo-bar"><i></i><i></i><i></i><span class="t">アカウント設定</span></div>
+        <div class="drow">
+          <div class="k">メール</div>
+          <div class="v"><span class="txt">tanaka.k@example.co.jp</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">APIキー</div>
+          <div class="v"><span class="txt">sk-live-9f3a8b2c7d1e4f6a</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">氏名</div>
+          <div class="v"><span class="txt">山田 太郎</span><span class="cover"></span></div>
+        </div>
+        <div class="drow">
+          <div class="k">電話</div>
+          <div class="v"><span class="txt">090-1234-5678</span><span class="cover"></span></div>
+        </div>
+        <div class="drow keep">
+          <div class="k">プラン</div>
+          <div class="v"><span class="txt">Pro</span><span class="cover"></span></div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" id="masks-ja">
+      <div class="wrap">
+        <div class="rv" style="max-width:640px;margin-bottom:42px;">
+          <span class="kicker">3つのマスク</span>
+          <h2 class="h" style="margin-top:14px;">隠し方は、リスクで選ぶ。</h2>
+          <p class="lead" style="margin-top:18px;">形は長方形・円・なぞりから。確実に消すなら黒塗り。アプリ内でも復元リスクを明示します。</p>
+        </div>
+        <div class="grid3" style="margin-bottom:26px;">
+          <div class="rv card" style="transition-delay:0ms;">
+            <div class="mask-sw sw-black"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <h3 style="font-size:21px;font-weight:700;">黒塗り</h3>
+              <span class="pill good">既定・不可逆</span>
+            </div>
+            <p class="muted" style="font-size:14.5px;">元のピクセルを物理的に置換。確実に隠したいときの本命。</p>
+          </div>
+          <div class="rv card" style="transition-delay:70ms;">
+            <div class="mask-sw sw-mosaic"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <h3 style="font-size:21px;font-weight:700;">モザイク</h3>
+              <span class="pill warn">見栄え重視</span>
+            </div>
+            <p class="muted" style="font-size:14.5px;">粗いタイルに変換。見た目はきれいだが復元の恐れあり。</p>
+          </div>
+          <div class="rv card" style="transition-delay:140ms;">
+            <div class="mask-sw sw-blur"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <h3 style="font-size:21px;font-weight:700;">ぼかし</h3>
+              <span class="pill warn">やわらかく隠す</span>
+            </div>
+            <p class="muted" style="font-size:14.5px;">ぼかして隠す。こちらも復元される恐れあり。</p>
+          </div>
+        </div>
+        <div class="rv spec">
+          <div class="hr head">
+            <div class="c"></div>
+            <div class="c">黒塗り</div>
+            <div class="c">モザイク</div>
+            <div class="c">ぼかし</div>
+          </div>
+          <div class="hr"><div class="c">復元リスク</div><div class="c">なし</div><div class="c">あり</div><div class="c">あり</div></div>
+          <div class="hr"><div class="c">確実性</div><div class="c">◎</div><div class="c">△</div><div class="c">△</div></div>
+          <div class="hr"><div class="c">おすすめ</div><div class="c">機密の本命</div><div class="c">軽い目隠し</div><div class="c">軽い目隠し</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" id="who-ja">
+      <div class="wrap">
+        <div class="rv" style="max-width:640px;margin-bottom:40px;">
+          <span class="kicker">想定ユーザー</span>
+          <h2 class="h" style="margin-top:14px;">証跡共有が多い人ほど、毎日効く。</h2>
+        </div>
+        <div class="plist">
+          <div class="rv prow" style="transition-delay:0ms;">
+            <span class="ptag">DEV</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">開発・エンジニア</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">PR・チケットに貼るログやトークン入りのスクショを安全に。</p>
+            </div>
+          </div>
+          <div class="rv prow" style="transition-delay:70ms;">
+            <span class="ptag">CS</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">カスタマーサポート</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">顧客の個人情報を消してから社内で共有。</p>
+            </div>
+          </div>
+          <div class="rv prow" style="transition-delay:0ms;">
+            <span class="ptag">FIN</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">経理・バックオフィス</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">口座・金額・氏名を伏せて証跡を共有。</p>
+            </div>
+          </div>
+          <div class="rv prow" style="transition-delay:70ms;">
+            <span class="ptag">SOLO</span>
+            <div>
+              <h3 style="font-size:18.5px;font-weight:700;">個人事業主</h3>
+              <p class="muted" style="font-size:14px;margin-top:5px;">請求・契約のスクショを安心して送付。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad-sm">
+      <div class="wrap pgrid">
+        <div class="rv" style="display:flex;justify-content:center;"><div class="perm">
+        <div class="pr">
+          <span class="ck yes">✓</span>
+          <div><div class="pt">選んだファイルの読み書き</div><div class="ps">あなたが選択</div></div>
+        </div>
+        <div class="pr">
+          <span class="ck no">✕</span>
+          <div><div class="pt">ネットワーク通信</div><div class="ps">権限なし</div></div>
+        </div>
+        <div class="pr">
+          <span class="ck no">✕</span>
+          <div><div class="pt">データ収集・解析</div><div class="ps">一切なし</div></div>
+        </div>
+        <div class="pr">
+          <span class="ck no">✕</span>
+          <div><div class="pt">通知</div><div class="ps">出さない</div></div>
+        </div>
+      </div>
+        </div>
+        <div class="rv">
+          <span class="kicker">設計思想</span>
+          <h2 class="h" style="margin-top:14px;">画像は、このMacから出ない。</h2>
+          <p class="lead" style="margin-top:18px;">サンドボックス内で動き、必要な権限は「選んだファイルの読み書き」だけ。ネットワーク権限を持たない。通知も出さない。</p>
+          <div class="chips" style="margin-top:22px;"><span class="chip">App Sandbox</span><span class="chip">ネットワーク権限なし</span><span class="chip">macOS 14+</span><span class="chip">日本語 / English</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad-sm">
+      <div class="wrap">
+        <div class="rv cta-band">
+          <span class="kicker center">共有の、最後の関所</span>
+          <h2 class="h" style="margin-top:14px;">貼る前に、5秒で安全に。</h2>
+          <div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:26px;">
+            <a href="#" data-appstore class="btn primary"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Mac App Store で入手</a>
+            <span class="chip">買い切り · 通信ゼロ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap foot">
+        <a href="#top-ja" class="brand" style="font-size:15px;">
+          <img src="assets/appicon.png" alt="" width="26" height="26">
+          <span>Redact Shot</span>
+        </a>
+        <span class="spacer" style="flex:1;"></span>
+        <a href="privacy.html">プライバシー</a>
+        <a href="support.html">サポート</a>
+        <span class="mono" style="color:var(--muted2);">© 2026 RedactShot</span>
+      </div>
+    </footer>
+  </div>
+<script>
+(function(){
+  var KEY='rs_lang';
+  function setLang(l, instant){
+    document.querySelectorAll('.lang-root').forEach(function(r){
+      r.hidden = (r.getAttribute('data-lang') !== l);
+    });
+    document.documentElement.lang = l;
+    try{ localStorage.setItem(KEY, l); }catch(e){}
+    document.querySelectorAll('.langtog button').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-setlang') === l);
+    });
+    if(instant){
+      var v=document.querySelector('.lang-root[data-lang="'+l+'"]');
+      if(v) v.querySelectorAll('.rv').forEach(function(e){ e.classList.add('in'); });
+    }
+  }
+  var init='en';
+  try{ var s=localStorage.getItem(KEY); if(s==='en'||s==='ja') init=s; }catch(e){}
+  setLang(init, false);
+
+  document.addEventListener('click', function(e){
+    var t=e.target.closest('[data-setlang]');
+    if(t){ e.preventDefault(); setLang(t.getAttribute('data-setlang'), true); return; }
+    var d=e.target.closest('[data-demo]');
+    if(d){ e.preventDefault(); var root=d.closest('.lang-root'); var w=root&&root.querySelector('.demo-interactive');
+           if(w) w.classList.toggle('on', d.getAttribute('data-demo')==='run'); return; }
+    var a=e.target.closest('[data-appstore]');
+    if(a){ e.preventDefault(); } // Mac App Store link pending review
+  });
+
+  function onScroll(){ var on=window.scrollY>8; document.querySelectorAll('.nav').forEach(function(n){ n.classList.toggle('scrolled', on); }); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); },
+      {threshold:0.14, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(e){ io.observe(e); });
+  } else {
+    document.querySelectorAll('.rv').forEach(function(e){ e.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
