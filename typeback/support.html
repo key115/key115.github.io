@@ -109,17 +109,21 @@
   <h3>ステップ 1: アプリを起動する</h3>
   <p>アプリを起動すると、画面右上のメニューバーに TypeBack のアイコンが表示されます。</p>
 
-  <h3>ステップ 2: アクセシビリティ権限を付与する</h3>
-  <p>初回起動時に、アクセシビリティ権限の案内が表示されます。以下の手順で権限を付与してください。</p>
+  <h3>ステップ 2: 入力監視を許可する</h3>
+  <p>初回起動時に、入力監視の案内が表示されます。以下の手順で権限を付与してください。</p>
   <ol>
     <li><strong>システム設定</strong> を開く</li>
     <li><strong>プライバシーとセキュリティ</strong> を選択</li>
-    <li><strong>アクセシビリティ</strong> を選択</li>
+    <li><strong>入力監視</strong> を選択</li>
     <li><strong>TypeBack</strong> のスイッチを <strong>オン</strong> にする</li>
   </ol>
   <div class="note">
+    <strong>TypeBack が一覧に表示されない場合</strong><br>
+    入力監視画面の <strong>+</strong> ボタンから <strong>TypeBack.app</strong> を手動で追加し、スイッチをオンにしてください。その後、TypeBack を一度終了して再起動してください。
+  </div>
+  <div class="note">
     <strong>なぜこの権限が必要なのか？</strong><br>
-    キーが押された「タイミング」を検知して、対応する音をローカルで鳴らすためです。入力した文字の内容は一切読み取りません。
+    他のアプリでキーが押された「タイミング」を検知して、対応する音をローカルで鳴らすためです。入力した文字の内容は一切読み取りません。
   </div>
 
   <h3>ステップ 3: 音を ON にする</h3>
@@ -152,7 +156,8 @@
     <p>以下を順番に確認してください。</p>
     <ol>
       <li>設定ポップオーバーの <strong>サウンド</strong> トグルが <strong>オン</strong> になっているか確認</li>
-      <li><strong>アクセシビリティ権限</strong> が付与されているか確認（システム設定 → プライバシーとセキュリティ → アクセシビリティ → TypeBack がオンか）</li>
+      <li><strong>入力監視</strong> が許可されているか確認（システム設定 → プライバシーとセキュリティ → 入力監視 → TypeBack がオンか）</li>
+      <li>TypeBack が一覧に表示されない場合は、<strong>+</strong> から <strong>TypeBack.app</strong> を手動で追加し、オンにしてから再起動</li>
       <li>Mac のスピーカーまたはヘッドホンの音量がミュートになっていないか確認</li>
       <li>アプリを一度終了して再起動</li>
     </ol>
@@ -164,8 +169,8 @@
   </details>
 
   <details>
-    <summary>アクセシビリティ権限を付与したが音が鳴らない</summary>
-    <p>権限付与後にアプリを一度終了して再起動してください（設定ポップオーバーの「終了」→ 再度アプリを起動）。</p>
+    <summary>入力監視を許可したが音が鳴らない</summary>
+    <p>入力監視の一覧で TypeBack がオンになっているか確認してください。一覧に表示されない場合は、<strong>+</strong> から <strong>TypeBack.app</strong> を手動で追加し、オンにしてからアプリを再起動してください。</p>
   </details>
 
   <details>
@@ -190,7 +195,7 @@
 
   <h2>お問い合わせ</h2>
   <p>不具合・ご要望・ご質問は以下からご連絡ください。</p>
-  <p>📧 <strong>Email</strong>: [PLACEHOLDER — サポート用 Email: リリース時に置換]</p>
+  <p>📧 <strong>Email</strong>: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a></p>
   <div class="note">
     ご連絡の際に、以下の情報をお知らせいただくとスムーズに対応できます:
     <ul>
@@ -217,17 +222,21 @@
   <h3>Step 1: Launch the App</h3>
   <p>After launching TypeBack, its icon will appear in the menu bar at the top right of your screen.</p>
 
-  <h3>Step 2: Grant Accessibility Permission</h3>
-  <p>On first launch, TypeBack will guide you to grant Accessibility permission.</p>
+  <h3>Step 2: Grant Input Monitoring Permission</h3>
+  <p>On first launch, TypeBack will guide you to grant Input Monitoring permission.</p>
   <ol>
     <li>Open <strong>System Settings</strong></li>
     <li>Select <strong>Privacy &amp; Security</strong></li>
-    <li>Select <strong>Accessibility</strong></li>
+    <li>Select <strong>Input Monitoring</strong></li>
     <li>Enable the toggle next to <strong>TypeBack</strong></li>
   </ol>
   <div class="note">
+    <strong>If TypeBack does not appear in the list</strong><br>
+    Use the <strong>+</strong> button in Input Monitoring to add <strong>TypeBack.app</strong> manually, turn it on, then quit and relaunch TypeBack.
+  </div>
+  <div class="note">
     <strong>Why is this permission needed?</strong><br>
-    TypeBack uses it to detect <em>when</em> a key is pressed so it can play the corresponding sound locally. It does <strong>not</strong> read <em>what</em> you type.
+    TypeBack uses it to detect <em>when</em> a key is pressed in other apps so it can play the corresponding sound locally. It does <strong>not</strong> read <em>what</em> you type.
   </div>
 
   <h3>Step 3: Turn On Sound</h3>
@@ -259,7 +268,8 @@
     <summary>No sound is playing</summary>
     <ol>
       <li>Confirm the <strong>Sound</strong> toggle in the settings popover is <strong>on</strong></li>
-      <li>Confirm <strong>Accessibility permission</strong> is granted (System Settings → Privacy &amp; Security → Accessibility → TypeBack is on)</li>
+      <li>Confirm <strong>Input Monitoring permission</strong> is granted (System Settings → Privacy &amp; Security → Input Monitoring → TypeBack is on)</li>
+      <li>If TypeBack does not appear in the list, use <strong>+</strong> to add <strong>TypeBack.app</strong> manually, turn it on, then relaunch the app</li>
       <li>Confirm your Mac's speaker or headphone volume is not muted</li>
       <li>Quit and relaunch the app</li>
     </ol>
@@ -271,8 +281,8 @@
   </details>
 
   <details>
-    <summary>I granted Accessibility permission but still no sound</summary>
-    <p>Quit TypeBack (via the "Quit" button in the popover) and relaunch it.</p>
+    <summary>I granted Input Monitoring permission but still no sound</summary>
+    <p>Confirm TypeBack is turned on in the Input Monitoring list. If it does not appear, use <strong>+</strong> to add <strong>TypeBack.app</strong> manually, turn it on, then quit and relaunch TypeBack.</p>
   </details>
 
   <details>
@@ -297,7 +307,7 @@
 
   <h2>Contact</h2>
   <p>For bugs, feedback, or questions, please reach out:</p>
-  <p>📧 <strong>Email</strong>: [PLACEHOLDER — support Email: to be added at launch]</p>
+  <p>📧 <strong>Email</strong>: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a></p>
   <div class="note">
     When reporting a bug, it helps to include:
     <ul>
@@ -314,7 +324,7 @@
     <a href="./privacy.html">Privacy Policy</a>
   </p>
   <p>Copyright © 2026 Owner. All rights reserved.</p>
-  <p><small>TypeBack — Retro typing sounds for your Mac.</small></p>
+  <p><small>TypeBack — Retro typewriter & PC sounds.</small></p>
 </footer>
 
 </body>
