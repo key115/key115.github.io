@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy Policy — Clipboard History for Mac</title>
+<meta name="description" content="Clipboard History for Mac is built so your clipboard stays yours. Here is exactly what the app does — and does not — with your data.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0d14" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clipboard History for Mac">
+<meta property="og:title" content="Privacy Policy — Clipboard History for Mac">
+<meta property="og:description" content="Clipboard History for Mac is built so your clipboard stays yours. Here is exactly what the app does — and does not — with your data.">
+<meta property="og:image" content="https://key115.github.io/clipboard-history-for-mac/assets/og.png">
+<meta property="og:image:alt" content="Clipboard History for Mac — Recall what you copied">
+<meta property="og:url" content="https://key115.github.io/clipboard-history-for-mac/privacy.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy Policy — Clipboard History for Mac">
+<meta name="twitter:description" content="Clipboard History for Mac is built so your clipboard stays yours. Here is exactly what the app does — and does not — with your data.">
+<meta name="twitter:image" content="https://key115.github.io/clipboard-history-for-mac/assets/og.png">
+<style>/* ============================================================
+   Clipboard History for Mac — landing page
+   "Apple-clean" hi-fi system.  Light, airy, one green accent.
+   ============================================================ */
+
+:root{
+  --bg:#ffffff;
+  --bg-soft:#f5f5f7;
+  --bg-tint:#f1f7f3;
+  --ink:#1d1d1f;
+  --ink-2:#56565b;
+  --ink-3:#86868b;
+  --line:#e3e3e6;
+  --line-2:#d2d2d7;
+
+  --accent:#3b63f0;          /* deep blue for text/links/buttons on light */
+  --accent-press:#2a48c4;
+  --accent-bright:#37b6ff;   /* cyan highlight */
+  --accent-violet:#8b4dff;   /* magenta-violet (icon's right streak) */
+  --accent-tint:#eaeefb;
+  --grad:linear-gradient(105deg, #19b6ff 0%, #5b6cff 50%, #b44dff 100%);
+  --grad-soft:linear-gradient(105deg, rgba(25,182,255,.16), rgba(180,77,255,.16));
+
+  --term-bg:#15171a;         /* the app's Homebrew panel */
+  --term-fg:#5fd08a;
+  --term-dim:#3f7d56;
+  --term-soft:#9fe0b6;
+
+  --radius:18px;
+  --radius-sm:12px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.05);
+  --shadow:0 10px 30px -8px rgba(0,0,0,.18), 0 4px 10px rgba(0,0,0,.06);
+  --shadow-lg:0 40px 80px -24px rgba(0,0,0,.30), 0 12px 28px rgba(0,0,0,.10);
+
+  --font:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --mono:"SF Mono", ui-monospace, Menlo, "JetBrains Mono", monospace;
+
+  --maxw:1080px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--font);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  line-height:1.5;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+
+/* ---------- layout ---------- */
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+.wrap-narrow{ max-width:760px; margin:0 auto; padding:0 28px; }
+.section{ padding:clamp(64px,10vw,118px) 0; }
+.soft{ background:var(--bg-soft); }
+.tint{ background:var(--bg-tint); }
+.center{ text-align:center; }
+.eyebrow{
+  font-size:13px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 16px;
+}
+.eyebrow.muted{ color:var(--ink-3); }
+
+/* ---------- type ---------- */
+h1,h2,h3{ margin:0; font-weight:700; letter-spacing:-.022em; }
+.h-hero{ font-size:clamp(46px,7.4vw,92px); line-height:1.02; letter-spacing:-.03em; }
+.h-1{ font-size:clamp(32px,4.6vw,56px); line-height:1.06; }
+.h-2{ font-size:clamp(26px,3.2vw,38px); line-height:1.1; }
+.h-3{ font-size:clamp(20px,2.2vw,24px); line-height:1.2; }
+.lead{ font-size:clamp(19px,2.1vw,24px); line-height:1.42; color:var(--ink-2);
+  font-weight:400; letter-spacing:-.01em; }
+.body{ font-size:18px; line-height:1.55; color:var(--ink-2); }
+.small{ font-size:15px; color:var(--ink-3); }
+.kbd-note{ font-family:var(--mono); font-size:13px; color:var(--ink-3); letter-spacing:.02em; }
+.grad-text{ background:var(--grad); -webkit-background-clip:text; background-clip:text;
+  color:transparent; -webkit-text-fill-color:transparent; }
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in oklab, var(--bg) 72%, transparent);
+  backdrop-filter:saturate(1.6) blur(20px);
+  -webkit-backdrop-filter:saturate(1.6) blur(20px);
+  border-bottom:1px solid color-mix(in oklab, var(--line) 70%, transparent);
+}
+.nav-in{ max-width:var(--maxw); margin:0 auto; padding:0 28px; height:54px;
+  display:flex; align-items:center; gap:18px; }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:600; font-size:16px;
+  letter-spacing:-.01em; }
+.brand .mark{ width:26px; height:26px; border-radius:7px; flex:none;
+  display:grid; place-items:center; background:var(--term-bg); }
+.brand .mark::after{ content:"⌥V"; font-family:var(--mono); font-size:10px; font-weight:700;
+  color:var(--term-fg); }
+.nav-spacer{ flex:1; }
+
+/* language switcher */
+.lang{ display:flex; align-items:center; gap:2px; background:var(--bg-soft);
+  border:1px solid var(--line); border-radius:999px; padding:3px; }
+.lang button{ border:0; background:transparent; cursor:pointer; font:inherit;
+  font-size:13px; font-weight:500; color:var(--ink-2); padding:5px 11px; border-radius:999px;
+  line-height:1; white-space:nowrap; }
+.lang button.on{ background:var(--bg); color:var(--ink); font-weight:600;
+  box-shadow:var(--shadow-sm); }
+
+/* ---------- buttons ---------- */
+.btn{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; font:inherit;
+  font-weight:600; font-size:16px; border-radius:999px; padding:11px 22px; border:1px solid transparent;
+  transition:transform .12s ease, background .15s ease, box-shadow .15s ease; }
+.btn:active{ transform:translateY(1px); }
+.btn-primary{ background:var(--grad); color:#fff; background-size:140% 140%;
+  box-shadow:0 8px 22px -8px rgba(91,108,255,.7); }
+.btn-primary:hover{ background-position:100% 0; }
+.btn-ghost{ background:transparent; color:var(--accent); border-color:var(--line-2); }
+.btn-ghost:hover{ background:var(--bg-soft); }
+.btn-sm{ padding:7px 15px; font-size:14px; }
+
+/* App Store badge (faithful flat recreation) */
+.appstore{ display:inline-flex; align-items:center; gap:11px; background:#000; color:#fff;
+  border-radius:13px; padding:9px 17px 9px 15px; line-height:1; cursor:pointer;
+  border:1px solid rgba(255,255,255,.16); transition:transform .12s ease, opacity .15s; }
+.appstore:hover{ transform:translateY(-1px); }
+.appstore:active{ transform:translateY(0); }
+.appstore svg{ width:24px; height:24px; flex:none; }
+.appstore .t{ display:flex; flex-direction:column; gap:1px; align-items:flex-start; }
+.appstore .t small{ font-size:10px; letter-spacing:.01em; opacity:.92; }
+.appstore .t b{ font-size:19px; font-weight:600; letter-spacing:-.01em; }
+.badge-wrap{ display:inline-flex; flex-direction:column; gap:8px; align-items:center; }
+.badge-tag{ font-family:var(--mono); font-size:12px; color:var(--ink-3); }
+
+/* ---------- pieces ---------- */
+.card{ background:var(--bg); border:1px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow-sm); }
+.pill{ display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border-radius:999px;
+  background:var(--bg); border:1px solid var(--line); font-size:14px; font-weight:500; color:var(--ink-2); }
+.pill .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent-bright); }
+
+.cta-row{ display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap; }
+
+/* feature rows */
+.frow{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,72px); align-items:center; }
+.frow.rev .frow-media{ order:-1; }
+
+/* generic media frame for screenshot slots */
+.media{ border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); border:1px solid var(--line);
+  background:var(--bg-soft); }
+
+/* footer */
+.footer{ border-top:1px solid var(--line); background:var(--bg-soft); }
+.footer a:hover{ color:var(--accent); }
+
+/* reveal on scroll — base state is VISIBLE (no-JS / pre-boot / print show content).
+   JS adds .anim; off-screen items hide with NO transition (so nothing freezes mid-fade),
+   and the fade-in transition is attached only once .in is set. */
+.reveal{ opacity:1; transform:none; }
+html.anim .reveal:not(.in){ opacity:0; transform:translateY(22px); }
+html.anim .reveal.in{ transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+@media (prefers-reduced-motion:reduce){ html.anim .reveal:not(.in){ opacity:1; transform:none; } }
+
+/* ---------- keycap ---------- */
+.keycap{ display:inline-flex; align-items:center; justify-content:center; padding:4px 9px; min-width:30px;
+  font-family:var(--mono); font-size:13px; font-weight:600; color:var(--ink);
+  background:var(--bg); border:1px solid var(--line-2); border-radius:8px;
+  box-shadow:0 2px 0 var(--line-2); }
+
+/* ---------- hero stage (dark, neon "V" glow — echoes the app icon) ---------- */
+.hero-stage{ position:relative; border-radius:26px; overflow:hidden;
+  min-height:clamp(380px,48vw,560px);
+  background:
+    radial-gradient(60% 70% at 22% 18%, rgba(25,150,255,.42) 0%, transparent 60%),
+    radial-gradient(60% 70% at 80% 22%, rgba(168,77,255,.40) 0%, transparent 60%),
+    radial-gradient(80% 60% at 50% 116%, rgba(60,200,255,.55) 0%, transparent 55%),
+    linear-gradient(165deg, #11141c 0%, #0b0d14 55%, #090a10 100%);
+  box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.06);
+  border:1px solid #1c2030;
+  display:grid; place-items:center; }
+/* the converging "V" light streak behind the panel */
+.hero-stage::before{ content:""; position:absolute; left:50%; bottom:-4%; width:3px; height:62%;
+  transform:translateX(-50%);
+  background:linear-gradient(to top, rgba(120,220,255,.9), rgba(120,220,255,0));
+  filter:blur(2px); opacity:.7; }
+.hero-stage::after{ content:""; position:absolute; left:50%; bottom:-2%; width:220px; height:120px;
+  transform:translateX(-50%); border-radius:50%;
+  background:radial-gradient(closest-side, rgba(90,190,255,.6), transparent 70%);
+  filter:blur(8px); }
+.hero-stage > image-slot{ border-radius:26px; z-index:0; }
+.panel-float{ position:relative; z-index:2;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.5)) drop-shadow(0 0 50px rgba(80,160,255,.25)); }
+
+/* ---------- features ---------- */
+.feat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.icon-tile{ width:50px; height:50px; border-radius:14px; display:grid; place-items:center;
+  font-size:24px; color:var(--accent); background:var(--accent-tint);
+  border:1px solid color-mix(in oklab, var(--accent) 18%, transparent); font-family:var(--mono); }
+
+/* ---------- appearance ---------- */
+.appear-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(24px,4vw,48px); align-items:stretch;
+  margin-top:clamp(32px,4vw,52px); }
+.appear-stage{ position:relative; border-radius:22px; min-height:420px; overflow:visible;
+  display:grid; place-items:center; border:1px solid var(--line);
+  background:
+    radial-gradient(120% 100% at 25% 15%, #2a3550 0%, transparent 55%),
+    radial-gradient(120% 100% at 85% 80%, #7a4a63 0%, transparent 55%),
+    linear-gradient(150deg, #1f2433, #3a2f3c);
+  box-shadow:var(--shadow); }
+.appear-stage > image-slot{ border-radius:22px; }
+.appear-controls{ padding:24px; display:flex; flex-direction:column; }
+.ctrl-row{ display:flex; align-items:center; gap:12px; }
+.ctrl-row.stacked{ display:flex; flex-direction:column; align-items:stretch; gap:9px; }
+.ctrl-label{ font-size:14px; font-weight:600; color:var(--ink); }
+.ctrl-val{ font-family:var(--mono); font-size:13px; color:var(--ink-3); }
+.preset-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:12px; }
+.preset-chip{ display:flex; align-items:center; gap:10px; cursor:pointer; font:inherit; text-align:left;
+  padding:8px; border-radius:11px; border:1px solid var(--line); background:var(--bg); color:var(--ink);
+  transition:border-color .15s, background .15s; }
+.preset-chip:hover{ background:var(--bg-soft); }
+.preset-chip.on{ border-color:var(--accent); background:var(--accent-tint); }
+.preset-chip .sw{ width:30px; height:24px; border-radius:6px; flex:none; display:grid; place-items:center; }
+.preset-chip .pl{ font-size:13.5px; font-weight:500; }
+
+.range{ -webkit-appearance:none; appearance:none; width:100%; height:5px; border-radius:3px;
+  background:linear-gradient(90deg,var(--accent) 0%, var(--accent) var(--p,68%), var(--line-2) var(--p,68%), var(--line-2) 100%);
+  outline:none; }
+.range::-webkit-slider-thumb{ -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+  background:#fff; border:1px solid var(--line-2); box-shadow:var(--shadow-sm); cursor:pointer; }
+.range::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:#fff; border:1px solid var(--line-2); cursor:pointer; }
+
+.toggle{ width:46px; height:28px; border-radius:999px; border:0; background:var(--line-2); cursor:pointer;
+  position:relative; transition:background .18s; padding:0; }
+.toggle.on{ background:var(--accent); }
+.toggle .knob{ position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
+  background:#fff; box-shadow:var(--shadow-sm); transition:left .18s; }
+.toggle.on .knob{ left:21px; }
+
+/* ---------- privacy ---------- */
+.priv-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.priv-cell{ padding-top:18px; border-top:1px solid var(--line-2); }
+.priv-dot{ width:11px; height:11px; border-radius:50%; background:var(--accent-bright); margin-bottom:14px; }
+
+/* ---------- flow ---------- */
+.flow-row{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
+.flow-step{ display:flex; flex-direction:column; align-items:center; gap:12px; min-width:128px; }
+.flow-num{ width:46px; height:46px; border-radius:50%; display:grid; place-items:center; font-weight:700;
+  color:var(--accent); background:var(--accent-tint); border:1px solid color-mix(in oklab,var(--accent) 22%,transparent); }
+.flow-label{ font-size:16px; font-weight:600; }
+.flow-arrow{ color:var(--ink-3); font-size:22px; }
+
+/* ---------- price ---------- */
+.price-list{ list-style:none; padding:0; margin:24px auto 0; display:inline-flex; flex-direction:column; gap:10px;
+  text-align:left; }
+.price-list li{ display:flex; align-items:center; gap:10px; font-size:17px; font-weight:500; }
+.price-list .tick{ width:22px; height:22px; border-radius:50%; background:var(--grad); color:#fff;
+  display:grid; place-items:center; font-size:12px; flex:none; }
+
+/* ---------- dark download band (echoes the icon) ---------- */
+.section-dark{ position:relative; overflow:hidden;
+  --ink:#f4f6fb; --ink-2:#b9bfcf; --ink-3:#8b91a3; --line:#262b39; --line-2:#333a4c; --bg:#0c0e15;
+  color:var(--ink);
+  background:
+    radial-gradient(50% 60% at 20% 0%, rgba(25,150,255,.22) 0%, transparent 60%),
+    radial-gradient(50% 60% at 82% 8%, rgba(168,77,255,.22) 0%, transparent 60%),
+    linear-gradient(180deg, #0c0e15, #0a0b11); }
+.section-dark .eyebrow{ color:#7fd0ff; }
+.section-dark .icon-halo{ position:relative; display:inline-block; }
+.section-dark .icon-halo::after{ content:""; position:absolute; inset:-22% -22% -10%;
+  background:radial-gradient(closest-side, rgba(90,170,255,.45), transparent 72%);
+  filter:blur(10px); z-index:-1; }
+.section-dark .small,.section-dark .badge-tag{ color:var(--ink-3); }
+
+@media (max-width:900px){
+  .feat-grid{ grid-template-columns:1fr; }
+  .appear-grid{ grid-template-columns:1fr; }
+  .priv-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width:560px){
+  .priv-grid{ grid-template-columns:1fr; }
+  .flow-arrow{ transform:rotate(90deg); }
+}
+@media (max-width:820px){
+  .frow{ grid-template-columns:1fr; gap:28px; }
+  .frow.rev .frow-media{ order:0; }
+  .nav .lang button{ padding:5px 8px; }
+}
+
+/* panel.css — faithful recreation of the real Clipboard History panel,
+   ported from output/tools/ui-lab/styles.css and scoped under .clp */
+
+.clp{
+  --surface: rgba(26,28,31,0.82);
+  --ink:#f0f1f2;
+  --muted: rgba(240,241,242,0.62);
+  width:380px;
+  display:grid;
+  grid-template-rows:auto auto 1fr auto;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.42);
+  border-radius:18px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow:0 24px 70px -26px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.30);
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+}
+.clp.blur{ backdrop-filter:blur(28px) saturate(1.25); -webkit-backdrop-filter:blur(28px) saturate(1.25); }
+.clp.light{ border-color:rgba(0,0,0,0.10); }
+
+.clp .ph,.clp .pf,.clp .sh{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.clp .ph{ padding:15px 16px 12px; }
+.clp .ph h3{ font-size:15px; line-height:1.25; font-weight:670; margin:0; letter-spacing:0; color:var(--ink); }
+.clp .ph .sub{ color:var(--muted); font-size:11px; margin:2px 0 0; }
+.clp .acts{ display:flex; gap:8px; }
+.clp .ib{ width:28px; height:28px; display:grid; place-items:center; border:0; border-radius:8px;
+  color:var(--muted); background:rgba(127,127,127,0.14); cursor:pointer; font-size:13px; }
+.clp.light .ib{ background:rgba(0,0,0,0.06); }
+
+.clp .tabs{ display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin:0 16px 12px; padding:4px;
+  border:1px solid rgba(255,255,255,0.30); border-radius:12px; background:rgba(127,127,127,0.12); }
+.clp.light .tabs{ border-color:rgba(0,0,0,0.08); background:rgba(0,0,0,0.05); }
+.clp .tabs button{ min-height:31px; border:0; border-radius:9px; color:var(--muted); background:transparent;
+  cursor:pointer; font:inherit; font-size:13px; transition:background .14s, color .14s; }
+.clp .tabs button[aria-selected="true"]{ color:var(--ink); background:rgba(255,255,255,0.30);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.4); }
+.clp.light .tabs button[aria-selected="true"]{ background:rgba(255,255,255,0.72); }
+
+.clp .content{ overflow:auto; padding:12px; border-top:1px solid rgba(127,127,127,0.18);
+  border-bottom:1px solid rgba(127,127,127,0.18); min-height:0; }
+.clp .clip-list{ display:grid; gap:7px; }
+.clp .row{ display:grid; grid-template-columns:38px 1fr auto; align-items:center; gap:10px; min-height:62px;
+  padding:9px; border:1px solid rgba(127,127,127,0.22); border-radius:10px; color:var(--ink);
+  background:rgba(127,127,127,0.10); cursor:pointer; text-align:left;
+  transition:transform .12s, background .12s, border-color .12s; }
+.clp .row:hover{ transform:scale(1.006); }
+.clp .row[data-selected="true"]{ border-color:color-mix(in srgb, var(--accent,#34c759), transparent 28%);
+  background:color-mix(in srgb, var(--accent,#34c759), transparent 82%); }
+.clp .thumb{ width:38px; height:38px; display:grid; place-items:center; border-radius:7px; color:var(--muted);
+  background:rgba(255,255,255,0.30); font-size:11px; font-family:"SF Mono",ui-monospace,Menlo,monospace; }
+.clp.light .thumb{ background:rgba(255,255,255,0.6); }
+.clp .ct{ font-size:13px; font-weight:560; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; }
+.clp .ck{ color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.03em; }
+.clp .pin{ color:var(--muted); font-size:11px; display:flex; align-items:center; gap:4px; }
+
+.clp .tg{ margin-bottom:14px; }
+.clp .tg h4{ margin:0 2px 8px; color:var(--muted); font-size:11px; font-weight:620; }
+.clp .tgrid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.clp .tok{ min-height:40px; border:1px solid rgba(127,127,127,0.22); border-radius:9px; color:var(--ink);
+  background:rgba(127,127,127,0.10); cursor:pointer; font:inherit; font-size:15px; }
+.clp .tok[data-selected="true"]{ border-color:color-mix(in srgb, var(--accent,#34c759), transparent 28%);
+  background:color-mix(in srgb, var(--accent,#34c759), transparent 82%); }
+
+.clp .pf{ min-height:42px; padding:9px 12px; font-size:12px; color:var(--muted); }
+
+
+  .nav-link{ color:var(--ink-2); font-weight:500; }
+  .nav-link:hover{ color:var(--ink); }
+  @media (max-width:720px){ .nav-links{ display:none !important; } }
+  @media (max-width:480px){ .nav .btn-sm{ display:none; } }
+
+{__TWEAKS_STYLE}
+
+:root{color-scheme:light dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%}
+a{color:inherit}
+.lang button{cursor:pointer}
+@media (max-width:560px){#app .nav .nav-links{display:none!important}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+.legal-top{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:14px 22px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line)}
+.legal-top .brand{display:inline-flex;align-items:center;gap:9px;font-weight:650;text-decoration:none;color:var(--ink)}
+.legal-top .spacer{flex:1}
+.legal-nav{display:flex;gap:16px;font-size:14px}
+.legal-nav a{color:var(--ink-2);text-decoration:none}
+.legal-nav a:hover{color:var(--ink)}
+.legal-nav a.active{color:var(--accent);font-weight:600}
+.legal-top .lang{display:inline-flex;gap:2px;background:var(--bg-soft);border:1px solid var(--line);border-radius:9px;padding:2px}
+.legal-top .lang button{border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:12.5px;padding:3px 8px;border-radius:7px;line-height:1.6}
+.legal-top .lang button.on{background:var(--bg);color:var(--ink);box-shadow:var(--shadow-sm)}
+main.legal{max-width:720px;margin:0 auto;padding:56px 22px 24px}
+main.legal h1{font-size:34px;letter-spacing:-.02em;margin:0 0 10px}
+main.legal .lede{font-size:17px;color:var(--ink-2);margin:0 0 30px;line-height:1.6}
+main.legal section{margin:0 0 26px}
+main.legal h2{font-size:19px;letter-spacing:-.01em;margin:0 0 8px}
+main.legal p{font-size:15.5px;line-height:1.72;color:var(--ink-2);margin:0}
+main.legal dl{margin:0}
+main.legal dt{font-weight:620;color:var(--ink);margin:16px 0 4px;font-size:15.5px}
+main.legal dd{margin:0;font-size:15.5px;line-height:1.72;color:var(--ink-2)}
+main.legal .updated{font-size:13px;color:var(--ink-3);margin-top:30px}
+main.legal a{color:var(--accent);text-decoration:none}
+main.legal a:hover{text-decoration:underline}
+.legal-foot{max-width:720px;margin:0 auto;padding:22px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;
+  border-top:1px solid var(--line);color:var(--ink-3);font-size:13px}
+.legal-foot .spacer{flex:1}
+.legal-foot a{color:var(--ink-2);text-decoration:none}
+.legal-foot a:hover{color:var(--ink)}
+@media (max-width:560px){.legal-nav{order:3;width:100%}.legal-top{gap:10px}}
+</style>
+</head>
+<body>
+<div id="app"><header class="legal-top">
+  <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="26" height="26" style="border-radius:7px" loading="lazy"><span>Clipboard History</span></a>
+  <span class="spacer"></span>
+  <nav class="legal-nav">
+    <a href="index.html">Home</a>
+    <a href="privacy.html" class="active">Privacy Policy</a>
+    <a href="support.html">Support</a>
+  </nav>
+  <div class="lang" role="group" aria-label="Language"><button class="on" data-setlang="en">EN</button><button class="" data-setlang="ja">日本語</button><button class="" data-setlang="zh">简体</button><button class="" data-setlang="es">ES</button><button class="" data-setlang="pt">PT</button></div>
+</header>
+<main class="legal">
+  <h1>Privacy Policy</h1>
+  <p class="lede">Clipboard History for Mac is built so your clipboard stays yours. Here is exactly what the app does — and does not — with your data.</p>
+  <section><h2>No data collection</h2><p>The app collects nothing. No accounts, no analytics, no tracking, no advertising. There is no profile of you, because one is never created.</p></section>
+  <section><h2>No network</h2><p>Clipboard History has no network permission at all, so it cannot connect to the internet or “phone home”. Nothing you copy is ever uploaded.</p></section>
+  <section><h2>Your clipboard stays on your Mac</h2><p>Regular history lives only in memory and is discarded when you quit. Pinned items are saved locally in the app’s sandbox container and encrypted with AES-GCM, using a key kept in your macOS Keychain. Nothing is synced to the cloud or sent to us.</p></section>
+  <section><h2>Permissions</h2><p>Accessibility is optional and is used only to paste the selected item into the app you are using. Without it, the app simply puts the item back on your clipboard for a manual paste. The Option + V hotkey opens the panel and does not log your keystrokes.</p></section>
+  <section><h2>You are in control</h2><p>“Delete All Data” in Settings instantly removes the in-memory history, all pinned items, the encryption key in your Keychain, and the current clipboard contents.</p></section>
+  
+  <section><h2>Contact</h2><p> <a href="mailto:k.oikawa119009@gmail.com?subject=Clipboard%20History%20for%20Mac">k.oikawa119009@gmail.com</a></p></section>
+  <p class="updated">Last updated: 2026-06-06</p>
+</main>
+<footer class="legal-foot"><span>Clipboard History for Mac — A quiet menu-bar panel for your recent clipboard.</span><span class="spacer"></span><a href="privacy.html">Privacy Policy</a><a href="support.html">Support</a><span>© 2026 Keisuke Oikawa</span></footer></div>
+<script>
+(function(){
+  var ROOTS = {"en":"<header class=\"legal-top\">\n  <a class=\"brand\" href=\"index.html\"><img src=\"assets/appicon.png\" alt=\"\" width=\"26\" height=\"26\" style=\"border-radius:7px\" loading=\"lazy\"><span>Clipboard History</span></a>\n  <span class=\"spacer\"></span>\n  <nav class=\"legal-nav\">\n    <a href=\"index.html\">Home</a>\n    <a href=\"privacy.html\" class=\"active\">Privacy Policy</a>\n    <a href=\"support.html\">Support</a>\n  </nav>\n  <div class=\"lang\" role=\"group\" aria-label=\"Language\"><button class=\"on\" data-setlang=\"en\">EN</button><button class=\"\" data-setlang=\"ja\">日本語</button><button class=\"\" data-setlang=\"zh\">简体</button><button class=\"\" data-setlang=\"es\">ES</button><button class=\"\" data-setlang=\"pt\">PT</button></div>\n</header>\n<main class=\"legal\">\n  <h1>Privacy Policy</h1>\n  <p class=\"lede\">Clipboard History for Mac is built so your clipboard stays yours. Here is exactly what the app does — and does not — with your data.</p>\n  <section><h2>No data collection</h2><p>The app collects nothing. No accounts, no analytics, no tracking, no advertising. There is no profile of you, because one is never created.</p></section>\n  <section><h2>No network</h2><p>Clipboard History has no network permission at all, so it cannot connect to the internet or “phone home”. Nothing you copy is ever uploaded.</p></section>\n  <section><h2>Your clipboard stays on your Mac</h2><p>Regular history lives only in memory and is discarded when you quit. Pinned items are saved locally in the app’s sandbox container and encrypted with AES-GCM, using a key kept in your macOS Keychain. Nothing is synced to the cloud or sent to us.</p></section>\n  <section><h2>Permissions</h2><p>Accessibility is optional and is used only to paste the selected item into the app you are using. Without it, the app simply puts the item back on your clipboard for a manual paste. The Option + V hotkey opens the panel and does not log your keystrokes.</p></section>\n  <section><h2>You are in control</h2><p>“Delete All Data” in Settings instantly removes the in-memory history, all pinned items, the encryption key in your Keychain, and the current clipboard contents.</p></section>\n  \n  <section><h2>Contact</h2><p> <a href=\"mailto:k.oikawa119009@gmail.com?subject=Clipboard%20History%20for%20Mac\">k.oikawa119009@gmail.com</a></p></section>\n  <p class=\"updated\">Last updated: 2026-06-06</p>\n</main>\n<footer class=\"legal-foot\"><span>Clipboard History for Mac — A quiet menu-bar panel for your recent clipboard.</span><span class=\"spacer\"></span><a href=\"privacy.html\">Privacy Policy</a><a href=\"support.html\">Support</a><span>© 2026 Keisuke Oikawa</span></footer>","ja":"<header class=\"legal-top\">\n  <a class=\"brand\" href=\"index.html\"><img src=\"assets/appicon.png\" alt=\"\" width=\"26\" height=\"26\" style=\"border-radius:7px\" loading=\"lazy\"><span>Clipboard History</span></a>\n  <span class=\"spacer\"></span>\n  <nav class=\"legal-nav\">\n    <a href=\"index.html\">ホーム</a>\n    <a href=\"privacy.html\" class=\"active\">プライバシーポリシー</a>\n    <a href=\"support.html\">サポート</a>\n  </nav>\n  <div class=\"lang\" role=\"group\" aria-label=\"Language\"><button class=\"\" data-setlang=\"en\">EN</button><button class=\"on\" data-setlang=\"ja\">日本語</button><button class=\"\" data-setlang=\"zh\">简体</button><button class=\"\" data-setlang=\"es\">ES</button><button class=\"\" data-setlang=\"pt\">PT</button></div>\n</header>\n<main class=\"legal\">\n  <h1>プライバシーポリシー</h1>\n  <p class=\"lede\">Clipboard History for Mac は、あなたのクリップボードがあなたのものであり続けるように作られています。アプリがデータに対して何をして、何をしないかを正直にお伝えします。</p>\n  <section><h2>データ収集はありません</h2><p>アプリは何も収集しません。アカウント・解析・トラッキング・広告は一切なし。あなたのプロフィールは作られないので、存在しません。</p></section>\n  <section><h2>外部通信なし</h2><p>ネットワーク権限を一切持たないため、インターネットに接続したり「本国へ通信」したりできません。コピーした内容が外部に送信されることはありません。</p></section>\n  <section><h2>クリップボードは Mac の中だけ</h2><p>通常履歴はメモリ上だけにあり、アプリを終了すると消えます。ピン留め項目はアプリのサンドボックス内にローカル保存され、macOS Keychain の鍵を使って AES-GCM で暗号化されます。クラウド同期も、私たちへの送信もありません。</p></section>\n  <section><h2>権限について</h2><p>Accessibility は任意で、選んだ項目を使用中のアプリへ貼り付けるためだけに使います。権限がなくても、項目をクリップボードへ戻して手動で貼れます。Option + V のホットキーはパネルを開くだけで、キー入力を記録しません。</p></section>\n  <section><h2>あなたが管理します</h2><p>設定の「すべてのデータを削除」で、メモリ上の履歴・すべてのピン留め項目・Keychain の暗号鍵・現在のクリップボード内容を即座に消去します。</p></section>\n  \n  <section><h2>お問い合わせ</h2><p> <a href=\"mailto:k.oikawa119009@gmail.com?subject=Clipboard%20History%20for%20Mac\">k.oikawa119009@gmail.com</a></p></section>\n  <p class=\"updated\">最終更新: 2026-06-06</p>\n</main>\n<footer class=\"legal-foot\"><span>Clipboard History for Mac — 最近のクリップボードのための、静かなメニューバーパネル。</span><span class=\"spacer\"></span><a href=\"privacy.html\">プライバシーポリシー</a><a href=\"support.html\">サポート</a><span>© 2026 Keisuke Oikawa</span></footer>","zh":"<header class=\"legal-top\">\n  <a class=\"brand\" href=\"index.html\"><img src=\"assets/appicon.png\" alt=\"\" width=\"26\" height=\"26\" style=\"border-radius:7px\" loading=\"lazy\"><span>Clipboard History</span></a>\n  <span class=\"spacer\"></span>\n  <nav class=\"legal-nav\">\n    <a href=\"index.html\">首页</a>\n    <a href=\"privacy.html\" class=\"active\">隐私政策</a>\n    <a href=\"support.html\">支持</a>\n  </nav>\n  <div class=\"lang\" role=\"group\" aria-label=\"Language\"><button class=\"\" data-setlang=\"en\">EN</button><button class=\"\" data-setlang=\"ja\">日本語</button><button class=\"on\" data-setlang=\"zh\">简体</button><button class=\"\" data-setlang=\"es\">ES</button><button class=\"\" data-setlang=\"pt\">PT</button></div>\n</header>\n<main class=\"legal\">\n  <h1>隐私政策</h1>\n  <p class=\"lede\">Clipboard History for Mac 的设计宗旨，是让你的剪贴板始终属于你。以下如实说明这款应用会、以及不会对你的数据做什么。</p>\n  <section><h2>不收集任何数据</h2><p>应用不收集任何信息。没有账号、没有分析、没有跟踪、没有广告。我们从不为你建立任何画像。</p></section>\n  <section><h2>无网络</h2><p>应用完全没有网络权限，因此无法联网或“回传”。你复制的任何内容都不会被上传。</p></section>\n  <section><h2>剪贴板只留在你的 Mac 上</h2><p>普通历史只存在于内存中，退出后即清除。置顶项目本地保存在应用沙盒容器内，并使用存放于 macOS 钥匙串中的密钥以 AES-GCM 加密。不做云同步，也不会发送给我们。</p></section>\n  <section><h2>权限</h2><p>Accessibility（辅助功能）为可选项，仅用于把所选项目粘贴到你正在使用的应用。没有该权限时，应用只会把项目放回剪贴板供你手动粘贴。Option + V 快捷键只用于打开面板，不会记录你的按键。</p></section>\n  <section><h2>由你掌控</h2><p>“删除所有数据”会立即清除内存中的历史、所有置顶项目、钥匙串中的加密密钥，以及当前剪贴板内容。</p></section>\n  \n  <section><h2>联系</h2><p> <a href=\"mailto:k.oikawa119009@gmail.com?subject=Clipboard%20History%20for%20Mac\">k.oikawa119009@gmail.com</a></p></section>\n  <p class=\"updated\">最后更新: 2026-06-06</p>\n</main>\n<footer class=\"legal-foot\"><span>Clipboard History for Mac — 为最近剪贴板而生的安静菜单栏面板。</span><span class=\"spacer\"></span><a href=\"privacy.html\">隐私政策</a><a href=\"support.html\">支持</a><span>© 2026 Keisuke Oikawa</span></footer>","es":"<header class=\"legal-top\">\n  <a class=\"brand\" href=\"index.html\"><img src=\"assets/appicon.png\" alt=\"\" width=\"26\" height=\"26\" style=\"border-radius:7px\" loading=\"lazy\"><span>Clipboard History</span></a>\n  <span class=\"spacer\"></span>\n  <nav class=\"legal-nav\">\n    <a href=\"index.html\">Inicio</a>\n    <a href=\"privacy.html\" class=\"active\">Política de privacidad</a>\n    <a href=\"support.html\">Soporte</a>\n  </nav>\n  <div class=\"lang\" role=\"group\" aria-label=\"Language\"><button class=\"\" data-setlang=\"en\">EN</button><button class=\"\" data-setlang=\"ja\">日本語</button><button class=\"\" data-setlang=\"zh\">简体</button><button class=\"on\" data-setlang=\"es\">ES</button><button class=\"\" data-setlang=\"pt\">PT</button></div>\n</header>\n<main class=\"legal\">\n  <h1>Política de privacidad</h1>\n  <p class=\"lede\">Clipboard History for Mac está hecho para que tu portapapeles siga siendo tuyo. Esto es exactamente lo que la app hace —y no hace— con tus datos.</p>\n  <section><h2>Sin recopilación de datos</h2><p>La app no recopila nada. Sin cuentas, sin analíticas, sin seguimiento, sin publicidad. No existe ningún perfil tuyo, porque nunca se crea.</p></section>\n  <section><h2>Sin red</h2><p>Clipboard History no tiene ningún permiso de red, así que no puede conectarse a internet ni “llamar a casa”. Nada de lo que copias se sube jamás.</p></section>\n  <section><h2>Tu portapapeles se queda en tu Mac</h2><p>El historial normal vive solo en memoria y se descarta al salir. Los elementos fijados se guardan localmente en el contenedor de la app y se cifran con AES-GCM, usando una clave guardada en tu Llavero de macOS. Nada se sincroniza en la nube ni se nos envía.</p></section>\n  <section><h2>Permisos</h2><p>Accessibility es opcional y se usa únicamente para pegar el elemento elegido en la app que estás usando. Sin ese permiso, la app simplemente devuelve el elemento al portapapeles para que lo pegues a mano. El atajo Option + V abre el panel y no registra tus pulsaciones.</p></section>\n  <section><h2>Tú tienes el control</h2><p>“Eliminar todos los datos” borra al instante el historial en memoria, todos los elementos fijados, la clave de cifrado de tu Llavero y el contenido actual del portapapeles.</p></section>\n  \n  <section><h2>Contacto</h2><p> <a href=\"mailto:k.oikawa119009@gmail.com?subject=Clipboard%20History%20for%20Mac\">k.oikawa119009@gmail.com</a></p></section>\n  <p class=\"updated\">Última actualización: 2026-06-06</p>\n</main>\n<footer class=\"legal-foot\"><span>Clipboard History for Mac — Un panel discreto en la barra de menús para tu portapapeles reciente.</span><span class=\"spacer\"></span><a href=\"privacy.html\">Política de privacidad</a><a href=\"support.html\">Soporte</a><span>© 2026 Keisuke Oikawa</span></footer>","pt":"<header class=\"legal-top\">\n  <a class=\"brand\" href=\"index.html\"><img src=\"assets/appicon.png\" alt=\"\" width=\"26\" height=\"26\" style=\"border-radius:7px\" loading=\"lazy\"><span>Clipboard History</span></a>\n  <span class=\"spacer\"></span>\n  <nav class=\"legal-nav\">\n    <a href=\"index.html\">Início</a>\n    <a href=\"privacy.html\" class=\"active\">Política de Privacidade</a>\n    <a href=\"support.html\">Suporte</a>\n  </nav>\n  <div class=\"lang\" role=\"group\" aria-label=\"Language\"><button class=\"\" data-setlang=\"en\">EN</button><button class=\"\" data-setlang=\"ja\">日本語</button><button class=\"\" data-setlang=\"zh\">简体</button><button class=\"\" data-setlang=\"es\">ES</button><button class=\"on\" data-setlang=\"pt\">PT</button></div>\n</header>\n<main class=\"legal\">\n  <h1>Política de Privacidade</h1>\n  <p class=\"lede\">O Clipboard History for Mac é feito para que sua área de transferência continue sendo sua. Veja exatamente o que o app faz — e não faz — com seus dados.</p>\n  <section><h2>Nenhuma coleta de dados</h2><p>O app não coleta nada. Sem contas, sem analytics, sem rastreamento, sem anúncios. Não existe nenhum perfil seu, porque ele nunca é criado.</p></section>\n  <section><h2>Sem rede</h2><p>O Clipboard History não tem nenhuma permissão de rede, então não consegue se conectar à internet nem “ligar para casa”. Nada do que você copia é enviado.</p></section>\n  <section><h2>Sua área de transferência fica no seu Mac</h2><p>O histórico comum vive apenas na memória e é descartado ao sair. Itens fixados são salvos localmente no contêiner do app e criptografados com AES-GCM, usando uma chave guardada no Keychain do macOS. Nada é sincronizado na nuvem nem enviado para nós.</p></section>\n  <section><h2>Permissões</h2><p>O Accessibility é opcional e serve apenas para colar o item escolhido no app que você está usando. Sem ele, o app apenas devolve o item à área de transferência para você colar manualmente. O atalho Option + V abre o painel e não registra suas teclas.</p></section>\n  <section><h2>Você no controle</h2><p>“Apagar todos os dados” remove na hora o histórico em memória, todos os itens fixados, a chave de criptografia no Keychain e o conteúdo atual da área de transferência.</p></section>\n  \n  <section><h2>Contato</h2><p> <a href=\"mailto:k.oikawa119009@gmail.com?subject=Clipboard%20History%20for%20Mac\">k.oikawa119009@gmail.com</a></p></section>\n  <p class=\"updated\">Última atualização: 2026-06-06</p>\n</main>\n<footer class=\"legal-foot\"><span>Clipboard History for Mac — Um painel discreto na barra de menus para seu clipboard recente.</span><span class=\"spacer\"></span><a href=\"privacy.html\">Política de Privacidade</a><a href=\"support.html\">Suporte</a><span>© 2026 Keisuke Oikawa</span></footer>"};
+  var TITLE = {"en":"Privacy Policy — Clipboard History for Mac","ja":"プライバシーポリシー — Clipboard History for Mac","zh":"隐私政策 — Clipboard History for Mac","es":"Política de privacidad — Clipboard History for Mac","pt":"Política de Privacidade — Clipboard History for Mac"};
+  var DESC  = {"en":"Clipboard History for Mac is built so your clipboard stays yours. Here is exactly what the app does — and does not — with your data.","ja":"Clipboard History for Mac は、あなたのクリップボードがあなたのものであり続けるように作られています。アプリがデータに対して何をして、何をしないかを正直にお伝えします。","zh":"Clipboard History for Mac 的设计宗旨，是让你的剪贴板始终属于你。以下如实说明这款应用会、以及不会对你的数据做什么。","es":"Clipboard History for Mac está hecho para que tu portapapeles siga siendo tuyo. Esto es exactamente lo que la app hace —y no hace— con tus datos.","pt":"O Clipboard History for Mac é feito para que sua área de transferência continue sendo sua. Veja exatamente o que o app faz — e não faz — com seus dados."};
+  var HL = {en:'en',ja:'ja',zh:'zh-Hans',es:'es',pt:'pt'};
+  var app = document.getElementById('app');
+  var meta = document.querySelector('meta[name="description"]');
+  function apply(l){
+    if(!ROOTS[l]) l='en';
+    app.innerHTML = ROOTS[l];
+    document.documentElement.lang = HL[l]||l;
+    if(TITLE[l]) document.title = TITLE[l];
+    if(meta && DESC[l]) meta.setAttribute('content', DESC[l]);
+    var ab=app.querySelector('[data-setlang].on'); if(ab) ab.setAttribute('aria-current','true');
+    try{ localStorage.setItem('chm_lang', l); }catch(e){}
+  }
+  function detect(){
+    var saved; try{ saved = localStorage.getItem('chm_lang'); }catch(e){}
+    if(saved && ROOTS[saved]) return saved;
+    var n=(navigator.language||'en').toLowerCase();
+    if(n.indexOf('ja')===0)return 'ja'; if(n.indexOf('zh')===0)return 'zh';
+    if(n.indexOf('es')===0)return 'es'; if(n.indexOf('pt')===0)return 'pt'; return 'en';
+  }
+  document.addEventListener('click', function(e){
+    var sl = e.target.closest && e.target.closest('[data-setlang]');
+    if(sl){ e.preventDefault(); apply(sl.getAttribute('data-setlang')); return; }
+    var as = e.target.closest && e.target.closest('[data-appstore]');
+    if(as && as.getAttribute('href')==='#'){ e.preventDefault(); } // App Store URL pending review
+  });
+  var start = detect();
+  if(start !== 'en') apply(start);
+  var ab0=document.querySelector('[data-setlang].on'); if(ab0) ab0.setAttribute('aria-current','true');
+})();</script>
+</body>
+</html>
