@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- Source for assets/og.png — render at exactly 1200×630.
+     Repro: open headless, viewport 1200×630, screenshot. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{
+    background:#131d29;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
+    color:#e8eef6;position:relative;
+  }
+  .halo{position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 72% 40%, rgba(62,207,142,.16), transparent 70%)}
+  .grid{position:absolute;inset:0;opacity:.45;
+    background-image:radial-gradient(rgba(147,168,189,.12) 1.5px, transparent 2px);
+    background-size:30px 30px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 75% at 65% 40%, #000, transparent 80%);
+  }
+  .in{position:absolute;inset:0;padding:64px 72px;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:18px}
+  .brand img{width:72px;height:72px;border-radius:17px}
+  .brand b{font-size:40px;font-weight:800;letter-spacing:-.01em}
+  .brand small{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:16px;color:#3ecf8e;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;display:block;font-weight:500}
+  .mega{margin-top:34px;font-size:188px;line-height:.92;font-weight:800;letter-spacing:-.035em;
+    background:linear-gradient(160deg,#5ee6a8 12%,#3ecf8e 55%,#27996a 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-variant-numeric:tabular-nums;
+    filter:drop-shadow(0 12px 40px rgba(62,207,142,.25));
+  }
+  .mega small{font-size:.32em;background:none;-webkit-text-fill-color:#c4d2e0;color:#c4d2e0}
+  .sub{margin-top:26px;font-size:35px;font-weight:700;letter-spacing:-.015em;line-height:1.25}
+  .sub i{font-style:normal;color:#3ecf8e}
+  .foot{margin-top:auto;display:flex;align-items:center;gap:26px;font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:17px;color:#93a8bd}
+  .foot span::before{content:"// ";color:#3ecf8e}
+</style>
+</head>
+<body>
+  <div class="halo"></div>
+  <div class="grid"></div>
+  <div class="in">
+    <div class="brand">
+      <img src="appicon.png" alt="">
+      <div><b>BigLeaf</b><small>Large JSON · JSONL · NDJSON viewer for Mac</small></div>
+    </div>
+    <div class="mega">21.5<small> GB</small></div>
+    <div class="sub">opened in <i>0.25 seconds</i>, on 69&nbsp;MB of RAM.</div>
+    <div class="foot"><span>read-only</span><span>local-only</span><span>tested up to 100GB</span></div>
+  </div>
+</body>
+</html>

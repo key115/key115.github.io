@@ -1,83 +1,104 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Support - BigLeaf</title>
-<meta name="description" content="Support for BigLeaf, a read-only large JSON, JSONL, and NDJSON viewer for Mac.">
-<style>
-:root { color-scheme: light dark; }
-body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, "Hiragino Sans", sans-serif; line-height: 1.75; max-width: 760px; margin: 0 auto; padding: 48px 24px; color: #17201b; background: #f5f8f6; }
-@media (prefers-color-scheme: dark) { body { color: #e8eee9; background: #101613; } }
-h1 { font-size: 1.8rem; line-height: 1.2; }
-h2 { font-size: 1.15rem; margin-top: 2rem; }
-.lead { font-size: 1.08rem; opacity: .86; }
-a { color: #16734d; }
-ul { padding-left: 1.4rem; }
-hr { border: 0; border-top: 1px solid rgba(120, 140, 130, .35); margin: 2.5rem 0; }
-footer { margin-top: 3rem; font-size: .9rem; opacity: .72; }
-</style>
+<title>BigLeaf — Support &amp; FAQ</title>
+<meta name="description" content="Support and frequently asked questions for BigLeaf, the read-only viewer for large JSON, JSONL &amp; NDJSON files on macOS.">
+<link rel="canonical" href="https://key115.github.io/bigleaf/support.html">
+<link rel="icon" href="assets/appicon.png">
+<link rel="apple-touch-icon" href="assets/appicon.png">
+<meta name="theme-color" content="#131d29">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BigLeaf">
+<meta property="og:title" content="BigLeaf — Support &amp; FAQ">
+<meta property="og:description" content="Most answers are here. Anything else — email us.">
+<meta property="og:url" content="https://key115.github.io/bigleaf/support.html">
+<meta property="og:image" content="https://key115.github.io/bigleaf/assets/og.png">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
-<h1>Support - BigLeaf</h1>
-<p class="lead">BigLeaf opens large JSON, JSONL, and NDJSON files locally on your Mac. This page covers common support questions.</p>
 
-<h2>Contact</h2>
-<p>Email: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a></p>
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="27" height="27">BigLeaf</a>
+    <div class="links">
+      <a href="index.html"><span class="en">← Back to site</span><span class="ja">← サイトへ戻る</span></a>
+      <a href="privacy.html"><span class="en">Privacy</span><span class="ja">プライバシー</span></a>
+    </div>
+    <span class="lang-btn" role="group" aria-label="Language"></span>
+  </div>
+</nav>
 
-<h2>What files does BigLeaf open?</h2>
-<ul>
-  <li>JSONL and NDJSON logs, including .jsonl, .ndjson, .log, and .txt files whose contents are JSON lines.</li>
-  <li>Large root-array JSON exports, such as database or API dumps whose top level is an array.</li>
-  <li>Single JSON documents in a tree-only view.</li>
-</ul>
+<main>
+<section class="page-head" style="padding-bottom:104px">
+  <div class="wrap center">
+    <span class="kicker" data-reveal="up">Support</span>
+    <h1 data-reveal="up" style="font-size:clamp(30px,4vw,48px)"><span class="en">How can we help?</span><span class="ja">お困りですか？</span></h1>
+    <p class="lead" data-reveal="up" style="margin:16px auto 0"><span class="en">Most answers are below. Anything else — email us.</span><span class="ja">だいたいの答えは下にあります。なければメールで。</span></p>
+  </div>
 
-<h2>How do I open a file?</h2>
-<p>Use File &gt; Open, press Command-O, or drag a file into the BigLeaf window. BigLeaf detects the format from the file contents, not only from the extension.</p>
+  <div class="wrap faq" data-stagger>
+    <details data-reveal="up">
+      <summary><span class="en">What file types does BigLeaf open?</span><span class="ja">どんなファイルが開けますか？</span></summary>
+      <p><span class="en">JSONL / NDJSON, root-array JSON exports, and single JSON documents. Detection is by content, not extension — <code>.log</code> or <code>.txt</code> files full of JSON lines work fine.</span><span class="ja">JSONL / NDJSON、ルートが配列のJSONエクスポート、単一JSONドキュメント。拡張子ではなく中身で判定するので、JSON行が詰まった<code>.log</code>や<code>.txt</code>もそのまま開けます。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">Can BigLeaf open compressed files (.gz / .zst)?</span><span class="ja">圧縮ファイル（.gz / .zst）は開けますか？</span></summary>
+      <p><span class="en"><code>.gz</code> opens directly — BigLeaf decompresses it once into its local cache, then treats it exactly like the raw file (the cache is purged from File → Open Recent → Clear Menu). zstd needs a one-time decompress first: <code>zstd -d -k yourfile.jsonl.zst</code> — then drop the result into BigLeaf.</span><span class="ja"><code>.gz</code>はそのまま開けます — 一度だけローカルキャッシュに展開し、以後は生ファイルと同じように扱います（キャッシュは「ファイル → 最近使った項目を開く → メニューを消去」で削除）。zstdは先に一度展開してください: <code>zstd -d -k yourfile.jsonl.zst</code> — できたファイルをBigLeafへ。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">What's free, and what's paid?</span><span class="ja">無料と有料の違いは？</span></summary>
+      <p><span class="en">Files up to 100MB: every feature, free, forever. Larger files open in Preview Mode (first 10,000 records, fully searchable). A one-time purchase unlocks files of any size — no subscription.</span><span class="ja">100MBまでのファイルは全機能ずっと無料。それを超えるファイルはPreview Mode（先頭1万レコード・検索可）で開きます。買い切り一回でサイズ無制限に。サブスクはありません。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">How do I restore my purchase on a new Mac?</span><span class="ja">新しいMacで購入を復元するには？</span></summary>
+      <p><span class="en">Sign in with the same Apple&nbsp;ID, open any file larger than 100MB, and click <code>Restore</code> in the Preview banner. You never pay twice.</span><span class="ja">同じApple&nbsp;IDでサインインし、100MBを超えるファイルを開いてPreviewバナーの<code>復元</code>を押すだけ。二重に支払うことはありません。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">Some lines in my file are broken / not valid JSON.</span><span class="ja">壊れた行・不正なJSONが混ざっています</span></summary>
+      <p><span class="en">That's fine. Unparseable lines stay in the list as raw text and never stop the viewer. Real-world logs are messy — BigLeaf assumes so.</span><span class="ja">問題ありません。パースできない行はrawテキストのまま一覧に残り、処理は止まりません。現実のログは汚いもの — BigLeafはそれ前提です。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">The file is on a network drive / cloud folder.</span><span class="ja">ネットワークドライブ/クラウド上のファイルは？</span></summary>
+      <p><span class="en">It will open best-effort with a warning. For huge files, copying to local SSD first is strongly recommended.</span><span class="ja">警告付きのベストエフォートで開きます。巨大ファイルはローカルSSDへコピーしてからを強く推奨します。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">The file grew after I opened it. Where are the new lines?</span><span class="ja">開いた後にファイルが伸びました。新しい行は？</span></summary>
+      <p><span class="en">BigLeaf shows a snapshot of the moment you opened the file. Press <code>⌘R</code> (Reload) to index just the appended part.</span><span class="ja">表示は開いた時点のスナップショットです。<code>⌘R</code>（再読み込み）で追記分だけを差分索引します。</span></p>
+    </details>
+    <details data-reveal="up">
+      <summary><span class="en">What does BigLeaf require?</span><span class="ja">動作環境は？</span></summary>
+      <p><span class="en">macOS 14 or later, Apple silicon or Intel. BigLeaf is read-only and never modifies your files — it ships without the network entitlement, so your data stays on your Mac.</span><span class="ja">macOS 14以降、Apple silicon / Intel両対応。読み取り専用でファイルを変更することはなく、network entitlementなしで配布されるためデータはMacの外に出ません。</span></p>
+    </details>
+  </div>
 
-<h2>Free and Pro</h2>
-<p>Files up to 100MB are fully usable for free. Larger files open in Preview Mode, where the first 10,000 records are browsable, searchable, and jumpable. The one-time Pro purchase unlocks larger files. Restore Purchases is available from the app menu.</p>
+  <div class="contact" data-reveal="up">
+    <h2 style="font-size:24px"><span class="en">Still stuck?</span><span class="ja">解決しませんか？</span></h2>
+    <p style="color:var(--dim);margin-top:6px"><span class="en">Email us — we read everything.</span><span class="ja">メールをください。全部読んでいます。</span></p>
+    <div class="btn-row" style="justify-content:center;margin-top:20px">
+      <a class="btn ghost" href="mailto:k.oikawa119009@gmail.com?subject=BigLeaf%20Support">✉ k.oikawa119009@gmail.com</a>
+    </div>
+  </div>
+</section>
+</main>
 
-<h2>Privacy</h2>
-<p>Your files never leave your Mac. BigLeaf has no analytics, no accounts, no telemetry, and no cloud sync. See the <a href="./privacy.html">Privacy Policy</a>.</p>
+<footer>
+  <div class="wrap cols">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="22" height="22">BigLeaf</a>
+    </div>
+    <ul>
+      <li><a href="index.html"><span class="en">Home</span><span class="ja">ホーム</span></a></li>
+      <li><a href="privacy.html"><span class="en">Privacy Policy</span><span class="ja">プライバシーポリシー</span></a></li>
+    </ul>
+  </div>
+  <div class="wrap fine">
+    <span>© 2026 Keisuke Oikawa</span>
+    <span><span class="en">macOS 14+ · Apple silicon &amp; Intel</span><span class="ja">macOS 14+ · Apple silicon &amp; Intel対応</span></span>
+  </div>
+</footer>
 
-<h2>Troubleshooting</h2>
-<ul>
-  <li>If a file is compressed, decompress it first unless the current app version shows it as supported.</li>
-  <li>If a JSONL file contains invalid lines, BigLeaf keeps those lines as raw records instead of stopping the viewer.</li>
-  <li>If purchase restoration does not complete, confirm that you are signed in to the same Apple ID used for the purchase, then use Restore Purchases again.</li>
-</ul>
-
-<hr>
-<h1>サポート</h1>
-<p class="lead">BigLeafは、巨大なJSON、JSONL、NDJSONをあなたのMac上でローカルに開くアプリです。</p>
-
-<h2>連絡先</h2>
-<p>メール: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a></p>
-
-<h2>開けるファイル</h2>
-<ul>
-  <li>.jsonl、.ndjson、.log、.txtなど、中身がJSON Lines/NDJSONのファイル。</li>
-  <li>トップレベルが配列の大きなJSONエクスポート。</li>
-  <li>単一JSONドキュメント。</li>
-</ul>
-
-<h2>ファイルの開き方</h2>
-<p>File &gt; Open、Command-O、またはBigLeafウィンドウへのドラッグ&ドロップで開けます。形式は拡張子だけでなく中身から判定します。</p>
-
-<h2>無料版とPro</h2>
-<p>100MBまでのファイルは無料で全機能を使えます。それより大きいファイルはプレビューモードで先頭10,000レコードを閲覧、検索、ジャンプできます。買い切りのPro購入で大きなファイルが解放されます。購入の復元はアプリメニューから実行できます。</p>
-
-<h2>プライバシー</h2>
-<p>ファイルがあなたのMacから出ることはありません。BigLeafには解析、アカウント、テレメトリ、クラウド同期はありません。詳しくは <a href="./privacy.html">プライバシーポリシー</a> を確認してください。</p>
-
-<h2>困ったとき</h2>
-<ul>
-  <li>圧縮ファイルは、現在のアプリバージョンで対応表示が出ない場合、先に展開してください。</li>
-  <li>JSONL内に不正な行があっても、BigLeafはその行をrawレコードとして残します。</li>
-  <li>購入の復元が完了しない場合、購入時と同じApple IDでサインインしていることを確認し、もう一度Restore Purchasesを実行してください。</li>
-</ul>
-
-<footer>Last updated: 2026-06-12<br>Copyright 2026 Keisuke Oikawa</footer>
 </body>
 </html>

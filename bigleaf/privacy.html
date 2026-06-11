@@ -1,66 +1,92 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy - BigLeaf</title>
-<meta name="description" content="BigLeaf privacy policy: Data Not Collected. Your files never leave your Mac.">
-<style>
-:root { color-scheme: light dark; }
-body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, "Hiragino Sans", sans-serif; line-height: 1.75; max-width: 760px; margin: 0 auto; padding: 48px 24px; color: #17201b; background: #f5f8f6; }
-@media (prefers-color-scheme: dark) { body { color: #e8eee9; background: #101613; } }
-h1 { font-size: 1.8rem; line-height: 1.2; }
-h2 { font-size: 1.15rem; margin-top: 2rem; }
-.lead { font-size: 1.08rem; opacity: .86; }
-a { color: #16734d; }
-hr { border: 0; border-top: 1px solid rgba(120, 140, 130, .35); margin: 2.5rem 0; }
-footer { margin-top: 3rem; font-size: .9rem; opacity: .72; }
-</style>
+<title>BigLeaf — Privacy Policy</title>
+<meta name="description" content="BigLeaf collects nothing. Files are read locally and never transmitted. No accounts, no analytics, no tracking — App Privacy label: Data Not Collected.">
+<link rel="canonical" href="https://key115.github.io/bigleaf/privacy.html">
+<link rel="icon" href="assets/appicon.png">
+<link rel="apple-touch-icon" href="assets/appicon.png">
+<meta name="theme-color" content="#131d29">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BigLeaf">
+<meta property="og:title" content="BigLeaf — Privacy Policy">
+<meta property="og:description" content="We collect nothing. This page is short on purpose.">
+<meta property="og:url" content="https://key115.github.io/bigleaf/privacy.html">
+<meta property="og:image" content="https://key115.github.io/bigleaf/assets/og.png">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
-<h1>Privacy Policy - BigLeaf</h1>
-<p class="lead">BigLeaf is a read-only viewer for large JSON, JSONL, and NDJSON files. It is designed so your files stay on your Mac.</p>
 
-<h2>Information We Collect</h2>
-<p>BigLeaf collects no personal information, no usage analytics, no telemetry, no diagnostics, and no tracking data. The app does not require an account.</p>
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="27" height="27">BigLeaf</a>
+    <div class="links">
+      <a href="index.html"><span class="en">← Back to site</span><span class="ja">← サイトへ戻る</span></a>
+      <a href="support.html"><span class="en">Support</span><span class="ja">サポート</span></a>
+    </div>
+    <span class="lang-btn" role="group" aria-label="Language"></span>
+  </div>
+</nav>
 
-<h2>Your Files</h2>
-<p>Files opened in BigLeaf are processed locally on your Mac. BigLeaf opens user-selected files read-only and does not hold a write handle to your source files. File contents are not uploaded to our servers or shared with third parties.</p>
+<main>
+<section class="page-head" style="padding-bottom:104px">
+  <div class="wrap doc">
+    <span class="kicker" data-reveal="up">Privacy Policy</span>
+    <h1 data-reveal="up" style="font-size:clamp(30px,4vw,44px)"><span class="en">We collect nothing.<br>This page is short on purpose.</span><span class="ja">何も収集しません。<br>だからこのページは短い。</span></h1>
+    <p data-reveal="up" style="margin-top:12px;font-family:var(--mono);font-size:12.5px;color:var(--faint)"><span class="en">Last updated: 2026-06-12</span><span class="ja">最終更新: 2026-06-12</span></p>
 
-<h2>Network Use</h2>
-<p>BigLeaf does not include analytics, advertising, cloud sync, or account networking. The only network-related functionality is Apple's StoreKit framework for the optional one-time in-app purchase and purchase restoration.</p>
+    <div class="tldr" data-reveal="up">
+      <p><b>TL;DR</b> — <span class="en">BigLeaf reads your files locally and never transmits their contents anywhere. There are no accounts, no analytics, and no tracking. App Privacy label: <b>Data Not Collected</b>.</span><span class="ja">BigLeafはファイルをローカルで読むだけで、内容をどこにも送信しません。アカウントなし、分析なし、トラッキングなし。App Privacyラベルは<b>「データ収集なし」</b>です。</span></p>
+    </div>
 
-<h2>In-App Purchase</h2>
-<p>The optional Pro purchase is handled by Apple. We do not receive your payment card details. Apple may process purchase-related information according to Apple's own privacy policy.</p>
+    <h2 data-reveal="up"><span class="en">1. Your files</span><span class="ja">1. あなたのファイル</span></h2>
+    <p data-reveal="up"><span class="en">Files are opened read-only inside the App Sandbox, using only the access you grant by opening or dropping a file. BigLeaf never writes to your files, never uploads them, and contains no networking code capable of doing so — the app ships without the network entitlement, which anyone can verify with <code>codesign</code>.</span><span class="ja">ファイルはApp Sandbox内で読み取り専用として開かれ、あなたが開く/ドロップして与えたアクセス権のみを使います。ファイルへの書き込み・アップロードは一切せず、それが可能なネットワークコード自体を持ちません — network entitlementなしで配布されており、<code>codesign</code>で誰でも検証できます。</span></p>
 
-<h2>Data Retention</h2>
-<p>Because BigLeaf does not collect data from the app, we do not retain app usage data. Local app preferences, recent-file access bookmarks, window state, and local cache files remain on your Mac and can be removed by deleting the app's local container.</p>
+    <h2 data-reveal="up"><span class="en">2. What stays on your Mac</span><span class="ja">2. Macの中にだけ保存されるもの</span></h2>
+    <ul data-stagger>
+      <li data-reveal="up"><span class="en">Display preferences (appearance, search defaults)</span><span class="ja">表示設定（外観・検索オプションの既定値）</span></li>
+      <li data-reveal="up"><span class="en">Recent files list (security-scoped bookmarks)</span><span class="ja">最近使ったファイル（security-scoped bookmark）</span></li>
+      <li data-reveal="up"><span class="en">Window position and pane layout</span><span class="ja">ウィンドウ位置・ペイン分割比</span></li>
+      <li data-reveal="up"><span class="en">A local decompression cache for .gz files you open (cleared from File → Open Recent → Clear Menu)</span><span class="ja">開いた.gzファイルのローカル展開キャッシュ（「ファイル → 最近使った項目を開く → メニューを消去」で削除）</span></li>
+      <li data-reveal="up"><span class="en">Purchase state (managed by Apple's StoreKit)</span><span class="ja">購入状態（AppleのStoreKitが管理）</span></li>
+    </ul>
+    <p data-reveal="up" style="margin-top:10px"><span class="en">All of this lives in the app's local container and never leaves your machine. Search history is not persisted at all.</span><span class="ja">これらはすべてアプリのローカルコンテナ内にあり、マシンの外には出ません。検索履歴はそもそも保存されません。</span></p>
 
-<h2>Contact</h2>
-<p>Questions can be sent to <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a>.</p>
+    <h2 data-reveal="up"><span class="en">3. What we never collect</span><span class="ja">3. 決して収集しないもの</span></h2>
+    <ul data-stagger>
+      <li data-reveal="up"><span class="en">Any fragment of your file contents, names, or paths</span><span class="ja">ファイルの内容・名前・パスのいかなる断片</span></li>
+      <li data-reveal="up"><span class="en">Usage analytics or telemetry (no analytics SDK is included)</span><span class="ja">利用統計・テレメトリ（分析SDK自体を同梱しません）</span></li>
+      <li data-reveal="up"><span class="en">Crash reports sent to us or third parties</span><span class="ja">当方や第三者へ送信されるクラッシュレポート</span></li>
+      <li data-reveal="up"><span class="en">Personal information of any kind</span><span class="ja">あらゆる個人情報</span></li>
+    </ul>
 
-<hr>
-<h1>プライバシーポリシー</h1>
-<p class="lead">BigLeafは、巨大なJSON、JSONL、NDJSONを読み取り専用で開くMacアプリです。ファイルがあなたのMacから出ないように設計されています。</p>
+    <h2 data-reveal="up"><span class="en">4. Purchases</span><span class="ja">4. 購入について</span></h2>
+    <p data-reveal="up"><span class="en">The optional one-time unlock is processed entirely by Apple via the Mac App Store / StoreKit. We receive no personal data from your purchase. Apple's own privacy policy governs that transaction.</span><span class="ja">買い切りの解放はMac App Store / StoreKitを通じてAppleが処理します。購入から当方が個人データを受け取ることはありません。取引にはAppleのプライバシーポリシーが適用されます。</span></p>
 
-<h2>収集する情報</h2>
-<p>BigLeafは、個人情報、利用状況、解析、テレメトリ、診断情報、トラッキングデータを収集しません。アカウントも不要です。</p>
+    <h2 data-reveal="up"><span class="en">5. Changes &amp; contact</span><span class="ja">5. 変更と連絡先</span></h2>
+    <p data-reveal="up"><span class="en">If this policy ever changes, the new version will appear here with an updated date. Questions: <a class="link-g" href="mailto:k.oikawa119009@gmail.com?subject=BigLeaf%20Privacy">k.oikawa119009@gmail.com</a>.</span><span class="ja">本ポリシーを変更する場合は、更新日とともにこのページに掲載します。質問は <a class="link-g" href="mailto:k.oikawa119009@gmail.com?subject=BigLeaf%20Privacy">k.oikawa119009@gmail.com</a> まで。</span></p>
+  </div>
+</section>
+</main>
 
-<h2>ファイルの扱い</h2>
-<p>BigLeafで開いたファイルは、あなたのMac上でローカルに処理されます。ユーザーが選択したファイルを読み取り専用で開き、元ファイルへの書き込みハンドルを保持しません。ファイル内容を当方のサーバーや第三者へアップロードすることはありません。</p>
+<footer>
+  <div class="wrap cols">
+    <div>
+      <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="22" height="22">BigLeaf</a>
+    </div>
+    <ul>
+      <li><a href="index.html"><span class="en">Home</span><span class="ja">ホーム</span></a></li>
+      <li><a href="support.html"><span class="en">Support &amp; FAQ</span><span class="ja">サポート / FAQ</span></a></li>
+    </ul>
+  </div>
+  <div class="wrap fine">
+    <span>© 2026 Keisuke Oikawa</span>
+    <span><span class="en">macOS 14+ · Apple silicon &amp; Intel</span><span class="ja">macOS 14+ · Apple silicon &amp; Intel対応</span></span>
+  </div>
+</footer>
 
-<h2>ネットワーク利用</h2>
-<p>BigLeafには、解析、広告、クラウド同期、アカウント用の通信機能はありません。ネットワークに関わる機能は、任意の買い切りアプリ内課金と購入復元に使うAppleのStoreKitのみです。</p>
-
-<h2>アプリ内課金</h2>
-<p>任意のPro購入はAppleによって処理されます。当方が支払いカード情報を受け取ることはありません。購入に関する情報はAppleのプライバシーポリシーに従って処理される場合があります。</p>
-
-<h2>データ保持</h2>
-<p>BigLeafはアプリからデータを収集しないため、利用データを保持しません。ローカルの設定、最近使ったファイルのアクセス用ブックマーク、ウィンドウ状態、ローカルキャッシュはあなたのMac内に保存され、アプリのローカルコンテナを削除することで消去できます。</p>
-
-<h2>連絡先</h2>
-<p>お問い合わせは <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a> までお願いします。</p>
-
-<footer>Last updated: 2026-06-12<br>Copyright 2026 Keisuke Oikawa</footer>
 </body>
 </html>

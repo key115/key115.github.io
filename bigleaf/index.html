@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BigLeaf — Large JSON, JSONL &amp; NDJSON Viewer for Mac</title>
+<meta name="description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. BigLeaf is a read-only, local-only viewer for huge JSON, JSONL &amp; NDJSON files on macOS. Free up to 100MB — one-time purchase, no subscription. Tested up to 100GB.">
+<link rel="canonical" href="https://key115.github.io/bigleaf/">
+<link rel="icon" href="assets/appicon.png">
+<link rel="apple-touch-icon" href="assets/appicon.png">
+<meta name="theme-color" content="#131d29">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BigLeaf">
+<meta property="og:title" content="BigLeaf — Large JSON, JSONL &amp; NDJSON Viewer for Mac">
+<meta property="og:description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. Read-only, local-only, no subscription. Tested up to 100GB.">
+<meta property="og:url" content="https://key115.github.io/bigleaf/">
+<meta property="og:image" content="https://key115.github.io/bigleaf/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BigLeaf — Large JSON, JSONL &amp; NDJSON Viewer for Mac">
+<meta name="twitter:description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. Read-only, local-only, no subscription. Tested up to 100GB.">
+<meta name="twitter:image" content="https://key115.github.io/bigleaf/assets/og.png">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BigLeaf",
+  "operatingSystem": "macOS 14.0 or later",
+  "applicationCategory": "DeveloperApplication",
+  "description": "A read-only viewer for large JSON, JSONL and NDJSON files. Opens a 21.5GB JSONL using about 69MB of RAM, with first records on screen in about 0.2 seconds. Tested up to 100GB.",
+  "url": "https://key115.github.io/bigleaf/"
+}
+</script>
+</head>
+<body>
+
+<!-- App Store CTA pending review: after approval, set APP_STORE_URL at the top
+     of assets/site.js (it wires every [data-appstore] link automatically). -->
+
+<nav class="site-nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/appicon.png" alt="" width="27" height="27">BigLeaf</a>
+    <div class="links">
+      <a href="#numbers"><span class="en">Benchmarks</span><span class="ja">実測値</span></a>
+      <a href="#features"><span class="en">Features</span><span class="ja">機能</span></a>
+      <a href="support.html"><span class="en">Support</span><span class="ja">サポート</span></a>
+    </div>
+    <span class="lang-btn" role="group" aria-label="Language"></span>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ===================== HERO: one giant number ===================== -->
+<header class="hero">
+  <div class="wrap center">
+    <span class="kicker" data-reveal="up"><span class="en">BigLeaf — large JSON · JSONL · NDJSON viewer for Mac</span><span class="ja">BigLeaf — Mac用 巨大JSON · JSONL · NDJSONビューア</span></span>
+    <div class="mega" data-reveal="scale" aria-label="21.5 GB"><span class="count" data-count="21.5">0</span><small> GB</small></div>
+    <h1 data-reveal="up" style="margin-top:20px">
+      <span class="en">opened in <span class="hl accent">0.25 seconds</span>, on 69&nbsp;MB of RAM.</span>
+      <span class="ja"><span class="hl accent">0.25秒</span>で表示。RAMはたった69MB。</span>
+    </h1>
+    <p class="lead" data-reveal="up" style="margin:18px auto 0">
+      <span class="en">The file your editor can't open is BigLeaf's home turf. Read-only, local-only, no subscription.</span>
+      <span class="ja">エディタが開けないファイルこそBigLeafの主戦場。読み取り専用・ローカル完結・サブスクなし。</span>
+    </p>
+    <div class="btn-row" data-reveal="up" style="justify-content:center;margin-top:30px">
+      <a class="btn" href="#" data-appstore>
+        <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
+        <span class="en">Get it on the Mac App Store</span><span class="ja">Mac App Storeで入手</span>
+      </a>
+      <a class="btn ghost" href="#numbers"><span class="en">↓ See the numbers</span><span class="ja">↓ 実測値を見る</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div class="track">
+  <span>Opens a 5GB JSONL in seconds</span><span>without eating 50GB of RAM</span><span>read-only</span><span>your files never leave your Mac</span><span>tested up to 100GB</span>
+  <span>Opens a 5GB JSONL in seconds</span><span>without eating 50GB of RAM</span><span>read-only</span><span>your files never leave your Mac</span><span>tested up to 100GB</span>
+</div></div>
+
+<!-- ===================== PINNED STAT THEATER ===================== -->
+<section id="numbers" style="padding:0">
+  <div class="pin-wrap theater" style="height:380vh">
+    <div class="pin">
+      <span class="kicker"><span class="en">Benchmarked on an M1 / 16GB — cold start</span><span class="ja">M1 / 16GB 実機・コールド起動で計測</span></span>
+      <div class="theater-stage">
+        <div class="stat-step" data-step="0">
+          <div class="mega"><span>0.25</span><small> s</small></div>
+          <div class="cap"><span class="en">file picked → first record on screen</span><span class="ja">ファイル選択 → 先頭レコード表示まで</span></div>
+        </div>
+        <div class="stat-step" data-step="1">
+          <div class="mega"><span>69</span><small> MB</small></div>
+          <div class="cap"><span class="en">memory footprint while browsing 21.5 GB</span><span class="ja">21.5GB閲覧中のメモリ使用量</span></div>
+        </div>
+        <div class="stat-step" data-step="2">
+          <div class="mega"><span>88.6</span><small> M</small></div>
+          <div class="cap"><span class="en">records — scrolled like a timeline, no hitches</span><span class="ja">レコードをタイムラインのように流し読み</span></div>
+        </div>
+        <div class="stat-step" data-step="3">
+          <div class="mega"><span>100</span><small> GB</small></div>
+          <div class="cap"><span class="en">tested up to. No architectural size limit.</span><span class="ja">まで実測済み。設計上のサイズ上限なし。</span></div>
+        </div>
+      </div>
+      <div class="theater-track" aria-hidden="true"><i data-step="0"></i><i data-step="1"></i><i data-step="2"></i><i data-step="3"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HORIZONTAL FEATURE STRIP ===================== -->
+<section id="features" style="padding:0;border-top:1px solid var(--line)">
+  <div class="pin-wrap hstrip" style="height:320vh">
+    <div class="pin">
+      <div class="wrap" style="margin-bottom:28px">
+        <span class="kicker"><span class="en">Five things. Done well.</span><span class="ja">5つのことを、ちゃんとやる。</span></span>
+        <h2><span class="en">Everything is built for reading</span><span class="ja">すべては「読む」ために</span></h2>
+      </div>
+      <div class="hrow">
+
+        <div class="hcard"><div class="ic">⚡</div>
+          <h3><span class="en">Instant open</span><span class="ja">即・オープン</span></h3>
+          <p><span class="en">First record appears immediately; indexing runs in the background with a live counter.</span><span class="ja">先頭は即表示、索引は背景で進む。件数カウンタが伸びていく。</span></p>
+          <div class="mock shot" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i><em>events-2026.jsonl — 21.5 GB</em></div>
+            <div class="body">
+              <div class="row"><span class="n">1</span><span class="sk" style="width:62%"></span></div>
+              <div class="row"><span class="n">2</span><span class="sk" style="width:48%"></span></div>
+              <div class="row hot"><span class="n">3</span><span class="sk" style="width:71%"></span></div>
+              <div class="row"><span class="n">4</span><span class="sk" style="width:55%"></span></div>
+              <div class="row"><span class="n">5</span><span class="sk" style="width:66%"></span></div>
+            </div>
+            <div class="foot"><span class="g">●</span> indexing — 42,118,392 records…</div>
+          </div>
+        </div>
+
+        <div class="hcard"><div class="ic">⌕</div>
+          <h3><span class="en">Search 5GB in seconds</span><span class="ja">5GBを数秒で検索</span></h3>
+          <p><span class="en">Whole-file literal or regex search, with progress and cancel. I/O-bound, not patience-bound.</span><span class="ja">全文走査もregexも進捗+キャンセル付き。律速はI/Oだけ。</span></p>
+          <div class="mock shot" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i><em>⌘F — find</em></div>
+            <div class="body">
+              <div class="search">⌕ <b>"status":502</b><span class="cancel">Cancel</span></div>
+              <div class="prog"><i></i></div>
+              <div class="row"><span class="n">88k</span><span class="sk" style="width:40%"></span><span class="match">502</span><span class="sk" style="width:18%"></span></div>
+              <div class="row"><span class="n">91k</span><span class="sk" style="width:30%"></span><span class="match">502</span><span class="sk" style="width:26%"></span></div>
+            </div>
+            <div class="foot">1,204 matches · 3.1 GB scanned</div>
+          </div>
+        </div>
+
+        <div class="hcard"><div class="ic">▤</div>
+          <h3>Filter View</h3>
+          <p><span class="en">Show only the matches — skim just the errors. Toggle back to full context anytime.</span><span class="ja">マッチだけ表示してエラーだけ流し読み。全件表示へ即トグル。</span></p>
+          <div class="mock shot" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i><em>filter view</em></div>
+            <div class="body">
+              <span class="toggle"><i></i>Filter View — matches only</span>
+              <div class="row"><span class="n">214</span><span class="sk" style="width:22%"></span><span class="match">error</span><span class="sk" style="width:30%"></span></div>
+              <div class="row"><span class="n">9,4k</span><span class="sk" style="width:14%"></span><span class="match">error</span><span class="sk" style="width:38%"></span></div>
+              <div class="row"><span class="n">2.1M</span><span class="sk" style="width:27%"></span><span class="match">error</span><span class="sk" style="width:21%"></span></div>
+            </div>
+            <div class="foot">showing 1,204 of 88,612,034</div>
+          </div>
+        </div>
+
+        <div class="hcard"><div class="ic">⌄</div>
+          <h3><span class="en">Detail tree</span><span class="ja">詳細ツリー</span></h3>
+          <p><span class="en">Collapsible, lazy-parsed, survives 64MB single records and garbage lines.</span><span class="ja">折りたたみ+遅延パース。巨大レコードも壊れ行も平気。</span></p>
+          <div class="mock shot" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i><em>record 42,118,392</em></div>
+            <div class="body">
+              <div class="tr"><span class="c">▾</span><span class="pn">{</span></div>
+              <div class="tr" style="padding-left:14px"><span class="k">"ts"</span><span class="pn">:</span><span class="s">"2026-06-11T09:14:02Z"</span></div>
+              <div class="tr" style="padding-left:14px"><span class="k">"level"</span><span class="pn">:</span><span class="s">"error"</span></div>
+              <div class="tr" style="padding-left:14px"><span class="k">"status"</span><span class="pn">:</span><span class="num">502</span></div>
+              <div class="tr" style="padding-left:14px"><span class="c">▸</span><span class="k">"ctx"</span><span class="pn">: {…14 keys}</span></div>
+              <div class="tr"><span class="pn">}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hcard"><div class="ic">⧉</div>
+          <h3><span class="en">Copy &amp; go</span><span class="ja">コピーして次へ</span></h3>
+          <p><span class="en">Value, key path, raw line or pretty JSON — findings go straight to Slack, jq, tickets.</span><span class="ja">値・キーパス・raw・整形。発見はそのままSlackやjqへ。</span></p>
+          <div class="mock shot" aria-hidden="true">
+            <div class="bar"><i></i><i></i><i></i><em>right click</em></div>
+            <div class="menu">
+              <div class="mi sel">Copy Value</div>
+              <div class="mi">Copy Key Path</div>
+              <div class="sep"></div>
+              <div class="mi">Copy Raw Line</div>
+              <div class="mi">Copy Pretty JSON</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRIVACY BAND ===================== -->
+<section class="band">
+  <div class="wrap center">
+    <div class="ghost-word" data-parallax="0.08" style="margin-bottom:-10px" aria-hidden="true">LOCAL · LOCAL · LOCAL</div>
+    <h2 data-reveal="up"><span class="en">Your files never leave your Mac</span><span class="ja">ファイルはMacから一切出ない</span></h2>
+    <div class="priv-band" data-stagger style="margin-top:26px">
+      <span class="pill" data-reveal="up"><b>✓</b><span class="en">read-only by design</span><span class="ja">設計から読み取り専用</span></span>
+      <span class="pill" data-reveal="up"><b>✓</b><span class="en">no network entitlement</span><span class="ja">network entitlement なし</span></span>
+      <span class="pill" data-reveal="up"><b>✓</b><span class="en">no analytics SDK</span><span class="ja">分析SDKなし</span></span>
+      <span class="pill" data-reveal="up"><b>✓</b><span class="en">App Privacy: Data Not Collected</span><span class="ja">App Privacy: データ収集なし</span></span>
+    </div>
+    <p style="margin-top:24px" data-reveal="up"><a class="link-g" href="privacy.html"><span class="en">Privacy policy →</span><span class="ja">プライバシーポリシー →</span></a></p>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section id="download">
+  <div class="wrap center">
+    <h2 data-reveal="up"><span class="en">Free up to 100MB. Forever.</span><span class="ja">100MBまで、永久に無料。</span></h2>
+    <p class="lead" data-reveal="up" style="margin:0 auto">
+      <span class="en">Bigger files preview the first 10,000 records — feel the speed, then unlock everything with one purchase.</span>
+      <span class="ja">それ以上は先頭1万レコードのPreviewで速さを体感。気に入ったら買い切り一回で全開放。</span>
+    </p>
+    <div class="btn-row" data-reveal="scale" style="justify-content:center;margin-top:30px">
+      <a class="mas-badge" href="#" data-appstore aria-label="Download on the Mac App Store">
+        <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
+        <span class="tx"><small><span class="en">Download on the</span><span class="ja">ダウンロードは</span></small><b>Mac App Store</b></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <a class="brand" href="#top"><img src="assets/appicon.png" alt="" width="22" height="22">BigLeaf</a>
+      <p style="margin-top:12px;max-width:320px"><span class="en">A read-only viewer for huge JSON, JSONL &amp; NDJSON. macOS 14+.</span><span class="ja">巨大JSON / JSONL / NDJSONのための読み取り専用ビューア。macOS 14+。</span></p>
+    </div>
+    <ul>
+      <li><a href="support.html"><span class="en">Support &amp; FAQ</span><span class="ja">サポート / FAQ</span></a></li>
+      <li><a href="privacy.html"><span class="en">Privacy Policy</span><span class="ja">プライバシーポリシー</span></a></li>
+    </ul>
+  </div>
+  <div class="wrap fine">
+    <span>© 2026 Keisuke Oikawa</span>
+    <span><span class="en">macOS 14+ · Apple silicon &amp; Intel</span><span class="ja">macOS 14+ · Apple silicon &amp; Intel対応</span></span>
+  </div>
+</footer>
+
+</body>
+</html>
