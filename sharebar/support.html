@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Sharebar — Support</title>
+  <meta name="description" content="How Sharebar Share Links work, what the Share Page does, and how to get help.">
+  <meta name="theme-color" content="#0e1014">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sharebar">
+  <meta property="og:title" content="Sharebar — Support">
+  <meta property="og:description" content="How Sharebar Share Links work, what the Share Page does, and how to get help.">
+  <meta property="og:url" content="https://key115.github.io/sharebar/support.html">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html" class="on">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="index.html#get" class="nav-cta" data-appstore="">Get the app</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <h1>Support</h1>
+    <p class="updated">Last updated: 2026-06-16</p>
+
+    <p>New to the app, or want a walkthrough of every tool? See the <a href="guide.html">full guide &amp; reference</a>. This page focuses on how Share Links and the Share Page work, and how to get help.</p>
+
+    <h2>What is a Share Link?</h2>
+    <p>A Share Link reproduces the exact state of a Sharebar tool. The whole state is encoded in the URL, so opening the link in any browser shows the same result the sender saw — and you can edit the values to re-run it. Four tools can be shared: regex, cron, color, and Unix time.</p>
+
+    <h2>Opening a link</h2>
+    <p>Just open the link in your browser. The Share Page decodes it locally and shows the reproduced result. Change any field to re-run it instantly; your edits stay on your screen and are never written back into the link.</p>
+
+    <h2>“Open in Sharebar”</h2>
+    <p>If you have the Mac app installed, the <strong>Open in Sharebar</strong> button hands the shared state to the app. If the app isn’t installed, the page falls back gracefully and points you to <strong>Get the app</strong>.</p>
+
+    <h2>Why the same result on both sides?</h2>
+    <p>The app and this page run one identical JavaScript core. That means the regex engine, the cron schedule math, the color conversions, and the Unix-time breakdown are exactly the same in both places — there is no second implementation to drift.</p>
+
+    <h2>Is anything uploaded?</h2>
+    <p>No. There is no server. The shared state lives in the URL fragment, which browsers never transmit. See <a href="privacy.html">Privacy</a> for details.</p>
+
+    <h2>A link won’t open</h2>
+    <p>If a link is damaged, truncated, or made by a newer version of Sharebar, the page tells you so rather than failing silently. Ask the sender to re-share, or update the app.</p>
+
+    <h2>Get the app</h2>
+    <p><a class="btn primary" href="index.html#get" data-appstore="">Get Sharebar for Mac</a></p>
+
+    <h2>Still need help?</h2>
+    <p>Reach out and we’ll get back to you.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span class="f-brand">Share<span class="dot">bar</span></span>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <span class="sp"></span>
+      <span class="f-note">© Sharebar · No network code</span>
+    </div>
+  </footer>
+</body>
+</html>

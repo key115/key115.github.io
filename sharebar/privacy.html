@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Sharebar — Privacy</title>
+  <meta name="description" content="Sharebar collects no data. No analytics, no cookies, no servers, no network requests.">
+  <meta name="theme-color" content="#0e1014">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sharebar">
+  <meta property="og:title" content="Sharebar — Privacy">
+  <meta property="og:description" content="Sharebar collects no data. No analytics, no cookies, no servers, no network requests.">
+  <meta property="og:url" content="https://key115.github.io/sharebar/privacy.html">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html" class="on">Privacy</a>
+        <a href="index.html#get" class="nav-cta" data-appstore="">Get the app</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <h1>Privacy</h1>
+    <p class="updated">Last updated: 2026-06-14</p>
+
+    <p>Sharebar is built so that there is nothing to collect. The app runs entirely on your Mac, offline. This page — the Share Page — runs entirely in your browser.</p>
+
+    <h2>What this website collects</h2>
+    <p><strong>Nothing.</strong> This site has no analytics, no cookies, no local storage of your link contents, no trackers, and makes no external network requests. When you open a Sharebar link, the shared state lives only in the part of the URL after the <code>#</code> (the fragment), which browsers never send to any server. Decoding and reproducing the tool happens locally, in a Web Worker, on your device.</p>
+
+    <h2>What the app collects</h2>
+    <p><strong>Nothing is sent off your device.</strong> The Sharebar app stores only your own preferences (settings, pinned tools, window position) inside its app container. It does not store your clipboard contents, your inputs, your results, or a history of links you generate. It has no analytics or crash-reporting SDK. Its App Store privacy label is <em>Data Not Collected</em>.</p>
+
+    <h2>Share Links</h2>
+    <p>A Share Link encodes a tool’s state directly in the URL. There is no server and no link shortener — the link is self-contained. Only four tools (regex, cron, color, Unix time) can create a link; data-carrying tools (JSON, diff, Base64, URL encoding, hashing, UUID) deliberately cannot, so confidential data has no path into a link. For the regex tool, the test string is included only if you explicitly opt in.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about privacy? See the <a href="support.html">Support</a> page.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span class="f-brand">Share<span class="dot">bar</span></span>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <span class="sp"></span>
+      <span class="f-note">© Sharebar · No network code</span>
+    </div>
+  </footer>
+</body>
+</html>

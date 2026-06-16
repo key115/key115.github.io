@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Sharebar — Guide &amp; full reference</title>
+  <meta name="description" content="How to use Sharebar and every one of its tools: Smart Detect, the ten tools, making and opening Share Links, pasteboard permission, keyboard shortcuts, privacy and FAQ.">
+  <meta name="theme-color" content="#0e1014">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Sharebar">
+  <meta property="og:title" content="Sharebar — Guide &amp; full reference">
+  <meta property="og:description" content="How to use Sharebar and every one of its tools — Smart Detect, the ten tools, Share Links, permissions, shortcuts, privacy and FAQ.">
+  <meta property="og:url" content="https://key115.github.io/sharebar/guide.html">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="guide.html" class="on">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="index.html#get" class="nav-cta" data-appstore="">Get the app</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="guide-head">
+      <div class="wrap">
+        <span class="eyebrow">Guide &amp; reference</span>
+        <h1>Sharebar — Guide &amp; full reference</h1>
+        <p class="lede">How to use Sharebar and every one of its tools.</p>
+      </div>
+    </div>
+
+    <!-- sticky tab chips -->
+    <nav class="guide-tabs" aria-label="Guide sections">
+      <div class="wrap">
+        <a class="chip hl" href="#sec-install">Install &amp; first launch</a>
+        <a class="chip" href="#sec-detect">Smart Detect</a>
+        <a class="chip" href="#sec-flow">One-click convert</a>
+        <a class="chip" href="#sec-tools">The ten tools</a>
+        <a class="chip" href="#sec-share">Make a Share Link</a>
+        <a class="chip" href="#sec-receive">Open a shared link</a>
+        <a class="chip" href="#sec-perm">Pasteboard permission</a>
+        <a class="chip" href="#sec-settings">Settings &amp; shortcuts</a>
+        <a class="chip" href="#sec-keys">Keyboard shortcuts</a>
+        <a class="chip" href="#sec-privacy">Privacy</a>
+        <a class="chip" href="#sec-faq">FAQ</a>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <div class="guide-grid">
+
+        <!-- 01 install -->
+        <section class="guide-card" id="sec-install">
+          <div class="sec-num">01</div>
+          <h2>Install &amp; first launch</h2>
+          <p>Get Sharebar from the Mac App Store. It lives in the menu bar (no Dock icon). The first launch shows one onboarding screen that explains the pasteboard permission honestly and demos the flow on built-in sample data — it never reads your real clipboard during onboarding.</p>
+          <div class="vis vis-2">
+            <div class="onboard-mock">
+              <div class="mark">Sb</div>
+              <div class="ob-t">Welcome to Sharebar</div>
+              <div class="ob-b">One honest screen — the pasteboard permission, demoed on sample data.</div>
+            </div>
+            <div>
+              <div class="menubar-mock"><span class="mm-sb">Sb</span><span>Sharebar</span><span class="sp"></span><span>9:41</span></div>
+              <div class="menubar-cap">Always a click away in the menu bar — no Dock icon, no window in your way.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 02 detect -->
+        <section class="guide-card" id="sec-detect">
+          <div class="sec-num">02</div>
+          <h2>Smart Detect</h2>
+          <p>When you open the popover, Sharebar checks the clipboard once and suggests the matching tool — JSON, Base64, URL-encoded, Unix time, UUID, color or cron. When more than one type fits, a “Detected:” chip row shows the candidates — tap one to switch. The top match is highlighted; press Enter to run it. It never polls in the background.</p>
+          <div class="vis vis-split">
+            <div class="popover" aria-hidden="true">
+              <div class="pv-search"><span class="pv-cmd">⌘</span><span class="pv-ph">Search tools…</span></div>
+              <div class="pv-detect">
+                <span class="run">↵ Run</span>
+                <span class="k">SMART DETECT</span>
+                <div class="msg">Clipboard looks like a regex</div>
+                <div class="pv-chips"><span class="l">DETECTED</span><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
+              </div>
+              <div class="pv-list">
+                <div class="pv-item"><span class="gl">{ }</span><span class="nm">JSON Format</span></div>
+                <div class="pv-item"><span class="gl">64</span><span class="nm">Base64</span></div>
+                <div class="pv-item"><span class="gl">⌚</span><span class="nm">Unix Time</span><span class="badge-share">Shareable</span></div>
+                <div class="pv-item sel"><span class="gl">.*</span><span class="nm">Regex</span><span class="ret">↵</span></div>
+                <div class="pv-item"><span class="gl">* *</span><span class="nm">Cron</span><span class="badge-share">Shareable</span></div>
+              </div>
+            </div>
+            <div class="vis">
+              <div class="callout hi">
+                <div class="ct-h">Detected types</div>
+                <div class="ct-b">JSON · Base64 · URL-encoded · Unix time (s/ms) · UUID · HEX/rgb color · cron</div>
+              </div>
+              <div class="callout">
+                <div class="ct-h">Candidate chips</div>
+                <div class="pv-chips"><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
+                <div class="ct-b">More than one match? Tap a chip to switch.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 03 flow -->
+        <section class="guide-card" id="sec-flow">
+          <div class="sec-num">03</div>
+          <h2>One-click convert</h2>
+          <p>The everyday loop is copy → click → Enter → paste. Every successful convert auto-copies its result with a “Copied” toast, and an Undo restores whatever was on your clipboard before.</p>
+          <div class="vis">
+            <div class="flow">
+              <div class="step"><span class="n">1</span><span class="lbl">Copy a value anywhere</span></div>
+              <div class="arrow">→</div>
+              <div class="step"><span class="n">2</span><span class="lbl">Open the menu bar</span></div>
+              <div class="arrow">→</div>
+              <div class="step"><span class="n">3</span><span class="lbl">Smart Detect picks the tool</span></div>
+              <div class="arrow">→</div>
+              <div class="step"><span class="n">4</span><span class="lbl">Enter → result copied</span></div>
+            </div>
+            <div class="callout"><span class="ct-h">Undo</span><div class="ct-b">Restores the one clipboard item from just before — kept in memory, never on disk.</div></div>
+          </div>
+        </section>
+
+        <!-- 04 tools (gallery) -->
+        <section class="guide-card" id="sec-tools">
+          <div class="sec-num">04</div>
+          <h2>The ten tools</h2>
+          <p>Ten tools cover the day-to-day. Four of them can produce Share Links; the data-carrying six are local only — they have no share button by design.</p>
+          <div class="vis tool-gallery">
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">{ }</span><h4>JSON Format</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Format (2/4/tab), minify, validate. Keeps key order &amp; numeric lexemes.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">64</span><h4>Base64</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Encode / decode, URL-safe toggle. UTF-8 text.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">%</span><h4>URL Encode</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Percent encode / decode. Query key-value breakdown.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">⌚</span><h4>Unix Time</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">s/ms auto-detect. ISO, local, UTC, relative at once. Now button.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">.*</span><h4>Regex</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">JavaScript flavor (gimsuy). Matches + groups highlighted.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">* *</span><h4>Cron</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">5 fields + @aliases. Plain language + next 5 runs (explicit TZ).</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">#</span><h4>Hash</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">MD5 / SHA-1 / SHA-256 / SHA-512 computed together.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">id</span><h4>UUID</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">v4 / v7 generation (up to 1,000) + inspection.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">▦</span><h4>Color</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">HEX / RGB(A) / HSL(A) conversion + swatch.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">±</span><h4>Diff</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Line Myers + intra-line diff. Detach for big payloads.</div></div>
+          </div>
+        </section>
+
+        <!-- 05 share -->
+        <section class="guide-card" id="sec-share">
+          <div class="sec-num">05</div>
+          <h2>Make a Share Link</h2>
+          <p>On regex, cron, color or unix-time, hit Share. A Share Preview shows the exact, full content that goes into the URL — nothing leaves your machine unseen. For regex, the test string is excluded by default. Confirm to copy the link.</p>
+          <div class="vis">
+            <div class="flow">
+              <div class="step"><span class="n">1</span><span class="lbl">Tap Share on a shareable tool</span></div>
+              <div class="step"><span class="n">2</span><span class="lbl">Preview the exact URL contents</span></div>
+              <div class="step"><span class="n">3</span><span class="lbl">Copy the link, paste in Slack</span></div>
+              <div class="step"><span class="n">4</span><span class="lbl">They open &amp; tweak it live</span></div>
+            </div>
+            <div class="callout hi"><div class="ct-h">Share Preview</div><div class="ct-b">Shows every field going into the URL. The regex test string is excluded by default (explicit opt-in).</div></div>
+          </div>
+        </section>
+
+        <!-- 06 receive -->
+        <section class="guide-card" id="sec-receive">
+          <div class="sec-num">06</div>
+          <h2>Open a shared link</h2>
+          <p>Anyone can open a Share Link in a browser — no app, any OS. The share page reproduces the result with the same engine and lets them tweak values live. Their edits never write back to the link. “Open in Sharebar” restores the state in the app.</p>
+          <div class="vis">
+            <div class="win" aria-hidden="true">
+              <div class="win-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="win-url">key115.github.io/sharebar/s#v1.7b22…</span></div>
+              <div class="win-body">
+                <div class="win-tag">Share page · receiver's view</div>
+                <div class="code-line">/^(\d{4})-(\d{2})-(\d{2})$/g</div>
+                <div class="result-ph">3 matches · capture groups highlighted · editable</div>
+                <div class="win-cta">
+                  <span class="btn primary sm">Open in Sharebar</span>
+                  <span class="btn sm">Get the app</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 07 perm -->
+        <section class="guide-card" id="sec-perm">
+          <div class="sec-num">07</div>
+          <h2>Pasteboard permission</h2>
+          <p>macOS 26 has three pasteboard states. Sharebar follows them honestly — and Deny never blocks you, because ⌘V always works.</p>
+          <div class="vis">
+            <div class="perm-row">
+              <div class="perm allow"><h4><span class="st"></span>Allow</h4><p>Smart Detect reads the clipboard once when you open the popover and shows what it read.</p></div>
+              <div class="perm ask"><h4><span class="st"></span>Ask</h4><p>It suggests a type without reading the contents until you actually run a tool.</p></div>
+              <div class="perm deny"><h4><span class="st"></span>Deny</h4><p>It skips reading entirely and drops to manual input — paste or type yourself.</p></div>
+            </div>
+            <div class="callout"><div class="ct-b">We never say “one-time prompt” — Sharebar follows the real macOS 26 behavior honestly.</div></div>
+          </div>
+        </section>
+
+        <!-- 08 settings -->
+        <section class="guide-card" id="sec-settings">
+          <div class="sec-num">08</div>
+          <h2>Settings &amp; shortcuts</h2>
+          <p>One screen of settings: record an optional global hotkey with the “Record Shortcut” button (unset by default), launch at login (off), Smart Detect on/off, default JSON indent, and a link to the pasteboard permission in System Settings. Arrow keys and incremental search keep you off the mouse.</p>
+          <div class="vis chips">
+            <span class="chip hl"><span class="g">⏺</span>Global hotkey · Record Shortcut</span>
+            <span class="chip">Launch at login · off</span>
+            <span class="chip">Smart Detect · on</span>
+            <span class="chip">JSON indent</span>
+            <span class="chip"><span class="g">↑ ↓ ↵</span>Keyboard-first</span>
+          </div>
+        </section>
+
+        <!-- 09 keys -->
+        <section class="guide-card" id="sec-keys">
+          <div class="sec-num">09</div>
+          <h2>Keyboard shortcuts</h2>
+          <p>Sharebar is built for the keyboard. A recorded global hotkey opens the popover from anywhere; inside it, ⌘⇧J / ⌘⇧B / ⌘⇧U jump straight to JSON / Base64 / UUID without auto-running, and in the JSON tool ⌘1 / ⌘2 / ⌘3 run Pretty / Minify / Validate. Arrow keys and incremental search move through the list; Enter runs the selection.</p>
+          <div class="vis keys">
+            <div class="krow"><span class="combo"><span class="kbd">Record</span></span><span class="kdesc">Open the popover from anywhere — your recorded global hotkey</span></div>
+            <div class="krow"><span class="combo"><span class="kbd">⌘⇧J</span><span class="kbd">⌘⇧B</span><span class="kbd">⌘⇧U</span></span><span class="kdesc">Jump to JSON / Base64 / UUID</span></div>
+            <div class="krow"><span class="combo"><span class="kbd">⌘1</span><span class="kbd">⌘2</span><span class="kbd">⌘3</span></span><span class="kdesc">JSON Pretty / Minify / Validate</span></div>
+            <div class="krow"><span class="combo"><span class="kbd">↑</span><span class="kbd">↓</span></span><span class="kdesc">Move through tools</span></div>
+            <div class="krow"><span class="combo"><span class="kbd">↵</span></span><span class="kdesc">Run / convert the selection</span></div>
+            <div class="krow"><span class="combo"><span class="kbd">⌘V</span></span><span class="kdesc">Manual paste — always works, any permission state</span></div>
+          </div>
+        </section>
+
+        <!-- 10 privacy -->
+        <section class="guide-card" id="sec-privacy">
+          <div class="sec-num">10</div>
+          <h2>Privacy</h2>
+          <p>Nothing is stored or sent. No clipboard contents, no input, no link history, no analytics. Only settings, pins and window position live in app storage. App Privacy is “Data Not Collected.”</p>
+          <div class="vis">
+            <div class="callout hi"><div class="ct-h">Data Not Collected</div><div class="ct-b">Only settings, pins and window position are stored — on your Mac, never sent. <a href="privacy.html">Read the full privacy page →</a></div></div>
+          </div>
+        </section>
+
+        <!-- 11 faq -->
+        <section class="guide-card" id="sec-faq">
+          <div class="sec-num">11</div>
+          <h2>FAQ</h2>
+          <div class="vis faq">
+            <div class="qa"><div class="q"><span class="step-n">Q</span>Does the receiver need the app?</div><div class="a">No. The share page works in any browser on any OS. The app only adds “Open in Sharebar.”</div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span>Can a JSON or diff be shared?</div><div class="a">No — by design. Only regex, cron, color and unix-time produce links, so confidential data can't end up in a URL.</div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span>Where is the link stored?</div><div class="a">Nowhere. The whole state is in the URL fragment. No server, no shortener. If the link text survives, the state survives.</div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span>What regex flavor is it?</div><div class="a">JavaScript flavor, flags gimsuy. The app and the page evaluate identically.</div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span>Will old links keep working?</div><div class="a">Yes. v1 links open forever and evaluate the same forever — even offline via manual open in the app.</div></div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- back to LP -->
+    <div class="section tight">
+      <div class="wrap">
+        <div class="cross-band">
+          <span class="step-n">★</span>
+          <div class="cb-text">
+            <div class="cb-h">Get Sharebar for Mac</div>
+            <div class="cb-b">Offline-first. No telemetry, no tracking — and no network code at all.</div>
+          </div>
+          <a class="btn primary" href="index.html#get" data-appstore="">Get on the Mac App Store</a>
+          <a class="btn" href="index.html">← Back to the landing page</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span class="f-brand">Share<span class="dot">bar</span></span>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <span class="sp"></span>
+      <span class="f-note">© Sharebar · No network code</span>
+    </div>
+  </footer>
+</body>
+</html>

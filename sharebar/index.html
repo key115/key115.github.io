@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Strict CSP: same-origin scripts/styles only, no inline script, no eval,
+       zero network egress (connect-src none). Workers are same-origin only.
+       This is the page's XSS backstop on top of the text-node-only render
+       discipline (F-018). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Sharebar — share a developer tool, not a screenshot</title>
+  <meta name="description" content="Sharebar is a Mac menu-bar app: ten developer tools plus shareable links that reproduce a regex, cron, color, or Unix-time result in any browser. No server, no account, no tracking.">
+  <meta name="theme-color" content="#0e1014">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sharebar">
+  <meta property="og:title" content="Sharebar — share a developer tool, not a screenshot">
+  <meta property="og:description" content="A Mac menu-bar app: ten developer tools plus links that reproduce the exact state in any browser. No server, no tracking, no network code at all.">
+  <meta property="og:url" content="https://key115.github.io/sharebar/">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
+      <nav class="nav">
+        <a href="index.html" class="on">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="#get" class="nav-cta" data-appstore="">Get the app</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Landing (shown when there is no #v1.… link in the URL) -->
+    <section id="landing" class="landing" hidden>
+
+      <!-- split hero -->
+      <section class="lp-hero">
+        <div class="wrap lp-hero-grid">
+          <div>
+            <span class="eyebrow">Mac menu-bar app · dev tools + share links</span>
+            <h1>Share a developer tool,
+not a screenshot.</h1>
+            <p class="lede">Sharebar lives in your Mac menu bar. Format, convert and test — then hand someone a link that reproduces the exact state. They tweak it live, in the same engine, with no app required.</p>
+            <div class="btn-row">
+              <a class="btn primary lg" id="cta-getapp" href="#get" data-appstore="">
+                <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
+                Get on the Mac App Store
+              </a>
+              <a class="btn lg" href="guide.html">See how it works <span class="px">→ Guide</span></a>
+            </div>
+            <p class="note">Shareable tools: regex · cron · color · unix-time. Nothing is uploaded — the whole state lives in the link.</p>
+          </div>
+          <div class="lp-hero-media">
+            <div class="win" aria-hidden="true">
+              <div class="win-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="win-url">key115.github.io/sharebar/s#v1.7b22…</span></div>
+              <div class="win-body">
+                <div class="win-tag">Share page · receiver's view</div>
+                <div class="code-line">/^(\d{4})-(\d{2})-(\d{2})$/g</div>
+                <div class="result-ph">3 matches · capture groups highlighted</div>
+                <div class="win-cta">
+                  <span class="btn primary sm">Open in Sharebar</span>
+                  <span class="btn sm">Get the app</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- value strip -->
+      <section class="section tight">
+        <div class="wrap">
+          <div class="value-strip">
+            <span class="chip hl"><span class="g">∅</span>No server, ever</span>
+            <span class="chip"><span class="g">=</span>Same engine, both sides</span>
+            <span class="chip"><span class="g">⊘</span>Private by construction</span>
+            <span class="chip"><span class="g">↻</span>Edit and re-run</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- alternating feature rows -->
+      <section class="section">
+        <div class="wrap lp-rows">
+
+          <div class="lp-row">
+            <div>
+              <h2>Ten tools, one keystroke away</h2>
+              <p>Copy a value, click the menu bar, and Smart Detect suggests the matching tool. Press Enter and the result is back on your clipboard — the everyday loop never opens an editor.</p>
+            </div>
+            <div class="lp-row-media">
+              <div class="popover" aria-hidden="true">
+                <div class="pv-search"><span class="pv-cmd">⌘</span><span class="pv-ph">Search tools…</span></div>
+                <div class="pv-detect">
+                  <span class="run">↵ Run</span>
+                  <span class="k">SMART DETECT</span>
+                  <div class="msg">Clipboard looks like a regex</div>
+                  <div class="pv-chips"><span class="l">DETECTED</span><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
+                </div>
+                <div class="pv-list">
+                  <div class="pv-item"><span class="gl">{ }</span><span class="nm">JSON Format</span></div>
+                  <div class="pv-item"><span class="gl">64</span><span class="nm">Base64</span></div>
+                  <div class="pv-item"><span class="gl">⌚</span><span class="nm">Unix Time</span><span class="badge-share">Shareable</span></div>
+                  <div class="pv-item sel"><span class="gl">.*</span><span class="nm">Regex</span><span class="ret">↵</span></div>
+                  <div class="pv-item"><span class="gl">* *</span><span class="nm">Cron</span><span class="badge-share">Shareable</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-row flip">
+            <div>
+              <h2>Same engine, both sides</h2>
+              <p>The app and the share page run one identical JavaScript core. The regex you test in the menu bar matches byte-for-byte in the receiver's browser — there is no second implementation to drift.</p>
+            </div>
+            <div class="lp-row-media">
+              <div class="engine" aria-hidden="true">
+                <div class="node"><div class="t">Mac app</div><div class="s">menu bar</div></div>
+                <div class="link">⇄</div>
+                <div class="node"><div class="t">Share page</div><div class="s">any browser</div></div>
+                <div class="core">one shared JS core · byte-for-byte identical</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lp-row">
+            <div>
+              <h2>When it's worth sharing</h2>
+              <p>Hit Share on a regex, cron, color or unix-time. A preview shows exactly what goes in the URL — then you get a self-contained link to paste anywhere.</p>
+            </div>
+            <div class="lp-row-media">
+              <div class="flow">
+                <div class="step"><span class="n">1</span><span class="lbl">Tap Share on a shareable tool</span></div>
+                <div class="step"><span class="n">2</span><span class="lbl">Preview the exact URL contents</span></div>
+                <div class="step"><span class="n">3</span><span class="lbl">Copy the link, paste in Slack</span></div>
+                <div class="step"><span class="n">4</span><span class="lbl">They open &amp; tweak it live</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- privacy callout -->
+      <section class="section">
+        <div class="wrap">
+          <div class="callout hi big">
+            <div class="ct-h">No network code — verify it yourself</div>
+            <div class="ct-b">No StoreKit, no analytics SDK, no telemetry. The entitlements carry no network permission — a third party can confirm it with <code class="mono">codesign</code>. Data-carrying tools can't make a link at all, so confidential data has no path into a URL.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- pricing / get the app (anchor target #get) -->
+      <section class="section" id="get">
+        <div class="wrap">
+          <div class="price-band">
+            <div class="pb-text">
+              <h2>Get Sharebar for Mac</h2>
+              <p>Offline-first. No telemetry, no tracking — and no network code at all.</p>
+            </div>
+            <div class="pb-cta">
+              <a class="btn primary lg" href="#get" data-appstore="">
+                <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
+                Get on the Mac App Store
+              </a>
+              <p class="note">Availability varies by region; the product description works everywhere.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- cross to guide -->
+      <section class="section tight">
+        <div class="wrap">
+          <div class="cross-band">
+            <span class="step-n">?</span>
+            <div class="cb-text">
+              <div class="cb-h">New to Sharebar?</div>
+              <div class="cb-b">The guide walks through Smart Detect, every tool, and how share links work.</div>
+            </div>
+            <a class="btn primary" href="guide.html">Open the full guide <span class="px">→ Guide</span></a>
+          </div>
+        </div>
+      </section>
+
+    </section>
+
+    <!-- Receiver (Share Page) — shown when the URL carries a #v1.… link -->
+    <section id="receiver" class="receiver" hidden>
+      <div class="wrap">
+        <div class="tool-card">
+          <h2 id="tool-title">Opening shared link…</h2>
+          <p class="subtle">This is a reproduction of a Sharebar tool. Edit any value to re-run it — your changes stay here and are never written back to the link.</p>
+          <div id="editor" class="editor"></div>
+          <div id="result" class="result"></div>
+        </div>
+
+        <div class="btn-row">
+          <a class="btn primary" id="cta-open" href="#open">Open in Sharebar</a>
+          <a class="btn" id="cta-getapp-receiver" href="index.html#get" data-appstore="">Get the app</a>
+        </div>
+        <p class="open-hint" id="open-hint" hidden>Don’t have Sharebar yet? Get the app to open links straight from your menu bar.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span class="f-brand">Share<span class="dot">bar</span></span>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="guide.html">Guide</a>
+        <a href="support.html">Support</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <span class="sp"></span>
+      <span class="f-note">© Sharebar · No network code</span>
+    </div>
+  </footer>
+
+  <!-- External scripts only (CSP: no inline script). app.js drives the Share
+       Page; it spawns js/worker.js which loads the shared js-core bundle. -->
+  <script src="js/app.js"></script>
+</body>
+</html>
