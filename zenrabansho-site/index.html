@@ -1,30 +1,368 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>禅羅万象 — Zenrabansho</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>禅羅万象 — あなたの宇宙を、曼荼羅で観る。 | Zenrabansho, a meditative system monitor for macOS</title>
+<meta name="description" content="禅羅万象（Zenrabansho）は、Macのシステム状態を曼荼羅として描き出す瞑想用システムモニター。CPU・メモリ・ディスク・ネットワークを息遣いとして観る。データ収集ゼロ・外部通信ゼロ。macOS 14+。">
+<meta property="og:title" content="禅羅万象 / Zenrabansho — A meditative system monitor for macOS">
+<meta property="og:description" content="あなたの宇宙を、曼荼羅で観る。Watch your Mac's pulse as breath.">
+<meta property="og:image" content="https://key115.github.io/zenrabansho-site/assets/sakura.jpg">
+<meta property="og:url" content="https://key115.github.io/zenrabansho-site/">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/appicon.png">
+<link rel="apple-touch-icon" href="assets/appicon.png">
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; line-height: 1.7; max-width: 600px; margin: 40px auto; padding: 0 20px; color: #222; text-align: center; }
-  h1 { font-size: 2em; margin-bottom: 0.2em; }
-  .tagline { color: #666; font-size: 1.1em; margin-bottom: 2em; }
-  ul { list-style: none; padding: 0; }
-  li { margin: 0.5em 0; }
-  a { color: #0066cc; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+  :root{
+    --ink:#0e0c0a;
+    --ink-2:#161311;
+    --paper:#e8e0d2;
+    --paper-dim:#a89e8c;
+    --shu:#d9502e;      /* 朱 */
+    --shu-deep:#b03a1d;
+    --kin:#c9a961;      /* 金 */
+    --line:#2c2620;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",Georgia,serif;
+    line-height:1.9;
+    overflow-x:hidden;
+    /* 紙肌: ノイズ相当の極薄グラデ重ね */
+    background-image:
+      radial-gradient(1200px 800px at 85% -10%, rgba(201,169,97,.045), transparent 60%),
+      radial-gradient(900px 700px at -10% 100%, rgba(217,80,46,.035), transparent 55%);
+  }
+  ::selection{background:var(--shu);color:var(--ink)}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+
+  .en{
+    font-family:Georgia,"Times New Roman",serif;
+    font-style:italic;
+    color:var(--paper-dim);
+    letter-spacing:.02em;
+  }
+
+  /* ---------- 呼吸する円相 ---------- */
+  .enso{
+    position:absolute;
+    width:min(78vmin,640px);height:min(78vmin,640px);
+    border-radius:50%;
+    border:1px solid rgba(201,169,97,.28);
+    box-shadow:
+      0 0 80px rgba(201,169,97,.06) inset,
+      0 0 120px rgba(201,169,97,.05);
+    animation:breathe 6.5s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .enso::after{
+    content:"";position:absolute;inset:-18%;
+    border-radius:50%;
+    border:1px solid rgba(217,80,46,.12);
+    animation:breathe 6.5s ease-in-out infinite reverse;
+  }
+  @keyframes breathe{
+    0%,100%{transform:scale(.96);opacity:.55}
+    50%{transform:scale(1.03);opacity:1}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .enso,.enso::after,.cta::after{animation:none}
+  }
+
+  /* ---------- ヒーロー ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+    padding:8vh 6vw;
+  }
+  .hero .enso{top:50%;left:50%;translate:-50% -50%}
+  .hero-inner{
+    position:relative;
+    display:flex;align-items:center;gap:clamp(2rem,8vw,7rem);
+    flex-wrap:wrap;justify-content:center;
+  }
+  .tate{
+    writing-mode:vertical-rl;
+    font-size:clamp(3.4rem,10vmin,6.5rem);
+    font-weight:600;
+    letter-spacing:.42em;
+    color:var(--paper);
+    text-shadow:0 0 60px rgba(201,169,97,.25);
+    border-right:1px solid var(--line);
+    padding-right:clamp(1rem,3vw,2rem);
+    height:auto;
+  }
+  .hero-copy{max-width:34rem}
+  .hero-copy .romaji{
+    font-family:Georgia,serif;font-style:normal;
+    letter-spacing:.55em;font-size:.72rem;
+    color:var(--kin);text-transform:uppercase;
+    margin-bottom:1.4rem;
+  }
+  .hero-copy h1{
+    font-size:clamp(1.35rem,3.4vw,1.9rem);
+    font-weight:500;letter-spacing:.12em;line-height:2;
+    margin-bottom:.6rem;
+  }
+  .hero-copy .en{display:block;font-size:.95rem;margin-bottom:2.4rem}
+  .meta-line{
+    font-size:.8rem;color:var(--paper-dim);
+    letter-spacing:.1em;margin-top:1.6rem;
+  }
+  .meta-line b{color:var(--kin);font-weight:500}
+
+  /* ---------- CTA ---------- */
+  .cta{
+    position:relative;
+    display:inline-block;
+    padding:1.05rem 2.6rem;
+    background:linear-gradient(160deg,var(--shu),var(--shu-deep));
+    color:#fff7ef;text-decoration:none;
+    letter-spacing:.14em;font-size:.95rem;
+    border-radius:2px;
+    box-shadow:0 6px 30px rgba(217,80,46,.28);
+    transition:transform .35s ease,box-shadow .35s ease;
+  }
+  .cta::after{
+    content:"";position:absolute;inset:-6px;
+    border:1px solid rgba(217,80,46,.4);border-radius:4px;
+    animation:breathe 6.5s ease-in-out infinite;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(217,80,46,.4)}
+  .cta small{display:block;font-size:.68rem;letter-spacing:.2em;opacity:.85;margin-top:.15rem;font-style:normal}
+
+  /* ---------- 章 ---------- */
+  section{padding:clamp(4rem,12vh,9rem) 6vw;position:relative}
+  .kanji-index{
+    font-size:.72rem;letter-spacing:.5em;color:var(--shu);
+    margin-bottom:2.2rem;
+  }
+  .kanji-index::after{content:"";display:block;width:2.4rem;height:1px;background:var(--line);margin-top:1rem}
+  h2{
+    font-size:clamp(1.5rem,3.6vw,2.2rem);
+    font-weight:500;letter-spacing:.18em;line-height:1.8;
+    margin-bottom:.6rem;
+  }
+  .lead{max-width:38rem;color:var(--paper-dim);font-size:.95rem;margin-top:1.4rem}
+  .lead em{color:var(--paper);font-style:normal}
+
+  .wrap{max-width:1080px;margin:0 auto}
+
+  /* ---------- 息継ぎ（全幅画像） ---------- */
+  .breath{
+    padding:0;margin:0;
+    position:relative;
+  }
+  .breath img{width:100%;height:min(78vh,720px);object-fit:cover;object-position:center}
+  .breath figcaption{
+    position:absolute;right:6vw;bottom:2.4rem;
+    text-align:right;font-size:.78rem;letter-spacing:.3em;color:rgba(232,224,210,.85);
+    text-shadow:0 1px 12px rgba(0,0,0,.8);
+  }
+  .breath figcaption .en{display:block;letter-spacing:.08em;color:rgba(232,224,210,.6)}
+  .breath::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to bottom,var(--ink) 0%,transparent 12%,transparent 84%,var(--ink) 100%);
+    pointer-events:none;
+  }
+
+  /* ---------- 様式ギャラリー ---------- */
+  .styles-grid{
+    display:grid;gap:3.5rem;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));
+    margin-top:3.5rem;
+  }
+  .style-card{position:relative}
+  .style-card img{
+    border:1px solid var(--line);
+    box-shadow:0 24px 80px rgba(0,0,0,.5);
+    height:min(64vh,560px);width:100%;object-fit:cover;object-position:top center;
+  }
+  .style-card.pano img{object-position:center}
+  .style-card figcaption{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-top:1.1rem;font-size:.85rem;letter-spacing:.18em;
+  }
+  .style-card figcaption .name{color:var(--kin)}
+  .style-card figcaption .en{font-size:.75rem}
+
+  /* ---------- 観の作法（機能） ---------- */
+  .modes{
+    display:grid;gap:1px;background:var(--line);
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
+    border:1px solid var(--line);
+    margin-top:3.5rem;
+  }
+  .mode{
+    background:var(--ink-2);padding:2.2rem 1.8rem;
+    transition:background .4s ease;
+  }
+  .mode:hover{background:#1c1815}
+  .mode .num{
+    font-family:Georgia,serif;font-size:.7rem;letter-spacing:.4em;color:var(--shu);
+    display:block;margin-bottom:1.1rem;
+  }
+  .mode h3{font-size:1.02rem;font-weight:500;letter-spacing:.12em;margin-bottom:.7rem}
+  .mode p{font-size:.82rem;color:var(--paper-dim);line-height:1.9}
+
+  /* ---------- 三つの無 ---------- */
+  .zeros{display:flex;gap:clamp(2rem,7vw,6rem);justify-content:center;flex-wrap:wrap;margin-top:3.5rem;text-align:center}
+  .zero .glyph{
+    width:110px;height:110px;border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:2rem;color:var(--kin);
+    margin:0 auto 1.2rem;
+    background:radial-gradient(circle at 50% 40%,rgba(201,169,97,.07),transparent 70%);
+  }
+  .zero h3{font-size:.95rem;font-weight:500;letter-spacing:.24em;margin-bottom:.3rem}
+  .zero p{font-size:.75rem;color:var(--paper-dim);letter-spacing:.06em}
+
+  /* ---------- 結び ---------- */
+  .close{text-align:center}
+  .close .enso{top:50%;left:50%;translate:-50% -50%;width:min(60vmin,480px);height:min(60vmin,480px)}
+  .close-inner{position:relative}
+  .close p.saying{
+    font-size:clamp(1.05rem,2.6vw,1.4rem);letter-spacing:.2em;line-height:2.4;
+    margin-bottom:2.8rem;
+  }
+  .price{
+    font-family:Georgia,serif;font-size:.85rem;letter-spacing:.2em;color:var(--paper-dim);
+    margin-top:1.8rem;
+  }
+  .price b{color:var(--paper);font-weight:500}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:3rem 6vw 4rem;
+    display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;
+    font-size:.78rem;color:var(--paper-dim);letter-spacing:.12em;
+  }
+  footer nav{display:flex;gap:2.2rem}
+  footer a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s,color .3s}
+  footer a:hover{color:var(--paper);border-color:var(--shu)}
 </style>
 </head>
 <body>
 
-<h1>禅羅万象</h1>
-<p class="tagline">Mac の体調を、息遣いとして観る。<br>A meditative system monitor for macOS.</p>
+<!-- ═══════════ 序 ═══════════ -->
+<header class="hero">
+  <div class="enso" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="romaji">Zenrabansho — Mac Mandala</p>
+      <h1>あなたの宇宙を、<br>曼荼羅で観る。</h1>
+      <span class="en">A meditative system monitor for macOS.<br>Watch your Mac's pulse as breath.</span>
+      <a class="cta" href="https://apps.apple.com/app/id6766777378" data-appstore="">
+        Mac App Store で入手
+        <small>GET IT ON THE MAC APP STORE</small>
+      </a>
+      <p class="meta-line">買い切り <b>¥1,100</b> / <b>US$6.99</b>　·　macOS 14 (Sonoma) 以降　·　Apple Silicon / Intel</p>
+    </div>
+    <div class="tate" aria-hidden="true">禅羅万象</div>
+  </div>
+</header>
 
-<p><a href="https://apps.apple.com/app/id6766777378" data-appstore="" style="display:inline-block;padding:12px 28px;background:#0066cc;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Mac App Store で入手 / Get it on the Mac App Store</a></p>
+<!-- ═══════════ 息継ぎ ═══════════ -->
+<figure class="breath">
+  <img src="assets/sakura.jpg" alt="様式 Sakura — 花吹雪の中で呼吸する桜色の曼荼羅（全画面背景モード）" loading="lazy">
+  <figcaption>様式 · Sakura — 花吹雪の呼吸<span class="en">Full-screen background mode</span></figcaption>
+</figure>
 
-<ul>
-  <li><a href="privacy.html">プライバシーポリシー / Privacy Policy</a></li>
-  <li><a href="support.html">サポート / Support</a></li>
-</ul>
+<!-- ═══════════ 一 · 観 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">一 · 観 — SEEING</p>
+    <h2>数値の対極に、気配がある。</h2>
+    <p class="lead">
+      禅羅万象は、CPU・メモリ・ディスク・ネットワークの 4 リソースを 1 秒ごとにサンプリングし、
+      曼荼羅の<em>「層」「花弁」「光線」</em>へ写し取ります。数字を読むのではなく、
+      <em>息遣いとして感じる</em>。Activity Monitor の対極にある、瞑想のためのシステムモニターです。
+      <span class="en">CPU, memory, disk, and network — sampled every second, mapped to rings, petals, and rays. The opposite of Activity Monitor.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ 二 · 様式 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">二 · 様式 — FOUR STYLES</p>
+    <h2>四つの様式、四つの宇宙。</h2>
+    <p class="lead">アプリ内の「様式」切替で、曼荼羅は姿を変えます。<span class="en">Switch styles inside the app.</span></p>
+    <div class="styles-grid">
+      <figure class="style-card">
+        <img src="assets/zen.jpg" alt="様式 Zen — 金色の曼荼羅とメトリクスカードのフル表示" loading="lazy">
+        <figcaption><span class="name">Zen</span><span>金色の静寂 <span class="en">— full view with metric cards</span></span></figcaption>
+      </figure>
+      <figure class="style-card">
+        <img src="assets/samurai.jpg" alt="様式 Samurai — 蒼白に脈打つ曼荼羅のフル表示" loading="lazy">
+        <figcaption><span class="name">Samurai</span><span>蒼白の気迫 <span class="en">— full view</span></span></figcaption>
+      </figure>
+      <figure class="style-card pano" style="grid-column:1/-1">
+        <img src="assets/cosmic.jpg" alt="様式 Cosmic — 海景の壁紙の上に浮かぶ半透明の曼荼羅（前面オーバーレイ）" loading="lazy">
+        <figcaption><span class="name">Cosmic</span><span>景色の上に浮かぶ <span class="en">— translucent overlay on your desktop</span></span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 三 · 作法 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">三 · 作法 — FOUR MODES</p>
+    <h2>視界の片隅から、全画面の没入まで。</h2>
+    <div class="modes">
+      <div class="mode"><span class="num">I</span><h3>フル</h3><p>曼荼羅とメトリクスカード、ヘルプを一望。今日の調子を 1 秒で。<span class="en">Mandala + metric cards.</span></p></div>
+      <div class="mode"><span class="num">II</span><h3>曼荼羅のみ</h3><p>円形ウィンドウの純粋な可視化。机上の小さな宇宙。<span class="en">Pure visualization in a circular window.</span></p></div>
+      <div class="mode"><span class="num">III</span><h3>背景全画面</h3><p>デスクトップ背景として常時描画。離席中も Mac は呼吸し続ける。<span class="en">Wallpaper-level background.</span></p></div>
+      <div class="mode"><span class="num">IV</span><h3>前面オーバーレイ</h3><p>透過率 1〜100% の半透明装飾。作業の邪魔をせず、気配だけ。<span class="en">Translucent overlay, opacity 1–100%.</span></p></div>
+    </div>
+    <p class="lead" style="margin-top:2.4rem">メニューバーアイコンは 12 弁のロータス。CPU 負荷に応じて中心が脈打ちます。<span class="en">The menu-bar lotus pulses under CPU load.</span></p>
+  </div>
+</section>
+
+<!-- ═══════════ 四 · 無 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">四 · 無 — THREE ZEROS</p>
+    <h2>集めない。送らない。鳴らさない。</h2>
+    <div class="zeros">
+      <div class="zero"><div class="glyph">無</div><h3>データ収集ゼロ</h3><p class="en">Zero data collection</p></div>
+      <div class="zero"><div class="glyph">無</div><h3>外部通信ゼロ</h3><p class="en">Zero external communication</p></div>
+      <div class="zero"><div class="glyph">無</div><h3>通知ゼロ</h3><p class="en">Zero notifications</p></div>
+    </div>
+    <p class="lead" style="margin:3rem auto 0;text-align:center">
+      すべての処理は端末内で完結。App Sandbox・Hardened Runtime 有効。安心して常駐させられます。
+      <span class="en">Everything runs locally. Nothing is ever transmitted.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ 結 ═══════════ -->
+<section class="close">
+  <div class="enso" aria-hidden="true"></div>
+  <div class="close-inner">
+    <p class="saying">重いビルドの合間に、<br>Mac という小さな宇宙を、観る。</p>
+    <a class="cta" href="https://apps.apple.com/app/id6766777378" data-appstore="">
+      Mac App Store で入手
+      <small>GET IT ON THE MAC APP STORE</small>
+    </a>
+    <p class="price">買い切り <b>¥1,100 / US$6.99</b> — サブスクリプションなし <span style="letter-spacing:.05em">· no subscription</span></p>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Keisuke Oikawa</span>
+  <nav>
+    <a href="privacy.html">プライバシーポリシー / Privacy</a>
+    <a href="support.html">サポート / Support</a>
+  </nav>
+</footer>
 
 </body>
 </html>
