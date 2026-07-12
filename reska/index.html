@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reska — A floating live view of any window</title>
+  <meta name="description" content="Reska turns any Mac window into a floating Picture-in-Picture live view. Private by design: nothing is recorded, saved, or sent.">
+  <link rel="canonical" href="https://key115.github.io/reska/">
+  <link rel="icon" href="assets/appicon.png">
+  <link rel="apple-touch-icon" href="assets/appicon.png">
+  <meta name="theme-color" content="#19152d">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Reska">
+  <meta property="og:title" content="Reska — A floating live view of any window">
+  <meta property="og:description" content="Live Picture-in-Picture for any Mac window. Nothing is recorded, saved, or sent.">
+  <meta property="og:url" content="https://key115.github.io/reska/">
+  <meta property="og:image" content="https://key115.github.io/reska/assets/appicon.png">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Reska",
+    "operatingSystem": "macOS 14.0 or later",
+    "applicationCategory": "UtilitiesApplication",
+    "description": "A floating Picture-in-Picture live view of any Mac window.",
+    "url": "https://key115.github.io/reska/"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main"><span class="en">Skip to content</span><span class="ja">本文へ移動</span></a>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html" aria-current="page">
+        <img src="assets/appicon.png" alt="" width="34" height="34">
+        <span>Reska</span>
+      </a>
+      <div class="nav-links">
+        <a href="privacy.html"><span class="en">Privacy</span><span class="ja">プライバシー</span></a>
+        <a href="support.html"><span class="en">Support</span><span class="ja">サポート</span></a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-en" type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-ja" type="button" data-set-lang="ja" aria-pressed="false">日本語</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow"><span class="en">Picture-in-Picture for Mac</span><span class="ja">Macのためのピクチャインピクチャ</span></p>
+          <h1><span class="en">Keep a window<br>in sight.</span><span class="ja">見たい窓を、<br>いつもそばに。</span></h1>
+          <p class="lead">
+            <span class="en">Reska shows a live copy of any window in its own floating panel, so it stays visible while you work somewhere else.</span>
+            <span class="ja">Reskaは、どのウィンドウもライブなコピーとして自前のフロートパネルに表示。別の場所で作業していても、見えたままにします。</span>
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="support.html"><span class="en">Read the guide</span><span class="ja">使い方を見る</span><span aria-hidden="true">→</span></a>
+            <a class="button secondary" href="privacy.html"><span class="en">How privacy works</span><span class="ja">プライバシーを見る</span></a>
+          </div>
+        </div>
+
+        <div class="window-scene" aria-hidden="true" data-reveal>
+          <div class="source-window">
+            <div class="window-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="window-title">WORKSPACE</span></div>
+            <div class="source-body">
+              <div class="sidebar"><i class="line"></i><i class="line"></i><i class="line"></i><i class="line"></i></div>
+              <div class="canvas"><div class="canvas-card"></div></div>
+            </div>
+          </div>
+          <div class="float-window">
+            <div class="window-bar"><i class="dot"></i><span class="window-title">RESKA · LIVE</span></div>
+            <div class="float-body">
+              <span class="float-meta">Picture-in-Picture</span>
+              <span class="float-label"><span class="en">Still playing.<br>Still private.</span><span class="ja">映り続ける。<br>外には出さない。</span></span>
+            </div>
+          </div>
+          <div class="privacy-seal"><span class="en">Nothing saved<br>Nothing sent</span><span class="ja">保存しない<br>送信しない</span></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="promise" aria-labelledby="promise-title">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal><span class="en">Private by construction</span><span class="ja">仕組みからプライベート</span></p>
+        <h2 id="promise-title" data-reveal><span class="en">A live view should be seen.<br>Not stored.</span><span class="ja">ライブビューは、見るためのもの。<br>残すためではありません。</span></h2>
+        <div class="promise-grid">
+          <article class="promise-card" data-reveal>
+            <span class="number">01 / LIVE ONLY</span>
+            <h3><span class="en">Never recorded</span><span class="ja">録画しない</span></h3>
+            <p><span class="en">ScreenCaptureKit frames are drawn live, then discarded. Reska does not write them to disk.</span><span class="ja">ScreenCaptureKitのフレームはライブ表示したあと破棄。Reskaがディスクへ書き出すことはありません。</span></p>
+          </article>
+          <article class="promise-card" data-reveal>
+            <span class="number">02 / OFFLINE</span>
+            <h3><span class="en">Never sent</span><span class="ja">送信しない</span></h3>
+            <p><span class="en">Reska ships without a network entitlement. Window contents stay on your Mac.</span><span class="ja">Reskaはnetwork entitlementなしで配布。ウィンドウの内容はMacの中にとどまります。</span></p>
+          </article>
+          <article class="promise-card" data-reveal>
+            <span class="number">03 / NO PROFILE</span>
+            <h3><span class="en">Nothing collected</span><span class="ja">収集しない</span></h3>
+            <p><span class="en">No account, analytics, tracking, advertising SDK, or developer telemetry.</span><span class="ja">アカウント、分析、トラッキング、広告SDK、開発者向けテレメトリはありません。</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-links" aria-labelledby="details-title">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal><span class="en">Plain answers</span><span class="ja">わかりやすい説明</span></p>
+        <h2 id="details-title" data-reveal><span class="en">The details, without the fine-print maze.</span><span class="ja">迷路のような細則なしで、必要なことを。</span></h2>
+        <div class="trial-note" data-reveal>
+          <div>
+            <p class="eyebrow"><span class="en">14-day free trial</span><span class="ja">14日間の無料試用</span></p>
+            <h3><span class="en">It starts when you say so.</span><span class="ja">始めるのは、あなたが決めたとき。</span></h3>
+          </div>
+          <p><span class="en">The trial does not start at first launch. It starts only after you explicitly activate Apple's free Non-Consumable in-app purchase, and the verified StoreKit transaction purchase date anchors the 14 days. The paid one-time unlock remains optional until the trial expires; after expiry, it is required only to create new mirrors. There is no automatic renewal, subscription, or charge.</span><span class="ja">初回起動では試用は始まりません。ユーザーがAppleの無料の非消耗型アプリ内課金を明示的に開始したときだけ始まり、検証済みStoreKitトランザクションの購入日を14日間の起点にします。試用期間が終了するまで有料の買い切り解除は任意で、終了後は新しいミラーを作成する場合にだけ必要です。自動更新、サブスクリプション、自動課金はありません。</span></p>
+        </div>
+        <div class="link-cards">
+          <a class="link-card" href="privacy.html" data-reveal>
+            <p class="eyebrow">Privacy</p>
+            <h3><span class="en">What Reska handles — and what it never does</span><span class="ja">Reskaが扱うもの、決してしないこと</span></h3>
+            <p><span class="en">Screen frames, local preferences, StoreKit, and your controls.</span><span class="ja">画面フレーム、ローカル設定、StoreKit、ユーザーが選べること。</span></p>
+          </a>
+          <a class="link-card" href="support.html" data-reveal>
+            <p class="eyebrow">Support</p>
+            <h3><span class="en">Start mirroring and solve common issues</span><span class="ja">ミラーを始める、よくある問題を解決する</span></h3>
+            <p><span class="en">Permissions, controls, protected video, purchases, and contact.</span><span class="ja">権限、操作、保護された動画、購入、お問い合わせ。</span></p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="34" height="34">Reska</a>
+        <ul class="footer-links">
+          <li><a href="privacy.html"><span class="en">Privacy Policy</span><span class="ja">プライバシーポリシー</span></a></li>
+          <li><a href="support.html"><span class="en">Support</span><span class="ja">サポート</span></a></li>
+          <li><a href="mailto:k.oikawa119009@gmail.com?subject=Reska%20Support"><span class="en">Contact</span><span class="ja">お問い合わせ</span></a></li>
+        </ul>
+      </div>
+      <p class="fine">© 2026 Keisuke Oikawa · macOS 14+ · <span class="en">Mac App Store</span><span class="ja">Mac App Store限定</span></p>
+    </div>
+  </footer>
+</body>
+</html>
