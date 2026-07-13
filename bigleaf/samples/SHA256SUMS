@@ -1,0 +1,11 @@
+# BigLeaf App Review Sample Manifest v1
+# generated_utc=2026-07-13T15:34:14Z
+# macOS=26.5.2 (arm64)
+# gzip=Apple gzip 479
+# columns=filename<TAB>bytes<TAB>sha256<TAB>records<TAB>checks<TAB>generation_command
+bigleaf-sample-10mb.jsonl	10737481	4fe9607ec5c9558c7f89cb1c976686b7330a9a1be0730ee57666ea2100326e7a	44336	error=1489;regex_timeout=163	bigleaf-gen --gb 0.01 --out bigleaf-sample-10mb.jsonl
+bigleaf-sample-array.json	5368911	b39eaf71be1166427584e3cc2d5fe8826796342069791edf87891a9b488a3b55	22176	root=array	bigleaf-gen --gb 0.005 --root-array --out bigleaf-sample-array.json
+bigleaf-sample-tree.json	1347	803f302197de5ae314cbe1e62af3e76b241de82f5628d7e4282e0df1094d5d38	1	root=object;nesting=8;unicode_scripts=6	cp /Users/k/CommandDesk/AI秘書/1_projects/PRJ-013_BigLeaf/output/site/samples/bigleaf-sample-tree.json /Users/k/key115.github.io/bigleaf/samples/bigleaf-sample-tree.json
+bigleaf-sample-unparsed.jsonl	2147493	83a1287309b4c13a020d484dc3d5c55ebabed6571f00a7bb76fcb9a676a564e1	9021	GARBAGE=181	bigleaf-gen --gb 0.002 --broken-permille 20 --out bigleaf-sample-unparsed.jsonl
+bigleaf-sample-app.log	2147559	8ec2b8d680086b4087850ffc9528121a37c8da2ad43cc6b2a39c4afb23297563	8870	format=jsonl;extension=.log	bigleaf-gen --gb 0.002 --seed 205 --out bigleaf-sample-app.log
+bigleaf-sample-large.jsonl.gz	62585542	2235e1c2d2b804e0fa472b9740e799d3f6591a7e54c57488d433b152ea498928	1551570	decompressed_bytes=375809682;gzip_n=1	bigleaf-gen --gb 0.35 --out bigleaf-sample-large.jsonl && gzip -n -6 bigleaf-sample-large.jsonl

@@ -1,0 +1,46 @@
+{
+  "title": "BigLeaf Tree-Only Review Sample",
+  "unicode": {
+    "japanese": "巨大な葉・こんにちは世界",
+    "arabic": "ورقة كبيرة مرحبا بالعالم",
+    "hebrew": "עלה גדול שלום עולם",
+    "devanagari": "बड़ा पत्ता नमस्ते दुनिया",
+    "cyrillic": "Большой лист Привет мир",
+    "greek": "Μεγάλο φύλλο Γειά σου Κόσμε",
+    "emoji": "🌿🔍🧭✅"
+  },
+  "edge_values": {
+    "null": null,
+    "true": true,
+    "false": false,
+    "zero": 0,
+    "negative": -42,
+    "fraction": 0.000001,
+    "large_integer": 9007199254740991,
+    "empty_string": "",
+    "empty_array": [],
+    "empty_object": {},
+    "escaped": "line one\nline two\t\"quoted\"\\slash"
+  },
+  "deep": {
+    "level1": {
+      "level2": {
+        "level3": {
+          "level4": {
+            "level5": {
+              "level6": {
+                "level7": {
+                  "level8": {
+                    "leaf": "Copy Key Path should reach deep.level1.level2.level3.level4.level5.level6.level7.level8.leaf",
+                    "coordinates": [35.681236, 139.767125],
+                    "tags": ["review", "tree-only", "unicode"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

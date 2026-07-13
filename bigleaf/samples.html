@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BigLeaf — App Review Sample Files</title>
+<meta name="description" content="Permanent sample files for reviewing BigLeaf's listed feature coverage.">
+<link rel="canonical" href="https://key115.github.io/bigleaf/samples.html">
+<link rel="icon" href="assets/appicon.png">
+<meta name="theme-color" content="#131d29">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  .sample-intro{max-width:850px}.sample-table{width:100%;border-collapse:collapse;margin-top:28px}
+  .sample-table th,.sample-table td{padding:16px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .sample-table th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+  .sample-table code{font-size:12px;overflow-wrap:anywhere}.hash{display:block;margin-top:8px;color:var(--dim)}
+  .review-callout{border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:36px;background:var(--bg2)}
+  @media(max-width:760px){.sample-table thead{display:none}.sample-table tr,.sample-table td{display:block}.sample-table tr{padding:16px 0}.sample-table td{border:0;padding:6px 0}}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Main"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="27" height="27">BigLeaf</a>
+  <div class="links"><a href="index.html">Home</a><a href="support.html">Support</a></div>
+</div></nav>
+<main id="top">
+<section><div class="wrap sample-intro">
+  <span class="kicker">Permanent App Review fixtures</span>
+  <h1>BigLeaf App Review sample files</h1>
+  <p class="lead">Download any file directly. These URLs and byte sequences are frozen and will remain available for future reviews. SHA-256 values are shown for integrity verification.</p>
+  <div class="review-callout">
+    <h2 style="font-size:24px">Fastest path to Preview Mode and the purchase</h2>
+    <p>Download file 6 and open the <code>.gz</code> directly in BigLeaf with Cmd-O, drag it onto the BigLeaf window, or drop it on the Dock icon. Do not decompress it first—opening gzip directly is a BigLeaf feature. The Preview banner appears within a few seconds after decompression passes 100 MB.</p>
+  </div>
+</div></section>
+<section style="padding-top:0"><div class="wrap">
+<table class="sample-table">
+<thead><tr><th>File</th><th>Measured size</th><th>Features demonstrated</th></tr></thead>
+<tbody>
+<tr><td><a href="samples/bigleaf-sample-10mb.jsonl" download>bigleaf-sample-10mb.jsonl</a><code class="hash">SHA-256: 4fe9607ec5c9558c7f89cb1c976686b7330a9a1be0730ee57666ea2100326e7a</code></td><td>10.7 MB<br><code>10737481 bytes</code><br>44,336 records</td><td>Record List + Detail Tree; virtual scrolling; direct record number jump; substring search <code>error</code> (1,489 matches) with cancellable progress; regex <code>timeout after \d+s</code> (163 matches); highlighting, snippets, minimap, the <strong>Filter Matches</strong> checkbox, Edit &gt; <strong>Find Next</strong> / <strong>Find Previous</strong> navigation, and all four copy actions.</td></tr>
+<tr><td><a href="samples/bigleaf-sample-array.json" download>bigleaf-sample-array.json</a><code class="hash">SHA-256: b39eaf71be1166427584e3cc2d5fe8826796342069791edf87891a9b488a3b55</code></td><td>5.4 MB<br><code>5368911 bytes</code><br>22,176 elements</td><td>A single JSON document whose root is an array. Verifies Root-Array JSON browsing.</td></tr>
+<tr><td><a href="samples/bigleaf-sample-tree.json" download>bigleaf-sample-tree.json</a><code class="hash">SHA-256: 803f302197de5ae314cbe1e62af3e76b241de82f5628d7e4282e0df1094d5d38</code></td><td><code>1347 bytes</code></td><td>Tree-Only View with a non-array root, six writing systems, edge values, and eight nested levels for Copy Key Path.</td></tr>
+<tr><td><a href="samples/bigleaf-sample-unparsed.jsonl" download>bigleaf-sample-unparsed.jsonl</a><code class="hash">SHA-256: 83a1287309b4c13a020d484dc3d5c55ebabed6571f00a7bb76fcb9a676a564e1</code></td><td>2.1 MB<br><code>2147493 bytes</code><br>9,021 records</td><td>Intentionally invalid lines stay available as Unparsed Records. Search <code>GARBAGE</code> (181 matches).</td></tr>
+<tr><td><a href="samples/bigleaf-sample-app.log" download>bigleaf-sample-app.log</a><code class="hash">SHA-256: 8ec2b8d680086b4087850ffc9528121a37c8da2ad43cc6b2a39c4afb23297563</code></td><td>2.1 MB<br><code>2147559 bytes</code></td><td>JSONL content with a <code>.log</code> extension verifies format detection from content rather than filename.</td></tr>
+<tr><td><a href="samples/bigleaf-sample-large.jsonl.gz" download rel="nofollow">bigleaf-sample-large.jsonl.gz</a><code class="hash">SHA-256: 2235e1c2d2b804e0fa472b9740e799d3f6591a7e54c57488d433b152ea498928</code></td><td>62.6 MB download<br><code>62585542 bytes</code><br>358 MB decompressed<br>1,551,570 records</td><td>Native gzip open, Preview Mode (first 10,000 records), the Preview banner, one-time purchase, the visible <strong>Restore</strong> button, and persisted index cache. BigLeaf displays 358 MB; Finder may show about 376 MB because it uses decimal units.</td></tr>
+</tbody></table>
+<div class="review-callout">
+  <h2 style="font-size:24px">Expected behavior</h2>
+  <ul>
+    <li>In Preview Mode, search and jump cover the first 10,000 records; after purchase they cover the whole file.</li>
+    <li>Click <strong>Restore</strong> in the Preview banner to restore a prior purchase. With no prior purchase, the file stays in Preview Mode without an error dialog.</li>
+    <li>If a browser expands the download automatically, the resulting raw JSONL demonstrates Preview Mode and the purchase identically.</li>
+    <li>The indexing mechanism and interaction model are the same for this 1,551,570-record sample and the 21.5 GB / 100 GB measurements in the store listing.</li>
+    <li>Reload (Cmd-R) re-indexes an open file after it grows and cannot be demonstrated by a static download alone. Optional: while the 10 MB sample is open, run <code>echo '{"level":"info","msg":"appended"}' &gt;&gt; bigleaf-sample-10mb.jsonl</code>, then press Cmd-R.</li>
+  </ul>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap cols"><a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="22" height="22">BigLeaf</a><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="support.html">Support</a></li></ul></div><div class="wrap fine"><span>© 2026 Keisuke Oikawa</span><span>macOS 14+ · Apple silicon &amp; Intel</span></div></footer>
+</body>
+</html>
