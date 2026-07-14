@@ -67,6 +67,7 @@
     'gzipの直接オープン、Preview Mode（先頭10,000レコード）、Previewバナー、買い切り購入、表示中の<strong>Restore</strong>ボタン、永続インデックスキャッシュ。BigLeafでは358 MB、Finderでは10進単位のため約376 MBと表示される場合があります。'
   ];
   rows.forEach(function (row, index) {
+    if (!japaneseSizes[index] || !japaneseFeatures[index]) return;
     var cells = row.querySelectorAll('td');
     bilingual(cells[1], japaneseSizes[index]);
     bilingual(cells[2], japaneseFeatures[index]);
