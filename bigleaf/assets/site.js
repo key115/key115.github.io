@@ -6,7 +6,7 @@
   document.documentElement.classList.add('js');
 
   // ---------- App Store URL (single switch — fill in after approval) ----------
-  var APP_STORE_URL = ''; // e.g. 'https://apps.apple.com/app/idXXXXXXXXXX'
+  var APP_STORE_URL = 'https://apps.apple.com/app/id6779291028';
 
   // ---------- language (default EN, persisted) ----------
   var LANG_KEY = 'bigleaf-lang';
