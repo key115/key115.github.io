@@ -449,12 +449,11 @@ h1, h2, h3, h4, p { margin: 0; }
   .nav { gap: 1px; }
   .nav .nav-cta { display: none; } /* hero CTA is right below; keep the mobile bar uncramped */
   .nav a[href="index.html"] { display: none; } /* brand mark already links home */
-  .site-header .wrap { gap: 10px; } /* keep the last nav item inside the 18px gutter */
+  .site-header .wrap { gap: 10px; height: 56px; } /* keep the last nav item inside the 18px gutter */
   .kv .k { min-width: 0; }
   .flow .step { min-width: 100%; }
   .flow .arrow { display: none; }
   .guide-tabs { top: 54px; }
-  .site-header .wrap { height: 56px; }
 }
 @media (max-width: 350px) {
   .brand > span:last-child { display: none; } /* Sb mark alone — keeps the gutter on 320px-class screens */
