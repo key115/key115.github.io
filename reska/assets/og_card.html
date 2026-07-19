@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!-- Source for assets/og.png — render at exactly 1200×630.
+     Repro: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+       --headless=new --screenshot=og.png --window-size=1200,630 \
+       --force-device-scale-factor=1 --hide-scrollbars --default-background-color=00000000 \
+       "file://$PWD/og_card.html" -->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{
+    background:
+      radial-gradient(ellipse 62% 80% at 84% 18%, rgba(217,207,239,.55), transparent 68%),
+      radial-gradient(ellipse 50% 65% at 8% 96%, rgba(167,150,209,.28), transparent 70%),
+      #f5f3ee;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","Hiragino Sans",sans-serif;
+    color:#171421;position:relative;
+  }
+  .in{position:absolute;inset:0;padding:64px 72px;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:20px}
+  .brand img{width:76px;height:76px;border-radius:18px;box-shadow:0 14px 30px rgba(25,21,45,.22)}
+  .brand b{font-size:42px;font-weight:800;letter-spacing:-.01em}
+  .brand small{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:15px;color:#5b35b6;
+    letter-spacing:.16em;text-transform:uppercase;margin-top:7px;display:block;font-weight:500}
+  .mega{margin-top:56px;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,"Yu Mincho","Hiragino Mincho ProN",serif;
+    font-size:104px;line-height:1.16;font-weight:600;letter-spacing:.01em;max-width:760px}
+  .mega em{font-style:normal;color:#5b35b6}
+  .sub{margin-top:34px;font-size:29px;line-height:1.5;color:#665f70;max-width:700px}
+  .foot{margin-top:auto;display:flex;gap:14px;align-items:center}
+  .chip{font-size:19px;font-weight:600;color:#3d3550;background:rgba(255,254,253,.85);
+    border:1.5px solid rgba(30,24,44,.18);border-radius:999px;padding:10px 22px}
+  .chip.v{color:#fffefd;background:#5b35b6;border-color:#5b35b6}
+  /* floating mirror motif */
+  .mirror{position:absolute;right:64px;top:178px;width:340px;height:238px;border-radius:22px;
+    background:linear-gradient(150deg,#282044,#19152d 70%);
+    box-shadow:0 40px 90px rgba(25,21,45,.35);transform:rotate(3.5deg);overflow:hidden}
+  .mirror .bar{height:34px;display:flex;align-items:center;gap:8px;padding:0 14px;
+    background:rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.08)}
+  .mirror .d{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.22)}
+  .mirror .tag{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:13px;color:#a796d1;
+    letter-spacing:.2em;text-transform:uppercase;padding:18px 20px 0}
+  .mirror .line{height:12px;border-radius:6px;background:rgba(255,255,255,.13);margin:14px 20px 0}
+  .mirror .line.w60{width:60%}.mirror .line.w80{width:80%}.mirror .line.w45{width:45%}
+  .mirror .live{position:absolute;right:16px;top:44px;display:flex;align-items:center;gap:7px;
+    font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:12px;color:#d9cfef;letter-spacing:.14em}
+  .mirror .live i{width:9px;height:9px;border-radius:50%;background:#754ddd;display:block}
+  .mirror2{position:absolute;right:150px;top:390px;width:250px;height:170px;border-radius:18px;
+    background:#fffefd;border:1.5px solid rgba(30,24,44,.16);
+    box-shadow:0 30px 70px rgba(25,21,45,.22);transform:rotate(-4deg);overflow:hidden}
+  .mirror2 .bar{height:28px;background:#ebe7df;border-bottom:1px solid rgba(30,24,44,.1)}
+  .mirror2 .line{height:11px;border-radius:6px;background:rgba(30,24,44,.12);margin:16px 18px 0}
+  .mirror2 .line.w70{width:70%}.mirror2 .line.w50{width:50%}
+</style>
+</head>
+<body>
+  <div class="in">
+    <div class="brand">
+      <img src="appicon.png" alt="">
+      <div><b>Reska</b><small>Picture-in-Picture for Mac</small></div>
+    </div>
+    <h1 class="mega">見たい窓を、<br><em>いつもそばに。</em></h1>
+    <p class="sub">A floating live view of any window.<br>Nothing is recorded, saved, or sent.</p>
+    <div class="foot">
+      <span class="chip v">映り続ける。外には出さない。</span>
+      <span class="chip">macOS 14+</span>
+    </div>
+  </div>
+  <div class="mirror">
+    <div class="bar"><span class="d"></span><span class="d"></span><span class="d"></span></div>
+    <div class="tag">Reska · Live</div>
+    <div class="live"><i></i>LIVE</div>
+    <div class="line w80"></div>
+    <div class="line w60"></div>
+    <div class="line w45"></div>
+  </div>
+  <div class="mirror2">
+    <div class="bar"></div>
+    <div class="line w70"></div>
+    <div class="line w50"></div>
+  </div>
+</body>
+</html>
