@@ -447,6 +447,8 @@ h1, h2, h3, h4, p { margin: 0; }
   .nav a { padding: 6px 8px; font-size: 14px; }
   .nav { gap: 1px; }
   .nav .nav-cta { display: none; } /* hero CTA is right below; keep the mobile bar uncramped */
+  .nav a[href="index.html"] { display: none; } /* brand mark already links home */
+  .site-header .wrap { gap: 10px; } /* keep the last nav item inside the 18px gutter */
   .kv .k { min-width: 0; }
   .flow .step { min-width: 100%; }
   .flow .arrow { display: none; }
