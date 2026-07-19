@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>key115 — Mac apps</title>
+<meta name="description" content="Small, private-by-design Mac apps by key115: BigLeaf, Sharebar, ClipRecall, Redact Shot, Zenrabansho, and Reska. Landing, privacy, and support pages.">
+<link rel="canonical" href="https://key115.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23151820'/%3E%3Ctext x='32' y='44' font-family='-apple-system,Helvetica,Arial' font-size='34' font-weight='800' fill='%23e8ecf5' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1116; --panel: #171a22; --panel-2: #1d2130;
+    --line: #262b38; --line-2: #3a4256; --ink: #e9edf4; --muted: #9aa3b5; --muted-2: #6d7588;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+            "Hiragino Sans", "Yu Gothic UI", Meiryo, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  body {
+    background: radial-gradient(ellipse 70% 45% at 50% 0%, #1a1f2e, transparent 70%), var(--bg);
+    color: var(--ink); font-family: var(--sans); line-height: 1.6;
+    min-height: 100vh; padding: 56px 24px 72px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  header h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+  header .tag { margin-top: 10px; color: var(--muted); font-size: 15.5px; }
+  header .tag .ja { display: block; font-size: 14px; color: var(--muted-2); }
+  .grid { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+  .card {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 16px; padding: 22px; transition: border-color .15s ease, transform .1s ease;
+  }
+  .card:hover { border-color: var(--line-2); transform: translateY(-2px); }
+  /* the landing link stretches over the whole card; chip links sit above it */
+  .cardlink::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
+  .head { display: flex; align-items: center; gap: 14px; }
+  .head img { width: 52px; height: 52px; border-radius: 12px; flex: 0 0 auto; }
+  .mark {
+    width: 52px; height: 52px; border-radius: 12px; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(150deg, #5b8cff, #3f6de0); color: #fff;
+    font-family: var(--mono); font-size: 22px; font-weight: 800;
+  }
+  .head b { font-size: 18.5px; font-weight: 700; }
+  .desc { margin-top: 14px; font-size: 14.5px; color: var(--muted); }
+  .desc .ja { display: block; font-size: 13px; color: var(--muted-2); margin-top: 2px; }
+  .links { margin-top: auto; padding-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .links a {
+    position: relative; z-index: 1;
+    font-size: 12.5px; font-weight: 600; padding: 6px 13px; border-radius: 999px;
+    border: 1px solid var(--line); color: var(--muted); background: var(--panel-2);
+  }
+  .links a:hover { color: var(--ink); border-color: var(--line-2); }
+  .links a.store { border-color: #33415e; color: #9db6ee; }
+  .links a.store:hover { color: #c4d4f5; border-color: #46598a; }
+  footer { margin-top: 52px; color: var(--muted-2); font-size: 13px; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>key115 — Mac apps</h1>
+    <p class="tag">Small, private-by-design utilities for macOS. Everything runs on your Mac; nothing is collected.
+      <span class="ja">macOS 向けの小さな買い切りユーティリティ集。処理は端末内で完結し、データ収集はありません。</span></p>
+  </header>
+
+  <main class="grid">
+    <div class="card">
+      <a class="cardlink" href="bigleaf/" aria-label="BigLeaf">
+        <span class="head"><img src="bigleaf/assets/appicon.png" alt=""><b>BigLeaf</b></span>
+        <span class="desc">Open huge JSON, JSONL &amp; NDJSON instantly — read-only, local-only.
+          <span class="ja">巨大JSON/JSONL/NDJSONを一瞬で開く読取専用ビューア。</span></span>
+      </a>
+      <div class="links">
+        <a class="store" href="https://apps.apple.com/app/id6779291028">Mac App Store</a>
+        <a href="bigleaf/support.html">Support</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="cardlink" href="sharebar/" aria-label="Sharebar">
+        <span class="head"><span class="mark">Sb</span><b>Sharebar</b></span>
+        <span class="desc">Menu-bar dev tools with links that reproduce the exact state.
+          <span class="ja">状態ごと再現する共有リンク付きメニューバー開発ツール。</span></span>
+      </a>
+      <div class="links">
+        <a class="store" href="https://apps.apple.com/app/id6781006552">Mac App Store</a>
+        <a href="sharebar/guide.html">Guide</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="cardlink" href="cliprecall/" aria-label="ClipRecall">
+        <span class="head"><img src="cliprecall/assets/appicon-192.png" alt=""><b>ClipRecall</b></span>
+        <span class="desc">Clipboard history on Option + V — pick, paste, done.
+          <span class="ja">Option+V で呼び出すクリップボード履歴。</span></span>
+      </a>
+      <div class="links">
+        <a class="store" href="https://apps.apple.com/app/id6777128940">Mac App Store</a>
+        <a href="cliprecall/support.html">Support</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="cardlink" href="redactshot/" aria-label="Redact Shot">
+        <span class="head"><img src="redactshot/assets/appicon.png" alt=""><b>Redact Shot</b></span>
+        <span class="desc">Black out the secrets in a screenshot before you share it.
+          <span class="ja">共有前にスクショの機密を黒塗りで破壊する「スミ消し」。</span></span>
+      </a>
+      <div class="links">
+        <a class="store" href="https://apps.apple.com/app/id6777128789">Mac App Store</a>
+        <a href="redactshot/support.html">Support</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="cardlink" href="zenrabansho-site/" aria-label="Zenrabansho">
+        <span class="head"><img src="zenrabansho-site/assets/appicon.png" alt=""><b>Zenrabansho 禅羅万象</b></span>
+        <span class="desc">A meditative system monitor that draws your Mac as a mandala.
+          <span class="ja">Macの鼓動を曼荼羅として観る瞑想的システムモニター。</span></span>
+      </a>
+      <div class="links">
+        <a class="store" href="https://apps.apple.com/app/id6766777378">Mac App Store</a>
+        <a href="zenrabansho-site/support.html">Support</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <a class="cardlink" href="reska/" aria-label="Reska">
+        <span class="head"><img src="reska/assets/appicon.png" alt=""><b>Reska</b></span>
+        <span class="desc">A floating live view of any window — Picture-in-Picture for Mac.
+          <span class="ja">どのウィンドウも浮かぶライブビューに。</span></span>
+      </a>
+      <div class="links">
+        <a href="reska/support.html">Support</a>
+        <a href="reska/privacy.html">Privacy</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>© 2026 Keisuke Oikawa · <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a></footer>
+</div>
+</body>
+</html>
