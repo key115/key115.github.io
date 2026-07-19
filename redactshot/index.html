@@ -21,17 +21,15 @@
 <meta name="twitter:title" content="Redact Shot — Erase secrets before you share">
 <meta name="twitter:description" content="Black out the secrets in your screenshots, right before you share. Fully on-device.">
 <meta name="twitter:image" content="https://key115.github.io/redactshot/assets/og.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<!-- System fonts only — no external requests, matching the app's zero-network promise. -->
 <style>
   :root{
     --bg:#0d0d10; --bg2:#15151b; --bg3:#1b1b22;
     --line:#27272f; --line2:#33333d;
     --ink:#f4f2ea; --muted:#a3a1ab; --muted2:#75737d;
     --accent:#d83f2c; --accent2:#ef6a4a; --on-accent:#fff;
-    --sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Hiragino Sans",sans-serif;
-    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --sans:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     --maxw:1180px;
   }
   *{box-sizing:border-box;}

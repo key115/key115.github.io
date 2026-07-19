@@ -1,9 +1,9 @@
 # Font Licenses — RedactShot LP
 
-このサイト（および `output/site/index_selfcontained_9mb_DO-NOT-DEPLOY.html` のセルフコンテインド版）は以下のフォントを使用/埋め込みしています。
+`output/site/index_selfcontained_9mb_DO-NOT-DEPLOY.html` のセルフコンテインド版は以下のフォントを埋め込んでいます。
 いずれも SIL Open Font License, Version 1.1 (OFL-1.1) です。
 
-- 公開LP（`key115.github.io/redactshot/`）は Google Fonts CDN の `<link>` 読み込みのみで、フォントファイルの再配布はしていません。
+- 公開LP（`key115.github.io/redactshot/`）は 2026-07 以降**システムフォントスタックのみ**を使用し、Webフォントの読み込み（Google Fonts CDN 含む）もフォントファイルの再配布も一切していません。本ファイルは下記セルフコンテインド版のためのライセンス表示として維持しています。
 - `index_selfcontained_9mb_DO-NOT-DEPLOY.html`（9.3MB・woff2サブセット埋め込み版・未追跡ローカルのみ）を配布・デプロイする場合は、本ファイル（著作権表示＋OFL-1.1全文）の同梱が必須です。ファイル名の通り**公開リポジトリへ置かないこと**。
 - 本ファイルはソース（ここ）とライブ `key115.github.io/redactshot/FONT_LICENSES.md` の2コピー。**フォント変更時は両方を同時更新**（デプロイ経路は `3_resources/know-how/site-deploy-convention.md` の対応表参照）。
 
