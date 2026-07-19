@@ -106,6 +106,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .btn .px { font-family: var(--mono); font-size: 12px; font-weight: 500; opacity: 0.85; padding-left: 8px; margin-left: 2px; border-left: 1px solid rgba(255,255,255,0.25); }
 .btn .ic { width: 16px; height: 16px; display: block; }
 .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.btn-row[hidden] { display: none; } /* author display:flex would defeat the hidden attribute */
 
 /* ============================================================
    Eyebrow / kicker, chips, badges, kbd
