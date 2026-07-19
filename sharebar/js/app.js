@@ -172,6 +172,10 @@
     box.appendChild(e);
     var ed = $('editor'); if (ed) clear(ed);
     var title = $('tool-title'); if (title) { clear(title); title.appendChild(document.createTextNode('Couldn’t open this link')); }
+    // Nothing is editable and there is no state to hand to the app: the
+    // "reproduction" blurb and the Open/Get CTA row would contradict the error.
+    var sub = $('tool-sub'); if (sub) sub.hidden = true;
+    var ctas = $('receiver-ctas'); if (ctas) ctas.hidden = true;
   }
 
   // ========================================================================
@@ -184,6 +188,9 @@
     var t = state.tool;
     var title = $('tool-title');
     if (title) { clear(title); title.appendChild(document.createTextNode(TOOL_LABEL[t.kind] || t.kind)); }
+    // Undo renderLinkError's hiding (hashchange can go error → valid link).
+    var sub = $('tool-sub'); if (sub) sub.hidden = false;
+    var ctas = $('receiver-ctas'); if (ctas) ctas.hidden = false;
 
     if (t.kind === 'regex') {
       addField(host, 'Pattern', 'pattern', t.pattern || '', onEdit);
