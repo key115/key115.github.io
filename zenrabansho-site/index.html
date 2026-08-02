@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>禅羅万象 — あなたの宇宙を、曼荼羅で観る。 | Zenrabansho, a meditative system monitor for macOS</title>
-<meta name="description" content="禅羅万象（Zenrabansho）は、Macのシステム状態を曼荼羅として描き出す瞑想用システムモニター。CPU・メモリ・ディスク・ネットワークを息遣いとして観る。データ収集ゼロ・外部通信ゼロ。macOS 14+。">
+<meta name="description" content="禅羅万象（Zenrabansho）は、Macのシステム状態を曼荼羅として描き出す瞑想用システムモニター。CPU・メモリ・ディスク・ネットワークを息遣いとして観る。無料・広告なし・データ収集ゼロ・データ送信ゼロ。macOS 14+。">
 <meta property="og:title" content="禅羅万象 / Zenrabansho — A meditative system monitor for macOS">
 <meta property="og:description" content="あなたの宇宙を、曼荼羅で観る。Watch your Mac's pulse as breath.">
 <meta property="og:image" content="https://key115.github.io/zenrabansho-site/assets/sakura.jpg">
@@ -223,6 +223,22 @@
   .zero h3{font-size:.95rem;font-weight:500;letter-spacing:.24em;margin-bottom:.3rem}
   .zero p{font-size:.75rem;color:var(--paper-dim);letter-spacing:.06em}
 
+  /* ---------- 五 · 縁（応援） ---------- */
+  .kofi-btn{
+    display:inline-block;
+    margin-top:1.4rem;
+    padding:.85rem 2rem;
+    border:1px solid var(--kin);
+    border-radius:2px;
+    color:var(--kin);
+    text-decoration:none;
+    letter-spacing:.14em;
+    font-size:.85rem;
+    transition:background .35s ease,color .35s ease;
+  }
+  .kofi-btn:hover{background:var(--kin);color:var(--ink)}
+  .kofi-btn small{display:block;font-size:.62rem;letter-spacing:.18em;opacity:.75;margin-top:.25rem;font-style:normal}
+
   /* ---------- 結び ---------- */
   .close{text-align:center}
   .close .enso{top:50%;left:50%;translate:-50% -50%;width:min(60vmin,480px);height:min(60vmin,480px)}
@@ -262,7 +278,7 @@
         Mac App Store で入手
         <small>GET IT ON THE MAC APP STORE</small>
       </a>
-      <p class="meta-line">買い切り <b>¥1,100</b> / <b>US$6.99</b>　·　macOS 14 (Sonoma) 以降　·　Apple Silicon / Intel</p>
+      <p class="meta-line">無料 <b>Free</b>　·　macOS 14 (Sonoma) 以降　·　Apple Silicon / Intel</p>
     </div>
     <div class="tate" aria-hidden="true">禅羅万象</div>
   </div>
@@ -333,12 +349,48 @@
     <h2>集めない。送らない。鳴らさない。</h2>
     <div class="zeros">
       <div class="zero"><div class="glyph">無</div><h3>データ収集ゼロ</h3><p class="en">Zero data collection</p></div>
-      <div class="zero"><div class="glyph">無</div><h3>外部通信ゼロ</h3><p class="en">Zero external communication</p></div>
+      <div class="zero"><div class="glyph">無</div><h3>データ送信ゼロ</h3><p class="en">Your data never leaves your Mac</p></div>
       <div class="zero"><div class="glyph">無</div><h3>通知ゼロ</h3><p class="en">Zero notifications</p></div>
     </div>
     <p class="lead" style="margin:3rem auto 0;text-align:center">
-      すべての処理は端末内で完結。App Sandbox・Hardened Runtime 有効。安心して常駐させられます。
-      <span class="en">Everything runs locally. Nothing is ever transmitted.</span>
+      アプリ自身による外部通信・データ収集はありません。お賽銭（アプリ内課金）の決済はAppleのApp Storeが処理し、開発者は個人データを受け取りません。
+      <span class="en">The app itself makes no network connections and collects no data. Optional tips are processed by Apple's App Store; the developer receives no personal data.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ 五 · 縁 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">五 · 縁 — SUPPORT</p>
+    <h2>観るは、無料。応援は、お気持ちで。</h2>
+    <p class="en" style="font-size:.85rem;letter-spacing:.03em;margin-top:.5rem">Free for everyone — supported by optional tips.</p>
+    <p class="lead" style="margin-top:1.6rem">
+      禅羅万象は無料になりました。広告を載せず、データも集めません。制作は、使い続けてくださる方の『お気持ち』に支えられています。
+      <span class="en">Zenrabansho is now free. No ads, no data collection — development is sustained by optional tips from people who enjoy it.</span>
+    </p>
+    <div class="modes">
+      <div class="mode">
+        <span class="num">I</span>
+        <h3>お賽銭</h3>
+        <p>アプリ内の賽銭箱から。メニューバーの曼荼羅を右クリック→『お賽銭箱…』。決済はAppleが処理します。<em style="font-style:normal;opacity:.72">（v1.2アップデートで近日登場）</em><span class="en">In-app Tip Jar — right-click the menu-bar mandala → 'Tip Jar…'. Processed by Apple. Coming soon in the v1.2 update.</span></p>
+      </div>
+      <!-- KOFI-LANE(#293 step 6): Ko-fi開設後にこのコメントを外し、href と data-kofi に実URLを注入してからデプロイする。
+           死リンクのままの公開は禁止（Sharebar 9日放置事故の再発防止・デプロイ規約7）。
+      <div class="mode">
+        <span class="num">II</span>
+        <h3>Ko-fi</h3>
+        <p>ブラウザから、一服のお茶を。<span class="en">Buy me a tea on Ko-fi.</span></p>
+        <a class="kofi-btn" href="#" data-kofi="">
+          Ko-fi で応援する
+          <small>SUPPORT ON KO-FI</small>
+        </a>
+      </div>
+      -->
+    </div>
+    <p class="lead" style="margin-top:2.6rem;font-size:.72rem;letter-spacing:.04em">
+      いずれも開発者個人への応援です。寺社・慈善団体など第三者への寄付ではありません。
+      <span class="en">Tips support an individual developer — not a donation to any temple, shrine, or charity.</span>
     </p>
   </div>
 </section>
@@ -352,7 +404,7 @@
       Mac App Store で入手
       <small>GET IT ON THE MAC APP STORE</small>
     </a>
-    <p class="price">買い切り <b>¥1,100 / US$6.99</b> — サブスクリプションなし <span style="letter-spacing:.05em">· no subscription</span></p>
+    <p class="price"><b>無料 / Free</b> — 広告なし・サブスクリプションなし <span style="letter-spacing:.05em">· no ads · no subscription</span></p>
   </div>
 </section>
 
