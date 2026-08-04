@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Redact Shot — Erase secrets before you share | スミ消し</title>
-<meta name="description" content="Redact Shot (スミ消し) is a privacy-first Mac app that blacks out emails, tokens, names and figures in your screenshots before you share. Fully on-device — zero network, irreversible black box, one-time purchase.">
+<meta name="description" content="Redact Shot (スミ消し) is a free, privacy-first Mac app that blacks out emails, tokens, names and figures in your screenshots before you share — your images never leave your Mac. No network entitlement, irreversible black box.">
 <meta name="theme-color" content="#0d0d10">
 <link rel="canonical" href="https://key115.github.io/redactshot/">
 <link rel="icon" href="assets/appicon.png">
@@ -12,14 +12,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Redact Shot">
 <meta property="og:title" content="Redact Shot — Erase secrets before you share">
-<meta property="og:description" content="Black out the secrets in your screenshots, right before you share. Fully on-device: zero network, irreversible black box, one-time purchase.">
+<meta property="og:description" content="Black out the secrets in your screenshots, right before you share. Free and fully on-device — your images never leave your Mac. No network entitlement, irreversible black box.">
 <meta property="og:url" content="https://key115.github.io/redactshot/">
 <meta property="og:image" content="https://key115.github.io/redactshot/assets/og.png">
 <meta property="og:image:width" content="2560">
 <meta property="og:image:height" content="1600">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Redact Shot — Erase secrets before you share">
-<meta name="twitter:description" content="Black out the secrets in your screenshots, right before you share. Fully on-device.">
+<meta name="twitter:description" content="Black out the secrets in your screenshots, right before you share. Free — your images never leave your Mac.">
 <meta name="twitter:image" content="https://key115.github.io/redactshot/assets/og.png">
 <!-- System fonts only — no external requests, matching the app's zero-network promise. -->
 <style>
@@ -186,6 +186,9 @@
   .perm .pt{ font-size:14.5px; }
   .perm .ps{ font-family:var(--mono); font-size:11.5px; color:var(--muted2); letter-spacing:.3px; margin-top:2px; }
 
+  /* support section (open-to-close-development lanes) */
+  .support-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:18px; margin-top:34px; }
+
   /* cta */
   .cta-band{ border:1px solid var(--line); border-radius:22px; background:
       radial-gradient(120% 160% at 0% 0%, rgba(216,63,44,.14), transparent 55%), var(--bg2); padding:58px 48px; text-align:center; }
@@ -253,9 +256,9 @@
             <a href="#how" class="btn ghost">See how it works</a>
           </div>
           <div class="hero-chips chips">
-            <span class="chip"><span class="d"></span>Zero network</span>
+            <span class="chip"><span class="d"></span>No network entitlement</span>
             <span class="chip"><span class="d"></span>Irreversible black box</span>
-            <span class="chip"><span class="d"></span>One-time purchase</span>
+            <span class="chip"><span class="d"></span>Free</span>
           </div>
         </div>
         <div class="shot" style="z-index:1;">
@@ -292,13 +295,13 @@
       <div class="wrap">
         <div class="rv center-col">
           <span class="kicker center">Why it's safe</span>
-          <h2 class="h" style="margin-top:14px;">Zero network. Everything stays local.</h2>
-          <p class="lead" style="margin:18px auto 0;">Uploading a sensitive screenshot to an online editor or AI breaks the rules at many workplaces. Redact Shot has no networking at all — so that risk simply isn&rsquo;t there.</p>
+          <h2 class="h" style="margin-top:14px;">Zero data sent. Everything stays local.</h2>
+          <p class="lead" style="margin:18px auto 0;">Uploading a sensitive screenshot to an online editor or AI breaks the rules at many workplaces. Redact Shot holds no network entitlement at all — so that risk simply isn&rsquo;t there.</p>
         </div>
         <div class="grid3">
           <div class="rv card" style="transition-delay:0ms;">
             <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.2"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/></svg></div>
-            <h3 style="font-size:21px;font-weight:700;">Zero network</h3>
+            <h3 style="font-size:21px;font-weight:700;">Zero data sent</h3>
             <p class="muted" style="margin-top:8px;font-size:14.5px;">Your image is never sent anywhere. All processing stays on the Mac.</p>
           </div>
           <div class="rv card" style="transition-delay:80ms;">
@@ -471,6 +474,24 @@
       </div>
     </section>
 
+    <section class="pad-sm" id="support">
+      <div class="wrap">
+        <div class="rv center-col">
+          <span class="kicker center">Support the developer</span>
+          <h2 class="h" style="margin-top:14px;">Free to use. Support is optional.</h2>
+          <p class="lead" style="margin:18px auto 0;">Redact Shot is now free. No ads, no data collection — development is sustained by optional tips from the people who use it. Tips never unlock anything; everyone gets the same app.</p>
+          <p class="lead" style="margin:14px auto 0;">To everyone who purchased Redact Shot before it went free — your purchases built this app. Thank you.</p>
+        </div>
+        <div class="support-grid">
+          <div class="rv card">
+            <h3 style="font-size:19px;font-weight:700;">In-app tip</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">Menu bar icon → "Tip Jar…". Payments are processed by Apple.</p>
+          </div>
+        </div>
+        <p class="lead" style="margin-top:26px;max-width:640px;">Tips support an individual developer — not a donation to any third party.</p>
+      </div>
+    </section>
+
     <section class="pad-sm">
       <div class="wrap">
         <div class="rv cta-band">
@@ -478,7 +499,7 @@
           <h2 class="h" style="margin-top:14px;">Five seconds to safe, before you paste.</h2>
           <div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:26px;">
             <a href="https://apps.apple.com/app/id6777128789" data-appstore class="btn primary"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Get on the Mac App Store</a>
-            <span class="chip">One-time · zero network</span>
+            <span class="chip">Free · no ads · tips optional</span>
           </div>
         </div>
       </div>
@@ -527,9 +548,9 @@
             <a href="#how-ja" class="btn ghost">仕組みを見る</a>
           </div>
           <div class="hero-chips chips">
-            <span class="chip"><span class="d"></span>通信ゼロ</span>
+            <span class="chip"><span class="d"></span>ネットワーク権限なし</span>
             <span class="chip"><span class="d"></span>黒塗りは不可逆</span>
-            <span class="chip"><span class="d"></span>買い切り</span>
+            <span class="chip"><span class="d"></span>無料</span>
           </div>
         </div>
         <div class="shot" style="z-index:1;">
@@ -566,13 +587,13 @@
       <div class="wrap">
         <div class="rv center-col">
           <span class="kicker center">なぜ安全か</span>
-          <h2 class="h" style="margin-top:14px;">通信ゼロ。すべて、端末の中。</h2>
-          <p class="lead" style="margin:18px auto 0;">機密スクショをオンライン編集や生成AIに上げるのは、多くの職場でルール違反。スミ消しは通信そのものを持たないから、その心配がない。</p>
+          <h2 class="h" style="margin-top:14px;">データ送信ゼロ。すべて、端末の中。</h2>
+          <p class="lead" style="margin:18px auto 0;">機密スクショをオンライン編集や生成AIに上げるのは、多くの職場でルール違反。スミ消しはネットワーク権限そのものを持たないから、その心配がない。</p>
         </div>
         <div class="grid3">
           <div class="rv card" style="transition-delay:0ms;">
             <div class="stat-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.2"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/></svg></div>
-            <h3 style="font-size:21px;font-weight:700;">通信ゼロ</h3>
+            <h3 style="font-size:21px;font-weight:700;">データ送信ゼロ</h3>
             <p class="muted" style="margin-top:8px;font-size:14.5px;">画像を外部に一切送らない。すべて端末内で処理。</p>
           </div>
           <div class="rv card" style="transition-delay:80ms;">
@@ -745,6 +766,24 @@
       </div>
     </section>
 
+    <section class="pad-sm" id="support-ja">
+      <div class="wrap">
+        <div class="rv center-col">
+          <span class="kicker center">開発を応援</span>
+          <h2 class="h" style="margin-top:14px;">無料で使える。応援は、任意。</h2>
+          <p class="lead" style="margin:18px auto 0;">スミ消しは無料になりました。広告なし・データ収集なし。開発は、使ってくださる方からの任意のチップに支えられています。チップで機能が解除されることはありません — 誰でも同じアプリです。</p>
+          <p class="lead" style="margin:14px auto 0;">これまでスミ消しをご購入くださった皆さまへ — 皆さまの購入が、このアプリをここまで育てました。ありがとうございます。</p>
+        </div>
+        <div class="support-grid">
+          <div class="rv card">
+            <h3 style="font-size:19px;font-weight:700;">アプリ内チップ</h3>
+            <p class="muted" style="margin-top:8px;font-size:14.5px;">メニューバーのアイコン →「チップを贈る…」。決済はAppleが処理します。</p>
+          </div>
+        </div>
+        <p class="lead" style="margin-top:26px;max-width:640px;">いずれも開発者個人への応援です。第三者への寄付ではありません。</p>
+      </div>
+    </section>
+
     <section class="pad-sm">
       <div class="wrap">
         <div class="rv cta-band">
@@ -752,7 +791,7 @@
           <h2 class="h" style="margin-top:14px;">貼る前に、5秒で安全に。</h2>
           <div style="display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:26px;">
             <a href="https://apps.apple.com/app/id6777128789" data-appstore class="btn primary"><svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>Mac App Store で入手</a>
-            <span class="chip">買い切り · 通信ゼロ</span>
+            <span class="chip">無料 · 広告なし · チップは任意</span>
           </div>
         </div>
       </div>
@@ -792,12 +831,14 @@
   try{ var s=localStorage.getItem(KEY); if(s==='en'||s==='ja') init=s; }catch(e){}
   setLang(init, false);
 
+
   document.addEventListener('click', function(e){
     var t=e.target.closest('[data-setlang]');
     if(t){ e.preventDefault(); setLang(t.getAttribute('data-setlang'), true); return; }
     var d=e.target.closest('[data-demo]');
     if(d){ e.preventDefault(); var root=d.closest('.lang-root'); var w=root&&root.querySelector('.demo-interactive');
            if(w) w.classList.toggle('on', d.getAttribute('data-demo')==='run'); return; }
+
     var a=e.target.closest('[data-appstore]');
     if(a && a.getAttribute('href')==='#'){ e.preventDefault(); } // only block the pending-review placeholder
   });
