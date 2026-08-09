@@ -10,13 +10,13 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title>Sharebar — share a developer tool, not a screenshot</title>
-  <meta name="description" content="Sharebar is a Mac menu-bar app: ten developer tools plus shareable links that reproduce a regex, cron, color, or Unix-time result in any browser. No server, no account, no tracking.">
+  <meta name="description" content="Sharebar is a free Mac menu-bar app: ten developer tools plus shareable links that reproduce a regex, cron, color, or Unix-time result in any browser. No server, no account, no tracking.">
   <meta name="theme-color" content="#0e1014">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Sharebar">
-  <meta property="og:title" content="Sharebar — a live developer tool, shared with you">
-  <meta property="og:description" content="Open this link in any browser to reproduce the exact tool state — edit and re-run it live. Same engine as the Mac app, no install required.">
+  <meta property="og:title" content="Sharebar — share a developer tool, not a screenshot">
+  <meta property="og:description" content="A free Mac menu-bar app: ten developer tools plus links that reproduce the exact state in any browser. No server, no tracking — your data never leaves your Mac.">
   <meta property="og:url" content="https://key115.github.io/sharebar/">
   <meta property="og:image" content="https://key115.github.io/sharebar/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -155,8 +155,8 @@ not a screenshot.</h1>
       <section class="section">
         <div class="wrap">
           <div class="callout hi big">
-            <div class="ct-h">No network code — verify it yourself</div>
-            <div class="ct-b">No StoreKit, no analytics SDK, no telemetry. The entitlements carry no network permission — a third party can confirm it with <code class="mono">codesign</code>. Data-carrying tools can't make a link at all, so confidential data has no path into a URL.</div>
+            <div class="ct-h">Your data never leaves your Mac — the link <em>is</em> the data</div>
+            <div class="ct-b">The app itself makes no network connections, holds no network entitlement, and collects no data — a third party can confirm the entitlements with <code class="mono">codesign</code>. Optional tips are processed by Apple’s App Store outside the app. Data-carrying tools can't make a link at all, so confidential data has no path into a URL.</div>
           </div>
         </div>
       </section>
@@ -167,7 +167,7 @@ not a screenshot.</h1>
           <div class="price-band">
             <div class="pb-text">
               <h2>Get Sharebar for Mac</h2>
-              <p>Offline-first. No telemetry, no tracking — and no network code at all.</p>
+              <p>Free. Offline-first — no telemetry, no tracking, and your data never leaves your Mac.</p>
             </div>
             <div class="pb-cta">
               <a class="btn primary lg" href="https://apps.apple.com/app/id6781006552" data-appstore="">
@@ -177,6 +177,32 @@ not a screenshot.</h1>
               <p class="note">Availability varies by region; the product description works everywhere.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- support / tips (#342) — the app is free; two optional tip lanes.
+           The Ko-fi lane ships hidden: js/app.js reveals it only once its
+           anchor's data-kofi attribute carries the confirmed, host-exact
+           Ko-fi page URL (same placeholder pattern as the data-appstore
+           CTAs before the App Store listing went live). -->
+      <section class="section" id="support-tips">
+        <div class="wrap">
+          <div class="sec-head">
+            <h2>Free for everyone — supported by optional tips.</h2>
+            <p>Sharebar is free. No ads, no tracking, no data collection — development is sustained by optional tips from people who find it useful.</p>
+          </div>
+          <div class="tip-lanes">
+            <div class="tip-lane">
+              <h3>Tip Jar</h3>
+              <p>In the app — open the menu bar popover → Tip Jar. Processed by Apple.</p>
+            </div>
+            <div class="tip-lane" id="lane-kofi" hidden>
+              <h3>Ko-fi</h3>
+              <p>Prefer the browser? Leave a tip on Ko-fi.</p>
+              <p class="tl-cta"><a class="btn" id="cta-kofi" href="#support-tips" data-kofi="">Tip on Ko-fi</a></p>
+            </div>
+          </div>
+          <p class="note">Tips support an individual developer. Nothing is unlocked, and nothing is provided in return.</p>
         </div>
       </section>
 
@@ -201,16 +227,19 @@ not a screenshot.</h1>
       <div class="wrap">
         <div class="tool-card">
           <h2 id="tool-title">Opening shared link…</h2>
-          <p class="subtle" id="tool-sub">This is a reproduction of a Sharebar tool. Edit any value to re-run it — your changes stay here and are never written back to the link.</p>
+          <p class="subtle">This is a reproduction of a Sharebar tool. Edit any value to re-run it — your changes stay here and are never written back to the link.</p>
           <div id="editor" class="editor"></div>
           <div id="result" class="result"></div>
         </div>
 
-        <div class="btn-row" id="receiver-ctas">
+        <div class="btn-row">
           <a class="btn primary" id="cta-open" href="#open">Open in Sharebar</a>
           <a class="btn" id="cta-getapp-receiver" href="https://apps.apple.com/app/id6781006552" data-appstore="">Get the app</a>
         </div>
-        <p class="open-hint" id="open-hint" hidden>Don’t have Sharebar yet? Get the app to open links straight from your menu bar.</p>
+        <p class="open-hint" id="open-hint" hidden>Don’t have Sharebar yet? The Mac app is free — get it to open links straight from your menu bar.</p>
+        <!-- Receiver credit (#334 / v1.1 §4): attribution only — relative link,
+             no id, no handlers, no tracking. Never shown in landing mode. -->
+        <p class="open-hint">Shared with <a href="index.html">Sharebar</a> — a free Mac menu-bar app</p>
       </div>
     </section>
   </main>
@@ -225,7 +254,7 @@ not a screenshot.</h1>
         <a href="privacy.html">Privacy</a>
       </nav>
       <span class="sp"></span>
-      <span class="f-note">© Sharebar · No network code</span>
+      <span class="f-note">© Sharebar · Your data never leaves your Mac</span>
     </div>
   </footer>
 

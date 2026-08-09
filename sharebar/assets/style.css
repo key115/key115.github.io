@@ -106,7 +106,6 @@ h1, h2, h3, h4, p { margin: 0; }
 .btn .px { font-family: var(--mono); font-size: 12px; font-weight: 500; opacity: 0.85; padding-left: 8px; margin-left: 2px; border-left: 1px solid rgba(255,255,255,0.25); }
 .btn .ic { width: 16px; height: 16px; display: block; }
 .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
-.btn-row[hidden] { display: none; } /* author display:flex would defeat the hidden attribute */
 
 /* ============================================================
    Eyebrow / kicker, chips, badges, kbd
@@ -169,7 +168,6 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 .lp-hero .wrap { position: relative; z-index: 1; }
 .lp-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
-.lp-hero-grid > * { min-width: 0; } /* let columns shrink below the mock window's min-content */
 .lp-hero h1 {
   font-size: clamp(34px, 5vw, 50px); line-height: 1.1; letter-spacing: -0.025em;
   margin-top: 18px; white-space: pre-line;
@@ -301,6 +299,15 @@ h1, h2, h3, h4, p { margin: 0; }
 .price-band .pb-text p { color: var(--muted); font-size: 16px; }
 .price-band .pb-cta { text-align: center; }
 
+/* support / tips lanes (LP #support-tips — #342). Flex, not grid, so the
+   Tip Jar lane spans the full band while the Ko-fi lane ships hidden
+   (js/app.js reveals it only once its data-kofi URL is confirmed). */
+.tip-lanes { display: flex; gap: 16px; flex-wrap: wrap; }
+.tip-lane { flex: 1 1 300px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+.tip-lane h3 { font-size: 16.5px; margin-bottom: 7px; }
+.tip-lane p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.tip-lane .tl-cta { margin-top: 12px; }
+
 /* ============================================================
    Guide — sticky tabs + section grid (variant B)
    ============================================================ */
@@ -320,7 +327,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .guide-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px 28px; scroll-margin-top: 132px; }
 .guide-card .vis-split { display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
 .guide-card .vis-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 720px) { .guide-card .vis-split { grid-template-columns: 1fr; } .guide-card .vis-2 { grid-template-columns: 1fr; } .guide-card .vis-split .popover { width: auto; } }
+@media (max-width: 720px) { .guide-card .vis-split { grid-template-columns: 1fr; } .guide-card .vis-2 { grid-template-columns: 1fr; } }
 .guide-card .sec-num { font-family: var(--mono); font-size: 12px; color: var(--accent-2); letter-spacing: 1px; }
 .guide-card h2 { font-size: 21px; margin: 4px 0 8px; letter-spacing: -0.01em; }
 .guide-card > p { color: var(--muted); font-size: 14.5px; line-height: 1.66; }
@@ -449,14 +456,9 @@ h1, h2, h3, h4, p { margin: 0; }
   .nav a { padding: 6px 8px; font-size: 14px; }
   .nav { gap: 1px; }
   .nav .nav-cta { display: none; } /* hero CTA is right below; keep the mobile bar uncramped */
-  .nav a[href="index.html"] { display: none; } /* brand mark already links home */
-  .site-header .wrap { gap: 10px; height: 56px; } /* keep the last nav item inside the 18px gutter */
   .kv .k { min-width: 0; }
   .flow .step { min-width: 100%; }
   .flow .arrow { display: none; }
   .guide-tabs { top: 54px; }
-}
-@media (max-width: 350px) {
-  .brand > span:last-child { display: none; } /* Sb mark alone — keeps the gutter on 320px-class screens */
-  .btn.lg { padding: 14px 16px; font-size: 15px; } /* nowrap CTA labels must fit the 284px content box */
+  .site-header .wrap { height: 56px; }
 }

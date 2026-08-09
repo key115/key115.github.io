@@ -10,7 +10,13 @@
 //     worker (the receiver tweaks values; edits are NEVER written back to the
 //     URL — F-018),
 //   * enforce the 200 ms regex watchdog by terminating + respawning the worker
-//     (F-027),
+//     (F-027), re-posting jobs that were queued behind the stuck one, and DROP
+//     stale replies/timeouts via a request generation so the newest edit always
+//     wins the render (#218),
+//   * degrade gracefully when Web Workers are unavailable (file:// direct open,
+//     blocked workers): the landing/receiver UI always renders first, and the
+//     result area shows an explicit WORKER_UNAVAILABLE message instead of a
+//     blank page (#217),
 //   * render every result as TEXT NODES only (innerHTML is never used on
 //     fragment-derived data — XSS-safe by construction),
 //   * wire the CTAs: "Open in Sharebar" (sharebar://, with graceful fallback to
@@ -42,11 +48,23 @@
   // --- worker lifecycle + 200ms watchdog -----------------------------------
   var worker = null;
   var nextId = 1;
-  var pending = {}; // id -> {resolve, timer}
+  var pending = {}; // id -> {resolve, timer, message}
 
+  // #217 — Worker can be unusable in this environment (file:// direct open,
+  // legacy WebViews, enterprise policies that block workers). Spawning is
+  // therefore fallible-by-design: spawnWorker() returns false instead of
+  // throwing, so boot never dies before the UI is drawn. A worker-less
+  // environment still shows the full landing / receiver chrome; only the live
+  // evaluation degrades, to an explicit WORKER_UNAVAILABLE message.
   function spawnWorker() {
-    if (worker) { try { worker.terminate(); } catch (e) {} }
-    worker = new Worker('js/worker.js');
+    if (worker) { try { worker.terminate(); } catch (e) {} worker = null; }
+    if (typeof Worker === 'undefined') return false;
+    try {
+      worker = new Worker('js/worker.js');
+    } catch (e) {
+      worker = null;
+      return false;
+    }
     worker.onmessage = function (ev) {
       var msg = ev.data || {};
       if (msg.type === 'ready') return;
@@ -65,22 +83,66 @@
         p.resolve({ ok: false, error: { code: 'WORKER_ERROR', message: 'evaluation engine failed to load' } });
       });
     };
+    return true;
+  }
+
+  // Spawn lazily on first use (the landing never needs a worker at all — #217),
+  // reuse the live worker afterwards.
+  function ensureWorker() {
+    return worker ? true : spawnWorker();
+  }
+
+  function workerUnavailable() {
+    return { ok: false, error: { code: 'WORKER_UNAVAILABLE', message: 'web workers are unavailable in this environment' } };
+  }
+
+  // The watchdog terminated a stuck worker. Messages are FIFO inside a worker,
+  // so any job still pending was QUEUED BEHIND the stuck one and died with it —
+  // and those jobs are NEWER than the one that timed out. Losing them would make
+  // a fast, innocent request report "pattern too complex" (#218). Re-post them,
+  // oldest first, to the fresh worker. Their original watchdog timers keep
+  // running, so a survivor that is itself stuck still times out on its own
+  // deadline — no unbounded retry.
+  function respawnAndRecover() {
+    var survivors = Object.keys(pending).sort(function (a, b) { return Number(a) - Number(b); });
+    if (spawnWorker()) {
+      survivors.forEach(function (pid) {
+        var p = pending[pid];
+        if (p) worker.postMessage(p.message);
+      });
+      return;
+    }
+    // Respawn failed (worker support went away mid-session): fail the
+    // survivors closed instead of letting them dangle until their timeouts.
+    survivors.forEach(function (pid) {
+      var p = pending[pid];
+      if (!p) return;
+      clearTimeout(p.timer);
+      delete pending[pid];
+      p.resolve(workerUnavailable());
+    });
   }
 
   // Post a job to the worker with a deadline. On timeout we TERMINATE the worker
   // (the only way to stop catastrophic backtracking) and respawn it, resolving
-  // with a TIMEOUT error so the UI shows "pattern too complex" (F-027).
+  // with a TIMEOUT error so the UI shows "pattern too complex" (F-027). When no
+  // worker can be spawned at all, resolve with WORKER_UNAVAILABLE (#217) — the
+  // caller renders it like any other structured error; the page never blanks.
   function ask(type, payload, deadlineMs) {
     return new Promise(function (resolve) {
+      if (!ensureWorker()) {
+        resolve(workerUnavailable());
+        return;
+      }
       var id = nextId++;
-      var timer = setTimeout(function () {
-        delete pending[id];
-        spawnWorker(); // kill the stuck engine, get a fresh one for next time.
-        resolve({ ok: false, timeout: true, error: { code: 'TIMEOUT', message: 'pattern is too complex (evaluation timed out)' } });
-      }, deadlineMs);
-      pending[id] = { resolve: resolve, timer: timer };
       var m = { id: id, type: type };
       for (var k in payload) m[k] = payload[k];
+      var timer = setTimeout(function () {
+        delete pending[id];
+        respawnAndRecover(); // kill the stuck engine; re-post surviving jobs (#218).
+        resolve({ ok: false, timeout: true, error: { code: 'TIMEOUT', message: 'pattern is too complex (evaluation timed out)' } });
+      }, deadlineMs);
+      pending[id] = { resolve: resolve, timer: timer, message: m };
       worker.postMessage(m);
     });
   }
@@ -99,7 +161,8 @@
     EMPTY: 'This link is empty.',
     BAD_INPUT: 'This isn’t a Sharebar link.',
     TIMEOUT: 'That pattern is too complex to evaluate safely.',
-    WORKER_ERROR: 'Something went wrong loading the engine. Please reload.'
+    WORKER_ERROR: 'Something went wrong loading the engine. Please reload.',
+    WORKER_UNAVAILABLE: 'Live evaluation isn’t available in this environment (Web Workers are blocked or unsupported). The link itself may be fine — open this page over https, or open the link in the Sharebar app.'
   };
   function errorText(err) {
     if (!err) return 'This link could not be read.';
@@ -108,6 +171,13 @@
 
   // --- state ----------------------------------------------------------------
   var current = null; // the decoded (and possibly edited) state.
+
+  // #218 — request generation. boot()/rerun() stamp every async request with a
+  // monotonically increasing generation; a reply (or its watchdog TIMEOUT) is
+  // DROPPED when a newer request has been issued since. Without this, a slow
+  // evaluation's late TIMEOUT could overwrite the correct result of a newer,
+  // faster edit ("pattern too complex" flashing over a good result).
+  var gen = 0;
 
   function baseOpts(extra) {
     var o = { baseEpochMs: Date.now() };
@@ -124,7 +194,9 @@
   // UNKNOWN_VERSION (the core reads "get" as an unknown version) and wrongly
   // shows the receiver error screen instead of the anchored landing section.
   // This is the boot-level backstop behind the receiver "Get the app" fallback
-  // (which links to index.html#get): a non-link hash always shows the landing.
+  // (the receiver CTA links straight to the App Store listing — F-018 deviation
+  // recorded in the requirements v1.1 addendum; only gotoGetApp()'s LAST-RESORT
+  // navigation uses index.html#get): a non-link hash always shows the landing.
   // (#90 — F-018 graceful fallback.)
   var LINK_FRAGMENT = /^#?v\d+\./;
   function isLinkFragment(frag) {
@@ -132,14 +204,18 @@
   }
 
   function boot() {
-    spawnWorker();
+    var myGen = ++gen; // supersede anything still in flight (#218).
     var frag = location.hash || '';
     if (!isLinkFragment(frag)) {
       showLanding();
       return;
     }
+    // #217 — render the receiver chrome BEFORE touching the worker: the worker
+    // is spawned lazily inside ask(), and a failed spawn resolves to a rendered
+    // WORKER_UNAVAILABLE message. Boot can no longer die into a blank page.
     showReceiver();
     ask('decode', { fragment: frag }, 5000).then(function (res) {
+      if (myGen !== gen) return; // a newer link superseded this decode (#218).
       if (!res || !res.ok) {
         renderLinkError(res && res.error);
         return;
@@ -172,10 +248,6 @@
     box.appendChild(e);
     var ed = $('editor'); if (ed) clear(ed);
     var title = $('tool-title'); if (title) { clear(title); title.appendChild(document.createTextNode('Couldn’t open this link')); }
-    // Nothing is editable and there is no state to hand to the app: the
-    // "reproduction" blurb and the Open/Get CTA row would contradict the error.
-    var sub = $('tool-sub'); if (sub) sub.hidden = true;
-    var ctas = $('receiver-ctas'); if (ctas) ctas.hidden = true;
   }
 
   // ========================================================================
@@ -188,9 +260,6 @@
     var t = state.tool;
     var title = $('tool-title');
     if (title) { clear(title); title.appendChild(document.createTextNode(TOOL_LABEL[t.kind] || t.kind)); }
-    // Undo renderLinkError's hiding (hashchange can go error → valid link).
-    var sub = $('tool-sub'); if (sub) sub.hidden = false;
-    var ctas = $('receiver-ctas'); if (ctas) ctas.hidden = false;
 
     if (t.kind === 'regex') {
       addField(host, 'Pattern', 'pattern', t.pattern || '', onEdit);
@@ -282,11 +351,13 @@
   // ========================================================================
   function rerun() {
     if (!current) return;
+    var myGen = ++gen; // this rerun supersedes anything in flight (#218).
     var opts = baseOpts(tzOverride ? { tz: tzOverride } : null);
     // Only the regex path needs the tight watchdog; give the others generous
     // headroom (they are bounded and cannot backtrack).
     var deadline = current.tool.kind === 'regex' ? WATCHDOG_MS : 5000;
     ask('evaluate', { state: current, opts: opts }, deadline).then(function (res) {
+      if (myGen !== gen) return; // stale reply or stale TIMEOUT — drop (#218).
       render(res);
     });
   }
@@ -339,6 +410,14 @@
       if (run.dst) s += '  (' + run.dst + ')';
       list.appendChild(el('div', 'run', s));
     });
+    // #211: `exhausted` = the evaluator's ~5-year scan ended before the
+    // requested number of runs (a sparse schedule like leap day, or an
+    // expression that can never fire). Say so instead of a silently short list.
+    if (r.exhausted) {
+      list.appendChild(el('div', 'run muted', (!r.nextRuns || r.nextRuns.length === 0)
+        ? 'No runs within the ~5-year search window'
+        : 'No further runs within the ~5-year search window'));
+    }
     box.appendChild(list);
   }
 
@@ -381,7 +460,10 @@
     // the bare #cta-getapp lives in the HIDDEN #landing section, so we must NOT
     // touch it here (getElementById would otherwise hand back that hidden one,
     // and a bare '#get' href on it scrolls/links nowhere reachable — #90). The
-    // receiver button already carries a real, reachable href (index.html#get);
+    // receiver button already carries a real, reachable href — the App Store
+    // listing itself (data-appstore direct link, 2026-07-03 wiring; F-018
+    // deviation recorded in the requirements v1.1 addendum — the EU-safe
+    // product-explanation path is the receiver credit line's index.html link);
     // leave it intact.
     if (!open) return;
 
@@ -427,13 +509,38 @@
     location.href = 'index.html#get';
   }
 
+  // ========================================================================
+  // Support lanes (#342) — the LP's optional-tips section.
+  // ========================================================================
+  // The Ko-fi lane ships HIDDEN with a placeholder anchor (data-kofi=""), the
+  // same placeholder pattern the data-appstore CTAs used before the App Store
+  // listing went live. Once the Ko-fi page URL is confirmed it goes into the
+  // anchor's data-kofi attribute; this wires the href and reveals the lane.
+  // An empty or non-host-exact value keeps the lane hidden, so a
+  // half-configured lane can never render a dead or foreign tip link. The
+  // pattern mirrors the static test's allowlist: https://ko-fi.com/<page>
+  // only — no subdomains, no other hosts, no other schemes.
+  var KOFI_URL = /^https:\/\/ko-fi\.com\/[A-Za-z0-9_-]+\/?$/;
+  function initSupportLanes() {
+    var a = $('cta-kofi');
+    if (!a || typeof a.getAttribute !== 'function') return;
+    var url = a.getAttribute('data-kofi') || '';
+    if (!KOFI_URL.test(url)) return; // unset/placeholder → lane stays hidden.
+    a.setAttribute('href', url);
+    var lane = $('lane-kofi');
+    if (lane) lane.hidden = false;
+  }
+
   // Re-decode if the hash changes (e.g. user pastes a new link). Edits never
   // change the hash, so this only fires for genuinely new links.
   window.addEventListener('hashchange', boot);
 
+  // initSupportLanes is one-shot static wiring (#342); only boot() re-runs on
+  // hashchange (the lane lives inside #landing, which boot() shows/hides).
+  function start() { initSupportLanes(); boot(); }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
+    document.addEventListener('DOMContentLoaded', start);
   } else {
-    boot();
+    start();
   }
 })();
