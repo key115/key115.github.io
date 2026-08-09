@@ -37,7 +37,7 @@
 
   <main class="wrap doc">
     <h1>Privacy</h1>
-    <p class="updated">Last updated: 2026-06-14</p>
+    <p class="updated">Last updated: 2026-08-09</p>
 
     <p>Sharebar is built so that there is nothing to collect. The app runs entirely on your Mac, offline. This page — the Share Page — runs entirely in your browser.</p>
 
@@ -46,6 +46,9 @@
 
     <h2>What the app collects</h2>
     <p><strong>Nothing is sent off your device.</strong> The Sharebar app stores only your own preferences (settings, pinned tools, window position) inside its app container. It does not store your clipboard contents, your inputs, your results, or a history of links you generate. It has no analytics or crash-reporting SDK. Its App Store privacy label is <em>Data Not Collected</em>.</p>
+
+    <h2>Tips (in-app purchases)</h2>
+    <p>Sharebar offers optional tips. Purchases are processed by Apple, through the App Store, outside the app — the app itself makes no network connections and holds no network entitlement (a third party can confirm the entitlements with <code>codesign</code>). The developer receives no personal data about who tips, and nothing is unlocked in return. The App Store privacy label remains <em>Data Not Collected</em>.</p>
 
     <h2>Share Links</h2>
     <p>A Share Link encodes a tool’s state directly in the URL. There is no server and no link shortener — the link is self-contained. Only four tools (regex, cron, color, Unix time) can create a link; data-carrying tools (JSON, diff, Base64, URL encoding, hashing, UUID) deliberately cannot, so confidential data has no path into a link. For the regex tool, the test string is included only if you explicitly opt in.</p>
@@ -64,7 +67,7 @@
         <a href="privacy.html">Privacy</a>
       </nav>
       <span class="sp"></span>
-      <span class="f-note">© Sharebar · No network code</span>
+      <span class="f-note">© Sharebar · Your data never leaves your Mac</span>
     </div>
   </footer>
 </body>
