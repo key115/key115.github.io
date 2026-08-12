@@ -81,11 +81,39 @@ h1, h2, h3, h4, p { margin: 0; }
   box-shadow: 0 4px 14px -4px rgba(91, 140, 255, 0.7);
 }
 .nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
-.nav a { color: var(--muted); padding: 7px 11px; border-radius: 8px; font-size: 14.5px; font-weight: 500; }
+.nav a { color: var(--muted); padding: 7px 11px; border-radius: 8px; font-size: 14.5px; font-weight: 500; white-space: nowrap; }
 .nav a:hover { color: var(--ink); background: var(--panel); text-decoration: none; }
 .nav a.on { color: var(--ink); }
 .nav .nav-cta { color: var(--accent-ink); background: var(--accent); margin-left: 6px; }
 .nav .nav-cta:hover { background: #4a7bf0; color: #fff; }
+
+/* ============================================================
+   Language toggle (EN / 日本語)
+   ============================================================
+   Content exists twice in the markup, tagged data-lang="en"/"ja"; the
+   <html lang> attribute (default "en" in the file, switched by js/i18n.js)
+   decides which of the pair is visible. Pure CSS: with scripts disabled the
+   page is simply English. display:none removes the hidden language from the
+   accessibility tree and from find-in-page, so the page never reads twice. */
+:root:not([lang="ja"]) [data-lang="ja"] { display: none !important; }
+:root[lang="ja"] [data-lang="en"] { display: none !important; }
+/* Inline pairs (spans inside buttons/chips/headings) must not add a box of
+   their own, or flex gaps and pre-line headings would change: the visible
+   span dissolves into its parent. The hide rules above still win (!important). */
+span[data-lang="en"], span[data-lang="ja"] { display: contents; }
+
+.lang-tabs {
+  display: inline-flex; align-items: center; gap: 2px; flex: 0 0 auto;
+  padding: 3px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
+}
+.lang-tabs button {
+  appearance: none; -webkit-appearance: none; border: 0; background: transparent;
+  color: var(--muted); font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+  line-height: 1; padding: 5px 9px; border-radius: 7px; cursor: pointer;
+}
+.lang-tabs button:hover { color: var(--ink); }
+.lang-tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 
 /* ============================================================
    Buttons
@@ -448,6 +476,13 @@ h1, h2, h3, h4, p { margin: 0; }
   .tool-gallery { grid-template-columns: 1fr; }
   .perm-row { grid-template-columns: 1fr; }
 }
+@media (max-width: 780px) {
+  /* Japanese nav labels are wider than the English ones; below ~780px the
+     one-row header can't hold brand + 4 links + CTA + language tabs in ja.
+     Trim the ja row only — the CTA is duplicated in the hero right below. */
+  :root[lang="ja"] .nav .nav-cta { display: none; }
+  :root[lang="ja"] .nav a { padding: 7px 8px; font-size: 13.5px; }
+}
 @media (max-width: 560px) {
   .wrap { padding: 0 18px; }
   .lp-hero { padding: 40px 0 20px; }
@@ -459,6 +494,11 @@ h1, h2, h3, h4, p { margin: 0; }
   .kv .k { min-width: 0; }
   .flow .step { min-width: 100%; }
   .flow .arrow { display: none; }
-  .guide-tabs { top: 54px; }
-  .site-header .wrap { height: 56px; }
+  /* Two-row header: brand + language tabs on the first row, the nav links on
+     their own full-width second row (the tabs are a SIBLING of .nav for this).
+     Height becomes content-driven; .guide-tabs' sticky offset follows it. */
+  .site-header .wrap { height: auto; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; row-gap: 0; }
+  .brand { margin-right: auto; }
+  .nav { order: 3; flex-basis: 100%; margin-left: 0; }
+  .guide-tabs { top: 84px; }
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Sharebar — Privacy</title>
+  <title data-ja="Sharebar — プライバシー">Sharebar — Privacy</title>
   <meta name="description" content="Sharebar collects no data. No analytics, no cookies, no servers, no network requests.">
   <meta name="theme-color" content="#0e1014">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -26,49 +26,62 @@
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Sharebar"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
       <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html" class="on">Privacy</a>
-        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore="">Get the app</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html" class="on"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
+        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore=""><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></a>
       </nav>
+      <div class="lang-tabs" role="group" aria-label="Language / 言語">
+        <button type="button" id="lang-en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-ja" aria-pressed="false">日本語</button>
+      </div>
     </div>
   </header>
 
   <main class="wrap doc">
-    <h1>Privacy</h1>
-    <p class="updated">Last updated: 2026-08-09</p>
+    <h1><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></h1>
+    <p class="updated"><span data-lang="en">Last updated: 2026-08-12</span><span data-lang="ja">最終更新: 2026-08-12</span></p>
 
-    <p>Sharebar is built so that there is nothing to collect. The app runs entirely on your Mac, offline. This page — the Share Page — runs entirely in your browser.</p>
+    <p data-lang="en">Sharebar is built so that there is nothing to collect. The app runs entirely on your Mac, offline. This page — the Share Page — runs entirely in your browser.</p>
+    <p data-lang="ja">Sharebar は「集めるものが何もない」ように作られています。アプリは Mac 上で完全にオフラインで動作し、このページ（共有ページ）もすべてブラウザ内で完結します。</p>
 
-    <h2>What this website collects</h2>
-    <p><strong>Nothing.</strong> This site has no analytics, no cookies, no local storage of your link contents, no trackers, and makes no external network requests. When you open a Sharebar link, the shared state lives only in the part of the URL after the <code>#</code> (the fragment), which browsers never send to any server. Decoding and reproducing the tool happens locally, in a Web Worker, on your device.</p>
+    <h2><span data-lang="en">What this website collects</span><span data-lang="ja">このサイトが収集するもの</span></h2>
+    <p data-lang="en"><strong>Nothing.</strong> This site has no analytics, no cookies, no trackers, and makes no external network requests. The only thing it stores on your device is your language choice for this site (a single en/ja value in your browser's local storage) — never your link contents, and nothing ever leaves your device. When you open a Sharebar link, the shared state lives only in the part of the URL after the <code>#</code> (the fragment), which browsers never send to any server. Decoding and reproducing the tool happens locally, in a Web Worker, on your device.</p>
+    <p data-lang="ja"><strong>何も収集しません。</strong>このサイトにはアナリティクスもクッキーもトラッカーもなく、外部へのネットワークリクエストも行いません。端末に保存されるのは、このサイトの言語設定（ブラウザのローカルストレージに en/ja の1値）だけです — リンクの内容は保存されず、どの情報も端末の外に出ません。Sharebar のリンクを開いたとき、共有状態は URL の <code>#</code> 以降（フラグメント）にのみ存在し、ブラウザはフラグメントをどのサーバーにも送信しません。ツールのデコードと再現は、端末内の Web Worker でローカルに行われます。</p>
 
-    <h2>What the app collects</h2>
-    <p><strong>Nothing is sent off your device.</strong> The Sharebar app stores only your own preferences (settings, pinned tools, window position) inside its app container. It does not store your clipboard contents, your inputs, your results, or a history of links you generate. It has no analytics or crash-reporting SDK. Its App Store privacy label is <em>Data Not Collected</em>.</p>
+    <h2><span data-lang="en">What the app collects</span><span data-lang="ja">アプリが収集するもの</span></h2>
+    <p data-lang="en"><strong>Nothing is sent off your device.</strong> The Sharebar app stores only your own preferences (settings, pinned tools, window position) inside its app container. It does not store your clipboard contents, your inputs, your results, or a history of links you generate. It has no analytics or crash-reporting SDK. Its App Store privacy label is <em>Data Not Collected</em>.</p>
+    <p data-lang="ja"><strong>端末の外には何も送信されません。</strong>Sharebar アプリが保存するのは、あなた自身の設定（設定値・ピン留めツール・ウィンドウ位置）だけで、アプリのコンテナ内に置かれます。クリップボードの内容・入力・結果・生成したリンクの履歴は保存しません。アナリティクスやクラッシュレポートの SDK もありません。App Store のプライバシーラベルは「データ収集なし」です。</p>
 
-    <h2>Tips (in-app purchases)</h2>
-    <p>Sharebar offers optional tips. Purchases are processed by Apple, through the App Store, outside the app — the app itself makes no network connections and holds no network entitlement (a third party can confirm the entitlements with <code>codesign</code>). The developer receives no personal data about who tips, and nothing is unlocked in return. The App Store privacy label remains <em>Data Not Collected</em>.</p>
+    <h2><span data-lang="en">Tips (in-app purchases)</span><span data-lang="ja">チップ（アプリ内課金）</span></h2>
+    <p data-lang="en">Sharebar offers optional tips. Purchases are processed by Apple, through the App Store, outside the app — the app itself makes no network connections and holds no network entitlement (a third party can confirm the entitlements with <code>codesign</code>). The developer receives no personal data about who tips, and nothing is unlocked in return. The App Store privacy label remains <em>Data Not Collected</em>.</p>
+    <p data-lang="ja">Sharebar には任意のチップがあります。購入は Apple が App Store を通じてアプリの外で処理します — アプリ自身は外部通信を行わず、ネットワーク権限も持ちません（entitlements は <code>codesign</code> で第三者が確認できます）。誰がチップを贈ったかという個人情報が開発者に渡ることはなく、見返りに解除される機能もありません。App Store のプライバシーラベルは「データ収集なし」のままです。</p>
 
-    <h2>Share Links</h2>
-    <p>A Share Link encodes a tool’s state directly in the URL. There is no server and no link shortener — the link is self-contained. Only four tools (regex, cron, color, Unix time) can create a link; data-carrying tools (JSON, diff, Base64, URL encoding, hashing, UUID) deliberately cannot, so confidential data has no path into a link. For the regex tool, the test string is included only if you explicitly opt in.</p>
+    <h2><span data-lang="en">Share Links</span><span data-lang="ja">共有リンク</span></h2>
+    <p data-lang="en">A Share Link encodes a tool’s state directly in the URL. There is no server and no link shortener — the link is self-contained. Only four tools (regex, cron, color, unix-time) can create a link; data-carrying tools (JSON, diff, Base64, URL encoding, hashing, UUID) deliberately cannot, so confidential data has no path into a link. For the regex tool, the test string is included only if you explicitly opt in.</p>
+    <p data-lang="ja">共有リンクは、ツールの状態を URL に直接エンコードします。サーバーも短縮 URL もなく、リンクは自己完結です。リンクを作れるのは4ツール（regex・cron・color・unix-time）だけで、データを運ぶツール（JSON・diff・Base64・URLエンコード・ハッシュ・UUID）は意図的にリンクを作れません — 機密データが URL に入る経路をなくすためです。regex のテスト文字列は、明示的にオプトインした場合にのみ含まれます。</p>
 
-    <h2>Contact</h2>
-    <p>Questions about privacy? See the <a href="support.html">Support</a> page.</p>
+    <h2><span data-lang="en">Contact</span><span data-lang="ja">お問い合わせ</span></h2>
+    <p data-lang="en">Questions about privacy? See the <a href="support.html">Support</a> page.</p>
+    <p data-lang="ja">プライバシーに関するご質問は、<a href="support.html">サポート</a>ページをご覧ください。</p>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
       <span class="f-brand">Share<span class="dot">bar</span></span>
       <nav>
-        <a href="index.html">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html">Privacy</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
       </nav>
       <span class="sp"></span>
-      <span class="f-note">© Sharebar · Your data never leaves your Mac</span>
+      <span class="f-note"><span data-lang="en">© Sharebar · Your data never leaves your Mac</span><span data-lang="ja">© Sharebar · データは Mac の外に出ません</span></span>
     </div>
   </footer>
+
+  <!-- External script only (CSP: no inline script) — the EN/日本語 tabs. -->
+  <script src="js/i18n.js"></script>
 </body>
 </html>

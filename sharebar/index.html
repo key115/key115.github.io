@@ -9,7 +9,7 @@
        discipline (F-018). -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Sharebar — share a developer tool, not a screenshot</title>
+  <title data-ja="Sharebar — スクショではなく、開発ツールそのものを共有">Sharebar — share a developer tool, not a screenshot</title>
   <meta name="description" content="Sharebar is a free Mac menu-bar app: ten developer tools plus shareable links that reproduce a regex, cron, color, or Unix-time result in any browser. No server, no account, no tracking.">
   <meta name="theme-color" content="#0e1014">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -30,12 +30,21 @@
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Sharebar"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
       <nav class="nav">
-        <a href="index.html" class="on">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore="">Get the app</a>
+        <a href="index.html" class="on"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
+        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore=""><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></a>
       </nav>
+      <!-- Language tabs — js/i18n.js sets <html lang> and aria-pressed; the
+           data-lang pairs across the page follow via CSS. Buttons, not links:
+           switching never navigates and never touches a Share Link's hash.
+           A sibling of .nav (not a child) so the mobile header can wrap the
+           link row below while the tabs stay on the brand row. -->
+      <div class="lang-tabs" role="group" aria-label="Language / 言語">
+        <button type="button" id="lang-en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-ja" aria-pressed="false">日本語</button>
+      </div>
     </div>
   </header>
 
@@ -47,29 +56,30 @@
       <section class="lp-hero">
         <div class="wrap lp-hero-grid">
           <div>
-            <span class="eyebrow">Mac menu-bar app · dev tools + share links</span>
-            <h1>Share a developer tool,
-not a screenshot.</h1>
-            <p class="lede">Sharebar lives in your Mac menu bar. Format, convert and test — then hand someone a link that reproduces the exact state. They tweak it live, in the same engine, with no app required.</p>
+            <span class="eyebrow"><span data-lang="en">Mac menu-bar app · dev tools + share links</span><span data-lang="ja">Mac メニューバーアプリ · 開発ツール＋共有リンク</span></span>
+            <h1><span data-lang="en">Share a developer tool,
+not a screenshot.</span><span data-lang="ja">スクショではなく、
+ツールごと共有。</span></h1>
+            <p class="lede"><span data-lang="en">Sharebar lives in your Mac menu bar. Format, convert and test — then hand someone a link that reproduces the exact state. They tweak it live, in the same engine, with no app required.</span><span data-lang="ja">Sharebar は Mac のメニューバーに常駐。整形・変換・テストした状態を、そのまま再現できるリンクにして相手に渡せます。受け取った人はアプリ不要 — 同じエンジンで、その場で値を編集できます。</span></p>
             <div class="btn-row">
               <a class="btn primary lg" id="cta-getapp" href="https://apps.apple.com/app/id6781006552" data-appstore="">
                 <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
-                Get on the Mac App Store
+                <span data-lang="en">Get on the Mac App Store</span><span data-lang="ja">Mac App Store で入手</span>
               </a>
-              <a class="btn lg" href="guide.html">See how it works <span class="px">→ Guide</span></a>
+              <a class="btn lg" href="guide.html"><span data-lang="en">See how it works <span class="px">→ Guide</span></span><span data-lang="ja">使い方を見る <span class="px">→ ガイド</span></span></a>
             </div>
-            <p class="note">Shareable tools: regex · cron · color · unix-time. Nothing is uploaded — the whole state lives in the link.</p>
+            <p class="note"><span data-lang="en">Shareable tools: regex · cron · color · unix-time. Nothing is uploaded — the whole state lives in the link.</span><span data-lang="ja">共有できるツール: regex · cron · color · unix-time。アップロードは一切なし — 状態はすべてリンクの中に。</span></p>
           </div>
           <div class="lp-hero-media">
             <div class="win" aria-hidden="true">
               <div class="win-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="win-url">key115.github.io/sharebar/s#v1.7b22…</span></div>
               <div class="win-body">
-                <div class="win-tag">Share page · receiver's view</div>
+                <div class="win-tag"><span data-lang="en">Share page · receiver's view</span><span data-lang="ja">共有ページ · 受け取り側の表示</span></div>
                 <div class="code-line">/^(\d{4})-(\d{2})-(\d{2})$/g</div>
-                <div class="result-ph">3 matches · capture groups highlighted</div>
+                <div class="result-ph"><span data-lang="en">3 matches · capture groups highlighted</span><span data-lang="ja">3件マッチ · キャプチャグループを強調表示</span></div>
                 <div class="win-cta">
-                  <span class="btn primary sm">Open in Sharebar</span>
-                  <span class="btn sm">Get the app</span>
+                  <span class="btn primary sm"><span data-lang="en">Open in Sharebar</span><span data-lang="ja">Sharebar で開く</span></span>
+                  <span class="btn sm"><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></span>
                 </div>
               </div>
             </div>
@@ -81,10 +91,10 @@ not a screenshot.</h1>
       <section class="section tight">
         <div class="wrap">
           <div class="value-strip">
-            <span class="chip hl"><span class="g">∅</span>No server, ever</span>
-            <span class="chip"><span class="g">=</span>Same engine, both sides</span>
-            <span class="chip"><span class="g">⊘</span>Private by construction</span>
-            <span class="chip"><span class="g">↻</span>Edit and re-run</span>
+            <span class="chip hl"><span class="g">∅</span><span data-lang="en">No server, ever</span><span data-lang="ja">サーバーは一切なし</span></span>
+            <span class="chip"><span class="g">=</span><span data-lang="en">Same engine, both sides</span><span data-lang="ja">送り手も受け手も同じエンジン</span></span>
+            <span class="chip"><span class="g">⊘</span><span data-lang="en">Private by construction</span><span data-lang="ja">構造的にプライベート</span></span>
+            <span class="chip"><span class="g">↻</span><span data-lang="en">Edit and re-run</span><span data-lang="ja">編集して再実行</span></span>
           </div>
         </div>
       </section>
@@ -95,24 +105,25 @@ not a screenshot.</h1>
 
           <div class="lp-row">
             <div>
-              <h2>Ten tools, one keystroke away</h2>
-              <p>Copy a value, click the menu bar, and Smart Detect suggests the matching tool. Press Enter and the result is back on your clipboard — the everyday loop never opens an editor.</p>
+              <h2><span data-lang="en">Ten tools, one keystroke away</span><span data-lang="ja">10種のツールが、ワンキーで</span></h2>
+              <p data-lang="en">Copy a value, click the menu bar, and Smart Detect suggests the matching tool. Press Enter and the result is back on your clipboard — the everyday loop never opens an editor.</p>
+              <p data-lang="ja">値をコピーしてメニューバーをクリックすると、スマート検出が合うツールを提案。Enter を押せば結果がクリップボードに戻ります — 日常のループでエディタを開く必要はありません。</p>
             </div>
             <div class="lp-row-media">
               <div class="popover" aria-hidden="true">
-                <div class="pv-search"><span class="pv-cmd">⌘</span><span class="pv-ph">Search tools…</span></div>
+                <div class="pv-search"><span class="pv-cmd">⌘</span><span class="pv-ph"><span data-lang="en">Search tools…</span><span data-lang="ja">ツールを検索</span></span></div>
                 <div class="pv-detect">
-                  <span class="run">↵ Run</span>
-                  <span class="k">SMART DETECT</span>
-                  <div class="msg">Clipboard looks like a regex</div>
-                  <div class="pv-chips"><span class="l">DETECTED</span><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
+                  <span class="run"><span data-lang="en">↵ Run</span><span data-lang="ja">↵ 実行</span></span>
+                  <span class="k"><span data-lang="en">SMART DETECT</span><span data-lang="ja">スマート検出</span></span>
+                  <div class="msg"><span data-lang="en">Clipboard looks like a regex</span><span data-lang="ja">クリップボードは正規表現のようです</span></div>
+                  <div class="pv-chips"><span class="l"><span data-lang="en">DETECTED</span><span data-lang="ja">検出</span></span><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
                 </div>
                 <div class="pv-list">
                   <div class="pv-item"><span class="gl">{ }</span><span class="nm">JSON Format</span></div>
                   <div class="pv-item"><span class="gl">64</span><span class="nm">Base64</span></div>
-                  <div class="pv-item"><span class="gl">⌚</span><span class="nm">Unix Time</span><span class="badge-share">Shareable</span></div>
+                  <div class="pv-item"><span class="gl">⌚</span><span class="nm">Unix Time</span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div>
                   <div class="pv-item sel"><span class="gl">.*</span><span class="nm">Regex</span><span class="ret">↵</span></div>
-                  <div class="pv-item"><span class="gl">* *</span><span class="nm">Cron</span><span class="badge-share">Shareable</span></div>
+                  <div class="pv-item"><span class="gl">* *</span><span class="nm">Cron</span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div>
                 </div>
               </div>
             </div>
@@ -120,30 +131,32 @@ not a screenshot.</h1>
 
           <div class="lp-row flip">
             <div>
-              <h2>Same engine, both sides</h2>
-              <p>The app and the share page run one identical JavaScript core. The regex you test in the menu bar matches byte-for-byte in the receiver's browser — there is no second implementation to drift.</p>
+              <h2><span data-lang="en">Same engine, both sides</span><span data-lang="ja">送り手も受け手も、同じエンジン</span></h2>
+              <p data-lang="en">The app and the share page run one identical JavaScript core. The regex you test in the menu bar matches byte-for-byte in the receiver's browser — there is no second implementation to drift.</p>
+              <p data-lang="ja">アプリと共有ページは、同一の JavaScript コアを実行します。メニューバーでテストした正規表現は、受け取り側のブラウザでもバイト単位で同じ結果に — 実装が2つに分かれてズレることがありません。</p>
             </div>
             <div class="lp-row-media">
               <div class="engine" aria-hidden="true">
-                <div class="node"><div class="t">Mac app</div><div class="s">menu bar</div></div>
+                <div class="node"><div class="t"><span data-lang="en">Mac app</span><span data-lang="ja">Mac アプリ</span></div><div class="s"><span data-lang="en">menu bar</span><span data-lang="ja">メニューバー</span></div></div>
                 <div class="link">⇄</div>
-                <div class="node"><div class="t">Share page</div><div class="s">any browser</div></div>
-                <div class="core">one shared JS core · byte-for-byte identical</div>
+                <div class="node"><div class="t"><span data-lang="en">Share page</span><span data-lang="ja">共有ページ</span></div><div class="s"><span data-lang="en">any browser</span><span data-lang="ja">どのブラウザでも</span></div></div>
+                <div class="core"><span data-lang="en">one shared JS core · byte-for-byte identical</span><span data-lang="ja">単一の共有 JS コア · バイト単位で同一</span></div>
               </div>
             </div>
           </div>
 
           <div class="lp-row">
             <div>
-              <h2>When it's worth sharing</h2>
-              <p>Hit Share on a regex, cron, color or unix-time. A preview shows exactly what goes in the URL — then you get a self-contained link to paste anywhere.</p>
+              <h2><span data-lang="en">When it's worth sharing</span><span data-lang="ja">共有したくなったら</span></h2>
+              <p data-lang="en">Hit Share on a regex, cron, color or unix-time. A preview shows exactly what goes in the URL — then you get a self-contained link to paste anywhere.</p>
+              <p data-lang="ja">regex・cron・color・unix-time で「共有」を押すと、URL に入る内容がそのまま共有プレビューに表示されます。確認したら、どこにでも貼れる自己完結リンクをコピー。</p>
             </div>
             <div class="lp-row-media">
               <div class="flow">
-                <div class="step"><span class="n">1</span><span class="lbl">Tap Share on a shareable tool</span></div>
-                <div class="step"><span class="n">2</span><span class="lbl">Preview the exact URL contents</span></div>
-                <div class="step"><span class="n">3</span><span class="lbl">Copy the link, paste in Slack</span></div>
-                <div class="step"><span class="n">4</span><span class="lbl">They open &amp; tweak it live</span></div>
+                <div class="step"><span class="n">1</span><span class="lbl"><span data-lang="en">Tap Share on a shareable tool</span><span data-lang="ja">共有対応ツールで「共有」を押す</span></span></div>
+                <div class="step"><span class="n">2</span><span class="lbl"><span data-lang="en">Preview the exact URL contents</span><span data-lang="ja">URL に入る内容をプレビューで確認</span></span></div>
+                <div class="step"><span class="n">3</span><span class="lbl"><span data-lang="en">Copy the link, paste in Slack</span><span data-lang="ja">リンクをコピーして Slack に貼る</span></span></div>
+                <div class="step"><span class="n">4</span><span class="lbl"><span data-lang="en">They open &amp; tweak it live</span><span data-lang="ja">相手はブラウザで開いて、その場で編集</span></span></div>
               </div>
             </div>
           </div>
@@ -155,8 +168,8 @@ not a screenshot.</h1>
       <section class="section">
         <div class="wrap">
           <div class="callout hi big">
-            <div class="ct-h">Your data never leaves your Mac — the link <em>is</em> the data</div>
-            <div class="ct-b">The app itself makes no network connections, holds no network entitlement, and collects no data — a third party can confirm the entitlements with <code class="mono">codesign</code>. Optional tips are processed by Apple’s App Store outside the app. Data-carrying tools can't make a link at all, so confidential data has no path into a URL.</div>
+            <div class="ct-h"><span data-lang="en">Your data never leaves your Mac — the link <em>is</em> the data</span><span data-lang="ja">データは Mac の外に出ません — リンク<em>そのもの</em>がデータ</span></div>
+            <div class="ct-b"><span data-lang="en">The app itself makes no network connections, holds no network entitlement, and collects no data — a third party can confirm the entitlements with <code class="mono">codesign</code>. Optional tips are processed by Apple’s App Store outside the app. Data-carrying tools can't make a link at all, so confidential data has no path into a URL.</span><span data-lang="ja">アプリ自身は外部通信を行わず、ネットワーク権限も持たず、データ収集もありません — entitlements は <code class="mono">codesign</code> で第三者が確認できます。任意のチップは Apple の App Store がアプリ外で処理します。データ運搬系のツールはそもそもリンクを作れないため、機密データが URL に入る経路がありません。</span></div>
           </div>
         </div>
       </section>
@@ -166,15 +179,16 @@ not a screenshot.</h1>
         <div class="wrap">
           <div class="price-band">
             <div class="pb-text">
-              <h2>Get Sharebar for Mac</h2>
-              <p>Free. Offline-first — no telemetry, no tracking, and your data never leaves your Mac.</p>
+              <h2><span data-lang="en">Get Sharebar for Mac</span><span data-lang="ja">Sharebar for Mac を入手</span></h2>
+              <p data-lang="en">Free. Offline-first — no telemetry, no tracking, and your data never leaves your Mac.</p>
+              <p data-lang="ja">無料。オフラインファースト — テレメトリなし・トラッキングなし。データは Mac の外に出ません。</p>
             </div>
             <div class="pb-cta">
               <a class="btn primary lg" href="https://apps.apple.com/app/id6781006552" data-appstore="">
                 <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
-                Get on the Mac App Store
+                <span data-lang="en">Get on the Mac App Store</span><span data-lang="ja">Mac App Store で入手</span>
               </a>
-              <p class="note">Availability varies by region; the product description works everywhere.</p>
+              <p class="note"><span data-lang="en">Availability varies by region; the product description works everywhere.</span><span data-lang="ja">配信地域は限られる場合があります。この製品ページはどこからでも見られます。</span></p>
             </div>
           </div>
         </div>
@@ -188,21 +202,24 @@ not a screenshot.</h1>
       <section class="section" id="support-tips">
         <div class="wrap">
           <div class="sec-head">
-            <h2>Free for everyone — supported by optional tips.</h2>
-            <p>Sharebar is free. No ads, no tracking, no data collection — development is sustained by optional tips from people who find it useful.</p>
+            <h2><span data-lang="en">Free for everyone — supported by optional tips.</span><span data-lang="ja">誰でも無料 — 開発は任意のチップに支えられています。</span></h2>
+            <p data-lang="en">Sharebar is free. No ads, no tracking, no data collection — development is sustained by optional tips from people who find it useful.</p>
+            <p data-lang="ja">Sharebar は無料です。広告なし・トラッキングなし・データ収集なし — 開発は「役に立った」と感じた方からの任意のチップで続いています。</p>
           </div>
           <div class="tip-lanes">
             <div class="tip-lane">
-              <h3>Tip Jar</h3>
-              <p>In the app — open the menu bar popover → Tip Jar. Processed by Apple.</p>
+              <h3><span data-lang="en">Tip Jar</span><span data-lang="ja">チップ（Tip Jar）</span></h3>
+              <p data-lang="en">In the app — open the menu bar popover → Tip Jar. Processed by Apple.</p>
+              <p data-lang="ja">アプリ内から — メニューバーのポップオーバー → 「チップを贈る…」。決済は Apple が処理します。</p>
             </div>
             <div class="tip-lane" id="lane-kofi" hidden>
               <h3>Ko-fi</h3>
-              <p>Prefer the browser? Leave a tip on Ko-fi.</p>
-              <p class="tl-cta"><a class="btn" id="cta-kofi" href="#support-tips" data-kofi="">Tip on Ko-fi</a></p>
+              <p data-lang="en">Prefer the browser? Leave a tip on Ko-fi.</p>
+              <p data-lang="ja">ブラウザ派の方は、Ko-fi からも応援できます。</p>
+              <p class="tl-cta"><a class="btn" id="cta-kofi" href="#support-tips" data-kofi=""><span data-lang="en">Tip on Ko-fi</span><span data-lang="ja">Ko-fi でチップを贈る</span></a></p>
             </div>
           </div>
-          <p class="note">Tips support an individual developer. Nothing is unlocked, and nothing is provided in return.</p>
+          <p class="note"><span data-lang="en">Tips support an individual developer. Nothing is unlocked, and nothing is provided in return.</span><span data-lang="ja">チップは個人開発者への応援です。機能は何も解除されず、見返りの提供もありません。</span></p>
         </div>
       </section>
 
@@ -212,10 +229,10 @@ not a screenshot.</h1>
           <div class="cross-band">
             <span class="step-n">?</span>
             <div class="cb-text">
-              <div class="cb-h">New to Sharebar?</div>
-              <div class="cb-b">The guide walks through Smart Detect, every tool, and how share links work.</div>
+              <div class="cb-h"><span data-lang="en">New to Sharebar?</span><span data-lang="ja">Sharebar は初めてですか？</span></div>
+              <div class="cb-b"><span data-lang="en">The guide walks through Smart Detect, every tool, and how share links work.</span><span data-lang="ja">ガイドでは、スマート検出・全ツール・共有リンクの仕組みを順に説明します。</span></div>
             </div>
-            <a class="btn primary" href="guide.html">Open the full guide <span class="px">→ Guide</span></a>
+            <a class="btn primary" href="guide.html"><span data-lang="en">Open the full guide <span class="px">→ Guide</span></span><span data-lang="ja">ガイドを開く <span class="px">→ ガイド</span></span></a>
           </div>
         </div>
       </section>
@@ -226,20 +243,22 @@ not a screenshot.</h1>
     <section id="receiver" class="receiver" hidden>
       <div class="wrap">
         <div class="tool-card">
-          <h2 id="tool-title">Opening shared link…</h2>
-          <p class="subtle">This is a reproduction of a Sharebar tool. Edit any value to re-run it — your changes stay here and are never written back to the link.</p>
+          <h2 id="tool-title"><span data-lang="en">Opening shared link…</span><span data-lang="ja">共有リンクを開いています…</span></h2>
+          <p class="subtle"><span data-lang="en">This is a reproduction of a Sharebar tool. Edit any value to re-run it — your changes stay here and are never written back to the link.</span><span data-lang="ja">これは Sharebar ツールの再現表示です。値を編集するとその場で再実行されます — 変更はこの画面の中だけで、リンクに書き戻されることはありません。</span></p>
           <div id="editor" class="editor"></div>
           <div id="result" class="result"></div>
         </div>
 
         <div class="btn-row">
-          <a class="btn primary" id="cta-open" href="#open">Open in Sharebar</a>
-          <a class="btn" id="cta-getapp-receiver" href="https://apps.apple.com/app/id6781006552" data-appstore="">Get the app</a>
+          <a class="btn primary" id="cta-open" href="#open"><span data-lang="en">Open in Sharebar</span><span data-lang="ja">Sharebar で開く</span></a>
+          <a class="btn" id="cta-getapp-receiver" href="https://apps.apple.com/app/id6781006552" data-appstore=""><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></a>
         </div>
-        <p class="open-hint" id="open-hint" hidden>Don’t have Sharebar yet? The Mac app is free — get it to open links straight from your menu bar.</p>
+        <p class="open-hint" id="open-hint" hidden><span data-lang="en">Don’t have Sharebar yet? The Mac app is free — get it to open links straight from your menu bar.</span><span data-lang="ja">Sharebar をまだお持ちでない方へ — Mac アプリは無料です。インストールすると、リンクをメニューバーから直接開けます。</span></p>
         <!-- Receiver credit (#334 / v1.1 §4): attribution only — relative link,
-             no id, no handlers, no tracking. Never shown in landing mode. -->
-        <p class="open-hint">Shared with <a href="index.html">Sharebar</a> — a free Mac menu-bar app</p>
+             no id, no handlers, no tracking. Never shown in landing mode. The
+             ja twin below follows the same contract (bare relative anchor). -->
+        <p class="open-hint" data-lang="en">Shared with <a href="index.html">Sharebar</a> — a free Mac menu-bar app</p>
+        <p class="open-hint" data-lang="ja">無料の Mac メニューバーアプリ <a href="index.html">Sharebar</a> で共有</p>
       </div>
     </section>
   </main>
@@ -248,18 +267,20 @@ not a screenshot.</h1>
     <div class="wrap">
       <span class="f-brand">Share<span class="dot">bar</span></span>
       <nav>
-        <a href="index.html">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html">Privacy</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
       </nav>
       <span class="sp"></span>
-      <span class="f-note">© Sharebar · Your data never leaves your Mac</span>
+      <span class="f-note"><span data-lang="en">© Sharebar · Your data never leaves your Mac</span><span data-lang="ja">© Sharebar · データは Mac の外に出ません</span></span>
     </div>
   </footer>
 
-  <!-- External scripts only (CSP: no inline script). app.js drives the Share
-       Page; it spawns js/worker.js which loads the shared js-core bundle. -->
+  <!-- External scripts only (CSP: no inline script). i18n.js drives the EN/日本語
+       tabs; app.js drives the Share Page; it spawns js/worker.js which loads
+       the shared js-core bundle. -->
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

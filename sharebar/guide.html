@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Sharebar — Guide &amp; full reference</title>
+  <title data-ja="Sharebar — ガイド＆全リファレンス">Sharebar — Guide &amp; full reference</title>
   <meta name="description" content="How to use Sharebar and every one of its tools: Smart Detect, the ten tools, making and opening Share Links, pasteboard permission, keyboard shortcuts, privacy and FAQ.">
   <meta name="theme-color" content="#0e1014">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -26,37 +26,41 @@
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Sharebar"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
       <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="guide.html" class="on">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore="">Get the app</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html" class="on"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
+        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore=""><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></a>
       </nav>
+      <div class="lang-tabs" role="group" aria-label="Language / 言語">
+        <button type="button" id="lang-en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-ja" aria-pressed="false">日本語</button>
+      </div>
     </div>
   </header>
 
   <main>
     <div class="guide-head">
       <div class="wrap">
-        <span class="eyebrow">Guide &amp; reference</span>
-        <h1>Sharebar — Guide &amp; full reference</h1>
-        <p class="lede">How to use Sharebar and every one of its tools.</p>
+        <span class="eyebrow"><span data-lang="en">Guide &amp; reference</span><span data-lang="ja">ガイド＆リファレンス</span></span>
+        <h1><span data-lang="en">Sharebar — Guide &amp; full reference</span><span data-lang="ja">Sharebar — ガイド＆全リファレンス</span></h1>
+        <p class="lede"><span data-lang="en">How to use Sharebar and every one of its tools.</span><span data-lang="ja">Sharebar の使い方と、全ツールのリファレンス。</span></p>
       </div>
     </div>
 
     <!-- sticky tab chips -->
     <nav class="guide-tabs" aria-label="Guide sections">
       <div class="wrap">
-        <a class="chip hl" href="#sec-install">Install &amp; first launch</a>
-        <a class="chip" href="#sec-detect">Smart Detect</a>
-        <a class="chip" href="#sec-flow">One-click convert</a>
-        <a class="chip" href="#sec-tools">The ten tools</a>
-        <a class="chip" href="#sec-share">Make a Share Link</a>
-        <a class="chip" href="#sec-receive">Open a shared link</a>
-        <a class="chip" href="#sec-perm">Pasteboard permission</a>
-        <a class="chip" href="#sec-settings">Settings &amp; shortcuts</a>
-        <a class="chip" href="#sec-keys">Keyboard shortcuts</a>
-        <a class="chip" href="#sec-privacy">Privacy</a>
+        <a class="chip hl" href="#sec-install"><span data-lang="en">Install &amp; first launch</span><span data-lang="ja">インストールと初回起動</span></a>
+        <a class="chip" href="#sec-detect"><span data-lang="en">Smart Detect</span><span data-lang="ja">スマート検出</span></a>
+        <a class="chip" href="#sec-flow"><span data-lang="en">One-click convert</span><span data-lang="ja">ワンクリック変換</span></a>
+        <a class="chip" href="#sec-tools"><span data-lang="en">The ten tools</span><span data-lang="ja">10種のツール</span></a>
+        <a class="chip" href="#sec-share"><span data-lang="en">Make a Share Link</span><span data-lang="ja">共有リンクを作る</span></a>
+        <a class="chip" href="#sec-receive"><span data-lang="en">Open a shared link</span><span data-lang="ja">共有リンクを開く</span></a>
+        <a class="chip" href="#sec-perm"><span data-lang="en">Pasteboard permission</span><span data-lang="ja">ペーストボード許可</span></a>
+        <a class="chip" href="#sec-settings"><span data-lang="en">Settings &amp; shortcuts</span><span data-lang="ja">設定とショートカット</span></a>
+        <a class="chip" href="#sec-keys"><span data-lang="en">Keyboard shortcuts</span><span data-lang="ja">キーボードショートカット</span></a>
+        <a class="chip" href="#sec-privacy"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
         <a class="chip" href="#sec-faq">FAQ</a>
       </div>
     </nav>
@@ -67,17 +71,18 @@
         <!-- 01 install -->
         <section class="guide-card" id="sec-install">
           <div class="sec-num">01</div>
-          <h2>Install &amp; first launch</h2>
-          <p>Get Sharebar from the Mac App Store. It lives in the menu bar (no Dock icon). The first launch shows one onboarding screen that explains the pasteboard permission honestly and demos the flow on built-in sample data — it never reads your real clipboard during onboarding.</p>
+          <h2><span data-lang="en">Install &amp; first launch</span><span data-lang="ja">インストールと初回起動</span></h2>
+          <p data-lang="en">Get Sharebar from the Mac App Store. It lives in the menu bar (no Dock icon). There is no permission prompt at launch — the pasteboard permission only comes up when you actually use a tool, and Settings explains all three permission states with a direct link to System Settings.</p>
+          <p data-lang="ja">Sharebar は Mac App Store から入手できます。メニューバーに常駐し、Dock にアイコンは出ません。起動時に許可ダイアログは出ません — ペーストボード許可が関わるのは実際にツールを使うときだけで、3つの許可状態は設定画面で説明され、システム設定へのリンクも用意されています。</p>
           <div class="vis vis-2">
             <div class="onboard-mock">
               <div class="mark">Sb</div>
-              <div class="ob-t">Welcome to Sharebar</div>
-              <div class="ob-b">One honest screen — the pasteboard permission, demoed on sample data.</div>
+              <div class="ob-t"><span data-lang="en">Honest about the pasteboard</span><span data-lang="ja">ペーストボードに正直</span></div>
+              <div class="ob-b"><span data-lang="en">No prompt at launch — the clipboard only comes up when you run a tool, honestly across Allow / Ask / Deny.</span><span data-lang="ja">起動時のダイアログなし — クリップボードが関わるのはツールを使うときだけ。許可 / 毎回確認 / 拒否 すべてに正直に対応。</span></div>
             </div>
             <div>
               <div class="menubar-mock"><span class="mm-sb">Sb</span><span>Sharebar</span><span class="sp"></span><span>9:41</span></div>
-              <div class="menubar-cap">Always a click away in the menu bar — no Dock icon, no window in your way.</div>
+              <div class="menubar-cap"><span data-lang="en">Always a click away in the menu bar — no Dock icon, no window in your way.</span><span data-lang="ja">メニューバーからいつでもワンクリック — Dock アイコンも、邪魔なウィンドウもなし。</span></div>
             </div>
           </div>
         </section>
@@ -85,34 +90,35 @@
         <!-- 02 detect -->
         <section class="guide-card" id="sec-detect">
           <div class="sec-num">02</div>
-          <h2>Smart Detect</h2>
-          <p>When you open the popover, Sharebar checks the clipboard once and suggests the matching tool — JSON, Base64, URL-encoded, Unix time, UUID, color or cron. When more than one type fits, a “Detected:” chip row shows the candidates — tap one to switch. The top match is highlighted; press Enter to run it. It never polls in the background.</p>
+          <h2><span data-lang="en">Smart Detect</span><span data-lang="ja">スマート検出</span></h2>
+          <p data-lang="en">When you open the popover, Sharebar checks the clipboard once and suggests the matching tool — JSON, Base64, URL-encoded, Unix time, UUID, color, cron or a hash digest. When more than one type fits, a “Detected:” chip row shows the candidates — tap one to switch. The top match is highlighted; press Enter to run it. It never polls in the background.</p>
+          <p data-lang="ja">ポップオーバーを開くと、Sharebar はクリップボードを一度だけ確認し、合うツールを提案します — JSON・Base64・URLエンコード・Unix time・UUID・カラー・cron・ハッシュダイジェスト。複数の型が当てはまるときは「検出:」チップに候補が並び、タップで切り替え。最有力候補がハイライトされ、Enter で実行できます。バックグラウンドで監視することはありません。</p>
           <div class="vis vis-split">
             <div class="popover" aria-hidden="true">
-              <div class="pv-search"><span class="pv-cmd">⌘</span><span class="pv-ph">Search tools…</span></div>
+              <div class="pv-search"><span class="pv-cmd">⌘</span><span class="pv-ph"><span data-lang="en">Search tools…</span><span data-lang="ja">ツールを検索</span></span></div>
               <div class="pv-detect">
-                <span class="run">↵ Run</span>
-                <span class="k">SMART DETECT</span>
-                <div class="msg">Clipboard looks like a regex</div>
-                <div class="pv-chips"><span class="l">DETECTED</span><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
+                <span class="run"><span data-lang="en">↵ Run</span><span data-lang="ja">↵ 実行</span></span>
+                <span class="k"><span data-lang="en">SMART DETECT</span><span data-lang="ja">スマート検出</span></span>
+                <div class="msg"><span data-lang="en">Clipboard looks like a regex</span><span data-lang="ja">クリップボードは正規表現のようです</span></div>
+                <div class="pv-chips"><span class="l"><span data-lang="en">DETECTED</span><span data-lang="ja">検出</span></span><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
               </div>
               <div class="pv-list">
                 <div class="pv-item"><span class="gl">{ }</span><span class="nm">JSON Format</span></div>
                 <div class="pv-item"><span class="gl">64</span><span class="nm">Base64</span></div>
-                <div class="pv-item"><span class="gl">⌚</span><span class="nm">Unix Time</span><span class="badge-share">Shareable</span></div>
+                <div class="pv-item"><span class="gl">⌚</span><span class="nm">Unix Time</span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div>
                 <div class="pv-item sel"><span class="gl">.*</span><span class="nm">Regex</span><span class="ret">↵</span></div>
-                <div class="pv-item"><span class="gl">* *</span><span class="nm">Cron</span><span class="badge-share">Shareable</span></div>
+                <div class="pv-item"><span class="gl">* *</span><span class="nm">Cron</span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div>
               </div>
             </div>
             <div class="vis">
               <div class="callout hi">
-                <div class="ct-h">Detected types</div>
-                <div class="ct-b">JSON · Base64 · URL-encoded · Unix time (s/ms) · UUID · HEX/rgb color · cron</div>
+                <div class="ct-h"><span data-lang="en">Detected types</span><span data-lang="ja">検出できる型</span></div>
+                <div class="ct-b"><span data-lang="en">JSON · Base64 · URL-encoded · Unix time (s/ms) · UUID · HEX/rgb color · cron · hash digest</span><span data-lang="ja">JSON · Base64 · URLエンコード · Unix time（秒/ミリ秒） · UUID · HEX/rgb カラー · cron · ハッシュダイジェスト</span></div>
               </div>
               <div class="callout">
-                <div class="ct-h">Candidate chips</div>
+                <div class="ct-h"><span data-lang="en">Candidate chips</span><span data-lang="ja">候補チップ</span></div>
                 <div class="pv-chips"><span class="chip hl"><span class="g">.*</span>Regex</span><span class="chip"><span class="g">* *</span>Cron</span></div>
-                <div class="ct-b">More than one match? Tap a chip to switch.</div>
+                <div class="ct-b"><span data-lang="en">More than one match? Tap a chip to switch.</span><span data-lang="ja">複数マッチしたら、チップをタップして切り替え。</span></div>
               </div>
             </div>
           </div>
@@ -121,72 +127,76 @@
         <!-- 03 flow -->
         <section class="guide-card" id="sec-flow">
           <div class="sec-num">03</div>
-          <h2>One-click convert</h2>
-          <p>The everyday loop is copy → click → Enter → paste. Every successful convert auto-copies its result with a “Copied” toast, and an Undo restores whatever was on your clipboard before.</p>
+          <h2><span data-lang="en">One-click convert</span><span data-lang="ja">ワンクリック変換</span></h2>
+          <p data-lang="en">The everyday loop is copy → click → Enter → paste. Every successful convert auto-copies its result with a “Copied” toast, and an Undo restores whatever was on your clipboard before.</p>
+          <p data-lang="ja">日常のループは、コピー → クリック → Enter → ペースト。変換が成功するたびに結果は自動コピーされ、「コピーしました」のトーストが出ます。「元に戻す」で直前のクリップボード内容を復元できます。</p>
           <div class="vis">
             <div class="flow">
-              <div class="step"><span class="n">1</span><span class="lbl">Copy a value anywhere</span></div>
+              <div class="step"><span class="n">1</span><span class="lbl"><span data-lang="en">Copy a value anywhere</span><span data-lang="ja">どこでも値をコピー</span></span></div>
               <div class="arrow">→</div>
-              <div class="step"><span class="n">2</span><span class="lbl">Open the menu bar</span></div>
+              <div class="step"><span class="n">2</span><span class="lbl"><span data-lang="en">Open the menu bar</span><span data-lang="ja">メニューバーを開く</span></span></div>
               <div class="arrow">→</div>
-              <div class="step"><span class="n">3</span><span class="lbl">Smart Detect picks the tool</span></div>
+              <div class="step"><span class="n">3</span><span class="lbl"><span data-lang="en">Smart Detect picks the tool</span><span data-lang="ja">スマート検出がツールを選ぶ</span></span></div>
               <div class="arrow">→</div>
-              <div class="step"><span class="n">4</span><span class="lbl">Enter → result copied</span></div>
+              <div class="step"><span class="n">4</span><span class="lbl"><span data-lang="en">Enter → result copied</span><span data-lang="ja">Enter → 結果をコピー</span></span></div>
             </div>
-            <div class="callout"><span class="ct-h">Undo</span><div class="ct-b">Restores the one clipboard item from just before — kept in memory, never on disk.</div></div>
+            <div class="callout"><span class="ct-h"><span data-lang="en">Undo</span><span data-lang="ja">元に戻す</span></span><div class="ct-b"><span data-lang="en">Restores the one clipboard item from just before — kept in memory, never on disk.</span><span data-lang="ja">直前のクリップボード1件を復元します — メモリ内のみで、ディスクには保存されません。</span></div></div>
           </div>
         </section>
 
         <!-- 04 tools (gallery) -->
         <section class="guide-card" id="sec-tools">
           <div class="sec-num">04</div>
-          <h2>The ten tools</h2>
-          <p>Ten tools cover the day-to-day. Four of them can produce Share Links; the data-carrying six are local only — they have no share button by design.</p>
+          <h2><span data-lang="en">The ten tools</span><span data-lang="ja">10種のツール</span></h2>
+          <p data-lang="en">Ten tools cover the day-to-day. Four of them can produce Share Links; the data-carrying six are local only — they have no share button by design.</p>
+          <p data-lang="ja">日常づかいの10種。うち4つは共有リンクを作成できます。データを運ぶ残りの6つはローカル専用 — 設計として共有ボタンがありません。</p>
           <div class="vis tool-gallery">
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">{ }</span><h4>JSON Format</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Format (2/4/tab), minify, validate. Keeps key order &amp; numeric lexemes.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">64</span><h4>Base64</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Encode / decode, URL-safe toggle. UTF-8 text.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">%</span><h4>URL Encode</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Percent encode / decode. Query key-value breakdown.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">⌚</span><h4>Unix Time</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">s/ms auto-detect. ISO, local, UTC, relative at once. Now button.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">.*</span><h4>Regex</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">JavaScript flavor (gimsuy). Matches + groups highlighted.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">* *</span><h4>Cron</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">5 fields + @aliases. Plain language + next 5 runs (explicit TZ).</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">#</span><h4>Hash</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">MD5 / SHA-1 / SHA-256 / SHA-512 computed together.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">id</span><h4>UUID</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">v4 / v7 generation (up to 1,000) + inspection.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">▦</span><h4>Color</h4><span class="sp"></span><span class="badge-share">Shareable</span></div><div class="tc-body">HEX / RGB(A) / HSL(A) conversion + swatch.</div></div>
-            <div class="tcard"><div class="tc-top"><span class="tc-gl">±</span><h4>Diff</h4><span class="sp"></span><span class="badge-local">Local only</span></div><div class="tc-body">Line Myers + intra-line diff. Detach for big payloads.</div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">{ }</span><h4>JSON Format</h4><span class="sp"></span><span class="badge-local"><span data-lang="en">Local only</span><span data-lang="ja">ローカル専用</span></span></div><div class="tc-body"><span data-lang="en">Format (2/4/tab), minify, validate. Keeps key order &amp; numeric lexemes.</span><span data-lang="ja">整形（スペース2/4・タブ）・圧縮・検証。キー順と数値表記を保持。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">64</span><h4>Base64</h4><span class="sp"></span><span class="badge-local"><span data-lang="en">Local only</span><span data-lang="ja">ローカル専用</span></span></div><div class="tc-body"><span data-lang="en">Encode / decode, URL-safe toggle. UTF-8 text.</span><span data-lang="ja">エンコード / デコード、URLセーフ切替。UTF-8 テキスト対応。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">%</span><h4>URL Encode</h4><span class="sp"></span><span class="badge-local"><span data-lang="en">Local only</span><span data-lang="ja">ローカル専用</span></span></div><div class="tc-body"><span data-lang="en">Percent encode / decode. Query key-value breakdown.</span><span data-lang="ja">パーセントエンコード / デコード。クエリの key-value 分解。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">⌚</span><h4>Unix Time</h4><span class="sp"></span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div><div class="tc-body"><span data-lang="en">s/ms auto-detect. ISO, local, UTC, relative at once. Now button.</span><span data-lang="ja">秒/ミリ秒を自動判定。ISO・ローカル・UTC・相対表示を一度に。「現在」ボタン付き。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">.*</span><h4>Regex</h4><span class="sp"></span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div><div class="tc-body"><span data-lang="en">JavaScript flavor (gimsuy). Matches + groups highlighted.</span><span data-lang="ja">JavaScript 方式（gimsuy）。マッチとグループを強調表示。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">* *</span><h4>Cron</h4><span class="sp"></span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div><div class="tc-body"><span data-lang="en">5 fields + @aliases. Plain language + next 5 runs (explicit TZ).</span><span data-lang="ja">5フィールド＋@alias 対応。平易な説明と、次回5件の実行時刻（TZ明示）。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">#</span><h4>Hash</h4><span class="sp"></span><span class="badge-local"><span data-lang="en">Local only</span><span data-lang="ja">ローカル専用</span></span></div><div class="tc-body"><span data-lang="en">MD5 / SHA-1 / SHA-256 / SHA-512 computed together.</span><span data-lang="ja">MD5 / SHA-1 / SHA-256 / SHA-512 を同時計算。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">id</span><h4>UUID</h4><span class="sp"></span><span class="badge-local"><span data-lang="en">Local only</span><span data-lang="ja">ローカル専用</span></span></div><div class="tc-body"><span data-lang="en">v4 / v7 generation (up to 1,000) + inspection.</span><span data-lang="ja">v4 / v7 の生成（最大1,000個）と検査。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">▦</span><h4>Color</h4><span class="sp"></span><span class="badge-share"><span data-lang="en">Shareable</span><span data-lang="ja">共有可</span></span></div><div class="tc-body"><span data-lang="en">HEX / RGB(A) / HSL(A) conversion + swatch.</span><span data-lang="ja">HEX / RGB(A) / HSL(A) 変換とスウォッチ表示。</span></div></div>
+            <div class="tcard"><div class="tc-top"><span class="tc-gl">±</span><h4>Diff</h4><span class="sp"></span><span class="badge-local"><span data-lang="en">Local only</span><span data-lang="ja">ローカル専用</span></span></div><div class="tc-body"><span data-lang="en">Line Myers + intra-line diff. Detach for big payloads.</span><span data-lang="ja">行単位 Myers＋行内 diff。大きなテキストはウィンドウで開けます。</span></div></div>
           </div>
         </section>
 
         <!-- 05 share -->
         <section class="guide-card" id="sec-share">
           <div class="sec-num">05</div>
-          <h2>Make a Share Link</h2>
-          <p>On regex, cron, color or unix-time, hit Share. A Share Preview shows the exact, full content that goes into the URL — nothing leaves your machine unseen. For regex, the test string is excluded by default. Confirm to copy the link.</p>
+          <h2><span data-lang="en">Make a Share Link</span><span data-lang="ja">共有リンクを作る</span></h2>
+          <p data-lang="en">On regex, cron, color or unix-time, hit Share. A Share Preview shows the exact, full content that goes into the URL — nothing leaves your machine unseen. For regex, the test string is excluded by default. Confirm to copy the link.</p>
+          <p data-lang="ja">regex・cron・color・unix-time で「共有」を押すと、URL に入る内容の全文が共有プレビューに表示されます — 見えないままマシンの外に出るものはありません。regex のテスト文字列は既定で除外。確認したらリンクをコピーします。</p>
           <div class="vis">
             <div class="flow">
-              <div class="step"><span class="n">1</span><span class="lbl">Tap Share on a shareable tool</span></div>
-              <div class="step"><span class="n">2</span><span class="lbl">Preview the exact URL contents</span></div>
-              <div class="step"><span class="n">3</span><span class="lbl">Copy the link, paste in Slack</span></div>
-              <div class="step"><span class="n">4</span><span class="lbl">They open &amp; tweak it live</span></div>
+              <div class="step"><span class="n">1</span><span class="lbl"><span data-lang="en">Tap Share on a shareable tool</span><span data-lang="ja">共有対応ツールで「共有」を押す</span></span></div>
+              <div class="step"><span class="n">2</span><span class="lbl"><span data-lang="en">Preview the exact URL contents</span><span data-lang="ja">URL に入る内容をプレビューで確認</span></span></div>
+              <div class="step"><span class="n">3</span><span class="lbl"><span data-lang="en">Copy the link, paste in Slack</span><span data-lang="ja">リンクをコピーして Slack に貼る</span></span></div>
+              <div class="step"><span class="n">4</span><span class="lbl"><span data-lang="en">They open &amp; tweak it live</span><span data-lang="ja">相手はブラウザで開いて、その場で編集</span></span></div>
             </div>
-            <div class="callout hi"><div class="ct-h">Share Preview</div><div class="ct-b">Shows every field going into the URL. The regex test string is excluded by default (explicit opt-in).</div></div>
+            <div class="callout hi"><div class="ct-h"><span data-lang="en">Share Preview</span><span data-lang="ja">共有プレビュー</span></div><div class="ct-b"><span data-lang="en">Shows every field going into the URL. The regex test string is excluded by default (explicit opt-in).</span><span data-lang="ja">URL に入るすべてのフィールドを表示します。regex のテスト文字列は既定で除外（明示的なオプトイン）。</span></div></div>
           </div>
         </section>
 
         <!-- 06 receive -->
         <section class="guide-card" id="sec-receive">
           <div class="sec-num">06</div>
-          <h2>Open a shared link</h2>
-          <p>Anyone can open a Share Link in a browser — no app, any OS. The share page reproduces the result with the same engine and lets them tweak values live. Their edits never write back to the link. “Open in Sharebar” restores the state in the app.</p>
+          <h2><span data-lang="en">Open a shared link</span><span data-lang="ja">共有リンクを開く</span></h2>
+          <p data-lang="en">Anyone can open a Share Link in a browser — no app, any OS. The share page reproduces the result with the same engine and lets them tweak values live. Their edits never write back to the link. “Open in Sharebar” restores the state in the app.</p>
+          <p data-lang="ja">共有リンクはブラウザさえあれば誰でも開けます — アプリ不要、OS も問いません。共有ページは同じエンジンで結果を再現し、値をその場で編集できます。編集がリンクに書き戻されることはありません。「Sharebar で開く」を押すと、アプリに状態を復元します。</p>
           <div class="vis">
             <div class="win" aria-hidden="true">
               <div class="win-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="win-url">key115.github.io/sharebar/s#v1.7b22…</span></div>
               <div class="win-body">
-                <div class="win-tag">Share page · receiver's view</div>
+                <div class="win-tag"><span data-lang="en">Share page · receiver's view</span><span data-lang="ja">共有ページ · 受け取り側の表示</span></div>
                 <div class="code-line">/^(\d{4})-(\d{2})-(\d{2})$/g</div>
-                <div class="result-ph">3 matches · capture groups highlighted · editable</div>
+                <div class="result-ph"><span data-lang="en">3 matches · capture groups highlighted · editable</span><span data-lang="ja">3件マッチ · キャプチャグループを強調表示 · 編集可能</span></div>
                 <div class="win-cta">
-                  <span class="btn primary sm">Open in Sharebar</span>
-                  <span class="btn sm">Get the app</span>
+                  <span class="btn primary sm"><span data-lang="en">Open in Sharebar</span><span data-lang="ja">Sharebar で開く</span></span>
+                  <span class="btn sm"><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></span>
                 </div>
               </div>
             </div>
@@ -196,54 +206,59 @@
         <!-- 07 perm -->
         <section class="guide-card" id="sec-perm">
           <div class="sec-num">07</div>
-          <h2>Pasteboard permission</h2>
-          <p>macOS 26 has three pasteboard states. Sharebar follows them honestly — and Deny never blocks you, because ⌘V always works.</p>
+          <h2><span data-lang="en">Pasteboard permission</span><span data-lang="ja">ペーストボード許可</span></h2>
+          <p data-lang="en">macOS 26 has three pasteboard states. Sharebar follows them honestly — and Deny never blocks you, because ⌘V always works.</p>
+          <p data-lang="ja">macOS 26 のペーストボード許可には3つの状態があります。Sharebar はそれに正直に従います — 「拒否」でも困りません。⌘V はいつでも使えます。</p>
           <div class="vis">
             <div class="perm-row">
-              <div class="perm allow"><h4><span class="st"></span>Allow</h4><p>Smart Detect reads the clipboard once when you open the popover and shows what it read.</p></div>
-              <div class="perm ask"><h4><span class="st"></span>Ask</h4><p>It suggests a type without reading the contents until you actually run a tool.</p></div>
-              <div class="perm deny"><h4><span class="st"></span>Deny</h4><p>It skips reading entirely and drops to manual input — paste or type yourself.</p></div>
+              <div class="perm allow"><h4><span class="st"></span><span data-lang="en">Allow</span><span data-lang="ja">許可</span></h4><p data-lang="en">Smart Detect reads the clipboard once when you open the popover and shows what it read.</p><p data-lang="ja">ポップオーバーを開いたときに一度だけクリップボードを読み、何を読んだかを表示します。</p></div>
+              <div class="perm ask"><h4><span class="st"></span><span data-lang="en">Ask</span><span data-lang="ja">毎回確認</span></h4><p data-lang="en">It suggests a type without reading the contents until you actually run a tool.</p><p data-lang="ja">内容は読まずに型だけを提案し、実際にツールを実行するまで読み取りません。</p></div>
+              <div class="perm deny"><h4><span class="st"></span><span data-lang="en">Deny</span><span data-lang="ja">拒否</span></h4><p data-lang="en">It skips reading entirely and drops to manual input — paste or type yourself.</p><p data-lang="ja">読み取りを完全にスキップして手動入力に — 自分でペーストするか入力します。</p></div>
             </div>
-            <div class="callout"><div class="ct-b">We never say “one-time prompt” — Sharebar follows the real macOS 26 behavior honestly.</div></div>
+            <div class="callout"><div class="ct-b"><span data-lang="en">We never say “one-time prompt” — Sharebar follows the real macOS 26 behavior honestly.</span><span data-lang="ja">「確認は一度だけ」とは言いません — Sharebar は macOS 26 の実際の挙動に正直に従います。</span></div></div>
           </div>
         </section>
 
         <!-- 08 settings -->
         <section class="guide-card" id="sec-settings">
           <div class="sec-num">08</div>
-          <h2>Settings &amp; shortcuts</h2>
-          <p>One screen of settings: record an optional global hotkey with the “Record Shortcut” button (unset by default), launch at login (off), Smart Detect on/off, default JSON indent, and a link to the pasteboard permission in System Settings. Arrow keys and incremental search keep you off the mouse.</p>
+          <h2><span data-lang="en">Settings &amp; shortcuts</span><span data-lang="ja">設定とショートカット</span></h2>
+          <p data-lang="en">One screen of settings: record an optional global hotkey with the “Record Shortcut” button (unset by default), launch at login (off), Smart Detect on/off, default JSON indent, pinned tools, a link to the pasteboard permission in System Settings — plus a Support section with the optional Tip Jar. Arrow keys and incremental search keep you off the mouse.</p>
+          <p data-lang="ja">設定は1画面: 「ショートカットを記録」ボタンで任意のグローバルホットキーを登録（既定は未割当）、ログイン時に起動（既定オフ）、スマート検出のオン/オフ、JSON の既定インデント、ピン留めツールの管理、システム設定のペーストボード許可へのリンク — さらに任意のチップ（Tip Jar）があるサポートセクション。矢印キーとインクリメンタル検索で、マウスいらず。</p>
           <div class="vis chips">
-            <span class="chip hl"><span class="g">⏺</span>Global hotkey · Record Shortcut</span>
-            <span class="chip">Launch at login · off</span>
-            <span class="chip">Smart Detect · on</span>
-            <span class="chip">JSON indent</span>
-            <span class="chip"><span class="g">↑ ↓ ↵</span>Keyboard-first</span>
+            <span class="chip hl"><span class="g">⏺</span><span data-lang="en">Global hotkey · Record Shortcut</span><span data-lang="ja">グローバルホットキー · ショートカットを記録</span></span>
+            <span class="chip"><span data-lang="en">Launch at login · off</span><span data-lang="ja">ログイン時に起動 · オフ</span></span>
+            <span class="chip"><span data-lang="en">Smart Detect · on</span><span data-lang="ja">スマート検出 · オン</span></span>
+            <span class="chip"><span data-lang="en">JSON indent</span><span data-lang="ja">JSON インデント</span></span>
+            <span class="chip"><span data-lang="en">Tip Jar · optional</span><span data-lang="ja">チップ · 任意</span></span>
+            <span class="chip"><span class="g">↑ ↓ ↵</span><span data-lang="en">Keyboard-first</span><span data-lang="ja">キーボードファースト</span></span>
           </div>
         </section>
 
         <!-- 09 keys -->
         <section class="guide-card" id="sec-keys">
           <div class="sec-num">09</div>
-          <h2>Keyboard shortcuts</h2>
-          <p>Sharebar is built for the keyboard. A recorded global hotkey opens the popover from anywhere; inside it, ⌘⇧J / ⌘⇧B / ⌘⇧U jump straight to JSON / Base64 / UUID without auto-running, and in the JSON tool ⌘1 / ⌘2 / ⌘3 run Pretty / Minify / Validate. Arrow keys and incremental search move through the list; Enter runs the selection.</p>
+          <h2><span data-lang="en">Keyboard shortcuts</span><span data-lang="ja">キーボードショートカット</span></h2>
+          <p data-lang="en">Sharebar is built for the keyboard. A recorded global hotkey opens the popover from anywhere; inside it, ⌘⇧J / ⌘⇧B / ⌘⇧U jump straight to JSON / Base64 / URL Encode without auto-running, and in the JSON tool ⌘1 / ⌘2 / ⌘3 run Pretty / Minify / Validate. Arrow keys and incremental search move through the list; Enter runs the selection.</p>
+          <p data-lang="ja">Sharebar はキーボード前提で作られています。登録したグローバルホットキーでどこからでもポップオーバーを開き、⌘⇧J / ⌘⇧B / ⌘⇧U で JSON / Base64 / URL Encode へ直行（自動実行はしません）。JSON ツール内では ⌘1 / ⌘2 / ⌘3 が整形 / 圧縮 / 検証。矢印キーとインクリメンタル検索でリストを移動し、Enter で実行します。</p>
           <div class="vis keys">
-            <div class="krow"><span class="combo"><span class="kbd">Record</span></span><span class="kdesc">Open the popover from anywhere — your recorded global hotkey</span></div>
-            <div class="krow"><span class="combo"><span class="kbd">⌘⇧J</span><span class="kbd">⌘⇧B</span><span class="kbd">⌘⇧U</span></span><span class="kdesc">Jump to JSON / Base64 / UUID</span></div>
-            <div class="krow"><span class="combo"><span class="kbd">⌘1</span><span class="kbd">⌘2</span><span class="kbd">⌘3</span></span><span class="kdesc">JSON Pretty / Minify / Validate</span></div>
-            <div class="krow"><span class="combo"><span class="kbd">↑</span><span class="kbd">↓</span></span><span class="kdesc">Move through tools</span></div>
-            <div class="krow"><span class="combo"><span class="kbd">↵</span></span><span class="kdesc">Run / convert the selection</span></div>
-            <div class="krow"><span class="combo"><span class="kbd">⌘V</span></span><span class="kdesc">Manual paste — always works, any permission state</span></div>
+            <div class="krow"><span class="combo"><span class="kbd"><span data-lang="en">Record</span><span data-lang="ja">記録</span></span></span><span class="kdesc"><span data-lang="en">Open the popover from anywhere — your recorded global hotkey</span><span data-lang="ja">どこからでもポップオーバーを開く — 登録したグローバルホットキー</span></span></div>
+            <div class="krow"><span class="combo"><span class="kbd">⌘⇧J</span><span class="kbd">⌘⇧B</span><span class="kbd">⌘⇧U</span></span><span class="kdesc"><span data-lang="en">Jump to JSON / Base64 / URL Encode</span><span data-lang="ja">JSON / Base64 / URL Encode へ直行</span></span></div>
+            <div class="krow"><span class="combo"><span class="kbd">⌘1</span><span class="kbd">⌘2</span><span class="kbd">⌘3</span></span><span class="kdesc"><span data-lang="en">JSON Pretty / Minify / Validate</span><span data-lang="ja">JSON 整形 / 圧縮 / 検証</span></span></div>
+            <div class="krow"><span class="combo"><span class="kbd">↑</span><span class="kbd">↓</span></span><span class="kdesc"><span data-lang="en">Move through tools</span><span data-lang="ja">ツール間を移動</span></span></div>
+            <div class="krow"><span class="combo"><span class="kbd">↵</span></span><span class="kdesc"><span data-lang="en">Run / convert the selection</span><span data-lang="ja">選択中のツールを実行 / 変換</span></span></div>
+            <div class="krow"><span class="combo"><span class="kbd">⌘V</span></span><span class="kdesc"><span data-lang="en">Manual paste — always works, any permission state</span><span data-lang="ja">手動ペースト — 許可状態にかかわらず常に使えます</span></span></div>
           </div>
         </section>
 
         <!-- 10 privacy -->
         <section class="guide-card" id="sec-privacy">
           <div class="sec-num">10</div>
-          <h2>Privacy</h2>
-          <p>Nothing is stored or sent. No clipboard contents, no input, no link history, no analytics. Only settings, pins and window position live in app storage. App Privacy is “Data Not Collected.”</p>
+          <h2><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></h2>
+          <p data-lang="en">Nothing is stored or sent. No clipboard contents, no input, no link history, no analytics. Only settings, pins and window position live in app storage. App Privacy is “Data Not Collected.”</p>
+          <p data-lang="ja">何も保存せず、何も送信しません。クリップボードの内容も、入力も、リンク履歴も、アナリティクスもなし。アプリが保存するのは設定・ピン留め・ウィンドウ位置だけ。App Store のプライバシー表示は「データ収集なし」です。</p>
           <div class="vis">
-            <div class="callout hi"><div class="ct-h">Data Not Collected</div><div class="ct-b">Only settings, pins and window position are stored — on your Mac, never sent. <a href="privacy.html">Read the full privacy page →</a></div></div>
+            <div class="callout hi"><div class="ct-h"><span data-lang="en">Data Not Collected</span><span data-lang="ja">データ収集なし</span></div><div class="ct-b"><span data-lang="en">Only settings, pins and window position are stored — on your Mac, never sent. <a href="privacy.html">Read the full privacy page →</a></span><span data-lang="ja">保存されるのは設定・ピン留め・ウィンドウ位置のみ — Mac の中だけで、送信されません。<a href="privacy.html">プライバシーページ全文 →</a></span></div></div>
           </div>
         </section>
 
@@ -252,11 +267,12 @@
           <div class="sec-num">11</div>
           <h2>FAQ</h2>
           <div class="vis faq">
-            <div class="qa"><div class="q"><span class="step-n">Q</span>Does the receiver need the app?</div><div class="a">No. The share page works in any browser on any OS. The app only adds “Open in Sharebar.”</div></div>
-            <div class="qa"><div class="q"><span class="step-n">Q</span>Can a JSON or diff be shared?</div><div class="a">No — by design. Only regex, cron, color and unix-time produce links, so confidential data can't end up in a URL.</div></div>
-            <div class="qa"><div class="q"><span class="step-n">Q</span>Where is the link stored?</div><div class="a">Nowhere. The whole state is in the URL fragment. No server, no shortener. If the link text survives, the state survives.</div></div>
-            <div class="qa"><div class="q"><span class="step-n">Q</span>What regex flavor is it?</div><div class="a">JavaScript flavor, flags gimsuy. The app and the page evaluate identically.</div></div>
-            <div class="qa"><div class="q"><span class="step-n">Q</span>Will old links keep working?</div><div class="a">Yes. v1 links open forever and evaluate the same forever — even offline via manual open in the app.</div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span><span data-lang="en">Does the receiver need the app?</span><span data-lang="ja">受け取る側にアプリは必要？</span></div><div class="a"><span data-lang="en">No. The share page works in any browser on any OS. The app only adds “Open in Sharebar.”</span><span data-lang="ja">不要です。共有ページはどの OS のどのブラウザでも動きます。アプリがあると「Sharebar で開く」が使えるようになるだけです。</span></div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span><span data-lang="en">Can a JSON or diff be shared?</span><span data-lang="ja">JSON や diff は共有できる？</span></div><div class="a"><span data-lang="en">No — by design. Only regex, cron, color and unix-time produce links, so confidential data can't end up in a URL.</span><span data-lang="ja">できません — 意図的な設計です。リンクを作れるのは regex・cron・color・unix-time だけなので、機密データが URL に入ることがありません。</span></div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span><span data-lang="en">Where is the link stored?</span><span data-lang="ja">リンクはどこに保存される？</span></div><div class="a"><span data-lang="en">Nowhere. The whole state is in the URL fragment. No server, no shortener. If the link text survives, the state survives.</span><span data-lang="ja">どこにも保存されません。状態はすべて URL フラグメントの中です。サーバーも短縮 URL もなし。リンクの文字列が残るかぎり、状態も残ります。</span></div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span><span data-lang="en">What regex flavor is it?</span><span data-lang="ja">正規表現の方式は？</span></div><div class="a"><span data-lang="en">JavaScript flavor, flags gimsuy. The app and the page evaluate identically.</span><span data-lang="ja">JavaScript 方式、フラグは gimsuy。アプリとページの評価結果は同一です。</span></div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span><span data-lang="en">Will old links keep working?</span><span data-lang="ja">古いリンクは動き続ける？</span></div><div class="a"><span data-lang="en">Yes. v1 links open forever and evaluate the same forever — even offline via manual open in the app.</span><span data-lang="ja">はい。v1 リンクはこれからも開け、常に同じ結果に評価されます — アプリの「共有リンクを開く…」からならオフラインでも。</span></div></div>
+            <div class="qa"><div class="q"><span class="step-n">Q</span><span data-lang="en">What is the Tip Jar?</span><span data-lang="ja">チップ（Tip Jar）って何？</span></div><div class="a"><span data-lang="en">An optional in-app tip to support development, processed by Apple. Nothing is unlocked — every feature is free for everyone.</span><span data-lang="ja">開発を応援できる任意のアプリ内チップです。決済は Apple が処理します。機能は何も解除されません — すべての機能が誰でも無料です。</span></div></div>
           </div>
         </section>
 
@@ -269,11 +285,11 @@
         <div class="cross-band">
           <span class="step-n">★</span>
           <div class="cb-text">
-            <div class="cb-h">Get Sharebar for Mac</div>
-            <div class="cb-b">Free. Offline-first — no telemetry, no tracking, and your data never leaves your Mac.</div>
+            <div class="cb-h"><span data-lang="en">Get Sharebar for Mac</span><span data-lang="ja">Sharebar for Mac を入手</span></div>
+            <div class="cb-b"><span data-lang="en">Free. Offline-first — no telemetry, no tracking, and your data never leaves your Mac.</span><span data-lang="ja">無料。オフラインファースト — テレメトリなし・トラッキングなし。データは Mac の外に出ません。</span></div>
           </div>
-          <a class="btn primary" href="https://apps.apple.com/app/id6781006552" data-appstore="">Get on the Mac App Store</a>
-          <a class="btn" href="index.html">← Back to the landing page</a>
+          <a class="btn primary" href="https://apps.apple.com/app/id6781006552" data-appstore=""><span data-lang="en">Get on the Mac App Store</span><span data-lang="ja">Mac App Store で入手</span></a>
+          <a class="btn" href="index.html"><span data-lang="en">← Back to the landing page</span><span data-lang="ja">← トップページへ戻る</span></a>
         </div>
       </div>
     </div>
@@ -283,14 +299,17 @@
     <div class="wrap">
       <span class="f-brand">Share<span class="dot">bar</span></span>
       <nav>
-        <a href="index.html">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html">Privacy</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
       </nav>
       <span class="sp"></span>
-      <span class="f-note">© Sharebar · Your data never leaves your Mac</span>
+      <span class="f-note"><span data-lang="en">© Sharebar · Your data never leaves your Mac</span><span data-lang="ja">© Sharebar · データは Mac の外に出ません</span></span>
     </div>
   </footer>
+
+  <!-- External script only (CSP: no inline script) — the EN/日本語 tabs. -->
+  <script src="js/i18n.js"></script>
 </body>
 </html>

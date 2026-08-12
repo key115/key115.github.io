@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
-  <title>Sharebar — Support</title>
+  <title data-ja="Sharebar — サポート">Sharebar — Support</title>
   <meta name="description" content="How Sharebar Share Links work, what the Share Page does, and how to get help.">
   <meta name="theme-color" content="#0e1014">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -26,58 +26,73 @@
     <div class="wrap">
       <a class="brand" href="index.html" aria-label="Sharebar"><span class="mark">Sb</span><span>Share<span class="dot">bar</span></span></a>
       <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html" class="on">Support</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore="">Get the app</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html" class="on"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
+        <a href="https://apps.apple.com/app/id6781006552" class="nav-cta" data-appstore=""><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></a>
       </nav>
+      <div class="lang-tabs" role="group" aria-label="Language / 言語">
+        <button type="button" id="lang-en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-ja" aria-pressed="false">日本語</button>
+      </div>
     </div>
   </header>
 
   <main class="wrap doc">
-    <h1>Support</h1>
-    <p class="updated">Last updated: 2026-07-03</p>
+    <h1><span data-lang="en">Support</span><span data-lang="ja">サポート</span></h1>
+    <p class="updated"><span data-lang="en">Last updated: 2026-08-12</span><span data-lang="ja">最終更新: 2026-08-12</span></p>
 
-    <p>New to the app, or want a walkthrough of every tool? See the <a href="guide.html">full guide &amp; reference</a>. This page focuses on how Share Links and the Share Page work, and how to get help.</p>
+    <p data-lang="en">New to the app, or want a walkthrough of every tool? See the <a href="guide.html">full guide &amp; reference</a>. This page focuses on how Share Links and the Share Page work, and how to get help.</p>
+    <p data-lang="ja">アプリが初めての方、全ツールの説明が見たい方は<a href="guide.html">ガイド＆全リファレンス</a>へ。このページでは、共有リンクと共有ページの仕組み、困ったときの対処を説明します。</p>
 
-    <h2>What is a Share Link?</h2>
-    <p>A Share Link reproduces the exact state of a Sharebar tool. The whole state is encoded in the URL, so opening the link in any browser shows the same result the sender saw — and you can edit the values to re-run it. Four tools can be shared: regex, cron, color, and Unix time.</p>
+    <h2><span data-lang="en">What is a Share Link?</span><span data-lang="ja">共有リンクとは？</span></h2>
+    <p data-lang="en">A Share Link reproduces the exact state of a Sharebar tool. The whole state is encoded in the URL, so opening the link in any browser shows the same result the sender saw — and you can edit the values to re-run it. Four tools can be shared: regex, cron, color, and unix-time.</p>
+    <p data-lang="ja">共有リンクは、Sharebar ツールの状態をそのまま再現するリンクです。状態はすべて URL にエンコードされているため、どのブラウザで開いても送り手が見たのと同じ結果が表示され、値を編集して再実行することもできます。共有できるのは regex・cron・color・unix-time の4ツールです。</p>
 
-    <h2>Opening a link</h2>
-    <p>Just open the link in your browser. The Share Page decodes it locally and shows the reproduced result. Change any field to re-run it instantly; your edits stay on your screen and are never written back into the link.</p>
+    <h2><span data-lang="en">Opening a link</span><span data-lang="ja">リンクを開く</span></h2>
+    <p data-lang="en">Just open the link in your browser. The Share Page decodes it locally and shows the reproduced result. Change any field to re-run it instantly; your edits stay on your screen and are never written back into the link.</p>
+    <p data-lang="ja">リンクをブラウザで開くだけです。共有ページがローカルでデコードし、再現結果を表示します。フィールドを変更すると即座に再実行されます。編集はあなたの画面の中だけで、リンクに書き戻されることはありません。</p>
 
-    <h2>“Open in Sharebar”</h2>
-    <p>If you have the Mac app installed, the <strong>Open in Sharebar</strong> button hands the shared state to the app. If the app isn’t installed, the page falls back gracefully and points you to <strong>Get the app</strong>.</p>
+    <h2><span data-lang="en">“Open in Sharebar”</span><span data-lang="ja">「Sharebar で開く」</span></h2>
+    <p data-lang="en">If you have the Mac app installed, the <strong>Open in Sharebar</strong> button hands the shared state to the app. If the app isn’t installed, the page falls back gracefully and points you to <strong>Get the app</strong>.</p>
+    <p data-lang="ja">Mac アプリをインストール済みなら、<strong>「Sharebar で開く」</strong>ボタンで共有状態をアプリに引き渡せます。未インストールの場合は、ページがそのまま<strong>「アプリを入手」</strong>を案内します。</p>
 
-    <h2>Why the same result on both sides?</h2>
-    <p>The app and this page run one identical JavaScript core. That means the regex engine, the cron schedule math, the color conversions, and the Unix-time breakdown are exactly the same in both places — there is no second implementation to drift.</p>
+    <h2><span data-lang="en">Why the same result on both sides?</span><span data-lang="ja">なぜ両側で同じ結果になる？</span></h2>
+    <p data-lang="en">The app and this page run one identical JavaScript core. That means the regex engine, the cron schedule math, the color conversions, and the Unix-time breakdown are exactly the same in both places — there is no second implementation to drift.</p>
+    <p data-lang="ja">アプリとこのページが、同一の JavaScript コアを実行しているからです。正規表現エンジンも、cron のスケジュール計算も、カラー変換も、Unix time の分解も、両側で完全に同じ — ズレる余地のある第2実装が存在しません。</p>
 
-    <h2>Is anything uploaded?</h2>
-    <p>No. There is no server. The shared state lives in the URL fragment, which browsers never transmit. See <a href="privacy.html">Privacy</a> for details.</p>
+    <h2><span data-lang="en">Is anything uploaded?</span><span data-lang="ja">何かアップロードされる？</span></h2>
+    <p data-lang="en">No. There is no server. The shared state lives in the URL fragment, which browsers never transmit. See <a href="privacy.html">Privacy</a> for details.</p>
+    <p data-lang="ja">いいえ。サーバーは存在しません。共有状態は URL フラグメントの中にあり、ブラウザはフラグメントをサーバーに送信しません。詳細は<a href="privacy.html">プライバシー</a>をご覧ください。</p>
 
-    <h2>A link won’t open</h2>
-    <p>If a link is damaged, truncated, or made by a newer version of Sharebar, the page tells you so rather than failing silently. Ask the sender to re-share, or update the app.</p>
+    <h2><span data-lang="en">A link won’t open</span><span data-lang="ja">リンクが開かない</span></h2>
+    <p data-lang="en">If a link is damaged, truncated, or made by a newer version of Sharebar, the page tells you so rather than failing silently. Ask the sender to re-share, or update the app.</p>
+    <p data-lang="ja">リンクが破損・途中で切れている、またはより新しいバージョンの Sharebar で作られている場合は、黙って失敗せず、その旨を表示します。送り手に再共有を頼むか、アプリを更新してください。</p>
 
-    <h2>Get the app</h2>
-    <p><a class="btn primary" href="https://apps.apple.com/app/id6781006552" data-appstore="">Get Sharebar for Mac</a></p>
+    <h2><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></h2>
+    <p><a class="btn primary" href="https://apps.apple.com/app/id6781006552" data-appstore=""><span data-lang="en">Get Sharebar for Mac</span><span data-lang="ja">Sharebar for Mac を入手</span></a></p>
 
-    <h2>Still need help?</h2>
-    <p>Reach out and we’ll get back to you.</p>
+    <h2><span data-lang="en">Still need help?</span><span data-lang="ja">まだお困りですか？</span></h2>
+    <p data-lang="en">Reach out and we’ll get back to you.</p>
+    <p data-lang="ja">ご連絡いただければ折り返します。</p>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
       <span class="f-brand">Share<span class="dot">bar</span></span>
       <nav>
-        <a href="index.html">Home</a>
-        <a href="guide.html">Guide</a>
-        <a href="support.html">Support</a>
-        <a href="privacy.html">Privacy</a>
+        <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+        <a href="guide.html"><span data-lang="en">Guide</span><span data-lang="ja">ガイド</span></a>
+        <a href="support.html"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+        <a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a>
       </nav>
       <span class="sp"></span>
-      <span class="f-note">© Sharebar · Your data never leaves your Mac</span>
+      <span class="f-note"><span data-lang="en">© Sharebar · Your data never leaves your Mac</span><span data-lang="ja">© Sharebar · データは Mac の外に出ません</span></span>
     </div>
   </footer>
+
+  <!-- External script only (CSP: no inline script) — the EN/日本語 tabs. -->
+  <script src="js/i18n.js"></script>
 </body>
 </html>
