@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <script>document.documentElement.className = "js";</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>おつり道場 — おつり計算を暗算で即答する段位制脳トレ</title>
+  <meta name="description" content="「847円の買い物に1,352円出した」おつりはいくら？テンキーで即答する暗算特化の脳トレ。十級から銭聖まで全20段の段位制。無料・動画広告なし。">
+  <meta property="og:title" content="おつり道場">
+  <meta property="og:description" content="おつり計算を暗算で即答する段位制脳トレ。十級から最上位「銭聖」まで。無料。">
+  <meta property="og:image" content="https://key115.github.io/otsuridojo/assets/og.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/appicon.png">
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/lp.css">
+  <script src="assets/site.js" defer></script>
+  <script src="assets/dojo.js" defer></script>
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="サイト内ナビゲーション">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html" aria-current="page">
+        <img src="assets/appicon.png" alt="" width="32" height="32">
+        <span>おつり道場</span>
+      </a>
+      <div class="nav-links">
+        <a href="#asobu">腕試し</a>
+        <a href="privacy.html">プライバシー</a>
+        <a href="support.html">サポート</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ═══ ヒーロー: 暖簾をくぐる ═══ -->
+    <header class="hero">
+      <div class="hero-noren" aria-hidden="true">
+        <img src="assets/noren.png" alt="" width="900" height="643">
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-wipe">
+          <span class="brush brush-title" role="img" aria-label="おつり道場"></span>
+        </span>
+        <img class="hero-seal" src="assets/seal.png" alt="" width="220" height="220" aria-hidden="true">
+      </h1>
+
+      <p class="hero-copy">
+        「847円の買い物に、1,352円出した」——&nbsp;おつりはいくら？<br>
+        レジ前のあの一瞬を、テンキーで即答する暗算の稽古に。<br>
+        十級から最上位<ruby>銭聖<rt>せんせい</rt></ruby>まで、全20段の段位制脳トレ。
+      </p>
+
+      <div class="hero-badges">
+        <span class="badge-free">無料</span>
+        <span class="badge-note">動画広告なし・買い切り¥300で広告は全部消せます</span>
+      </div>
+
+      <p class="hero-cta cta-block">
+        <a class="button" data-appstore href="#" data-appstore-label="App Store でダウンロード"><span data-cta-text>近日公開</span></a>
+      </p>
+
+      <div class="hero-scrollcue" aria-hidden="true"></div>
+    </header>
+
+    <!-- ═══ 客レーン: 今日もお客が並んでいる ═══ -->
+    <div class="lane" aria-hidden="true">
+      <div class="lane-track">
+        <!-- 2周分並べてシームレスループ -->
+        <img class="walker" src="assets/customer_lg_1.png" alt="" width="190" height="340">
+        <img class="walker" src="assets/customer_lg_2.png" alt="" width="186" height="340">
+        <img class="walker" src="assets/customer_lg_3.png" alt="" width="191" height="340">
+        <img class="walker" src="assets/customer_lg_4.png" alt="" width="215" height="340">
+        <img class="walker" src="assets/customer_lg_5.png" alt="" width="189" height="340">
+        <img class="walker" src="assets/customer_lg_1.png" alt="" width="190" height="340">
+        <img class="walker" src="assets/customer_lg_2.png" alt="" width="186" height="340">
+        <img class="walker" src="assets/customer_lg_3.png" alt="" width="191" height="340">
+        <img class="walker" src="assets/customer_lg_4.png" alt="" width="215" height="340">
+        <img class="walker" src="assets/customer_lg_5.png" alt="" width="189" height="340">
+      </div>
+    </div>
+    <p class="lane-caption">帳場にはお客の列。会計一件、また一件 — 一本取って送り出す。</p>
+
+    <!-- ═══ シグネチャ: 遊べる腕試し ═══ -->
+    <section class="lp-section" id="asobu">
+      <div class="lp-inner">
+        <p class="lp-kicker reveal">まずは腕試し</p>
+        <h2 class="lp-h2 reveal" style="--d:.08s">三本先取で、入門を認む。</h2>
+        <p class="lp-lead reveal" style="--d:.16s">
+          アプリと同じ作法です。テンキーを打って、桁がそろえば自動で判定。<br>
+          Enterはありません — 暗算のテンポを、指が追いかけます。
+        </p>
+
+        <div id="mini-dojo" class="dojo-card reveal" style="--d:.2s">
+          <div class="dojo-progress" aria-hidden="true">
+            <span class="tally">一</span><span class="tally">二</span><span class="tally">三</span>
+          </div>
+
+          <p class="dojo-question">
+            <span class="price" data-price>847</span><span>円の買い物に</span><br>
+            <span class="paid" data-paid>1,352</span><span>円出した</span>
+            <span class="ask">おつりは？</span>
+          </p>
+
+          <div class="dojo-cells" aria-hidden="true"></div>
+
+          <div class="dojo-pad" role="group" aria-label="テンキー">
+            <button type="button" data-key="1">1</button>
+            <button type="button" data-key="2">2</button>
+            <button type="button" data-key="3">3</button>
+            <button type="button" data-key="4">4</button>
+            <button type="button" data-key="5">5</button>
+            <button type="button" data-key="6">6</button>
+            <button type="button" data-key="7">7</button>
+            <button type="button" data-key="8">8</button>
+            <button type="button" data-key="9">9</button>
+            <button type="button" class="pad-util" data-key="clear" aria-label="全部消す">消</button>
+            <button type="button" class="pad-zero" data-key="0">0</button>
+            <button type="button" class="pad-util" data-key="del" aria-label="一桁戻す">直し</button>
+          </div>
+
+          <p class="dojo-live visually-hidden" aria-live="polite"></p>
+
+          <div class="dojo-mark" aria-hidden="true">
+            <div>
+              <svg class="svg-maru" viewBox="0 0 100 100">
+                <path class="stroke" d="M 50 9 A 41 41 0 1 0 88 44" stroke="var(--shu)" stroke-width="9"/>
+              </svg>
+              <svg class="svg-batsu" viewBox="0 0 100 100" style="display:none">
+                <path class="stroke" d="M 16 16 L 84 84" stroke="var(--ink)" stroke-width="9"/>
+                <path class="stroke s2" d="M 84 16 L 16 84" stroke="var(--ink)" stroke-width="9"/>
+              </svg>
+              <p class="mark-note"></p>
+            </div>
+          </div>
+
+          <div class="dojo-pass" role="status">
+            <div class="pass-inner">
+              <img class="pass-seal" src="assets/seal.png" alt="" width="220" height="220">
+              <h3>腕試し 合格</h3>
+              <p>右の者、おつりの暗算に見どころあり。<br>道場では、十級からの本稽古が待っています。</p>
+              <a class="button" data-appstore href="#" data-appstore-label="App Store で入門する"><span data-cta-text>近日公開</span></a><br>
+              <button type="button" class="dojo-reset">もう一度挑む</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ コア体験 ═══ -->
+    <section class="lp-section tight">
+      <div class="lp-inner">
+        <p class="lp-kicker reveal">稽古</p>
+        <h2 class="lp-h2 reveal" style="--d:.08s">暗算 → 即答 → 次のお客。<br>二秒で回る、レジ前の反復。</h2>
+        <p class="lp-lead reveal" style="--d:.16s">
+          出題は庶民的な金額だけ。「1,352円出す」のような、実際のレジでありそうな
+          小銭調整の払い方が出てきます。答えのテンキーは打鍵感に全振り。
+          正解は朱の○、誤答は墨の×と正解表示 — 採点も道場の作法です。
+        </p>
+        <div class="shots-row">
+          <figure class="shot-fig reveal" style="--d:.1s">
+            <img class="shot" src="assets/shot_quiz.jpg" alt="出題画面。709円の買い物に1,209円出した、おつりは？の問いとテンキー" width="600" height="1301" loading="lazy">
+            <figcaption>桁がそろえば自動判定</figcaption>
+          </figure>
+          <figure class="shot-fig reveal" style="--d:.22s">
+            <img class="shot" src="assets/shot_result.jpg" alt="昇段審査の合格画面。大きな朱の「合」の字" width="600" height="1301" loading="lazy">
+            <figcaption>昇段審査に合格すると——</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 段位ラダー ═══ -->
+    <section class="lp-section tight">
+      <div class="lp-inner">
+        <p class="lp-kicker reveal">段位</p>
+        <h2 class="lp-h2 reveal" style="--d:.08s">十級に始まり、<ruby>銭聖<rt>せんせい</rt></ruby>に至る。</h2>
+        <p class="lp-lead reveal" style="--d:.16s">
+          正解を重ねると昇段審査。集中の5〜10問を合格ラインまで積めば、次の段位へ。
+          最上位「銭聖」は、そう簡単には名乗らせてもらえません。
+        </p>
+        <div class="ladder">
+          <div class="ladder-rail" aria-hidden="true"></div>
+          <ol class="ladder-ranks">
+            <li style="--d:.00s">十級</li><li style="--d:.06s">九級</li><li style="--d:.12s">八級</li>
+            <li style="--d:.18s">七級</li><li style="--d:.24s">六級</li><li style="--d:.30s">五級</li>
+            <li style="--d:.36s">四級</li><li style="--d:.42s">三級</li><li style="--d:.48s">二級</li>
+            <li style="--d:.54s">一級</li>
+            <li class="dan" style="--d:.62s">初段</li><li class="dan" style="--d:.68s">二段</li>
+            <li class="dan" style="--d:.74s">三段</li><li class="dan" style="--d:.80s">四段</li>
+            <li class="dan" style="--d:.86s">五段</li><li class="dan" style="--d:.92s">六段</li>
+            <li class="dan" style="--d:.98s">七段</li><li class="dan" style="--d:1.04s">八段</li>
+            <li class="dan" style="--d:1.10s">九段</li>
+            <li class="top" style="--d:1.3s"><ruby>銭聖<rt>せんせい</rt></ruby></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 認定証 ═══ -->
+    <section class="lp-section tight">
+      <div class="lp-inner">
+        <p class="lp-kicker reveal">免状</p>
+        <h2 class="lp-h2 reveal" style="--d:.08s">昇段のたびに、認定証。</h2>
+        <div class="shots-row">
+          <div class="cert-tilt reveal" style="--d:.12s">
+            <img src="assets/certificate.jpg" alt="免状。右の者おつりの暗算において銭聖の力あることを認む、と書かれた認定証" width="520" height="693" loading="lazy">
+          </div>
+          <div class="degeiko-copy reveal" style="--d:.2s">
+            <p style="line-height:2.1; letter-spacing:.06em;">
+              昇段すると、その場で免状が発行されます。<br>
+              和紙に金の飾り罫、朱の落款印。<br>
+              「私、二段でした」— そのままSNSで自慢できます。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 出稽古（幕が開く） ═══ -->
+    <section class="lp-section">
+      <div class="lp-inner maku">
+        <p class="lp-kicker">もうひとつの稽古</p>
+        <div class="degeiko-flex">
+          <div class="degeiko-copy">
+            <span class="brush brush-degeiko" role="img" aria-label="出稽古（でげいこ）"></span>
+            <p style="line-height:2.1; letter-spacing:.06em;">
+              こんどは、あなたが客側。<br>
+              「1,847円です」— 財布の中身を見て、<b>おつりの枚数がいちばん少なくなる出し方</b>を即答する、10問1セットの判断クイズ。<br>
+              レジで小銭をきれいに手放す、あの快感を鍛えます。
+            </p>
+          </div>
+          <figure class="shot-fig">
+            <img class="shot" src="assets/shot_degeiko.jpg" alt="出稽古画面。987円ですの問いと財布の中身、テンキー" width="600" height="1301" loading="lazy">
+            <figcaption>財布が問題文。答えは支払額</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 広告方針（静） ═══ -->
+    <section class="lp-section tight">
+      <div class="lp-inner">
+        <p class="lp-kicker reveal">約束</p>
+        <h2 class="lp-h2 reveal" style="--d:.08s">稽古の邪魔は、しない。</h2>
+        <div class="honesty reveal" style="--d:.14s">
+          <dl>
+            <div class="row"><dt>動画広告</dt><dd>使いません。リワード動画も、強制視聴もありません。</dd></div>
+            <div class="row"><dt>出題中の割り込み</dt><dd>一切ありません。全画面広告が出るのは昇段審査の結果画面だけです。</dd></div>
+            <div class="row"><dt>バナー</dt><dd>画面下部に小さく1つ。テンキーからは離してあります。</dd></div>
+            <div class="row"><dt>広告を消したい</dt><dd>買い切り¥300で、すべての広告が消えます（復元対応）。</dd></div>
+            <div class="row"><dt>あなたのデータ</dt><dd>トラッキングなし。段位も戦績も端末の中だけ。アカウント登録もありません。<a href="privacy.html">詳しく →</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ギャラリー ═══ -->
+    <section class="lp-section tight">
+      <div class="lp-inner">
+        <p class="lp-kicker reveal">道場のようす</p>
+        <div class="gallery reveal" style="--d:.1s">
+          <figure class="shot-fig"><img class="shot" src="assets/shot_title.jpg" alt="タイトル画面" width="600" height="1301" loading="lazy"><figcaption>玄関</figcaption></figure>
+          <figure class="shot-fig"><img class="shot" src="assets/shot_quiz.jpg" alt="稽古の出題画面" width="600" height="1301" loading="lazy"><figcaption>稽古</figcaption></figure>
+          <figure class="shot-fig"><img class="shot" src="assets/shot_result.jpg" alt="昇段審査の合格画面" width="600" height="1301" loading="lazy"><figcaption>昇段</figcaption></figure>
+          <figure class="shot-fig"><img class="shot" src="assets/shot_degeiko.jpg" alt="出稽古の画面" width="600" height="1301" loading="lazy"><figcaption>出稽古</figcaption></figure>
+          <figure class="shot-fig"><img class="shot" src="assets/shot_title_dark.jpg" alt="ダークモードのタイトル画面" width="600" height="1301" loading="lazy"><figcaption>夜の道場</figcaption></figure>
+          <figure class="shot-fig"><img class="shot" src="assets/shot_quiz_dark.jpg" alt="ダークモードの出題画面" width="600" height="1301" loading="lazy"><figcaption>夜稽古</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 締めのCTA ═══ -->
+    <section class="lp-section">
+      <div class="lp-inner cta-block">
+        <h2 class="lp-h2 reveal">さあ、暖簾をくぐって。</h2>
+        <p class="reveal" style="--d:.1s">
+          <a class="button" data-appstore href="#" data-appstore-label="App Store でダウンロード"><span data-cta-text>近日公開</span></a>
+          <span class="badge-note">無料 · iPhone（iOS 16.0 以降）</span>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <a class="brand" href="index.html">
+          <img src="assets/appicon.png" alt="" width="32" height="32">
+          <span>おつり道場</span>
+        </a>
+        <ul class="footer-links">
+          <li data-appstore-wrap hidden><a data-appstore href="#" data-appstore-label="App Store"><span data-cta-text>近日公開</span></a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+          <li><a href="support.html">サポート</a></li>
+          <li><a href="mailto:k.oikawa119009@gmail.com?subject=%E3%81%8A%E3%81%A4%E3%82%8A%E9%81%93%E5%9C%B4%20%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <p class="fine">© 2026 Kei Oikawa · iPhone（iOS 16.0 以降）· App Store</p>
+    </div>
+  </footer>
+
+</body>
+</html>
