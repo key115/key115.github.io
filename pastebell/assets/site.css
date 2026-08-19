@@ -1,4 +1,4 @@
-/* MaskGate public site — self-contained. No third-party fonts, scripts, or requests. */
+/* PasteBell public site — self-contained. No third-party fonts, scripts, or requests. */
 
 :root {
   color-scheme: light dark;
@@ -357,6 +357,14 @@ section > .wrap > .lead { margin-block-start: 14px; }
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-block-start: 30px;
+}
+/* Four promises sit on one row inside .wrap (4 × 220 + 3 × 16 < 1080) and fold
+   to two, then one, as the viewport narrows. */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin-block-start: 30px;
 }

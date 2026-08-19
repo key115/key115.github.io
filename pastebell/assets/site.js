@@ -12,7 +12,7 @@
   var root = document.documentElement;
   root.classList.add("js");
 
-  var storageKey = "maskgate-site-language";
+  var storageKey = "pastebell-site-language";
   var initial = "ja";
   try {
     var saved = localStorage.getItem(storageKey);
