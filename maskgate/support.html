@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MaskGate — サポートとよくある質問</title>
+  <meta name="description" content="MaskGate の使い方、お知らせモードと自動マスクモードの切り替え、伏せ字にならなかったときの考え方、危険アプリの追加、開発者への連絡先。">
+  <link rel="canonical" href="https://key115.github.io/maskgate/support.html">
+  <link rel="icon" href="assets/appicon.png">
+  <link rel="apple-touch-icon" href="assets/appicon.png">
+  <meta name="theme-color" content="#1b1e26">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MaskGate">
+  <meta property="og:title" content="MaskGate — サポートとよくある質問">
+  <meta property="og:description" content="使い方、モードの切り替え、よくある質問、開発者への連絡先。">
+  <meta property="og:url" content="https://key115.github.io/maskgate/support.html">
+  <meta property="og:image" content="https://key115.github.io/maskgate/assets/appicon.png">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en">Skip to content</span></a>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="32" height="32"><span>MaskGate</span></a>
+      <div class="nav-links">
+        <a href="index.html"><span class="ja">ホーム</span><span class="en">Home</span></a>
+        <a href="privacy.html"><span class="ja">プライバシー</span><span class="en">Privacy</span></a>
+        <a href="support.html" aria-current="page"><span class="ja">サポート</span><span class="en">Support</span></a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-ja" type="button" data-set-lang="ja" aria-pressed="true">日本語</button>
+        <button class="lang-en" type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="doc-hero">
+      <div class="wrap measure" data-reveal>
+        <p class="eyebrow"><span class="ja">サポートとよくある質問</span><span class="en">Support &amp; FAQ</span></p>
+        <h1><span class="ja">つまずいたところから、<br>読んでください。</span><span class="en">Start reading<br>wherever you got stuck.</span></h1>
+        <p class="lead"><span class="ja">まずは下のクイックスタートを。モードの切り替え、伏せ字にならなかったときの考え方、書式のこと、そして連絡先を続けて載せています。</span><span class="en">Begin with the quick start below. Switching modes, what to think when nothing was masked, the formatting question, and how to reach us follow after it.</span></p>
+      </div>
+    </header>
+
+    <div class="doc-body">
+      <div class="wrap measure">
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">クイックスタート</span><span class="en">Quick start</span></h2>
+          <div class="steps">
+            <div class="step">
+              <div>
+                <h3><span class="ja">起動する（許可は不要です）</span><span class="en">Launch it (nothing to allow)</span></h3>
+                <p><span class="ja">初回起動の時点で、本アプリは<strong>お知らせモード</strong>として動いています。何も許可する必要はなく、起動時に許可を求めるダイアログも出ません。メニューバーに輪郭の盾のアイコンが出ていれば動いています。</span><span class="en">From first launch the app is already running in <strong>Heads-up Mode</strong>. Nothing needs to be allowed, and no permission dialog appears at startup. If the outlined shield is in your menu bar, it is working.</span></p>
+              </div>
+            </div>
+            <div class="step">
+              <div>
+                <h3><span class="ja">試してみる</span><span class="en">Try it</span></h3>
+                <p><span class="ja">メールアドレスを含む文章をコピーして、Safari や Chrome を前面に出してください。画面の隅に小さなお知らせが出ます。お知らせモードでは伏せ字にはならず、知らせるだけです。</span><span class="en">Copy some text containing an email address, then bring Safari or Chrome to the front. A small notice appears at the edge of the screen. In Heads-up Mode nothing is masked; you are simply told.</span></p>
+              </div>
+            </div>
+            <div class="step">
+              <div>
+                <h3><span class="ja">必要なら自動マスクモードへ切り替える</span><span class="en">Switch to Auto-Mask Mode if you want it</span></h3>
+                <p><span class="ja">APIキーやトークンも守りたい場合は、メニューバーから「自動マスクモードに切り替える…」を選び、案内に従ってください。手順は次の項目に詳しく書いています。</span><span class="en">If you also want API keys and tokens covered, choose “Switch to Auto-Mask Mode…” from the menu bar and follow the guidance. The steps are spelled out in the next section.</span></p>
+              </div>
+            </div>
+            <div class="step">
+              <div>
+                <h3><span class="ja">危険アプリの一覧を自分に合わせる</span><span class="en">Tune the risky-app list</span></h3>
+                <p><span class="ja">設定から、貼り付け先として警戒するアプリを追加・除外できます。既定では主要ブラウザと AI チャットアプリが入っています。</span><span class="en">In Settings you can add apps to, or remove them from, the list of paste destinations to be careful about. It ships with the major browsers and AI chat apps.</span></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">自動マスクモードに切り替える</span><span class="en">Switching to Auto-Mask Mode</span></h2>
+          <p><span class="ja">切り替えると2つのことが起きます。<strong>①</strong> APIキー・トークン・秘密鍵を検知できるようになります。<strong>②</strong> 個人情報も、お知らせだけでなく自動マスク＋ワンクリック復元で守られるようになります。</span><span class="en">Switching turns on two things. <strong>1.</strong> API keys, tokens, and private keys become detectable. <strong>2.</strong> Personal information is upgraded from a heads-up to automatic masking with one-click restore.</span></p>
+          <ol>
+            <li><span class="ja">メニューバーの MaskGate アイコンから「自動マスクモードに切り替える…」を選びます。</span><span class="en">From the MaskGate icon in the menu bar, choose “Switch to Auto-Mask Mode…”.</span></li>
+            <li><span class="ja">案内の中のボタンで、システム設定 &gt; プライバシーとセキュリティ &gt; 「他のアプリからのペースト」を開きます。</span><span class="en">Use the button in the guidance to open System Settings &gt; Privacy &amp; Security &gt; “Paste from Other Apps”.</span></li>
+            <li><span class="ja">一覧の MaskGate を <strong>「常に許可」</strong> にします。</span><span class="en">Set MaskGate in that list to <strong>“Always Allow”</strong>.</span></li>
+            <li><span class="ja">アプリに戻ると、表示が自動で自動マスクモードに切り替わります。メニューバーのアイコンは塗りつぶしの盾に変わります。</span><span class="en">Return to the app and the display switches to Auto-Mask Mode on its own. The menu bar icon changes to a filled shield.</span></li>
+          </ol>
+          <div class="callout">
+            <h3><span class="ja">なぜ「確認」ではなく「常に許可」なのか</span><span class="en">Why “Always Allow” rather than “Ask”</span></h3>
+            <p><span class="ja">「確認」のままだと、本アプリがクリップボードを読もうとするたびに macOS が確認ダイアログを出します。本アプリが本文を読む必要があるのは<strong>あなたが貼り付ける直前の一瞬</strong>で、そこにダイアログが挟まると、答え終わる頃には <kbd>⌘V</kbd> が済んでいます。<strong>都度確認では、貼る直前に間に合いません。</strong></span><span class="en">With “Ask”, macOS puts up a dialog every time the app tries to read the clipboard. The one moment it needs to read is <strong>the instant before you paste</strong>; a dialog there means <kbd>⌘V</kbd> has already happened by the time you answer. <strong>Asking every time cannot make it in time.</strong></span></p>
+            <p><span class="ja">この許可で本アプリができるようになるのは、クリップボードの本文をこの Mac の中で照合することだけです。読んだ内容はディスクに書かず、外にも送りません。</span><span class="en">What the permission enables is one thing: matching the clipboard text on this Mac. What is read is never written to disk and never sent anywhere.</span></p>
+          </div>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">お知らせモードに戻す</span><span class="en">Going back to Heads-up Mode</span></h2>
+          <p><span class="ja">いつでも戻せます。切り替えたときと同じ場所 — システム設定 &gt; プライバシーとセキュリティ &gt; 「他のアプリからのペースト」で、MaskGate を「確認」にしてください。アプリ側の表示は自動でお知らせモードに戻ります。メニューバーの「お知らせモードに戻す…」から、この手順を開くこともできます。</span><span class="en">You can go back at any time. In the same place you used to switch — System Settings &gt; Privacy &amp; Security &gt; “Paste from Other Apps” — set MaskGate to “Ask”. The app returns to Heads-up Mode on its own. You can also open these steps from “Return to Heads-up Mode…” in the menu bar.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">よくある質問</span><span class="en">Common questions</span></h2>
+
+          <details>
+            <summary><span class="ja">秘密をコピーしたのに、伏せ字になりませんでした</span><span class="en">I copied a secret and nothing was masked</span></summary>
+            <p><span class="ja">よくある理由は次のとおりです。<strong>(1)</strong> お知らせモードのままだった — このモードは本文を読まないため、個人情報3種以外は検知しません。<strong>(2)</strong> アプリを切り替えていない — 同じアプリの中でのコピペでは伏せ字にせず、お知らせのみを出します。<strong>(3)</strong> 貼り付け先が危険アプリの一覧に入っていない — 設定から追加できます。<strong>(4)</strong> その形式に対応していない — MaskGate が検知するのは掲載した形式に一致した文字列だけで、<a href="index.html#limits">検知しないもの</a>があります。<strong>(5)</strong> サイズや時間の上限に当たった — 巨大な本文や極端に長い行では、照合しきれない範囲が出ます。</span><span class="en">The usual reasons: <strong>(1)</strong> You were still in Heads-up Mode, which does not read the text and so detects nothing beyond the three kinds of personal information. <strong>(2)</strong> You never switched apps — copying and pasting inside one app produces a heads-up but no masking. <strong>(3)</strong> The destination is not on your risky-app list; you can add it in Settings. <strong>(4)</strong> The format is not covered — MaskGate matches published formats only, and there are <a href="index.html#limits">things it does not detect</a>. <strong>(5)</strong> It hit a size or time limit — in very large content or extremely long lines, some of it goes unmatched.</span></p>
+            <p><span class="ja">(5) の場合、自動マスクモードなら<strong>「この内容は確認しきれませんでした」</strong>とその場でお伝えします。逆に言えば、この注記が出せるのは上限に当たったと自覚できたときだけで、(4) の対応していない形式については注記も出ません。何も言われなかったことは、秘密が無かったことの証明にはなりません。</span><span class="en">In case (5), Auto-Mask Mode tells you on the spot: <strong>“this content could not be fully checked”</strong>. Which also means the note only appears when it can recognise that it hit a limit — for an unsupported format as in (4), no note appears either. Hearing nothing is not proof that there was nothing to find.</span></p>
+            <p><span class="ja"><strong>検知できなかった秘密は守れません。</strong>本アプリは漏えいが起きないことを保証する仕組みではなく、気づく機会を増やす道具です。</span><span class="en"><strong>A secret that is not detected is not protected.</strong> The app does not guarantee that a leak cannot happen; it adds a chance to notice.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">貼り付けたら書式が消えていました</span><span class="en">The formatting was gone after I pasted</span></summary>
+            <p><span class="ja">仕様です。伏せ字にしたクリップボードは<strong>プレーンテキスト</strong>になり、太字・色・リンク・表組みなどの書式は残りません。周囲の本文はそのまま残り、検知した箇所だけが伏せ字に置き換わります。</span><span class="en">That is expected. A masked clipboard becomes <strong>plain text</strong>; bold, colour, links, and tables do not survive. The surrounding text is kept, and only the detected part is replaced.</span></p>
+            <p><span class="ja">書式のまま貼りたいときは、貼る前に「元に戻す」を押してください。原本に戻せば書式も元どおりです。</span><span class="en">If you need the formatting, press “Restore” before you paste. Restoring the original brings the formatting back.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">伏せ字のまま貼ってしまいました</span><span class="en">I pasted the masked text by mistake</span></summary>
+            <p><span class="ja">お知らせに残っている「元に戻す」を押すと、クリップボードは原本に戻ります。貼り付け先の伏せ字を削除して、もう一度 <kbd>⌘V</kbd> してください。原本は次にコピーを行うか、本アプリを終了するまでメモリ上に保持されています。</span><span class="en">Press “Restore” in the notice and your clipboard returns to the original. Delete the masked text where you pasted it and press <kbd>⌘V</kbd> again. The original is held in memory until you copy something else or quit the app.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">お知らせが邪魔なときは</span><span class="en">The notice is in my way</span></summary>
+            <p><span class="ja">お知らせは作業を止めるものではなく、応答しなくても消えます。しばらく動作を止めたいときは、メニューバーから一時停止を選んでください。危険アプリの一覧から特定のアプリを外すこともできます。</span><span class="en">The notice never interrupts your work and goes away without a response. To stand the app down for a while, choose pause from the menu bar. You can also remove a specific app from the risky-app list.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">独自の形式を検知させたい</span><span class="en">I want it to detect a format of my own</span></summary>
+            <p><span class="ja">設定の検知タブから、独自の検知形式を追加できます。既定の形式を個別に無効にすることもできます。多くの人に役立ちそうな形式であれば、メールでご要望をお寄せください。</span><span class="en">You can add your own detection formats in the Detection tab of Settings, and turn individual built-in formats off. If a format would help many people, send us a request by email.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">この Mac から外に情報が出ていないか確かめたい</span><span class="en">I want to verify that nothing leaves this Mac</span></summary>
+            <p><span class="ja">確かめられます。<code>codesign -d --entitlements :- /Applications/MaskGate.app</code> を実行すると、権限が <code>com.apple.security.app-sandbox</code> のみでネットワーク権限を含まないことが分かります。Little Snitch や <code>tcpdump</code> のような通信を記録するツールで、利用中に通信が起きないことも確認できます。詳細は<a href="privacy.html">プライバシーポリシー</a>に記載しています。</span><span class="en">You can. Running <code>codesign -d --entitlements :- /Applications/MaskGate.app</code> shows that the entitlements are <code>com.apple.security.app-sandbox</code> alone, with no network entitlement. A traffic-recording tool such as Little Snitch or <code>tcpdump</code> will show that no traffic occurs while you use it. The <a href="privacy.html">privacy policy</a> has the details.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">料金はかかりますか</span><span class="en">Does it cost anything?</span></summary>
+            <p><span class="ja">かかりません。MaskGate は無料で、アプリ内課金もありません。無償提供に伴う免責と限界については<a href="index.html#terms">トップページの「免責と限界」</a>をご覧ください。</span><span class="en">No. MaskGate is free and has no in-app purchases. The terms that come with free provision are set out under <a href="index.html#terms">“Limits and liability” on the home page</a>.</span></p>
+          </details>
+
+          <details>
+            <summary><span class="ja">動作環境を教えてください</span><span class="en">What are the requirements?</span></summary>
+            <p><span class="ja">macOS 26 以降。対応言語は日本語と英語です。Mac App Store から入手できます。</span><span class="en">macOS 26 or later. Japanese and English are supported. It is available from the Mac App Store.</span></p>
+          </details>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">お問い合わせ</span><span class="en">Contact</span></h2>
+          <p><span class="ja">上で解決しない場合は、開発者へ直接メールをお送りください。個人開発のため即答はできませんが、いただいたものはすべて読んでいます。お使いの macOS のバージョン、MaskGate のバージョン、そして再現する手順を書き添えていただけると助かります。<strong>実際の APIキーや個人情報そのものは絶対に貼らないでください</strong> — 種類だけお知らせいただければ十分です。</span><span class="en">If none of the above helps, email the developer directly. This is a one-person operation so replies are not instant, but everything sent is read. It helps to include your macOS version, your MaskGate version, and the steps that reproduce the problem. <strong>Please never paste an actual API key or real personal information</strong> — naming the kind is enough.</span></p>
+          <div class="contact-card">
+            <div>
+              <h3><span class="ja">開発者へメールする</span><span class="en">Email the developer</span></h3>
+              <p class="fine"><span class="ja">日本語・英語どちらでも構いません。</span><span class="en">Japanese or English is fine.</span></p>
+            </div>
+            <a class="button" href="mailto:k.oikawa119009@gmail.com?subject=MaskGate%20Support">✉ k.oikawa119009@gmail.com</a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="32" height="32">MaskGate</a>
+        <ul class="footer-links">
+          <li data-appstore-wrap hidden><a data-appstore hidden rel="noopener">Mac App Store</a></li>
+          <li><a href="index.html"><span class="ja">ホーム</span><span class="en">Home</span></a></li>
+          <li><a href="privacy.html"><span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span></a></li>
+          <li><a href="mailto:k.oikawa119009@gmail.com?subject=MaskGate%20Support"><span class="ja">お問い合わせ</span><span class="en">Contact</span></a></li>
+        </ul>
+      </div>
+      <p class="fine">
+        © 2026 Keisuke Oikawa ·
+        <span class="ja">macOS 26 以降 · 無料 · Mac App Store</span><span class="en">macOS 26+ · Free · Mac App Store</span>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

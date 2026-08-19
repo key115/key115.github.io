@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MaskGate — プライバシーポリシー</title>
+  <meta name="description" content="MaskGate は個人データを収集しません。原本はメモリだけに保持し、ディスクに書かず、ネットワーク権限を持ちません。扱うもの・扱わないものと、その確かめ方。">
+  <link rel="canonical" href="https://key115.github.io/maskgate/privacy.html">
+  <link rel="icon" href="assets/appicon.png">
+  <link rel="apple-touch-icon" href="assets/appicon.png">
+  <meta name="theme-color" content="#1b1e26">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MaskGate">
+  <meta property="og:title" content="MaskGate — プライバシーポリシー">
+  <meta property="og:description" content="データを収集しません。原本はメモリだけ、ネットワーク権限なし。">
+  <meta property="og:url" content="https://key115.github.io/maskgate/privacy.html">
+  <meta property="og:image" content="https://key115.github.io/maskgate/assets/appicon.png">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en">Skip to content</span></a>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="32" height="32"><span>MaskGate</span></a>
+      <div class="nav-links">
+        <a href="index.html"><span class="ja">ホーム</span><span class="en">Home</span></a>
+        <a href="privacy.html" aria-current="page"><span class="ja">プライバシー</span><span class="en">Privacy</span></a>
+        <a href="support.html"><span class="ja">サポート</span><span class="en">Support</span></a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-ja" type="button" data-set-lang="ja" aria-pressed="true">日本語</button>
+        <button class="lang-en" type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="doc-hero">
+      <div class="wrap measure" data-reveal>
+        <p class="eyebrow"><span class="ja">プライバシーポリシー</span><span class="en">Privacy policy</span></p>
+        <h1><span class="ja">集めないので、<br>渡すものがありません。</span><span class="en">Nothing is collected,<br>so nothing can be handed over.</span></h1>
+        <p class="lead"><span class="ja">MaskGate（以下「本アプリ」）が扱うもの、扱わないもの、そしてそれをあなたが確かめる方法をまとめています。</span><span class="en">What MaskGate (“the app”) handles, what it does not, and how you can check that for yourself.</span></p>
+        <p class="stack-sm fine"><span class="ja">最終更新: 2026年8月18日 · 提供者: 及川啓介（個人事業主）</span><span class="en">Last updated: 18 August 2026 · Provided by Keisuke Oikawa (sole proprietor)</span></p>
+      </div>
+    </header>
+
+    <div class="doc-body">
+      <div class="wrap measure">
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">1. 要約</span><span class="en">1. In short</span></h2>
+          <p><span class="ja">本アプリは、個人データを収集しません。App Store の「Appのプライバシー」欄における申告は<strong>「データを収集していません」</strong>です。アカウント登録はなく、解析・トラッキング・広告のSDKは一切組み込んでいません。開発者があなたの利用状況を知る手段はありません。</span><span class="en">The app collects no personal data. Its App Store privacy declaration is <strong>“Data Not Collected”</strong>. There is no account to create, and no analytics, tracking, or advertising SDK is included. The developer has no means of learning how you use it.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">2. 本アプリがクリップボードで行うこと</span><span class="en">2. What the app does with your clipboard</span></h2>
+          <h3><span class="ja">お知らせモード（既定・権限ゼロ）</span><span class="en">Heads-up Mode (default, zero permissions)</span></h3>
+          <p><span class="ja">この状態では、本アプリはクリップボードの本文を読みません。macOS が用意している仕組みに「メールアドレス・電話番号・住所が含まれているか」だけを尋ね、その答え（含まれる／含まれない）を受け取ります。値そのものはアプリに渡りません。</span><span class="en">In this state the app does not read the text of your clipboard. It asks a facility provided by macOS a single question — “does this contain an email address, phone number, or postal address?” — and receives only the answer. The values themselves never reach the app.</span></p>
+
+          <h3><span class="ja">自動マスクモード（あなたが選んだときだけ）</span><span class="en">Auto-Mask Mode (only if you choose it)</span></h3>
+          <p><span class="ja">システム設定 &gt; プライバシーとセキュリティ &gt; 「他のアプリからのペースト」で本アプリを「常に許可」にすると、クリップボードの本文を読み取れるようになります。読み取った本文は、<strong>この Mac の中だけ</strong>で、アプリに同梱された検知形式と照合されます。照合のために外部のサービスへ問い合わせることはありません。</span><span class="en">If you set the app to “Always Allow” under System Settings &gt; Privacy &amp; Security &gt; “Paste from Other Apps”, it becomes able to read the clipboard text. What it reads is matched against the detection formats bundled with the app <strong>entirely on this Mac</strong>. No external service is consulted for the matching.</span></p>
+          <p><span class="ja">パスワードマネージャなど、コピー元のアプリが「秘匿」の印を付けたクリップボードについては、このモードでも本文を読みません。</span><span class="en">When the app you copied from marked the clipboard as confidential — a password manager, for example — the app does not read it even in this mode.</span></p>
+
+          <h3><span class="ja">伏せ字にする前の原本の扱い</span><span class="en">How the pre-mask original is handled</span></h3>
+          <p><span class="ja">ワンクリックで元に戻せるようにするため、伏せ字にする前の値をメモリ上に保持します。この値は<strong>ディスクに書き込まれず</strong>、本アプリを終了した時点で消えます。次にコピーが行われたときにも破棄されます。</span><span class="en">So that one click can restore it, the value before masking is held in memory. That value is <strong>never written to disk</strong> and disappears when the app quits. It is also discarded when you copy something new.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">3. ディスクに書かれるもの</span><span class="en">3. What is written to disk</span></h2>
+          <p><span class="ja">本アプリがこの Mac に保存するのは、次のものだけです。いずれもあなたの Mac の中にとどまり、外部へ送られることはありません。</span><span class="en">The only things the app stores on this Mac are the following. All of them stay on your Mac and are never sent anywhere.</span></p>
+          <ul>
+            <li><span class="ja">あなたの設定 — 危険アプリの一覧、有効・無効にした検知形式、追加した独自の検知形式、表示の設定など</span><span class="en">Your settings — the risky-app list, which detection formats you turned on or off, any formats you added yourself, and display preferences</span></li>
+            <li><span class="ja">件数のカウント — 「何回守ったか」のような数値のみ。何を検知したかの内容は含まれません</span><span class="en">Counters — numbers such as how many times you were protected. They contain nothing about what was detected</span></li>
+            <li><span class="ja">初回案内を表示済みかどうかなどの状態</span><span class="en">State such as whether the first-run guidance has been shown</span></li>
+          </ul>
+          <p><span class="ja">検知した内容、伏せ字にする前の原本、クリップボードの履歴は<strong>一切保存しません</strong>。本アプリにクリップボード履歴の機能はありません。</span><span class="en">Detected content, pre-mask originals, and clipboard history are <strong>never stored</strong>. The app has no clipboard-history feature.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">4. 外部送信がないこと、およびその確かめ方</span><span class="en">4. Nothing is sent out — and how to check</span></h2>
+          <p><span class="ja">本アプリは <strong>App Sandbox の中で、ネットワーク権限を持たずに</strong> 動作します。通信の権限が与えられていないため、仮に通信しようとしても OS がそれを許しません。この主張は、以下の方法で第三者が独立に追試できます。</span><span class="en">The app runs <strong>inside the App Sandbox, without a network entitlement</strong>. Since it has not been granted permission to communicate, the OS would refuse even if it tried. Anyone can verify this independently:</span></p>
+          <ul>
+            <li><span class="ja">コード署名に埋め込まれた権限を読む: <code>codesign -d --entitlements :- /Applications/MaskGate.app</code>。出力は <code>com.apple.security.app-sandbox</code> のみで、<code>network.client</code> / <code>network.server</code> を含みません。この一覧は署名で保護されており、書き換えると署名が壊れます。</span><span class="en">Read the entitlements sealed into the code signature: <code>codesign -d --entitlements :- /Applications/MaskGate.app</code>. The output is <code>com.apple.security.app-sandbox</code> alone, with no <code>network.client</code> or <code>network.server</code>. The list is protected by the signature; altering it breaks the signature.</span></li>
+            <li><span class="ja">実際の通信を記録して確かめる: Little Snitch や LuLu のような通信の可視化ツール、<code>tcpdump</code> や Wireshark のようなパケット記録ツールで、本アプリの利用中に通信が発生しないことを確認できます。</span><span class="en">Record the actual traffic: a connection-visibility tool such as Little Snitch or LuLu, or a packet-capture tool such as <code>tcpdump</code> or Wireshark, will show that no traffic occurs while you use the app.</span></li>
+          </ul>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">5. 第三者への提供・第三者のサービス</span><span class="en">5. Third parties</span></h2>
+          <p><span class="ja">本アプリはデータを収集しないため、第三者に提供するデータがありません。解析基盤、クラッシュ報告サービス、広告ネットワーク、その他の外部サービスとの連携はありません。</span><span class="en">Because the app collects no data, there is no data to share with anyone. There is no analytics backend, crash-reporting service, ad network, or other external integration.</span></p>
+          <p><span class="ja">本アプリの配布は Mac App Store を通じて行われます。ダウンロードやアプリのクラッシュ情報など、Apple がプラットフォーム提供者として取得する情報については、Apple のプライバシーポリシーが適用されます。開発者が受け取るのは、個人を特定できない集計値のみです。</span><span class="en">The app is distributed through the Mac App Store. Information Apple obtains as the platform provider — downloads, crash reports and the like — is governed by Apple's privacy policy. What reaches the developer is aggregate figures that identify no one.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">6. お子様の利用</span><span class="en">6. Children</span></h2>
+          <p><span class="ja">本アプリは特定の年齢層を対象としたものではなく、年齢に関する情報を含め、いかなる個人データも収集しません。App Store の年齢制限は 4+ です。</span><span class="en">The app is not directed at any particular age group and collects no personal data at all, including anything about age. Its App Store age rating is 4+.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">7. あなたの権利</span><span class="en">7. Your rights</span></h2>
+          <p><span class="ja">開発者は、あなたに関するデータを一切保持していません。したがって、開示・訂正・削除の対象となるデータが存在しません。この Mac に保存された設定と件数は、本アプリをアンインストールすることで削除できます。</span><span class="en">The developer holds no data about you, so there is nothing to disclose, correct, or delete. The settings and counters stored on this Mac are removed when you uninstall the app.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">8. 本ポリシーの変更</span><span class="en">8. Changes to this policy</span></h2>
+          <p><span class="ja">本ポリシーを変更する場合は、このページを更新し、冒頭の最終更新日を改めます。データの取り扱いに実質的な変更がある場合は、アプリの更新情報でもお知らせします。</span><span class="en">If this policy changes, this page is updated and the “last updated” date at the top is revised. Any substantive change in how data is handled is also noted in the app's release notes.</span></p>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">9. お問い合わせ</span><span class="en">9. Contact</span></h2>
+          <p><span class="ja">本ポリシーに関するご質問は、開発者へ直接メールでお寄せください。</span><span class="en">Questions about this policy can go straight to the developer by email.</span></p>
+          <div class="contact-card">
+            <a class="button" href="mailto:k.oikawa119009@gmail.com?subject=MaskGate%20Privacy">✉ k.oikawa119009@gmail.com</a>
+          </div>
+        </section>
+
+        <section class="doc-section" data-reveal>
+          <h2><span class="ja">10. 免責と限界について</span><span class="en">10. Limits and liability</span></h2>
+          <p><span class="ja">本アプリが検知できる範囲、検知できないもの、および無償提供と損害賠償責任の上限については、<a href="index.html#terms">トップページの「免責と限界」</a>に記載しています。<strong>検知できなかった秘密は守れません。</strong></span><span class="en">What the app can detect, what it cannot, and the terms covering free provision and the cap on liability are set out under <a href="index.html#terms">“Limits and liability” on the home page</a>. <strong>A secret that is not detected is not protected.</strong></span></p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="32" height="32">MaskGate</a>
+        <ul class="footer-links">
+          <li data-appstore-wrap hidden><a data-appstore hidden rel="noopener">Mac App Store</a></li>
+          <li><a href="index.html"><span class="ja">ホーム</span><span class="en">Home</span></a></li>
+          <li><a href="support.html"><span class="ja">サポート</span><span class="en">Support</span></a></li>
+          <li><a href="mailto:k.oikawa119009@gmail.com?subject=MaskGate%20Support"><span class="ja">お問い合わせ</span><span class="en">Contact</span></a></li>
+        </ul>
+      </div>
+      <p class="fine">
+        © 2026 Keisuke Oikawa ·
+        <span class="ja">macOS 26 以降 · 無料 · Mac App Store</span><span class="en">macOS 26+ · Free · Mac App Store</span>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

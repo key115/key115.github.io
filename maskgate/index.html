@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MaskGate — 貼る直前だけ、秘密を伏せる</title>
+  <meta name="description" content="秘密を持ったまま AI チャットやブラウザへ切り替えた瞬間だけ、MaskGate がクリップボードを伏せ字に置き換え、ワンクリックで元に戻せます。履歴なし・外部送信なし・無料。">
+  <link rel="canonical" href="https://key115.github.io/maskgate/">
+  <link rel="icon" href="assets/appicon.png">
+  <link rel="apple-touch-icon" href="assets/appicon.png">
+  <meta name="theme-color" content="#1b1e26">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MaskGate">
+  <meta property="og:title" content="MaskGate — 貼る直前だけ、秘密を伏せる">
+  <meta property="og:description" content="秘密を持ったまま AI チャットへ切り替えた瞬間だけ動きます。履歴なし・外部送信なし・無料。">
+  <meta property="og:url" content="https://key115.github.io/maskgate/">
+  <meta property="og:image" content="https://key115.github.io/maskgate/assets/appicon.png">
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MaskGate",
+    "operatingSystem": "macOS 26 or later",
+    "applicationCategory": "DeveloperApplication",
+    "description": "A menu bar guard that masks secrets in the clipboard at the moment you switch to an AI chat or browser, with one-click restore.",
+    "url": "https://key115.github.io/maskgate/",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main"><span class="ja">本文へ移動</span><span class="en">Skip to content</span></a>
+
+  <nav class="site-nav" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html" aria-current="page">
+        <img src="assets/appicon.png" alt="" width="32" height="32">
+        <span>MaskGate</span>
+      </a>
+      <div class="nav-links">
+        <a href="#detects"><span class="ja">検知できるもの</span><span class="en">What it detects</span></a>
+        <a href="#terms"><span class="ja">免責と限界</span><span class="en">Limits &amp; liability</span></a>
+        <a href="privacy.html"><span class="ja">プライバシー</span><span class="en">Privacy</span></a>
+        <a href="support.html"><span class="ja">サポート</span><span class="en">Support</span></a>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-ja" type="button" data-set-lang="ja" aria-pressed="true">日本語</button>
+        <button class="lang-en" type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- 1. 一行で何をするか -->
+    <header class="hero" id="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow"><span class="ja">macOS メニューバーアプリ</span><span class="en">A macOS menu bar app</span></p>
+          <h1>
+            <span class="ja">貼る直前だけ、<br>秘密を伏せる。</span>
+            <span class="en">Hide the secret,<br>just before you paste.</span>
+          </h1>
+          <p class="lead">
+            <span class="ja">APIキーや個人情報をコピーしたまま AI チャットやブラウザへ切り替えた、その瞬間だけ。MaskGate はクリップボードの該当箇所を <code>sk-live-●●●●</code> のような伏せ字に置き換えて、お知らせします。意図した貼り付けなら、ワンクリックで元に戻せます。</span>
+            <span class="en">You copied an API key or personal information, then switched to an AI chat or a browser. At that moment — and only then — MaskGate replaces the matching part of your clipboard with a masked form such as <code>sk-live-●●●●</code> and tells you. If you meant to paste it, one click brings the original back.</span>
+          </p>
+
+          <div class="hero-actions">
+            <a class="button" data-appstore hidden rel="noopener">
+              <span class="ja">Mac App Store でダウンロード</span><span class="en">Download on the Mac App Store</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <a class="button secondary" href="#how"><span class="ja">動きを見る</span><span class="en">See how it works</span></a>
+            <a class="button secondary" href="#limits"><span class="ja">できないことを見る</span><span class="en">See what it cannot do</span></a>
+          </div>
+
+          <p class="fine hero-note" data-appstore-pending>
+            <span class="ja">Mac App Store で近日公開予定です。公開時にこのページのダウンロードリンクが有効になります。</span>
+            <span class="en">Coming soon to the Mac App Store. The download link on this page turns on when it ships.</span>
+          </p>
+          <p class="fine hero-note" data-appstore-wrap hidden>
+            <span class="ja">無料。アプリ内課金はありません。macOS 26 以降。</span>
+            <span class="en">Free. No in-app purchases. Requires macOS 26 or later.</span>
+          </p>
+
+          <ul class="badge-row">
+            <li><span class="ja">無料</span><span class="en">Free</span></li>
+            <li><span class="ja">履歴を残さない</span><span class="en">No history</span></li>
+            <li><span class="ja">外部に送らない</span><span class="en">Nothing sent anywhere</span></li>
+            <li><span class="ja">権限ゼロで始まる</span><span class="en">Starts with zero permissions</span></li>
+          </ul>
+        </div>
+
+        <div class="scene" aria-hidden="true" data-reveal>
+          <div class="scene-bar"><i></i><i></i><i></i><span>CLIPBOARD</span></div>
+          <div class="scene-code">AWS_ACCESS_KEY_ID=<b>AKIA●●●●</b>
+OPENAI_API_KEY=<b>sk-●●●●</b>
+DB_HOST=db.internal.example
+DB_PORT=5432</div>
+          <div class="scene-float">
+            <span class="kind">AWS ACCESS KEY · OPENAI API KEY</span>
+            <p><span class="ja">2件を伏せ字にしました。書式はプレーンテキストになります。</span><span class="en">2 items masked. The clipboard is now plain text.</span></p>
+            <span class="fake-btn"><span class="ja">元に戻す</span><span class="en">Restore</span></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. 動く瞬間が限定されていること（水際） -->
+    <section id="moment">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">水際</span><span class="en">At the water's edge</span></p>
+        <h2 data-reveal>
+          <span class="ja">動く瞬間は、ひとつだけ。</span>
+          <span class="en">There is exactly one moment when it acts.</span>
+        </h2>
+        <p class="lead" data-reveal>
+          <span class="ja">MaskGate が動くのは、<strong>秘密をコピーした状態で、あなたが AI チャットやブラウザなどの「危険アプリ」を前面に出した瞬間</strong>だけです。それ以外の時間、MaskGate は何もしません。文章を書いている時も、コードを書いている時も、社内ツールにコピペしている時も、黙っています。</span>
+          <span class="en">MaskGate acts when — and only when — <strong>you bring an AI chat, a browser, or another app on your risky-app list to the front while your clipboard holds a secret</strong>. The rest of the time it does nothing. While you write, while you code, while you paste into internal tools, it stays quiet.</span>
+        </p>
+        <p class="stack-sm lead" data-reveal>
+          <span class="ja">危険アプリの一覧はあなたが編集できます。既定では主要ブラウザと AI チャットアプリが入っています。ブラウザについてはアプリ単位の粗い判定で、開いているタブの URL は見ません。</span>
+          <span class="en">You control the risky-app list. It ships with the major browsers and AI chat apps. For browsers the judgement is per-app and deliberately coarse: MaskGate never looks at the URL of the tab you have open.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. コア体験の手順 -->
+    <section id="how">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">コア体験</span><span class="en">The core experience</span></p>
+        <h2 data-reveal><span class="ja">5つの動きで完結します。</span><span class="en">Five moves, start to finish.</span></h2>
+        <div class="steps">
+          <div class="step" data-reveal>
+            <div>
+              <h3><span class="ja">コピーする</span><span class="en">You copy</span></h3>
+              <p><span class="ja">APIキーでも <code>.env</code> の中身でも、いつも通りコピーします。この時点で MaskGate は何も言いません。</span><span class="en">Copy an API key, or the contents of a <code>.env</code> file, exactly as you always do. MaskGate says nothing at this point.</span></p>
+            </div>
+          </div>
+          <div class="step" data-reveal>
+            <div>
+              <h3><span class="ja">危険アプリへ切り替える</span><span class="en">You switch to a risky app</span></h3>
+              <p><span class="ja">ChatGPT、Claude、Chrome、Safari など、貼り付け先として警戒しているアプリを前面に出します。</span><span class="en">You bring ChatGPT, Claude, Chrome, Safari, or another app from your risky-app list to the front.</span></p>
+            </div>
+          </div>
+          <div class="step" data-reveal>
+            <div>
+              <h3><span class="ja">その瞬間、伏せ字になる</span><span class="en">At that instant, it is masked</span></h3>
+              <p><span class="ja">検知した箇所が <code>sk-live-●●●●</code> の形に置き換わり、画面の隅に小さなお知らせが出ます。お知らせに表示されるのは<strong>種類だけ</strong>で、値そのものは決して表示されません。</span><span class="en">The detected part is replaced with the <code>sk-live-●●●●</code> form, and a small notice appears at the edge of the screen. The notice names <strong>the kind of secret only</strong> — never the value itself.</span></p>
+            </div>
+          </div>
+          <div class="step" data-reveal>
+            <div>
+              <h3><span class="ja">意図した貼り付けなら、ワンクリックで戻す</span><span class="en">If you meant it, one click restores</span></h3>
+              <p><span class="ja">「元に戻す」を押せば、クリップボードは原本に戻ります。取り上げではありません — 主導権は常にあなたにあります。</span><span class="en">Press “Restore” and your clipboard returns to the original. Nothing is taken away from you; you stay in charge.</span></p>
+            </div>
+          </div>
+          <div class="step" data-reveal>
+            <div>
+              <h3><span class="ja">戻さなければ、伏せ字だけが貼られる</span><span class="en">If you don't restore, only the masked text is pasted</span></h3>
+              <p><span class="ja">お知らせに気づかず <kbd>⌘V</kbd> を押しても、相手に渡るのは伏せ字です。これが既定の安全側の挙動です。</span><span class="en">Even if you miss the notice and press <kbd>⌘V</kbd>, what lands on the other side is the masked text. That is the safe default.</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="callout" data-reveal>
+          <h3><span class="ja">同じアプリの中でのコピペは、伏せ字にしません</span><span class="en">Copying and pasting inside one app is not masked</span></h3>
+          <p><span class="ja">アプリを切り替えていないので、MaskGate から見れば「危険アプリへ持ち出した」瞬間が存在しません。この場合は伏せ字にせず、お知らせだけを出します。</span><span class="en">You never switched apps, so from MaskGate's point of view the moment of carrying a secret into a risky app never happened. In that case it does not mask; it only lets you know.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 3つの約束 -->
+    <section id="promises">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal><span class="ja">3つの約束</span><span class="en">Three promises</span></p>
+        <h2 data-reveal><span class="ja">守るために、ためこまない。</span><span class="en">To protect you, it keeps nothing.</span></h2>
+        <div class="grid-3">
+          <article class="card" data-reveal>
+            <span class="number">01 / NO HISTORY</span>
+            <h3><span class="ja">履歴を残さない</span><span class="en">No history</span></h3>
+            <p><span class="ja">検知した内容も、伏せ字にする前の原本も、ディスクには書きません。原本はメモリの中だけに置かれ、アプリを終了すると消えます。</span><span class="en">Neither what it detected nor the value before masking is ever written to disk. The original lives in memory only, and it is gone when the app quits.</span></p>
+          </article>
+          <article class="card" data-reveal>
+            <span class="number">02 / STAYS LOCAL</span>
+            <h3><span class="ja">外部に送らない</span><span class="en">Nothing sent anywhere</span></h3>
+            <p><span class="ja">MaskGate はネットワーク権限を持たずに配布されます。外に出る経路そのものがありません。この主張は<a class="card-link" href="#verify">あなた自身で確かめられます</a>。</span><span class="en">MaskGate ships without a network entitlement. There is no path out of the app. This claim is <a class="card-link" href="#verify">something you can check yourself</a>.</span></p>
+          </article>
+          <article class="card" data-reveal>
+            <span class="number">03 / STAYS OUT</span>
+            <h3><span class="ja">邪魔をしない</span><span class="en">Never in your way</span></h3>
+            <p><span class="ja">お知らせは作業を止めないタイプのもので、応答を強制しません。動くのは水際の一瞬だけで、ふだんは黙っています。</span><span class="en">The notice does not stop your work and never demands an answer. It appears for one instant at the water's edge; otherwise it is silent.</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 権限ゼロで始まること、および昇格の意味 -->
+    <section id="modes">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">2つのモード</span><span class="en">Two modes</span></p>
+        <h2 data-reveal><span class="ja">権限ゼロで始まります。昇格するかは、あなたが決めます。</span><span class="en">It starts with zero permissions. Whether to go further is your call.</span></h2>
+
+        <div class="grid-2">
+          <article class="card" data-reveal>
+            <span class="number">DEFAULT</span>
+            <h3><span class="ja">お知らせモード</span><span class="en">Heads-up Mode</span></h3>
+            <p><span class="ja">初回起動から、<strong>何も許可しないまま</strong>動きます。macOS が「クリップボードに個人情報が含まれるか」だけを答えてくれる仕組みを使うので、MaskGate は本文を読みません。メールアドレス・電話番号・住所を持ったまま危険アプリへ切り替えると、お知らせだけが出ます。伏せ字にはしません。</span><span class="en">It works from first launch <strong>without granting anything</strong>. macOS answers only the question “does the clipboard contain personal information?”, so MaskGate never reads the text itself. Switch to a risky app while holding an email address, phone number, or postal address, and you get a heads-up. Nothing is masked.</span></p>
+          </article>
+          <article class="card" data-reveal>
+            <span class="number">OPT-IN</span>
+            <h3><span class="ja">自動マスクモード</span><span class="en">Auto-Mask Mode</span></h3>
+            <p><span class="ja">切り替えると2つのことが起きます。<strong>①</strong> APIキー・トークン・秘密鍵を検知できるようになります。<strong>②</strong> 個人情報も、お知らせだけでなく自動マスク＋ワンクリック復元で守られるようになります。照合はこの Mac の中だけで行われます。</span><span class="en">Switching turns on two things. <strong>1.</strong> API keys, tokens, and private keys become detectable. <strong>2.</strong> Personal information is upgraded from a heads-up to automatic masking with one-click restore. All matching happens on this Mac.</span></p>
+          </article>
+        </div>
+
+        <div class="callout" data-reveal>
+          <h3><span class="ja">自動マスクモードに必要な設定と、その理由</span><span class="en">What Auto-Mask Mode needs, and why</span></h3>
+          <p>
+            <span class="ja">自動マスクモードでは、システム設定 &gt; プライバシーとセキュリティ &gt; 「他のアプリからのペースト」で、MaskGate を<strong>「常に許可」</strong>にしていただく必要があります。設定はアプリが手順を案内し、同じ場所でいつでも「確認」に戻せます。</span>
+            <span class="en">Auto-Mask Mode needs MaskGate set to <strong>“Always Allow”</strong> under System Settings &gt; Privacy &amp; Security &gt; “Paste from Other Apps”. The app walks you through it, and you can set it back to “Ask” in the same place at any time.</span>
+          </p>
+          <p>
+            <span class="ja"><strong>なぜ「常に許可」でなければならないのか。</strong>「確認」のままだと、MaskGate がクリップボードの中身を読もうとするたびに macOS が確認ダイアログを出します。MaskGate が本文を読む必要があるのは<strong>あなたが貼り付ける直前の一瞬</strong>であり、そこで確認ダイアログを挟むと、答え終わる頃には <kbd>⌘V</kbd> が済んでいます。<strong>都度確認では、貼る直前に間に合いません。</strong>だから、伏せ字が必要な判断を先回りできる「常に許可」が要るのです。</span>
+            <span class="en"><strong>Why “Always Allow” and not “Ask”.</strong> With “Ask”, macOS puts up a confirmation dialog every time MaskGate tries to read the clipboard. The one moment MaskGate needs to read it is <strong>the instant before you paste</strong> — and a dialog there means that by the time you have answered it, <kbd>⌘V</kbd> has already happened. <strong>Asking every time cannot make it in time.</strong> “Always Allow” is what lets the decision be made ahead of the paste.</span>
+          </p>
+          <p>
+            <span class="ja">この許可で MaskGate ができるようになるのは、クリップボードの本文をこの Mac の中で照合することだけです。読んだ内容はディスクに書かず、外にも送りません。</span>
+            <span class="en">What this permission enables is one thing: matching the clipboard text on this Mac. What it reads is never written to disk and never sent anywhere.</span>
+          </p>
+        </div>
+
+        <p class="stack-md fine" data-reveal>
+          <span class="ja">パスワードマネージャからコピーした値のように、アプリが「秘匿」の印を付けたクリップボードについては、自動マスクモードでも本文を読まず、お知らせのみを出します。</span>
+          <span class="en">When the clipboard is marked as confidential by the app that filled it — a value copied from a password manager, for example — MaskGate does not read it even in Auto-Mask Mode. It only lets you know.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 6. 検知できるものの一覧 -->
+    <section id="detects">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">検知できるもの</span><span class="en">What it can detect</span></p>
+        <h2 data-reveal><span class="ja">形式が分かっているものだけを、確実に。</span><span class="en">Only the formats it knows — but those, reliably.</span></h2>
+        <p class="lead" data-reveal>
+          <span class="ja">MaskGate は、公開されている「その形式らしさ」の規則に一致した文字列だけを検知します。判定は推測ではなく形式の照合です。全一覧はアプリ内の「何を検知できるか」からいつでも確認できます。</span>
+          <span class="en">MaskGate detects strings that match published rules for what each format looks like. This is format matching, not guesswork. The full list is always available inside the app under “What it can detect”.</span>
+        </p>
+
+        <h3 class="stack-lg" data-reveal><span class="ja">お知らせモードから（何も許可せずに）— 個人情報3種</span><span class="en">From Heads-up Mode, with nothing granted — 3 kinds of personal information</span></h3>
+        <ul class="chips" data-reveal>
+          <li><span class="ja">メールアドレス</span><span class="en">Email address</span></li>
+          <li><span class="ja">電話番号</span><span class="en">Phone number</span></li>
+          <li><span class="ja">住所</span><span class="en">Postal address</span></li>
+        </ul>
+
+        <h3 class="stack-lg" data-reveal><span class="ja">自動マスクモードで加わるもの — APIキー・トークン・秘密鍵18種</span><span class="en">Added in Auto-Mask Mode — 18 kinds of API keys, tokens, and private keys</span></h3>
+        <ul class="chips" data-reveal>
+          <li>AWS <span class="ja">アクセスキー</span><span class="en">access key</span></li>
+          <li>OpenAI <span class="ja">APIキー</span><span class="en">API key</span></li>
+          <li>Anthropic <span class="ja">APIキー</span><span class="en">API key</span></li>
+          <li>Anthropic <span class="ja">管理者APIキー</span><span class="en">admin API key</span></li>
+          <li>GitHub <span class="ja">個人アクセストークン</span><span class="en">personal access token</span></li>
+          <li>GitHub Fine-Grained <span class="ja">トークン</span><span class="en">token</span></li>
+          <li>GitHub OAuth <span class="ja">トークン</span><span class="en">token</span></li>
+          <li>GitHub <span class="ja">アプリトークン</span><span class="en">app token</span></li>
+          <li>GitHub <span class="ja">リフレッシュトークン</span><span class="en">refresh token</span></li>
+          <li>GitLab <span class="ja">個人アクセストークン</span><span class="en">personal access token</span></li>
+          <li>Slack <span class="ja">ボットトークン</span><span class="en">bot token</span></li>
+          <li>Slack <span class="ja">ユーザートークン</span><span class="en">user token</span></li>
+          <li>Slack <span class="ja">アプリトークン</span><span class="en">app token</span></li>
+          <li>Slack Webhook URL</li>
+          <li>Stripe <span class="ja">APIキー</span><span class="en">API key</span></li>
+          <li>Google <span class="ja">APIキー</span><span class="en">API key</span></li>
+          <li><span class="ja">秘密鍵（PEM）</span><span class="en">Private key (PEM)</span></li>
+          <li>JWT</li>
+        </ul>
+        <p class="stack-md fine" data-reveal>
+          <span class="ja">検知の規則は gitleaks（MIT）および detect-secrets（Apache-2.0）から移植しています。設定画面から、独自の形式を追加したり、既定の形式を個別に無効にしたりできます。</span>
+          <span class="en">The detection rules are ported from gitleaks (MIT) and detect-secrets (Apache-2.0). In Settings you can add your own formats, or turn individual built-in formats off.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. 検知できないものの明示（最重要） -->
+    <section id="limits">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">検知できないもの</span><span class="en">What it cannot detect</span></p>
+        <h2 data-reveal><span class="ja">「全部守れます」とは言いません。</span><span class="en">We will not tell you it catches everything.</span></h2>
+        <p class="lead" data-reveal>
+          <span class="ja">MaskGate が守れるのは、形式に一致して検知できたものだけです。次のものは検知しません。</span>
+          <span class="en">MaskGate can only protect what it detected by matching a known format. It does not detect the following.</span>
+        </p>
+        <ul class="plain-list no" data-reveal>
+          <li><span class="ja"><strong>任意のパスワード文字列</strong> — <code>password=</code> などの語が近くにあることだけで判定する方式は採っていません。</span><span class="en"><strong>Arbitrary password strings</strong> — MaskGate does not judge by the mere presence of a nearby word such as <code>password=</code>.</span></li>
+          <li><span class="ja"><strong>ランダム性だけで判定する汎用トークン</strong> — 「ランダムな文字列に見えるから秘密だろう」という推測はしません。</span><span class="en"><strong>Generic tokens judged only by randomness</strong> — it never guesses “this looks random, so it must be a secret”.</span></li>
+          <li><span class="ja"><strong>掲載した18種以外のサービス固有トークン</strong> — 1Password・Cloudflare・Heroku・Twilio・SendGrid・Notion・Hugging Face・Discord・Datadog など、世の中には約200種の形式があり、v1 はそれらを含みません。</span><span class="en"><strong>Vendor token formats beyond the 18 listed</strong> — 1Password, Cloudflare, Heroku, Twilio, SendGrid, Notion, Hugging Face, Discord, Datadog and roughly two hundred others exist. Version 1 does not include them.</span></li>
+          <li><span class="ja"><strong>サイズや時間の上限を超えた部分</strong> — 1MB を超える本文では、APIキー・トークン・秘密鍵を照合しません（個人情報の確認は続きます）。個人情報を確認するのは本文の先頭10万字までです。また、1行が1万字を超える行は照合せず、照合全体が200ミリ秒を超えたときもそこで打ち切ります。</span><span class="en"><strong>Whatever falls past the size and time limits</strong> — in content larger than 1&nbsp;MB, API keys, tokens, and private keys are not matched (the check for personal information carries on). Personal information is checked in the first 100,000 characters of the content. Lines longer than 10,000 characters are not matched, and matching stops where it exceeds its 200&nbsp;ms budget.</span></li>
+          <li><span class="ja"><strong>画像やファイルなどの非テキスト</strong> — スクリーンショットの中に写ったキーや、コピーしたファイルの中身は対象外です。</span><span class="en"><strong>Non-text such as images and files</strong> — a key visible in a screenshot, or the contents of a copied file, is out of scope.</span></li>
+          <li><span class="ja"><strong>お知らせモードでの APIキー</strong> — 本文を読まないモードのため、個人情報3種以外は検知できません。またこのモードで個人情報を確認できるのは本文の先頭およそ1,024字までです（システム側の判定の仕様）。自動マスクモードに切り替えると、この範囲は先頭10万字まで広がります。</span><span class="en"><strong>API keys while in Heads-up Mode</strong> — that mode does not read the text, so nothing beyond the three kinds of personal information can be detected. In this mode personal information is also only checked in roughly the first 1,024 characters, which is how the system's own check works. Switching to Auto-Mask Mode widens that to the first 100,000 characters.</span></li>
+        </ul>
+
+        <div class="callout" data-reveal>
+          <h3><span class="ja">確認しきれなかったときは、その場でそう言います</span><span class="en">When it could not finish checking, it says so on the spot</span></h3>
+          <p>
+            <span class="ja">自動マスクモードでは、上に挙げたサイズ・長さ・時間の上限に当たって確認しきれなかったとき、<strong>「この内容は確認しきれませんでした」</strong>とその場でお伝えします。確認できた範囲に秘密があれば、それは伏せ字にしたうえで注記を添えます。黙って見送ることはしません。</span>
+            <span class="en">In Auto-Mask Mode, when it runs into the size, length, or time limits above and cannot finish, it tells you right then: <strong>“this content could not be fully checked”</strong>. Anything it did find within reach is masked, with that note attached. It does not let the moment pass in silence.</span>
+          </p>
+          <p>
+            <span class="ja">ただし、この注記を出せるのは<strong>上限に当たったと自覚できたときだけ</strong>です。掲載した形式に無い秘密や、形式より長い値は、確認しきれなかったこと自体に気づけないため、注記も出ません。<strong>MaskGate が何も言わなかったことは、秘密が無かったことの証明にはなりません。</strong></span>
+            <span class="en">But it can only add that note <strong>when it knows it hit a limit</strong>. For a secret in a format it does not carry, or a value longer than the format allows, it has no way of knowing that it missed anything — so no note appears. <strong>MaskGate saying nothing is not proof that there was nothing to find.</strong></span>
+          </p>
+        </div>
+
+        <strong class="stmt" data-reveal>
+          <span class="ja">検知できなかった秘密は守れません。</span>
+          <span class="en">A secret that is not detected is not protected.</span>
+        </strong>
+        <p class="stack-sm fine" data-reveal>
+          <span class="ja">MaskGate は「秘密を貼ってしまうことがなくなる」道具ではありません。うっかりに気づく機会を一つ増やす道具です。この違いを正確にお伝えすることが、私たちにできる一番誠実なことだと考えています。</span>
+          <span class="en">MaskGate is not a tool that makes pasting a secret impossible. It is a tool that adds one more chance to notice. Stating that difference precisely is the most honest thing we can do.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 8. 書式が失われること -->
+    <section id="plaintext">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">副作用</span><span class="en">A side effect</span></p>
+        <h2 data-reveal><span class="ja">伏せ字にすると、書式は失われます。</span><span class="en">Masking makes the clipboard plain text.</span></h2>
+        <p class="lead" data-reveal>
+          <span class="ja">伏せ字にしたクリップボードは<strong>プレーンテキスト</strong>になります。太字・色・リンク・表組みといった書式や、リッチテキストとしての体裁は残りません。周囲の本文はそのまま残り、検知した箇所だけが伏せ字に置き換わります。</span>
+          <span class="en">Once masked, the clipboard becomes <strong>plain text</strong>. Bold, colour, links, tables, and any other rich formatting do not survive. The surrounding text is kept as it was; only the detected part is replaced with the masked form.</span>
+        </p>
+        <div class="callout warn" data-reveal>
+          <p>
+            <span class="ja"><strong>書式のまま貼りたいときは、先に「元に戻す」を押してください。</strong>原本に戻せば、コピーした時の書式もそのまま復元されます。</span>
+            <span class="en"><strong>If you need the formatting, press “Restore” first.</strong> Restoring the original brings back the formatting exactly as you copied it.</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. 外部送信がないことの検証方法 -->
+    <section id="verify">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">主張と、確かめ方</span><span class="en">The claim, and how to check it</span></p>
+        <h2 data-reveal><span class="ja">「送っていません」は、確かめられます。</span><span class="en">“Nothing is sent” is a checkable claim.</span></h2>
+        <p class="lead" data-reveal>
+          <span class="ja">外部送信がないという主張は、こちらの言葉を信じていただく必要はありません。MaskGate はネットワーク権限を持たずに App Sandbox の中で動作します。権限が無いということは、通信しようとしても OS が許さないということです。次の方法で、第三者が独立に追試できます。</span>
+          <span class="en">You do not have to take our word for it. MaskGate runs inside the App Sandbox without a network entitlement — meaning that even if it tried to talk to the internet, the OS would not let it. Anyone can verify this independently in the following ways.</span>
+        </p>
+        <ul class="plain-list" data-reveal>
+          <li>
+            <span class="ja"><strong>コード署名に埋め込まれた権限を読む。</strong>ターミナルで <code>codesign -d --entitlements :- /Applications/MaskGate.app</code> を実行してください。出力に含まれるのは <code>com.apple.security.app-sandbox</code> だけで、<code>com.apple.security.network.client</code> や <code>network.server</code> は含まれません。この権限一覧は Apple の署名で保護されており、後から書き換えると署名が壊れて起動できなくなります。</span>
+            <span class="en"><strong>Read the entitlements embedded in the code signature.</strong> Run <code>codesign -d --entitlements :- /Applications/MaskGate.app</code> in Terminal. The output contains <code>com.apple.security.app-sandbox</code> and nothing else — no <code>com.apple.security.network.client</code>, no <code>network.server</code>. That list is sealed by Apple's signature: altering it afterwards breaks the signature and the app will not launch.</span>
+          </li>
+          <li>
+            <span class="ja"><strong>実際の通信を記録して確かめる。</strong>Little Snitch や LuLu のような通信の可視化ツール、あるいは <code>tcpdump</code> や Wireshark のようなパケット記録ツールを使って、MaskGate を使いながら通信の有無を見てください。秘密を検知させても、送信は一切発生しません。</span>
+            <span class="en"><strong>Record the actual traffic.</strong> Use a connection-visibility tool such as Little Snitch or LuLu, or a packet-capture tool such as <code>tcpdump</code> or Wireshark, and use MaskGate while you watch. Even when it detects a secret, no traffic is produced.</span>
+          </li>
+          <li>
+            <span class="ja"><strong>App Store の「Appのプライバシー」欄を見る。</strong>MaskGate の申告は「データを収集していません」です。この申告は Apple に対して行うもので、実装と食い違えば審査と申告の両面で責任を負います。</span>
+            <span class="en"><strong>Check the App Privacy section on the App Store.</strong> MaskGate declares “Data Not Collected”. That declaration is made to Apple, and a mismatch with the implementation is answerable both in review and in the declaration itself.</span>
+          </li>
+        </ul>
+        <p class="stack-md fine" data-reveal>
+          <span class="ja">アプリがディスクに書くのは、あなたの設定（危険アプリの一覧や有効にした検知形式）と、守った回数のような数値だけです。検知した内容も原本も含まれません。詳細は<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</span>
+          <span class="en">What the app writes to disk is your settings (the risky-app list, which formats you enabled) and counters such as how many times it protected you. Neither detected content nor originals are included. See the <a href="privacy.html">privacy policy</a> for details.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 10. 免責・限界セクション（法務） -->
+    <section id="terms">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">免責と限界</span><span class="en">Limits and liability</span></p>
+        <h2 data-reveal><span class="ja">この製品が引き受ける範囲。</span><span class="en">What this product takes on.</span></h2>
+
+        <h3 class="stack-lg" data-reveal><span class="ja">1. 提供する機能の範囲</span><span class="en">1. The scope of what is provided</span></h3>
+        <p data-reveal>
+          <span class="ja">MaskGate が提供する機能は、<strong>掲載した検知形式に一致した文字列を、危険アプリの前面化という一つのきっかけで、クリップボード上で伏せ字に置き換え、復元手段を添えて知らせること</strong>です。次の各点は、この製品が引き受けない範囲としてあらかじめ画定されています。</span>
+          <span class="en">The function MaskGate provides is this: <strong>on the single trigger of a risky app coming to the front, replace strings that match the published detection formats with a masked form on the clipboard, and tell you, with a way to restore them</strong>. The points below are, in advance, outside what this product undertakes to do.</span>
+        </p>
+        <ul class="plain-list no" data-reveal>
+          <li><span class="ja">掲載した形式に一致しない秘密は検知されず、したがって伏せ字にもなりません。<strong>検知できなかった秘密は守れません。</strong>検知しないものの具体的な一覧は<a href="#limits">「検知できないもの」</a>のとおりです。</span><span class="en">A secret that does not match a published format is not detected and therefore is not masked. <strong>A secret that is not detected is not protected.</strong> The concrete list is under <a href="#limits">“What it cannot detect”</a>.</span></li>
+          <li><span class="ja">お知らせモードでは本文を読まないため、個人情報3種以外は検知されません。自動マスクモードでも、システム設定が「常に許可」でない間は同様です。</span><span class="en">Heads-up Mode does not read the text, so nothing beyond the three kinds of personal information is detected. The same applies to Auto-Mask Mode for as long as the system setting is not “Always Allow”.</span></li>
+          <li><span class="ja">1MB を超える本文では APIキー・トークン・秘密鍵が照合されません（個人情報の確認は先頭10万字まで続きます）。1行1万字を超える行、および照合時間の予算（200ミリ秒）を超えた分は照合されません。お知らせモードで個人情報を確認できるのは、本文の先頭およそ1,024字までです。</span><span class="en">In content over 1&nbsp;MB, API keys, tokens, and private keys are not matched (the check for personal information continues through the first 100,000 characters). Lines over 10,000 characters, and whatever falls beyond the 200&nbsp;ms matching budget, are not matched. In Heads-up Mode, personal information is checked only in roughly the first 1,024 characters.</span></li>
+          <li><span class="ja">自動マスクモードは、上記の上限に当たって確認しきれなかったことをその場で伝えます。ただしこれは上限に当たったと自覚できた場合に限られ、掲載した形式に無い秘密や形式より長い値については、確認しきれなかったこと自体を検知できないため伝えられません。<strong>MaskGate が何も伝えなかったことは、秘密が存在しなかったことの証明にはなりません。</strong></span><span class="en">Auto-Mask Mode reports on the spot when it hit one of the limits above and could not finish checking. That reporting is limited to cases it can recognise as a limit; for a secret in a format it does not carry, or a value longer than the format allows, it cannot detect that anything was missed and therefore cannot report it. <strong>MaskGate reporting nothing is not proof that no secret was present.</strong></span></li>
+          <li><span class="ja">画像・ファイル・その他の非テキストは対象外です。</span><span class="en">Images, files, and other non-text content are out of scope.</span></li>
+          <li><span class="ja">危険アプリの判定はアプリ単位の粗い近似です。ブラウザで開いているタブの URL は判定に用いません。危険アプリの一覧に無いアプリへの貼り付けでは動作しません。</span><span class="en">The risky-app judgement is a coarse, per-app approximation. The URL of the tab open in a browser is not used. Pasting into an app that is not on the list does not trigger anything.</span></li>
+          <li><span class="ja">同一アプリ内でのコピーと貼り付けでは伏せ字にしません（お知らせのみ）。</span><span class="en">Copying and pasting within a single app is not masked; you only get a heads-up.</span></li>
+          <li><span class="ja">伏せ字にしたクリップボードはプレーンテキストになり、書式は保持されません。</span><span class="en">A masked clipboard becomes plain text; formatting is not preserved.</span></li>
+          <li><span class="ja">MaskGate は、秘密の漏えいが起きないことを保証するものではありません。うっかり貼り付けに気づく機会を増やす補助的な道具であり、社内規程・鍵の適切な管理・漏えい時の鍵の失効といった対策に代わるものではありません。</span><span class="en">MaskGate does not guarantee that a leak will not occur. It is an aid that adds a chance to notice an accidental paste; it does not replace internal policy, sound key management, or revoking a key after an exposure.</span></li>
+        </ul>
+
+        <h3 class="stack-xl" data-reveal><span class="ja">2. 無償提供と、損害賠償責任の上限</span><span class="en">2. Free of charge, and the cap on liability</span></h3>
+        <div class="legal-box" data-reveal>
+          <p class="clause">
+            <span class="ja">MaskGate は<strong>無償で提供されます</strong>。ダウンロードの対価も、アプリ内課金もありません。</span>
+            <span class="en">MaskGate is <strong>provided free of charge</strong>. There is no price for the download and no in-app purchase.</span>
+          </p>
+          <p class="clause">
+            <span class="ja">開発者に<strong>故意または重大な過失がない場合</strong>、MaskGate の利用または利用できなかったことによって生じた損害について開発者が負う賠償責任は、原因のいかんを問わず、<strong>総額で金1,000円を上限</strong>とします。</span>
+            <span class="en">Where the developer is <strong>neither intentionally at fault nor grossly negligent</strong>, the developer's liability for damages arising from the use of, or the inability to use, MaskGate is <strong>capped at a total of 1,000 Japanese yen</strong>, whatever the cause.</span>
+          </p>
+          <p class="clause">
+            <span class="ja">開発者に<strong>故意または重大な過失がある場合、この上限は適用されません</strong>。</span>
+            <span class="en">Where the developer is <strong>intentionally at fault or grossly negligent, this cap does not apply</strong>.</span>
+          </p>
+          <p class="fine">
+            <span class="ja">本項は日本法に準拠します。日本語の記載を正文とし、英訳は参考です。</span>
+            <span class="en">This section is governed by Japanese law. The Japanese text is authoritative; the English is a reference translation.</span>
+          </p>
+        </div>
+        <p class="stack-sm fine" data-reveal>
+          <span class="ja">App Store からの入手には、Apple の標準の使用許諾契約が併せて適用されます。MaskGate 独自の使用許諾契約は設けていません。</span>
+          <span class="en">Apple's standard licence agreement also applies to apps obtained from the App Store. MaskGate does not add a licence agreement of its own.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 11. 動作環境 -->
+    <section id="requirements">
+      <div class="wrap measure">
+        <p class="eyebrow" data-reveal><span class="ja">動作環境</span><span class="en">Requirements</span></p>
+        <h2 data-reveal><span class="ja">必要なもの。</span><span class="en">What you need.</span></h2>
+        <div class="table-scroll" data-reveal>
+          <table>
+            <tbody>
+              <tr>
+                <th scope="row"><span class="ja">対応 OS</span><span class="en">Operating system</span></th>
+                <td><span class="ja">macOS 26 以降</span><span class="en">macOS 26 or later</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="ja">対応言語</span><span class="en">Languages</span></th>
+                <td><span class="ja">日本語・英語</span><span class="en">Japanese and English</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="ja">価格</span><span class="en">Price</span></th>
+                <td><span class="ja">無料（アプリ内課金なし）</span><span class="en">Free (no in-app purchases)</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="ja">入手方法</span><span class="en">Where to get it</span></th>
+                <td><span class="ja">Mac App Store</span><span class="en">The Mac App Store</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="ja">必要な権限</span><span class="en">Permissions</span></th>
+                <td><span class="ja">お知らせモードは権限ゼロ。自動マスクモードのみ「他のアプリからのペースト」の「常に許可」が必要</span><span class="en">Heads-up Mode needs none. Only Auto-Mask Mode needs “Paste from Other Apps” set to “Always Allow”</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="ja">データ収集</span><span class="en">Data collection</span></th>
+                <td><span class="ja">なし（App Store 申告: データを収集していません）</span><span class="en">None (App Store declaration: Data Not Collected)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. サポート導線とプライバシーポリシーへのリンク -->
+    <section id="help">
+      <div class="wrap">
+        <p class="eyebrow" data-reveal><span class="ja">困ったときは</span><span class="en">If you need help</span></p>
+        <h2 data-reveal><span class="ja">開発者が直接お答えします。</span><span class="en">The developer answers you directly.</span></h2>
+        <div class="grid-2">
+          <a class="card" href="support.html" data-reveal>
+            <span class="number">SUPPORT</span>
+            <h3><span class="ja">使い方とよくある質問</span><span class="en">Guide and common questions</span></h3>
+            <p><span class="ja">モードの切り替え手順、伏せ字にならなかったときの考え方、危険アプリの追加、そしてメールでのお問い合わせ先。</span><span class="en">How to switch modes, what to think when something was not masked, adding a risky app, and how to reach us by email.</span></p>
+          </a>
+          <a class="card" href="privacy.html" data-reveal>
+            <span class="number">PRIVACY</span>
+            <h3><span class="ja">プライバシーポリシー</span><span class="en">Privacy policy</span></h3>
+            <p><span class="ja">扱うもの、扱わないもの、ディスクに書くもの、そしてなぜ外部送信が構造的に起こり得ないのか。</span><span class="en">What is handled, what is not, what is written to disk, and why sending data out is structurally impossible.</span></p>
+          </a>
+        </div>
+        <div class="contact-card" data-reveal>
+          <div>
+            <h3><span class="ja">メールでのお問い合わせ</span><span class="en">Contact by email</span></h3>
+            <p class="fine"><span class="ja">不具合の報告、検知してほしい形式のご要望、その他ご質問はこちらへ。日本語・英語どちらでも構いません。</span><span class="en">Bug reports, requests for formats you would like detected, and any other question. Japanese or English is fine.</span></p>
+          </div>
+          <a class="button" href="mailto:k.oikawa119009@gmail.com?subject=MaskGate%20Support">✉ k.oikawa119009@gmail.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="32" height="32">MaskGate</a>
+        <ul class="footer-links">
+          <li data-appstore-wrap hidden><a data-appstore hidden rel="noopener">Mac App Store</a></li>
+          <li><a href="privacy.html"><span class="ja">プライバシーポリシー</span><span class="en">Privacy Policy</span></a></li>
+          <li><a href="support.html"><span class="ja">サポート</span><span class="en">Support</span></a></li>
+          <li><a href="#terms"><span class="ja">免責と限界</span><span class="en">Limits &amp; liability</span></a></li>
+          <li><a href="mailto:k.oikawa119009@gmail.com?subject=MaskGate%20Support"><span class="ja">お問い合わせ</span><span class="en">Contact</span></a></li>
+        </ul>
+      </div>
+      <p class="fine">
+        © 2026 Keisuke Oikawa ·
+        <span class="ja">macOS 26 以降 · 無料 · Mac App Store</span><span class="en">macOS 26+ · Free · Mac App Store</span>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
