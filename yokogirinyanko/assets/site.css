@@ -1,9 +1,17 @@
-/* よこぎりニャンコ 公開サイト — 共通スタイル
+/* よこぎりニャンコ 公開サイト — 共通スタイル（v2・動きの改修）
  *
  * 出典: オーナー承認済みデザイン（Design Component 形式の 3 アートボード）を
- * 素の HTML/CSS へ書き下したもの。色・寸法・動きはデザイン原本の実値をそのまま持つ。
- * 原本は 1000px 固定幅のアートボードなので、幅は max-width:1000px の中央寄せに置き換え、
- * 390px まで崩れないようブレークポイントを足してある（値そのものは変えていない）。
+ * 素の HTML/CSS へ書き下したもの。色・寸法はデザイン原本の実値をそのまま持つ。
+ * 2026-08-23 の改修（オーナー承認のデザインキャンバス「よこぎりニャンコ 公開サイト v2」）で
+ * 動きを刷新した:
+ *   1. 初回ロードのエントランス演出 — 提灯が左→右へ順に灯り、題字（にじみ→筆入り）→
+ *      CTA→盤面の順で登場する。エントランスは全て「静的CSS＝最終状態・keyframes は
+ *      from のみ・fill backwards」で書く。animation を殺せばそのまま完成形が出るので、
+ *      reduced-motion / JS 無効でも本文が欠けない。
+ *   2. 環境ループの上品化 — 車は「通過→切れ間」の交通（画面外まで走り切る）＋
+ *      ヘッドライト光条。提灯の揺れは周期をバラして小振りに。屋台は減速。
+ *   3. 下層セクションはスクロール発火の登場演出（assets/site.js が IntersectionObserver で
+ *      `.is-in` を付ける）。JS が無効なら演出なしでそのまま読める（プログレッシブ強化）。
  *
  * 夜祭りの情景そのものが主題なので、このサイトは**ダーク一色に振り切った意図的な単一テーマ**。
  * ライトテーマへの切り替えは持たない（color-scheme: dark を明示して UI 部品を合わせる）。
@@ -90,39 +98,86 @@ img, svg { max-width: 100%; }
 }
 
 /* ============================================================
- * 動き
+ * 動き — エントランス（from のみ・backwards。静的CSSが最終状態）
  * ============================================================ */
 
-@keyframes floatUp {
-  0%   { transform: translateY(0) scale(1); opacity: 0; }
-  12%  { opacity: .95; }
-  88%  { opacity: .75; }
-  100% { transform: translateY(-560px) scale(1.12); opacity: 0; }
-}
-@keyframes swing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
-@keyframes swingSoft { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
-@keyframes glow  { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35); } }
+@keyframes fadeUp   { from { opacity: 0; transform: translateY(26px); } }
+@keyframes fadeIn   { from { opacity: 0; } }
+@keyframes heroIn   { from { opacity: 0; transform: translateY(18px); filter: blur(12px); letter-spacing: .16em; text-shadow: 0 6px 0 var(--ink), 0 0 0 rgba(255, 179, 71, 0); } }
+@keyframes titleIn  { from { opacity: 0; transform: translateY(14px); filter: blur(10px); } }
+@keyframes popIn    { from { opacity: 0; transform: translateY(14px) scale(.92); } }
+@keyframes boardIn  { from { opacity: 0; transform: translateY(46px); } }
+@keyframes swimIn   { from { opacity: 0; transform: translateX(70px) rotate(-6deg); } }
+@keyframes lightUp  { from { filter: brightness(.12) saturate(.4); } }
+@keyframes brushReveal { from { clip-path: inset(0 100% 0 0); opacity: .4; } }
+@keyframes drawStroke  { from { stroke-dashoffset: 1; } }
 
-/* 原本の走行距離は 1000px 盤面の実値（-220px → 940px）。
- * 盤面幅は min(100vw, 1000px) なので、終点を同じ式で出して狭い画面でも走り切らせる。 */
+/* ============================================================
+ * 動き — 環境ループ
+ * ============================================================ */
+
+@keyframes swing     { 0%, 100% { transform: rotate(-2.6deg); } 50% { transform: rotate(2.6deg); } }
+@keyframes swingSoft { 0%, 100% { transform: rotate(-2.4deg); } 50% { transform: rotate(2.4deg); } }
+@keyframes glowPulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.16); } }
+
+/* 浮かぶ提灯。左右に緩く流されながら昇る */
+@keyframes floatUp {
+  0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+  10%  { opacity: .9; }
+  30%  { transform: translate3d(9px, -168px, 0) scale(1.04); }
+  55%  { transform: translate3d(-7px, -308px, 0) scale(1.07); opacity: .8; }
+  80%  { transform: translate3d(6px, -448px, 0) scale(1.1); }
+  100% { transform: translate3d(0, -560px, 0) scale(1.12); opacity: 0; }
+}
+
+/* 車は「通過 → 切れ間」。ゲームの主題（車の切れ間を読む）を情景でも語る。
+ * 走行距離は 1000px 盤面の実値。盤面幅は min(100vw, 1000px) なので、終点を同じ式で
+ * 出して狭い画面でも画面外まで走り切らせる（+20px は車体をフレーム外へ完全に出す余白）。 */
 @keyframes driveR {
-  from { transform: translateX(-220px); }
-  to   { transform: translateX(calc(min(100vw, 1000px) - 60px)); }
+  0%   { transform: translateX(-220px); }
+  58%  { transform: translateX(calc(min(100vw, 1000px) + 20px)); }
+  100% { transform: translateX(calc(min(100vw, 1000px) + 20px)); }
 }
 @keyframes driveL {
-  from { transform: translateX(calc(min(100vw, 1000px) - 60px)) scaleX(-1); }
-  to   { transform: translateX(-220px) scaleX(-1); }
+  0%   { transform: translateX(calc(min(100vw, 1000px) + 20px)) scaleX(-1); }
+  54%  { transform: translateX(-220px) scaleX(-1); }
+  100% { transform: translateX(-220px) scaleX(-1); }
 }
 
 @keyframes hop {
-  0%, 72%, 100% { transform: translateY(0) scaleY(1); }
-  78%  { transform: translateY(0) scaleY(.82); }
-  86%  { transform: translateY(-34px) scaleY(1.12); }
-  94%  { transform: translateY(0) scaleY(.94); }
+  0%, 64%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
+  70% { transform: translateY(2px) scaleY(.86) scaleX(1.06); }
+  80% { transform: translateY(-38px) scaleY(1.1) scaleX(.96); }
+  88% { transform: translateY(0) scaleY(.92) scaleX(1.05); }
+  94% { transform: translateY(-5px) scaleY(1.02) scaleX(1); }
 }
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes fishBob    { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
 @keyframes fishBobBig { 0%, 100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-8px)  rotate(8deg); } }
+
+/* ============================================================
+ * 動き — スクロール発火の登場演出
+ *
+ * assets/site.js が IntersectionObserver を使えるときだけ <html> に .js-reveal を付け、
+ * 視界に入った要素へ .is-in を付ける。JS 無効・reduced-motion では .js-reveal が
+ * 付かないので、要素は最初から完成形で見える（本文が隠れたままにならない）。
+ * ずらしは各要素の style="--rd: .12s" で指定する。
+ * ============================================================ */
+
+/* 発火前の隠し方は opacity だけにする。clip-path で面積ゼロに隠すと
+ * IntersectionObserver が「交差なし」と判定し続けて .is-in が永遠に付かない
+ * （opacity は交差判定に影響しない）。筆のワイプは .is-in 側のアニメで表現する。 */
+.js-reveal .reveal,
+.js-reveal .reveal-brush { opacity: 0; }
+.js-reveal .reveal.is-in {
+  opacity: 1;
+  animation: fadeUp .7s cubic-bezier(.16, .8, .28, 1) var(--rd, 0s) backwards;
+}
+.js-reveal .reveal-brush.is-in {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  animation: brushReveal .9s cubic-bezier(.3, .1, .3, 1) var(--rd, 0s) backwards;
+}
 
 /* ============================================================
  * 提灯（トップ／ドキュメント共通）
@@ -136,9 +191,9 @@ img, svg { max-width: 100%; }
   align-items: flex-start;
 }
 
+/* 揺れの周期は提灯ごとに --sd で散らす（機械的な同期揺れを避ける） */
 .lant {
-  animation: swing 3.4s ease-in-out infinite, glow 2.6s ease-in-out infinite;
-  animation-delay: var(--d, 0s);
+  animation: swing var(--sd, 3.4s) ease-in-out var(--d, 0s) infinite;
   transform-origin: 50% 0%;
 }
 .lant-cord {
@@ -147,12 +202,15 @@ img, svg { max-width: 100%; }
   background: var(--pole);
   margin: 0 auto;
 }
+/* 灯りは初回ロードで左→右へ順に点く（lightUp）。以降は --gd 周期の淡い明滅 */
 .lant-body {
   display: block;
   width: 26px; height: 34px;
   border-radius: 50% 50% 44% 44%;
   background: linear-gradient(var(--accent), var(--ember));
   box-shadow: 0 0 18px rgba(255, 179, 71, .7);
+  animation: lightUp .9s ease-out calc(.2s + var(--d, 0s) * .38) backwards,
+             glowPulse var(--gd, 2.6s) ease-in-out calc(1s + var(--d, 0s)) infinite;
 }
 
 /* ============================================================
@@ -193,6 +251,7 @@ img, svg { max-width: 100%; }
   left: 0; right: 0;
   bottom: var(--board-h);
   opacity: .9;
+  animation: fadeIn 1.2s ease-out .5s backwards;
 }
 .city svg { display: block; width: 100%; height: auto; }
 
@@ -212,6 +271,7 @@ img, svg { max-width: 100%; }
   letter-spacing: .06em;
   color: var(--cream);
   text-shadow: 0 6px 0 var(--ink), 0 0 44px rgba(255, 179, 71, .55);
+  animation: heroIn 1.05s cubic-bezier(.16, .8, .28, 1) .55s backwards;
 }
 .hero-sub {
   margin: 18px 0 0;
@@ -219,6 +279,7 @@ img, svg { max-width: 100%; }
   font-weight: 700;
   color: var(--accent);
   letter-spacing: .14em;
+  animation: fadeUp .8s cubic-bezier(.16, .8, .28, 1) 1.2s backwards;
 }
 .hero-cta {
   margin-top: 26px;
@@ -226,11 +287,13 @@ img, svg { max-width: 100%; }
   gap: 14px;
   justify-content: center;
   flex-wrap: wrap;
+  animation: popIn .6s cubic-bezier(.2, .85, .3, 1.35) 1.45s backwards;
 }
 .hero-note {
   margin: 14px 0 0;
   font-size: 13px;
   color: rgba(246, 239, 224, .62);
+  animation: fadeIn .8s ease-out 1.7s backwards;
 }
 
 /* ============================================================
@@ -238,6 +301,8 @@ img, svg { max-width: 100%; }
  * ============================================================ */
 
 .cta {
+  position: relative;
+  overflow: hidden;
   display: inline-block;
   border-radius: 999px;
   text-align: center;
@@ -257,6 +322,17 @@ img, svg { max-width: 100%; }
   box-shadow: 0 10px 0 var(--fish-shadow);
 }
 .cta-primary:hover { color: var(--cream-warm); }
+
+/* ホバーで艶が一往復する（is-pending 中は pointer-events: none なので出ない） */
+.cta-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 246, 232, .38) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform .65s ease;
+}
+.cta-primary:hover::after { transform: translateX(130%); }
 
 .cta-ghost {
   background: rgba(246, 239, 224, .1);
@@ -287,6 +363,7 @@ img, svg { max-width: 100%; }
   margin-top: auto;
   height: var(--board-h);
   overflow: hidden;
+  animation: boardIn .9s cubic-bezier(.16, .8, .28, 1) .8s backwards;
 }
 
 .lane {
@@ -308,15 +385,26 @@ img, svg { max-width: 100%; }
 
 .car { position: absolute; }
 .car svg { display: block; }
-.car-r { bottom: 8px; animation: driveR 6.5s linear infinite; }
-.car-l { bottom: 6px; transform: scaleX(-1); animation: driveL 8s linear infinite; }
+/* ヘッドライトの光条。--nose は車体先端の x。scaleX(-1) の車は光条ごと反転する */
+.car::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: var(--nose, 146px);
+  width: 110px; height: 24px;
+  background: linear-gradient(90deg, rgba(255, 233, 181, .4), rgba(255, 233, 181, 0) 78%);
+  clip-path: polygon(0 34%, 100% 0, 100% 100%, 0 66%);
+  filter: blur(1px);
+}
+.car-r { bottom: 8px; --nose: 146px; animation: driveR 7.2s linear infinite; }
+.car-l { bottom: 6px; --nose: 116px; transform: scaleX(-1); animation: driveL 8.8s linear 2.1s infinite; }
 
 .stall-track {
   position: absolute;
   left: 0; top: 0;
   display: flex;
   width: max-content;
-  animation: marquee 26s linear infinite;
+  animation: marquee 40s linear infinite;
 }
 .stall { width: 168px; flex: none; padding: 6px 8px 0; }
 .stall-sign {
@@ -340,14 +428,14 @@ img, svg { max-width: 100%; }
   position: absolute;
   right: min(168px, 22%);
   bottom: 22px;
-  animation: fishBob 2.4s ease-in-out infinite;
+  animation: fishBob 2.6s ease-in-out infinite;
 }
 .cat {
   position: absolute;
   left: min(470px, 52%);
   bottom: 6px;
   transform-origin: 50% 100%;
-  animation: hop 2.8s ease-in-out infinite;
+  animation: hop 3.4s cubic-bezier(.34, .1, .3, 1) infinite;
 }
 
 /* ============================================================
@@ -389,7 +477,9 @@ img, svg { max-width: 100%; }
   justify-content: center;
   font-size: 30px;
   color: var(--ink);
+  transition: transform .35s cubic-bezier(.2, .85, .3, 1.4);
 }
+.card:hover .card-kanji { transform: rotate(-8deg) scale(1.08); }
 .card-title { margin: 18px 0 0; font-size: 22px; font-weight: 900; color: var(--cream); }
 .card-body  { margin: 10px 0 0; font-size: 15px; line-height: 1.8; color: rgba(246, 239, 224, .78); }
 
@@ -422,6 +512,34 @@ img, svg { max-width: 100%; }
   color: var(--cream);
 }
 .ads-item svg { flex: none; margin-top: 2px; }
+/* アイコンは一筆書きで描かれる（pathLength="1" ＋ stroke-dasharray: 1）。
+ * 静的状態は dashoffset: 0 ＝ 描き終わり。JS 無効・reduced-motion でも欠けない */
+.ads-item .draw { stroke-dasharray: 1; }
+/* 締めの 1 項目（¥300）は 2 列をまたいで強調する */
+.ads-item-star {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  padding: 14px 18px;
+  background: rgba(255, 179, 71, .08);
+  border: 2px solid rgba(255, 179, 71, .55);
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+/* 広告の約束の中身は、枠が視界に入ってから段差で登場する */
+.js-reveal .ads.is-in .ads-item { animation: fadeUp .55s cubic-bezier(.16, .8, .28, 1) backwards; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(1) { animation-delay: .1s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(2) { animation-delay: .18s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(3) { animation-delay: .26s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(4) { animation-delay: .34s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(5) { animation-delay: .46s; }
+.js-reveal .ads .draw { stroke-dashoffset: 1; }
+.js-reveal .ads.is-in .draw { stroke-dashoffset: 0; animation: drawStroke .55s ease-out backwards; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(1) .draw { animation-delay: .26s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(2) .draw { animation-delay: .34s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(3) .draw { animation-delay: .42s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(4) .draw { animation-delay: .5s; }
+.js-reveal .ads.is-in .ads-list .ads-item:nth-child(5) .draw { animation-delay: .62s; }
 
 /* ============================================================
  * フッター（トップ）
@@ -454,14 +572,21 @@ img, svg { max-width: 100%; }
   padding: 0 var(--pad-x) 34px;
 }
 .doc-head .lantern-row { top: 40px; }
-.doc-head .lant { animation: swingSoft 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.doc-head .lant { animation: swingSoft var(--sd, 3.6s) ease-in-out var(--d, 0s) infinite; }
 .doc-head .lant-cord { height: 20px; }
 .doc-head .lant-body {
   width: 20px; height: 26px;
   box-shadow: 0 0 14px rgba(255, 179, 71, .6);
 }
 
-.doc-back  { position: relative; z-index: 2; align-self: flex-start; font-size: 14px; font-weight: 700; }
+.doc-back  {
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 700;
+  animation: fadeIn .7s ease-out .5s backwards;
+}
 .doc-title {
   position: relative;
   z-index: 2;
@@ -469,14 +594,17 @@ img, svg { max-width: 100%; }
   font-size: clamp(30px, 5.2vw, 46px);
   color: var(--cream);
   text-shadow: 0 4px 0 var(--ink);
+  animation: titleIn .9s cubic-bezier(.16, .8, .28, 1) .35s backwards;
 }
 
+/* 金魚は右から泳ぎ込み、着いてから漂う（漂いは svg 側・backwards で継ぎ目なし） */
 .doc-fish {
   position: absolute;
   right: 70px; bottom: 52px;
   z-index: 1;
-  animation: fishBobBig 2.6s ease-in-out infinite;
+  animation: swimIn .9s cubic-bezier(.16, .8, .28, 1) .7s backwards;
 }
+.doc-fish svg { display: block; animation: fishBobBig 2.8s ease-in-out 1.6s infinite backwards; }
 
 .doc-lead {
   margin: 46px var(--pad-x) 0;
@@ -547,7 +675,9 @@ img, svg { max-width: 100%; }
   border: 3px solid var(--ink);
   border-radius: 16px;
   padding: 20px 18px;
+  transition: transform .26s cubic-bezier(.2, .8, .3, 1.2), border-color .26s ease;
 }
+.how:hover { transform: translateY(-6px); border-color: var(--accent); }
 .how-n { font-size: 26px; color: var(--ember); }
 .how-t { margin: 8px 0 0; font-size: 15px; font-weight: 900; }
 .how-d { margin: 6px 0 0; font-size: 14px; line-height: 1.75; color: rgba(246, 239, 224, .78); }
@@ -563,9 +693,9 @@ img, svg { max-width: 100%; }
   border: 2px solid var(--night-2);
   border-radius: 16px;
   padding: 22px 24px;
-  transition: transform .24s cubic-bezier(.2, .8, .3, 1.2), box-shadow .24s ease;
+  transition: transform .24s cubic-bezier(.2, .8, .3, 1.2), box-shadow .24s ease, border-color .24s ease;
 }
-.faq:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); }
+.faq:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); border-color: var(--accent); }
 .faq-q { display: flex; gap: 10px; align-items: flex-start; }
 .faq-badge {
   flex: none;
@@ -578,7 +708,9 @@ img, svg { max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform .3s cubic-bezier(.2, .85, .3, 1.4);
 }
+.faq:hover .faq-badge { transform: rotate(-8deg) scale(1.1); }
 .faq-q h3 { margin: 0; font-size: 16px; font-weight: 900; line-height: 1.6; }
 .faq-a { margin: 12px 0 0; font-size: 15px; line-height: 1.85; color: rgba(246, 239, 224, .85); }
 
@@ -607,6 +739,15 @@ img, svg { max-width: 100%; }
   transform: translateY(-4px) scale(1.03);
   box-shadow: 0 8px 0 var(--fish-shadow);
 }
+.cta-mail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 246, 232, .38) 50%, transparent 70%);
+  transform: translateX(-130%);
+  transition: transform .65s ease;
+}
+.cta-mail:hover::after { transform: translateX(130%); }
 
 /* ============================================================
  * レスポンシブ（390px まで崩れないこと）
@@ -639,14 +780,27 @@ img, svg { max-width: 100%; }
   .row { padding: 18px 18px; }
   .site-foot, .doc-foot { flex-direction: column; align-items: flex-start; }
   .foot-links { gap: 18px; flex-wrap: wrap; }
+  /* 狭幅では題字の字送りアニメを省略する（1 行維持を優先。折り返しの瞬間を作らない） */
+  .hero-title { animation-name: fadeUp; }
 }
 
 /* ============================================================
  * 動きを減らす設定（OS 側の指定を尊重して全部止める）
+ *
+ * エントランスは「静的CSS＝最終状態」で書いてあるので、animation を殺すだけで
+ * 完成形が出る。スクロール発火の演出は site.js 側でも reduced-motion なら
+ * 起動しないが、閲覧中に OS 設定が変わる場合に備えて CSS でも可視状態へ戻す。
  * ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+
+  .page *,
+  .page *::before,
+  .page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 
   .sky-lantern,
   .lant,
@@ -659,13 +813,23 @@ img, svg { max-width: 100%; }
     animation: none !important;
   }
 
-  .card, .cta, .faq, .row { transition: none !important; }
+  .card, .cta, .faq, .row, .how { transition: none !important; }
 
   .card:hover,
   .cta:hover,
   .cta-mail:hover,
   .faq:hover,
-  .row:hover {
+  .row:hover,
+  .how:hover,
+  .card:hover .card-kanji,
+  .faq:hover .faq-badge {
     transform: none;
   }
+
+  .js-reveal .reveal,
+  .js-reveal .reveal-brush {
+    opacity: 1 !important;
+    clip-path: none !important;
+  }
+  .js-reveal .ads .draw { stroke-dashoffset: 0 !important; }
 }

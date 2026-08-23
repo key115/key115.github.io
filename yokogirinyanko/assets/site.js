@@ -40,9 +40,56 @@
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", activate);
-  } else {
+  // ------------------------------------------------------------------
+  // スクロール発火の登場演出（v2）。
+  //
+  // 下層セクション（.reveal / .reveal-brush）は、視界に入った時点で .is-in が付いて
+  // 登場アニメーションが走る。プログレッシブ強化として次の順で降りる:
+  //   - reduced-motion 指定       … 起動しない（CSS 側の @media でも全停止）
+  //   - IntersectionObserver 不在 … 起動しない
+  //   - JS 無効                   … この関数ごと動かない
+  // どの場合も <html> に .js-reveal が付かないので、要素は最初から完成形で見える。
+  // 本文の生成・書き換えは一切しない（classList の付け外しだけ）。
+  // ------------------------------------------------------------------
+  function reveal() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    if (!("IntersectionObserver" in window)) {
+      return;
+    }
+
+    var targets = document.querySelectorAll(".reveal, .reveal-brush");
+    if (!targets.length) {
+      return;
+    }
+
+    document.documentElement.classList.add("js-reveal");
+
+    var observer = new IntersectionObserver(function (entries) {
+      var i;
+      for (i = 0; i < entries.length; i += 1) {
+        if (entries[i].isIntersecting) {
+          entries[i].target.classList.add("is-in");
+          observer.unobserve(entries[i].target);
+        }
+      }
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.15 });
+
+    var i;
+    for (i = 0; i < targets.length; i += 1) {
+      observer.observe(targets[i]);
+    }
+  }
+
+  function boot() {
     activate();
+    reveal();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
   }
 })();
