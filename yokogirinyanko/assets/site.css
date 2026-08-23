@@ -1,0 +1,671 @@
+/* よこぎりニャンコ 公開サイト — 共通スタイル
+ *
+ * 出典: オーナー承認済みデザイン（Design Component 形式の 3 アートボード）を
+ * 素の HTML/CSS へ書き下したもの。色・寸法・動きはデザイン原本の実値をそのまま持つ。
+ * 原本は 1000px 固定幅のアートボードなので、幅は max-width:1000px の中央寄せに置き換え、
+ * 390px まで崩れないようブレークポイントを足してある（値そのものは変えていない）。
+ *
+ * 夜祭りの情景そのものが主題なので、このサイトは**ダーク一色に振り切った意図的な単一テーマ**。
+ * ライトテーマへの切り替えは持たない（color-scheme: dark を明示して UI 部品を合わせる）。
+ */
+
+:root {
+  /* ゲーム本体の確定トークンから引いた実値 */
+  --ink: #171512;          /* 墨（地） */
+  --cream: #F6EFE0;        /* 生成り（文字） */
+  --cream-warm: #FFF6E8;   /* CTA の文字 */
+  --accent: #FFB347;       /* 提灯の灯 */
+  --accent-soft: #FFE9B5;  /* 灯のハイライト */
+  --ember: #E0603A;        /* 提灯の下部 */
+  --fish: #E0492E;         /* 金魚 */
+  --fish-shadow: #7A2A22;  /* CTA の落ち影 */
+  --brick: #BC4028;        /* 屋台の幕 */
+  --night-0: #0E1626;      /* 夜空（天頂） */
+  --night-1: #1B2A44;      /* 夜空（中） */
+  --night-2: #22304A;      /* 夜空（地平） */
+  --panel: #14202F;        /* 本文カード */
+  --city: #0C1220;         /* 遠景の街 */
+  --sando: #D2BE96;        /* 参道 */
+  --road: #B8B2A6;         /* 車道 */
+  --cat: #F8F4EA;          /* 猫 */
+  --pole: #4A3527;         /* 提灯の紐 */
+  --car-green: #2E5140;
+  --car-dark: #241F1B;
+
+  --page-w: 1000px;
+  --pad-x: 60px;
+  --board-h: 232px;        /* 盤面の高さ。遠景の街をこの上に置くので両者は連動する */
+}
+
+* { box-sizing: border-box; }
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "ヒラギノ丸ゴ ProN W4",
+               "Yu Gothic", "游ゴシック体", system-ui, sans-serif;
+  font-weight: 500;
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-soft); }
+
+a:focus-visible,
+.cta:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+img, svg { max-width: 100%; }
+
+.page {
+  width: 100%;
+  max-width: var(--page-w);
+  margin: 0 auto;
+  background: var(--ink);
+  overflow: hidden;
+}
+
+/* 見出しの筆文字。Yuji Syuku は 400 しか無いので太字指定を外す */
+.brush {
+  font-family: "Yuji Syuku", "Hiragino Mincho ProN", "YuMincho", "Yu Mincho", serif;
+  font-weight: 400;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ============================================================
+ * 動き
+ * ============================================================ */
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  12%  { opacity: .95; }
+  88%  { opacity: .75; }
+  100% { transform: translateY(-560px) scale(1.12); opacity: 0; }
+}
+@keyframes swing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes swingSoft { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes glow  { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35); } }
+
+/* 原本の走行距離は 1000px 盤面の実値（-220px → 940px）。
+ * 盤面幅は min(100vw, 1000px) なので、終点を同じ式で出して狭い画面でも走り切らせる。 */
+@keyframes driveR {
+  from { transform: translateX(-220px); }
+  to   { transform: translateX(calc(min(100vw, 1000px) - 60px)); }
+}
+@keyframes driveL {
+  from { transform: translateX(calc(min(100vw, 1000px) - 60px)) scaleX(-1); }
+  to   { transform: translateX(-220px) scaleX(-1); }
+}
+
+@keyframes hop {
+  0%, 72%, 100% { transform: translateY(0) scaleY(1); }
+  78%  { transform: translateY(0) scaleY(.82); }
+  86%  { transform: translateY(-34px) scaleY(1.12); }
+  94%  { transform: translateY(0) scaleY(.94); }
+}
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes fishBob    { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
+@keyframes fishBobBig { 0%, 100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-8px)  rotate(8deg); } }
+
+/* ============================================================
+ * 提灯（トップ／ドキュメント共通）
+ * ============================================================ */
+
+.lantern-row {
+  position: absolute;
+  left: -20px; right: -20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.lant {
+  animation: swing 3.4s ease-in-out infinite, glow 2.6s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+  transform-origin: 50% 0%;
+}
+.lant-cord {
+  display: block;
+  width: 2px; height: 26px;
+  background: var(--pole);
+  margin: 0 auto;
+}
+.lant-body {
+  display: block;
+  width: 26px; height: 34px;
+  border-radius: 50% 50% 44% 44%;
+  background: linear-gradient(var(--accent), var(--ember));
+  box-shadow: 0 0 18px rgba(255, 179, 71, .7);
+}
+
+/* ============================================================
+ * トップ — ヒーロー
+ * ============================================================ */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 720px;
+  background: linear-gradient(var(--night-0) 0%, var(--night-1) 58%, var(--night-2) 100%);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero .lantern-row { top: 96px; }
+
+.sky-lantern {
+  position: absolute;
+  left: var(--x);
+  bottom: -80px;
+  width: var(--w); height: var(--h);
+  border-radius: 50% 50% 46% 46%;
+  background: radial-gradient(circle at 50% 34%, var(--accent-soft) 0%, var(--accent) 46%, var(--ember) 100%);
+  box-shadow: 0 0 26px rgba(255, 179, 71, .75);
+  opacity: 0;
+  animation: floatUp var(--dur) linear var(--delay) infinite;
+}
+
+.city {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: var(--board-h);
+  opacity: .9;
+}
+.city svg { display: block; width: 100%; height: auto; }
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 214px 20px 0;
+}
+/* 原本は 1000px で 82px。8 文字 ＋ letter-spacing で行幅 ≒ 8.47em になるので、
+ * 狭い画面では「本文幅の 94% に収まる字送り」を計算式で出して 1 行を保つ
+ * （Yuji Syuku が落ちてフォールバックの明朝になっても折り返さない余白を残す）。 */
+.hero-title {
+  margin: 0;
+  font-size: clamp(26px, calc(11.1vw - 4px), 82px);
+  line-height: 1.1;
+  letter-spacing: .06em;
+  color: var(--cream);
+  text-shadow: 0 6px 0 var(--ink), 0 0 44px rgba(255, 179, 71, .55);
+}
+.hero-sub {
+  margin: 18px 0 0;
+  font-size: clamp(16px, 2.4vw, 22px);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: .14em;
+}
+.hero-cta {
+  margin-top: 26px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: rgba(246, 239, 224, .62);
+}
+
+/* ============================================================
+ * CTA
+ * ============================================================ */
+
+.cta {
+  display: inline-block;
+  border-radius: 999px;
+  text-align: center;
+  font-weight: 900;
+  transition: transform .2s cubic-bezier(.2, .8, .3, 1.4), box-shadow .2s ease;
+}
+.cta:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 18px 40px rgba(224, 73, 46, .5);
+}
+
+.cta-primary {
+  background: var(--fish);
+  color: var(--cream-warm);
+  font-size: 19px;
+  padding: 16px 34px;
+  box-shadow: 0 10px 0 var(--fish-shadow);
+}
+.cta-primary:hover { color: var(--cream-warm); }
+
+.cta-ghost {
+  background: rgba(246, 239, 224, .1);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 19px;
+  padding: 14px 28px;
+}
+
+/* ストア未公開のあいだの CTA。href を持たないマークアップと二重に押下を止める。
+ * assets/site.js の APP_STORE_URL に実 URL を入れると JS が is-pending を外す。 */
+.cta.is-pending {
+  opacity: .45;
+  filter: grayscale(.45);
+  cursor: default;
+  pointer-events: none;
+  box-shadow: 0 10px 0 rgba(122, 42, 34, .6);
+}
+
+/* ============================================================
+ * トップ — 盤面（参道 / 車道 / 屋台 / 猫）
+ * ============================================================ */
+
+.board {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  height: var(--board-h);
+  overflow: hidden;
+}
+
+.lane {
+  position: relative;
+  border-top: 3px solid var(--ink);
+  overflow: hidden;
+}
+.lane-sando { height: 46px; background: var(--sando); }
+.lane-stalls { height: 60px; }
+.lane-road  { height: 62px; background: var(--road); }
+.lane-road2 { height: 64px; }
+
+.lane-dash {
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, var(--cream) 0 34px, transparent 34px 68px);
+}
+
+.car { position: absolute; }
+.car svg { display: block; }
+.car-r { bottom: 8px; animation: driveR 6.5s linear infinite; }
+.car-l { bottom: 6px; transform: scaleX(-1); animation: driveL 8s linear infinite; }
+
+.stall-track {
+  position: absolute;
+  left: 0; top: 0;
+  display: flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+.stall { width: 168px; flex: none; padding: 6px 8px 0; }
+.stall-sign {
+  background: var(--c);
+  border: 3px solid var(--ink);
+  border-radius: 6px 6px 0 0;
+  color: var(--cream);
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  padding: 4px 0;
+}
+.stall-awning {
+  height: 16px;
+  background: repeating-linear-gradient(90deg, var(--cream) 0 12px, var(--brick) 12px 24px);
+  border-left: 3px solid var(--ink);
+  border-right: 3px solid var(--ink);
+}
+
+.fish {
+  position: absolute;
+  right: min(168px, 22%);
+  bottom: 22px;
+  animation: fishBob 2.4s ease-in-out infinite;
+}
+.cat {
+  position: absolute;
+  left: min(470px, 52%);
+  bottom: 6px;
+  transform-origin: 50% 100%;
+  animation: hop 2.8s ease-in-out infinite;
+}
+
+/* ============================================================
+ * トップ — 特徴 3 枚
+ * ============================================================ */
+
+.section { padding: 76px var(--pad-x) 26px; background: var(--ink); }
+.section-title {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--accent);
+}
+
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 40px;
+}
+.card {
+  background: var(--night-1);
+  border: 3px solid var(--accent);
+  border-radius: 20px;
+  padding: 28px 24px 30px;
+  transition: transform .28s cubic-bezier(.2, .8, .3, 1.2), box-shadow .28s ease;
+}
+.card:hover {
+  transform: translateY(-10px) rotate(-1deg);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, .5);
+}
+.card-kanji {
+  width: 60px; height: 60px;
+  border-radius: 16px;
+  background: var(--k);
+  border: 3px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: var(--ink);
+}
+.card-title { margin: 18px 0 0; font-size: 22px; font-weight: 900; color: var(--cream); }
+.card-body  { margin: 10px 0 0; font-size: 15px; line-height: 1.8; color: rgba(246, 239, 224, .78); }
+
+/* ============================================================
+ * トップ — 広告の約束
+ * ============================================================ */
+
+.ads {
+  margin: 56px var(--pad-x);
+  background: linear-gradient(120deg, var(--night-1), var(--night-2));
+  border: 3px solid var(--ember);
+  border-radius: 24px;
+  padding: 42px 44px;
+}
+.ads-title { margin: 0; font-size: clamp(26px, 3.6vw, 34px); color: var(--accent); }
+.ads-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 34px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ads-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--cream);
+}
+.ads-item svg { flex: none; margin-top: 2px; }
+
+/* ============================================================
+ * フッター（トップ）
+ * ============================================================ */
+
+.site-foot {
+  border-top: 3px solid var(--night-1);
+  padding: 34px var(--pad-x) 42px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.foot-copy  { font-size: 13px; color: rgba(246, 239, 224, .5); }
+.foot-links { display: flex; gap: 26px; font-size: 15px; font-weight: 700; }
+
+/* ============================================================
+ * ドキュメントページ（プライバシー / サポート）
+ * ============================================================ */
+
+.doc-head {
+  position: relative;
+  min-height: 220px;
+  background: linear-gradient(var(--night-0), var(--night-1));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--pad-x) 34px;
+}
+.doc-head .lantern-row { top: 40px; }
+.doc-head .lant { animation: swingSoft 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.doc-head .lant-cord { height: 20px; }
+.doc-head .lant-body {
+  width: 20px; height: 26px;
+  box-shadow: 0 0 14px rgba(255, 179, 71, .6);
+}
+
+.doc-back  { position: relative; z-index: 2; align-self: flex-start; font-size: 14px; font-weight: 700; }
+.doc-title {
+  position: relative;
+  z-index: 2;
+  margin: 10px 0 0;
+  font-size: clamp(30px, 5.2vw, 46px);
+  color: var(--cream);
+  text-shadow: 0 4px 0 var(--ink);
+}
+
+.doc-fish {
+  position: absolute;
+  right: 70px; bottom: 52px;
+  z-index: 1;
+  animation: fishBobBig 2.6s ease-in-out infinite;
+}
+
+.doc-lead {
+  margin: 46px var(--pad-x) 0;
+  background: var(--night-1);
+  border: 3px solid var(--accent);
+  border-radius: 20px;
+  padding: 30px 32px;
+}
+.doc-lead h2 { margin: 0; font-size: 21px; font-weight: 900; color: var(--accent); }
+.doc-lead p  { margin: 12px 0 0; font-size: 17px; line-height: 1.9; }
+.doc-lead strong { color: var(--accent-soft); }
+
+.rows {
+  padding: 34px var(--pad-x) 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.row {
+  background: var(--panel);
+  border: 2px solid var(--night-2);
+  border-left: 6px solid var(--c);
+  border-radius: 14px;
+  padding: 22px 26px;
+  transition: transform .22s ease, border-color .22s ease;
+}
+.row:hover { transform: translateX(6px); border-color: var(--accent); }
+.row h2 { margin: 0; font-size: 19px; font-weight: 900; color: var(--c); }
+.row p  { margin: 8px 0 0; font-size: 15px; line-height: 1.9; color: rgba(246, 239, 224, .85); }
+
+.doc-contact {
+  margin: 30px var(--pad-x) 0;
+  padding: 26px 28px;
+  background: var(--night-1);
+  border-radius: 18px;
+}
+.doc-contact h2 { margin: 0; font-size: 17px; font-weight: 900; color: var(--accent); }
+.doc-contact p  { margin: 8px 0 0; font-size: 15px; line-height: 1.9; }
+.doc-updated { margin-top: 14px; font-size: 13px; color: rgba(246, 239, 224, .5); }
+
+.doc-foot {
+  border-top: 3px solid var(--night-1);
+  margin-top: 40px;
+  padding: 30px var(--pad-x) 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+ * サポート — あそびかた / FAQ / 問い合わせ
+ * ============================================================ */
+
+.doc-section { padding: 46px var(--pad-x) 0; }
+.doc-section + .doc-section { padding-top: 44px; }
+.doc-h2 { margin: 0; font-size: clamp(26px, 3.6vw, 34px); color: var(--accent); }
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+.how {
+  background: var(--night-1);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 20px 18px;
+}
+.how-n { font-size: 26px; color: var(--ember); }
+.how-t { margin: 8px 0 0; font-size: 15px; font-weight: 900; }
+.how-d { margin: 6px 0 0; font-size: 14px; line-height: 1.75; color: rgba(246, 239, 224, .78); }
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+}
+.faq {
+  background: var(--panel);
+  border: 2px solid var(--night-2);
+  border-radius: 16px;
+  padding: 22px 24px;
+  transition: transform .24s cubic-bezier(.2, .8, .3, 1.2), box-shadow .24s ease;
+}
+.faq:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0, 0, 0, .45); }
+.faq-q { display: flex; gap: 10px; align-items: flex-start; }
+.faq-badge {
+  flex: none;
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 900;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.faq-q h3 { margin: 0; font-size: 16px; font-weight: 900; line-height: 1.6; }
+.faq-a { margin: 12px 0 0; font-size: 15px; line-height: 1.85; color: rgba(246, 239, 224, .85); }
+
+.contact-card {
+  margin: 44px var(--pad-x) 0;
+  background: linear-gradient(120deg, var(--night-1), var(--night-2));
+  border: 3px solid var(--ember);
+  border-radius: 22px;
+  padding: 36px 40px;
+  text-align: center;
+}
+.contact-card h2 { margin: 0; font-size: clamp(24px, 3.2vw, 30px); color: var(--accent); }
+.contact-card p  { margin: 12px 0 0; font-size: 16px; line-height: 1.8; }
+
+.cta-mail {
+  margin-top: 22px;
+  background: var(--fish);
+  color: var(--cream-warm);
+  font-size: 18px;
+  padding: 15px 36px;
+  box-shadow: 0 8px 0 var(--fish-shadow);
+  word-break: break-word;
+}
+.cta-mail:hover {
+  color: var(--cream-warm);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 0 var(--fish-shadow);
+}
+
+/* ============================================================
+ * レスポンシブ（390px まで崩れないこと）
+ * ============================================================ */
+
+@media (max-width: 860px) {
+  :root { --pad-x: 28px; }
+  .feat-grid { grid-template-columns: 1fr; }
+  .ads-list  { grid-template-columns: 1fr; }
+  .faq-grid  { grid-template-columns: 1fr; }
+  .how-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ads { padding: 32px 26px; }
+  .contact-card { padding: 30px 24px; }
+  .hero-copy { padding-top: 170px; }
+}
+
+@media (max-width: 560px) {
+  :root { --pad-x: 18px; }
+  .hero { min-height: 0; }
+  .hero .lantern-row { top: 56px; }
+  .hero-copy { padding: 112px 18px 40px; }
+  .section { padding: 48px var(--pad-x) 16px; }
+  .ads { margin: 36px var(--pad-x); }
+  .cta-primary { font-size: 16px; padding: 14px 22px; }
+  .cta-ghost   { font-size: 16px; padding: 12px 20px; }
+  .cta-mail    { font-size: 16px; padding: 14px 22px; }
+  .doc-head { min-height: 190px; padding-bottom: 26px; }
+  .doc-fish { right: 14px; bottom: 40px; width: 54px; height: 38px; }
+  .doc-lead { padding: 24px 20px; }
+  .row { padding: 18px 18px; }
+  .site-foot, .doc-foot { flex-direction: column; align-items: flex-start; }
+  .foot-links { gap: 18px; flex-wrap: wrap; }
+}
+
+/* ============================================================
+ * 動きを減らす設定（OS 側の指定を尊重して全部止める）
+ * ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .sky-lantern,
+  .lant,
+  .doc-head .lant,
+  .car,
+  .stall-track,
+  .fish,
+  .doc-fish,
+  .cat {
+    animation: none !important;
+  }
+
+  .card, .cta, .faq, .row { transition: none !important; }
+
+  .card:hover,
+  .cta:hover,
+  .cta-mail:hover,
+  .faq:hover,
+  .row:hover {
+    transform: none;
+  }
+}
