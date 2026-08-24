@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>バック駐車検定 — その車庫入れ、何点ですか。</title>
+<meta name="description" content="バックで駐車枠へ。ライン踏みと切り返しを100点から引いていく運転スキルゲーム。十級から名人まで全21検定、無減点・切り返しゼロなら「一発合格」の判子。動画広告なし・検定中の割り込みなし。買い切り¥300で全広告が消えます。">
+<link rel="canonical" href="https://key115.github.io/backparkkentei/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="バック駐車検定">
+<meta property="og:title" content="バック駐車検定 — その車庫入れ、何点ですか。">
+<meta property="og:description" content="車庫入れの腕前を100点満点で採点する運転スキルゲーム。十級から名人まで全21検定。無減点・切り返しゼロなら「一発合格」の判子が押されます。">
+<meta property="og:url" content="https://key115.github.io/backparkkentei/">
+<meta property="og:image" content="https://key115.github.io/backparkkentei/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/appicon.png">
+<link rel="apple-touch-icon" href="assets/appicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Yuji+Syuku&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
+</head>
+<body>
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <div class="hero-inner">
+
+    <div class="hero-copy">
+      <h1><img class="hero-logo" src="assets/logo.png" alt="バック駐車検定" width="864" height="196"></h1>
+      <p class="hero-lead">その車庫入れ、何点ですか。</p>
+      <p class="hero-sub">駐車の腕前を級で採点</p>
+
+      <div class="hero-cta">
+        <!-- ストア公開まで非活性。href は assets/site.js の APP_STORE_URL から入る（規約3）。 -->
+        <a class="cta cta-primary is-pending" data-appstore aria-disabled="true">App&nbsp;Store でダウンロード</a>
+        <a class="cta cta-ghost" href="#kentei">検定の中身を見る</a>
+      </div>
+
+      <p class="hero-note">無料・動画広告なし・広告除去は買い切り¥300／iOS 16 以降の iPhone</p>
+    </div>
+
+    <!-- 盤面。白線・パイロン・警告ラインは CSS、車だけがアプリと同じスプライト。 -->
+    <div class="board" aria-hidden="true">
+      <div class="bays">
+        <div class="bay bay-filled" style="--fill:#9AA0A8"></div>
+        <div class="bay bay-target"><span class="bay-mark brush">検</span></div>
+        <div class="bay bay-filled" style="--fill:#B0A078"></div>
+      </div>
+      <img class="board-car" src="assets/car.png" alt="" width="640" height="291">
+      <span class="pylon pylon-l"></span>
+      <span class="pylon pylon-r"></span>
+    </div>
+
+  </div>
+</header>
+
+<!-- ============ 100点から、引かれていく ============ -->
+<section class="section" aria-labelledby="scoring-title">
+  <div class="section-head reveal">
+    <h2 class="section-title brush" id="scoring-title">100点から、引かれていく</h2>
+    <p class="section-desc">白線を踏めば減点。切り返しを重ねれば減点。斜めのまま止めても、枠の奥まで下がりきれなくても減点。どこで何点引かれたのかは、引かれた瞬間に画面へ出ます。</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card reveal" style="--c:var(--shu-fg)">
+      <div class="card-kanji brush" aria-hidden="true">減</div>
+      <h3 class="card-title">引かれた理由が、その場で出る</h3>
+      <p class="card-body">ライン踏み、切り返し、斜め、下がり足りない。何で何点引かれたのかが減点の瞬間に札で出るので、次に直すところが分かります。</p>
+    </div>
+
+    <div class="card reveal" style="--c:var(--pass-fg); --rd:.1s">
+      <div class="card-kanji brush" aria-hidden="true">合</div>
+      <h3 class="card-title">80点以上で合格</h3>
+      <p class="card-body">合格すると次の級が開きます。壁や隣の車に当たれば、その場で検定中止。中止だけは点数では救えません。</p>
+    </div>
+
+    <div class="card reveal" style="--c:var(--pylon-fg); --rd:.2s">
+      <div class="card-kanji brush" aria-hidden="true">遅</div>
+      <h3 class="card-title">ハンドルの、切り遅れ</h3>
+      <p class="card-body">車は前輪操舵の運動学モデルで動きます。切ってから向きが変わるまでに間があるので「あっ、切るのが遅かった」が起こります。枠へ吸い寄せる補正は入れていません。</p>
+    </div>
+
+  </div>
+
+  <!-- 一発合格。判子はアプリで実際に押されるものと同一のスプライト。 -->
+  <div class="oneshot reveal">
+    <div class="oneshot-stamps">
+      <img class="stamp-from" src="assets/stamp-pass.png" alt="「合格」の判子" width="160" height="160">
+      <span class="stamp-arrow" aria-hidden="true"></span>
+      <img class="oneshot-stamp" src="assets/stamp-oneshot.png" alt="「一発合格」の判子" width="240" height="240">
+    </div>
+    <div>
+      <h3 class="brush">切り返しゼロ・減点ゼロのときだけ</h3>
+      <p>合格の判子は「合格」。ですが、一度も切り返さず、一点も引かれずに収めた回だけ、判子が「一発合格」に変わります。合格すると、級と点数の入った合格証を画像で書き出して共有できます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 全21検定 ============ -->
+<section class="section" id="kentei" aria-labelledby="kentei-title">
+  <div class="section-head reveal">
+    <h2 class="section-title brush" id="kentei-title">十級から名人まで、全21検定</h2>
+    <p class="section-desc">合格するたびに次の級が開きます。枠は狭くなり、制限時間は縮み、視界はどんどん効かなくなります。名人の狭小駐車まで、たどり着けますか。</p>
+  </div>
+
+  <div class="tally">
+    <div class="tally-cell reveal">
+      <div class="tally-n brush">12<small>種</small></div>
+      <div class="tally-label">直角バック</div>
+    </div>
+    <div class="tally-cell reveal" style="--rd:.06s">
+      <div class="tally-n brush">5<small>種</small></div>
+      <div class="tally-label">縦列駐車</div>
+    </div>
+    <div class="tally-cell reveal" style="--rd:.12s">
+      <div class="tally-n brush">4<small>種</small></div>
+      <div class="tally-label">狭小駐車</div>
+    </div>
+    <div class="tally-cell reveal" style="--rd:.18s">
+      <div class="tally-n brush">3<small>種</small></div>
+      <div class="tally-label">車種（軽・セダン・ミニバン）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 見えないから、緊張する ============ -->
+<section class="section" aria-labelledby="vision-title">
+  <div class="section-head reveal">
+    <h2 class="section-title brush" id="vision-title">見えないから、緊張する</h2>
+    <p class="section-desc">はっきり見えるのは車のまわりと、後ろへ伸びるわずかな範囲だけ。遠くはぼやけ、壁の向こうは見えません。級が上がると昼が夕方に、夕方が夜になり、見える範囲はさらに狭まります。ただし理不尽にはしません。ぶつかる直前だけ、危ないラインが光って知らせます。</p>
+  </div>
+
+  <div class="shots reveal">
+    <figure class="shot">
+      <img src="assets/shot-01.png" alt="六級・直角バックの検定中。100点・残り70秒の採点HUDと、枠へ後退していく教習車" width="480" height="1043" loading="lazy">
+      <figcaption>採点は100点から始まります</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="assets/shot-03.png" alt="「ライン踏み -10」の減点札が出た検定画面" width="480" height="1043" loading="lazy">
+      <figcaption>減点は、その場でわかる</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="assets/shot-02.png" alt="夜の検定。車のまわりと後方のわずかな範囲だけが見えている" width="480" height="1043" loading="lazy">
+      <figcaption>級が上がるほど、視界は効かなくなる</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="assets/shot-04.png" alt="三段・縦列駐車を100点で終えた結果画面に「一発合格」の判子が押されている" width="480" height="1043" loading="lazy">
+      <figcaption>狙うのは、一発合格</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="assets/shot-05.png" alt="タイトル画面の級一覧と、軽自動車・セダン・ミニバンの車種選択" width="480" height="1043" loading="lazy">
+      <figcaption>十級から名人まで、全21検定</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 広告の約束 ============
+     項目はストア掲載文（output/docs/store/app_store_listing.md §4 の「■ 広告について」）と
+     1対1で対応させる。文言は tests/site_contract_test.py がリテラル照合しているので言い換えない。 -->
+<section class="ads" aria-labelledby="ads-title">
+  <div class="section-head reveal">
+    <h2 class="section-title brush" id="ads-title">広告のこと、正直に書きます</h2>
+    <p class="section-desc">採点の途中で画面を奪われたら、検定というかたち自体が壊れます。だから検定中は割り込みません。</p>
+  </div>
+
+  <ul class="ads-list">
+    <li class="ads-item reveal">
+      <span class="ads-badge brush" aria-hidden="true">無</span>
+      <span>動画広告は一切使いません。強制視聴もありません。</span>
+    </li>
+    <li class="ads-item reveal" style="--rd:.06s">
+      <span class="ads-badge brush" aria-hidden="true">無</span>
+      <span>検定中に広告が割り込むことはありません。表示されるのは画面下部の小さなバナーだけです。</span>
+    </li>
+    <li class="ads-item reveal" style="--rd:.12s">
+      <span class="ads-badge brush" aria-hidden="true">有</span>
+      <span>静止画の全画面広告と、「広告」ラベル付きのネイティブ広告が出るのは検定結果の画面だけです（全画面広告の表示間隔には時間の上限があります）。</span>
+    </li>
+    <li class="ads-item ads-item-buy reveal" style="--rd:.18s">
+      <span class="ads-badge brush" aria-hidden="true">消</span>
+      <span>買い切り¥300の「広告を消す」を購入すると、すべての広告面が消えます（復元購入に対応）。</span>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ フッター ============ -->
+<footer class="foot">
+  <div class="foot-inner">
+    <!-- 免責。掲載文「■ ご注意」と同じ主張を全ページのフッターに常設する。 -->
+    <p class="disclaimer">
+      <strong>このアプリは実際の運転免許・技能検定とは関係ありません。</strong>
+      「検定」「級」「合格証」はすべてゲーム内の演出で、公的な資格や技能を証明するものではありません。実在の教習所・自動車メーカーとも関係ありません。
+    </p>
+    <div class="foot-rows">
+      <div class="foot-copy">© 2026 Kei Oikawa</div>
+      <nav class="foot-links" aria-label="サイト内リンク">
+        <a href="support.html">サポート</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
