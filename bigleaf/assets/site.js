@@ -8,6 +8,17 @@
   // ---------- App Store URL (single switch — fill in after approval) ----------
   var APP_STORE_URL = 'https://apps.apple.com/app/id6779291028';
 
+  // ---------- Ko-fi page URL (single switch — fill in when the page exists) ----
+  // Same placeholder pattern as APP_STORE_URL, and the same rule as the
+  // portfolio precedent (PRJ-015): the "Support the developer" section ships
+  // HIDDEN and is revealed only when this constant holds a host-exact
+  // https://ko-fi.com/<page> URL. An empty or malformed value means the section
+  // never appears — a missing tip lane is always preferable to a broken one.
+  // The section markup exists on the landing page only; support.html and
+  // privacy.html (the pages the app links to directly) must never carry it.
+  var KOFI_URL = '';
+  var KOFI_RE = /^https:\/\/ko-fi\.com\/[A-Za-z0-9_-]+$/;
+
   // ---------- language (default EN, persisted) ----------
   var LANG_KEY = 'bigleaf-lang';
   var saved = 'en';
@@ -51,6 +62,15 @@
           if (a.getAttribute('href') === '#') e.preventDefault();
         });
       }
+    });
+
+    // Ko-fi lane — reveal only with a confirmed, host-exact URL.
+    document.querySelectorAll('[data-kofi]').forEach(function (a) {
+      if (!KOFI_RE.test(KOFI_URL)) { return; }
+      a.href = KOFI_URL;
+      a.rel = 'noopener';
+      var lane = a.closest('[data-kofi-lane]');
+      if (lane) { lane.hidden = false; }
     });
 
     // ---------- scroll progress ----------

@@ -37,6 +37,29 @@
     intro && intro.querySelector('.lead'),
     '各ファイルを直接ダウンロードできます。URLとバイト列は凍結され、今後の審査でも同じ内容を提供します。完全性を確認できるようSHA-256値を掲載しています。'
   );
+  // 公開前の訂正を最初に表示する。既存の開発時注記・訳文は凍結履歴として残す。
+  var releaseStatusNote = document.querySelector('.release-status-note');
+  var releaseStatusParagraphs = releaseStatusNote ? releaseStatusNote.querySelectorAll('p') : [];
+  [
+    '<strong>公開予定のバージョン1.2.0: 以下の「v1.1 以降」は未公開の開発時の呼称です。次回の公開版はバージョン1.2.0です。</strong>',
+    'バージョン1.2.0が公開されるまでは、App Storeの公開版は1.0.0で、以下のPreview Mode・購入・Restoreの仕様が引き続き適用されます。バージョン1.2.0では、購入せずにすべてのレコードを閲覧・検索・ジャンプできるようになります。サンプルファイル・URL・バイト列はすべて変更しません。以前の説明は以下にそのまま残しています。'
+  ].forEach(function (copy, index) {
+    bilingual(releaseStatusParagraphs[index], copy);
+  });
+
+  // 版スコープ注記（ADR-0002 追補 2026-08-29）。凍結ページの英語行は書き換えられない
+  // ので、訂正は「版スコープを自分で持つ追加ブロック」で行う。JA でも同じ注記が出ないと、
+  // 日本語で読む審査官・利用者には 1.0.0 の記述だけが見えることになる。
+  // クラスは .version-note — .review-callout にすると下の callouts[0]/[1] の索引がずれる。
+  var versionNote = document.querySelector('.version-note');
+  var versionNoteParagraphs = versionNote ? versionNote.querySelectorAll('p') : [];
+  [
+    '<strong>注記（v1.1 以降）: BigLeafは完全無料です。以下で説明しているPreview Mode・購入・Restoreの挙動は、バージョン1.0.0 のみに当てはまります。</strong>',
+    'このページのファイル・URL・バイト列は今後の審査のために凍結しており、書き換えることはありません。そのため以下の説明はバージョン1.0.0 当時の文言のままです。v1.1 以降はファイルサイズの制限がなく、下記のどのファイルも全レコードを閲覧・検索・ジャンプできます。そのための購入はアプリのどこにもありません。'
+  ].forEach(function (copy, index) {
+    bilingual(versionNoteParagraphs[index], copy);
+  });
+
   var callouts = document.querySelectorAll('.review-callout');
   bilingual(callouts[0] && callouts[0].querySelector('h2'), 'Preview Modeと購入を最短で試す');
   bilingual(
