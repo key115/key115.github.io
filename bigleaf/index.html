@@ -1,10 +1,16 @@
+<!-- ============================================================================
+     RELEASE-DAY COPY of ../index.html — DO NOT DEPLOY BEFORE THE APP IS LIVE.
+     Deploy step 6 of 要件定義書 §10 copies this file over bigleaf/index.html.
+     Everything above the "Support the developer" section is ../index.html with
+     the free-repositioning edits listed in post-release/README.md.
+     ============================================================================ -->
 <!DOCTYPE html>
 <html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BigLeaf — Large JSON, JSONL &amp; NDJSON Viewer for Mac</title>
-<meta name="description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. BigLeaf is a read-only, local-only viewer for huge JSON, JSONL &amp; NDJSON files on macOS. Free up to 100MB — one-time purchase, no subscription. Tested up to 100GB.">
+<meta name="description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. BigLeaf is a read-only, local-only viewer for huge JSON, JSONL &amp; NDJSON files on macOS. Completely free — no account, no subscription. Tested up to 100GB.">
 <link rel="canonical" href="https://key115.github.io/bigleaf/">
 <link rel="icon" href="assets/appicon.png">
 <link rel="apple-touch-icon" href="assets/appicon.png">
@@ -12,12 +18,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BigLeaf">
 <meta property="og:title" content="BigLeaf — Large JSON, JSONL &amp; NDJSON Viewer for Mac">
-<meta property="og:description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. Read-only, local-only, no subscription. Tested up to 100GB.">
+<meta property="og:description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. Read-only, local-only, completely free. Tested up to 100GB.">
 <meta property="og:url" content="https://key115.github.io/bigleaf/">
 <meta property="og:image" content="https://key115.github.io/bigleaf/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BigLeaf — Large JSON, JSONL &amp; NDJSON Viewer for Mac">
-<meta name="twitter:description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. Read-only, local-only, no subscription. Tested up to 100GB.">
+<meta name="twitter:description" content="Open a 21.5GB JSONL in 0.25s on 69MB of RAM. Read-only, local-only, completely free. Tested up to 100GB.">
 <meta name="twitter:image" content="https://key115.github.io/bigleaf/assets/og.png">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/site.js" defer></script>
@@ -29,7 +35,12 @@
   "operatingSystem": "macOS 14.0 or later",
   "applicationCategory": "DeveloperApplication",
   "description": "A read-only viewer for large JSON, JSONL and NDJSON files. Opens a 21.5GB JSONL using about 69MB of RAM, with first records on screen in about 0.2 seconds. Tested up to 100GB.",
-  "url": "https://key115.github.io/bigleaf/"
+  "url": "https://key115.github.io/bigleaf/",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
 }
 </script>
 </head>
@@ -62,8 +73,8 @@
       <span class="ja"><span class="hl accent">0.25秒</span>で表示。RAMはたった69MB。</span>
     </h1>
     <p class="lead" data-reveal="up" style="margin:18px auto 0">
-      <span class="en">The file your editor can't open is BigLeaf's home turf. Read-only, local-only, no subscription.</span>
-      <span class="ja">エディタが開けないファイルこそBigLeafの主戦場。読み取り専用・ローカル完結・サブスクなし。</span>
+      <span class="en">The file your editor can't open is BigLeaf's home turf. Read-only, local-only, completely free.</span>
+      <span class="ja">エディタが開けないファイルこそBigLeafの主戦場。読み取り専用・ローカル完結・完全無料。</span>
     </p>
     <div class="btn-row" data-reveal="up" style="justify-content:center;margin-top:30px">
       <a class="btn" href="#" data-appstore>
@@ -76,8 +87,8 @@
 </header>
 
 <div class="marquee" aria-hidden="true"><div class="track">
-  <span>Opens a 5GB JSONL in seconds</span><span>without eating 50GB of RAM</span><span>read-only</span><span>your files never leave your Mac</span><span>tested up to 100GB</span>
-  <span>Opens a 5GB JSONL in seconds</span><span>without eating 50GB of RAM</span><span>read-only</span><span>your files never leave your Mac</span><span>tested up to 100GB</span>
+  <span>Opens a 5GB JSONL in seconds</span><span>without eating 50GB of RAM</span><span>read-only</span><span>your files never leave your Mac</span><span>completely free</span><span>tested up to 100GB</span>
+  <span>Opens a 5GB JSONL in seconds</span><span>without eating 50GB of RAM</span><span>read-only</span><span>your files never leave your Mac</span><span>completely free</span><span>tested up to 100GB</span>
 </div></div>
 
 <!-- ===================== PINNED STAT THEATER ===================== -->
@@ -218,16 +229,37 @@
 <!-- ===================== CTA ===================== -->
 <section id="download">
   <div class="wrap center">
-    <h2 data-reveal="up"><span class="en">Free up to 100MB. Forever.</span><span class="ja">100MBまで、永久に無料。</span></h2>
+    <h2 data-reveal="up"><span class="en">Free. All of it. Forever.</span><span class="ja">全部、無料。ずっと。</span></h2>
     <p class="lead" data-reveal="up" style="margin:0 auto">
-      <span class="en">Bigger files preview the first 10,000 records — feel the speed, then unlock everything with one purchase.</span>
-      <span class="ja">それ以上は先頭1万レコードのPreviewで速さを体感。気に入ったら買い切り一回で全開放。</span>
+      <span class="en">Every feature, any file size, no account, no subscription, no paywall. The 100MB limit is gone for everyone.</span>
+      <span class="ja">全機能を、どんなサイズのファイルでも。アカウントもサブスクも有料の壁もありません。100MB制限は全員に対して撤廃しました。</span>
     </p>
     <div class="btn-row" data-reveal="scale" style="justify-content:center;margin-top:30px">
       <a class="mas-badge" href="#" data-appstore aria-label="Download on the Mac App Store">
         <svg class="ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 1.6c.1 1-.3 2-.9 2.7-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 .9-2.6.7-.8 1.8-1.4 2.7-1.4zM19 17.2c-.5 1.1-.7 1.6-1.3 2.6-.9 1.4-2.1 3.1-3.6 3.1-1.3 0-1.7-.9-3.5-.8-1.8 0-2.2.8-3.5.8-1.5 0-2.7-1.6-3.6-2.9C1 19 .8 14.6 2.4 12.2c.9-1.3 2.3-2.1 3.7-2.1 1.4 0 2.3.8 3.5.8 1.1 0 1.8-.8 3.5-.8 1.2 0 2.5.7 3.5 1.8-3 1.7-2.6 6.1.9 7.3z"/></svg>
         <span class="tx"><small><span class="en">Download on the</span><span class="ja">ダウンロードは</span></small><b>Mac App Store</b></span>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SUPPORT THE DEVELOPER (landing page only) =====================
+     This section exists on the landing page and NOWHERE ELSE. support.html and
+     privacy.html are the pages the app links to directly, and a tip funnel must
+     never sit one hop from an in-app link (要件定義書 §9・PRJ-007 #289 と同基準).
+     The Ko-fi lane ships hidden: assets/site.js reveals it only when KOFI_URL
+     holds a confirmed, host-exact https://ko-fi.com/<page> URL. -->
+<section id="support" style="border-top:1px solid var(--line)">
+  <div class="wrap center">
+    <span class="kicker"><span class="en">Optional, and it unlocks nothing</span><span class="ja">任意です。機能は何も解除されません</span></span>
+    <h2 data-reveal="up"><span class="en">Support the developer</span><span class="ja">開発者を応援する</span></h2>
+    <p class="lead" data-reveal="up" style="margin:0 auto">
+      <span class="en">BigLeaf is free and stays free. If it saved you an afternoon, you can send a tip — from inside the app, or from the browser. Neither unlocks anything, and neither is a donation to a charity or a third party.</span>
+      <span class="ja">BigLeafは無料で、これからも無料です。役に立った日があったら、チップで応援できます。アプリの中からでも、ブラウザからでも。どちらも機能は何も解除しませんし、慈善団体など第三者への寄付でもありません。</span>
+    </p>
+    <div class="priv-band" data-stagger style="margin-top:26px">
+      <span class="pill" data-reveal="up"><b>♥</b><span class="en">In the app: Help ▸ Tip Jar…</span><span class="ja">アプリ内: ヘルプ ▸ チップを贈る…</span></span>
+      <span class="pill" data-reveal="up" data-kofi-lane hidden><b>☕</b><a class="link-g" href="#support" data-kofi><span class="en">Tip on Ko-fi</span><span class="ja">Ko-fi でチップを贈る</span></a></span>
     </div>
   </div>
 </section>
