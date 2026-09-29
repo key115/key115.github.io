@@ -20,13 +20,13 @@
 <h1>サポート</h1>
 <h2>使い方</h2>
 <ol>
-  <li>メニューバーのアイコンから「伏せ字ウィンドウを開く」。</li>
+  <li>メニューバーのアイコンから「編集画面を開く」（旧名「伏せ字ウィンドウを開く」・v1.2以前）。</li>
   <li>画像をドラッグ＆ドロップ（または「貼り付け」「開く」）。</li>
   <li>隠したい場所を<strong>画像の上でドラッグ</strong>して囲む（形は長方形・円・なぞりから選べる）。何箇所でも。</li>
   <li>「保存」（<kbd>⌘S</kbd>・形式は PNG/JPEG/HEIC/TIFF から選択）で書き出す。またはファイルを作らず「コピー」（<kbd>⌘⇧C</kbd>）でそのままクリップボードへ。</li>
 </ol>
 <h2>クリップボードから取り込む</h2>
-<p>スクショを撮ったら（<kbd>⌘⌃⇧4</kbd> など）、伏せ字ウィンドウで「貼り付け」を押すとそのまま取り込めます。</p>
+<p>スクショを撮ったら（<kbd>⌘⌃⇧4</kbd> など）、編集画面で「貼り付け」を押すとそのまま取り込めます。</p>
 <h2>マスクの種類</h2>
 <p><strong>黒塗り</strong>は元のピクセルを物理的に消すため<strong>復元不可</strong>。確実に隠したいときはこちら。モザイク・ぼかしは見栄え重視ですが、復元される恐れがあります。</p>
 <h2>よくある質問</h2>
@@ -35,21 +35,41 @@
 <p><strong>保存形式は？</strong> PNG・JPEG・HEIC・TIFF の4形式に対応しています。既定は PNG。一度選ぶと、次回の保存パネルでも同じ形式が選ばれた状態になります。</p>
 <p><strong>チップの請求・返金は？</strong> チップ（アプリ内課金）の請求・返金は、Appleのサポート（reportaproblem.apple.com）からお手続きください。</p>
 
+<h2>v1.3 以降でできること</h2>
+<p><strong>候補を探す（<kbd>⌘F</kbd>）。</strong> 画像の文字を<strong>端末内</strong>で読み取り、隠したほうがよさそうな場所を候補として示します。候補は確認して採用するまでマスクになりません。メールアドレス・小さい文字（13pt未満）・Retinaでない画面の撮影・改行で分かれた文字列・日本語に空白なしで続くIPアドレスなどは見つからないことがあるため、隠し漏れがないかは目でも確認してください。読み取った文字や入力した検索文字列は保存も送信もしません。初回や、しばらく使っていなかった直後は1分ほどかかることがあります。</p>
+<p><strong>起動ショートカット。</strong> 設定画面でキーの組み合わせを記録すると、アプリ起動中にそのキーで編集画面を呼び出せます。既定は未設定です。編集画面が前面に出ているときに同じキーを押すと閉じます。アプリを完全に終了した後は、このショートカットは効きません。起動にはmacOSの「ショートカット」アプリなどをお使いください。</p>
+<p><strong>表示倍率・取り消す／やり直す。</strong> 画像の表示倍率を拡大・縮小・画面に合わせて調整できます。操作は「取り消す」「やり直す」で戻せます。</p>
+<p><strong>すべて黒塗りにする。</strong> モザイク・ぼかしのマスクをまとめて黒塗りに変更できます（範囲や形は変わりません）。</p>
+<p><strong>外観。</strong> 設定で「標準」「インク」の2つの見た目から選べます（ライト・ダーク双方に対応）。見た目だけが変わり、伏せ字の結果は変わりません。</p>
+<p><strong>⌘W で編集画面を閉じても、編集内容は消えません。</strong> 次に編集画面を開くと、続きから再開できます。</p>
+<p><strong>画像が大きすぎて開けないときは？</strong> 展開後の推定サイズが約445MiBを超える画像、またはファイル自体が256MiBを超える画像は開けません。画像を縮小するか、圧縮形式（JPEGやHEICなど）で保存し直してからお試しください。</p>
+<p><strong>保存やコピーが一時的にできないときは？</strong> マスクを変更した直後などに、プレビューをまだ作れていない場合、保存とコピーを一時的に止めることがあります。画像とマスクは失われません。少し待つか、表示が追いつくのを待ってからもう一度お試しください。</p>
+
 <hr>
 <h1>Support (English)</h1>
 <h2>How to use</h2>
 <ol>
-  <li>Menu-bar icon → “Open Redaction Window”.</li>
+  <li>Menu-bar icon → “Open Editor” (formerly “Open Redaction Window” in v1.2 and earlier).</li>
   <li>Drag an image in (or Paste / Open).</li>
   <li>Choose a shape (rectangle, ellipse, or freehand), then drag over anything to hide. As many as you like.</li>
   <li>Click Save (<kbd>⌘S</kbd> — choose PNG, JPEG, HEIC, or TIFF) to export, or click Copy (<kbd>⇧⌘C</kbd>) to send it straight to the clipboard with no file created.</li>
 </ol>
-<h2>From the clipboard</h2><p>Take a screenshot, then click Paste in the redaction window to bring it in.</p>
+<h2>From the clipboard</h2><p>Take a screenshot, then click Paste in the editor to bring it in.</p>
 <h2>Masks</h2><p><strong>Black box</strong> overwrites pixels and is irreversible — use it for true hiding. Pixelate/blur look nicer but may be reversible.</p>
 <h2>FAQ</h2>
 <p><strong>Does it connect to the network?</strong> The app itself makes no network connections; your images never leave your device. Only the optional in-app tip purchase is handled by Apple's systems.</p>
 <p><strong>What export formats are supported?</strong> PNG, JPEG, HEIC, or TIFF. PNG is the default, and your last choice is remembered the next time you save.</p>
 <p><strong>Tip billing & refunds:</strong> Billing and refunds for in-app tips are handled through Apple Support (reportaproblem.apple.com).</p>
+
+<h2>New in v1.3 or later</h2>
+<p><strong>Find Candidates (<kbd>⌘F</kbd>).</strong> Reads the text in your image <strong>on your device</strong> and points out places you may want to hide. A candidate doesn't become a mask until you review and accept it. Email addresses, small text (under 13&nbsp;pt), screenshots from non-Retina displays, text split across lines, and IP addresses written right after Japanese text without a space may be missed — please check with your own eyes as well. The recognized text and anything you type to search for is never saved or sent anywhere. The first search, or one after a while without use, can take about a minute.</p>
+<p><strong>Launch shortcut.</strong> Record a key combination in Settings to bring up the editor while the app is running. It's unassigned by default. Pressing the same shortcut while the editor is in front closes it. It has no effect once the app has fully quit — use macOS Shortcuts or another launcher to start the app.</p>
+<p><strong>Zoom, Undo, and Redo.</strong> Zoom in, zoom out, or fit the image to the window, and undo/redo your edits.</p>
+<p><strong>Make all masks black.</strong> Turn every pixelate/blur mask into a black box in one action (position and shape stay the same).</p>
+<p><strong>Appearance.</strong> Choose between "Standard" and "Ink" looks in Settings (both support light and dark mode). Only the look changes — your redactions are unaffected.</p>
+<p><strong>Closing the editor with <kbd>⌘W</kbd> doesn't discard your edits.</strong> Reopen the editor to pick up where you left off.</p>
+<p><strong>What if an image is too large to open?</strong> Images whose estimated decoded size exceeds about 445&nbsp;MiB, or whose file size exceeds 256&nbsp;MiB, can't be opened. Resize the image, or save it in a compressed format (such as JPEG or HEIC) first.</p>
+<p><strong>Why can't I save or copy for a moment?</strong> Right after changing a mask, the app may briefly be unable to build a preview. Saving and copying pause until it catches up — your image and masks are never lost. Wait a moment and try again.</p>
 
 <hr>
 <h2>お問い合わせ / Contact</h2>
@@ -57,6 +77,6 @@
 For bugs, feature requests, or any questions, just email us — we usually reply within 2–3 business days.</p>
 <p>📧 <a href="mailto:k.oikawa119009@gmail.com?subject=Redact%20Shot%20Support">k.oikawa119009@gmail.com</a></p>
 
-<footer>スミ消し / Redact Shot · 連絡先 / Contact: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a><br>最終更新 / Last updated: 2026-08-04</footer>
+<footer>スミ消し / Redact Shot · 連絡先 / Contact: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a><br>最終更新 / Last updated: 2026-09-29</footer>
 </body>
 </html>
