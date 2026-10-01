@@ -1,0 +1,40 @@
+import { APP_STORE, languageNames, languageTags, locales, route, translator, type Locale, type Message } from "./content";
+type Props = { lang?: Locale; base?: string };
+const PUBLIC_SITE = "https://key115.github.io/cliprecall";
+function Arrow() { return <span aria-hidden="true">↗</span>; }
+function Header({ lang, base, guide = false }: { lang: Locale; base: string; guide?: boolean }) {
+  const t = translator(lang);
+  return <><a className="skip-link" href="#main">{t("skip")}</a><header className={`site-header ${guide ? "header-paper" : ""}`}>
+    <a className="brand" href={route(lang, "", base)} aria-label="ClipRecall"><img src={`${base}/assets/appicon.png`} width="28" height="28" alt="" /><span>ClipRecall</span></a>
+    <nav className="main-nav" aria-label={t("contents")}><a href={route(lang, guide ? "" : "guide", base)}>{t(guide ? "home" : "guide")} <Arrow /></a></nav>
+    <nav className="language-switch" aria-label={t("language")}>{locales.map((l, i) => <a key={l} href={route(l, guide ? "guide" : "", base)} lang={languageTags[i]} hrefLang={languageTags[i]} aria-label={languageNames[i]} aria-current={lang === l ? "page" : undefined}>{["EN", "日本語", "中文", "ES", "PT"][i]}</a>)}</nav>
+  </header></>;
+}
+function Footer({ lang, base }: { lang: Locale; base: string }) { const t = translator(lang); return <footer className="site-footer"><a href={route(lang, "", base)} className="footer-brand">ClipRecall</a><p>{t("footer")}</p><nav aria-label={t("support")}><a href={`${PUBLIC_SITE}/privacy.html?lang=${lang}`}>{t("privacy")}</a><a href={`${PUBLIC_SITE}/support.html?lang=${lang}`}>{t("support")} <Arrow /></a></nav><span className="copyright">© 2026 ClipRecall</span></footer>; }
+function Lines({ text }: { text: string }) { return <>{text.split("\n").map((s, i) => <span className="display-line" key={i}>{s}</span>)}</>; }
+function Keys({ keys }: { keys: readonly string[] }) { return <span className="key-combination">{keys.map((key, i) => <span key={`${key}-${i}`}>{i > 0 && <span className="key-plus" aria-hidden="true">+</span>}<kbd>{key}</kbd></span>)}</span>; }
+export function HomePage({ lang = "en", base = "" }: Props) {
+ const t = translator(lang);
+ return <div className={`site locale-${lang}`}><Header lang={lang} base={base} /><main id="main">
+  <section className="hero" aria-labelledby="hero-title">
+    <picture className="hero-art"><source media="(max-width: 700px)" srcSet={`${base}/assets/echo-hero-small.webp`} /><img src={`${base}/assets/echo-hero.webp`} alt="" width="1672" height="941" fetchPriority="high" /></picture><div className="hero-shade" />
+    <div className="hero-copy"><p className="eyebrow">{t("eyebrow")}</p><h1 id="hero-title"><span className="display-line">{t("hero1")}</span><span className="display-line hero-emphasis">{t("hero2")}</span></h1><p className="hero-intro"><Lines text={t("intro")} /></p><div className="hero-actions"><a className="button button-light" href={APP_STORE}>{t("download")} <Arrow /></a><a className="text-link" href={route(lang, "guide", base)}>{t("guide")} <Arrow /></a></div><p className="compatibility">{t("compatibility")}</p></div>
+    <div className="hero-bottom"><span className="art-caption">{t("artwork")}</span><a className="scroll-link" href="#idea">{t("discover")} <span aria-hidden="true">↓</span></a><span className="art-number" aria-hidden="true">001 — ∞</span></div>
+  </section>
+  <div className="paper"><section className="idea section-wrap" id="idea"><p className="eyebrow section-label">{t("ideaLabel")}</p><div className="idea-intro"><h2><span className="display-line">{t("idea1")}</span><span className="display-line muted-display">{t("idea2")}</span></h2><p>{t("ideaBody")}</p></div><ol className="flow-steps">{([{title:"copy",body:"copyBody",keys:["⌘","C"]},{title:"recall",body:"recallBody",keys:["⌥","V"]},{title:"continue",body:"continueBody",keys:["⌘","V"]}] as const).map((s,i)=><li key={s.title}><div className="step-top"><span className="step-number">0{i+1}</span><Keys keys={s.keys} /></div><h3>{t(s.title)}</h3><p>{t(s.body)}</p></li>)}</ol></section>
+  <section className="privacy-section section-wrap"><p className="eyebrow section-label">{t("privacyLabel")}</p><div className="privacy-grid"><h2><Lines text={t("privacyTitle")} /></h2><div><p>{t("privacyBody")}</p><a className="ink-link" href={`${PUBLIC_SITE}/privacy.html?lang=${lang}`}>{t("privacy")} <Arrow /></a></div></div></section>
+  <section className="guide-invitation section-wrap"><div><p className="eyebrow">03 / {t("guide")}</p><h2>{t("guideCta")}</h2><p>{t("guideCtaBody")}</p></div><a href={route(lang,"guide",base)} className="round-link"><span>{t("openGuide")}</span><span className="circle-arrow" aria-hidden="true">↗</span></a></section></div>
+ </main><Footer lang={lang} base={base} /></div>;
+}
+export function GuidePage({ lang = "en", base = "" }: Props) {
+ const t = translator(lang); const sections = ["start", "keys", "details", "settings", "questions"] as const;
+ const keyRows: {keys:string[]; label:Message}[] = [{keys:["⌥","V"],label:"keyOpen"},{keys:["↑ / ↓"],label:"keySelect"},{keys:["Return"],label:"keyRestore"},{keys:["→"],label:"keyPreview"},{keys:["←"],label:"keyBack"},{keys:["Tab / Shift + Tab"],label:"keyTab"},{keys:["Esc"],label:"keyEscape"}];
+ return <div className={`site guide-page locale-${lang}`}><Header lang={lang} base={base} guide /><main id="main"><section className="guide-heading section-wrap"><p className="eyebrow">{t("guideLabel")}</p><h1>{t("guideTitle")}</h1><p>{t("guideIntro")}</p><a className="ink-link" href={APP_STORE}>{t("store")} <Arrow /></a></section>
+  <div className="guide-layout section-wrap"><aside className="guide-sidebar"><p className="eyebrow">{t("contents")}</p><nav>{sections.map((key,i)=><a key={key} href={`#${key}`}><span>0{i+1}</span>{t(key)}</a>)}</nav><span className="guide-requirement">{t("compatibility")}</span></aside><div className="guide-content">
+  <section className="guide-section" id="start"><span className="section-index">01</span><h2>{t("start")}</h2><p>{t("startIntro")}</p><ol className="instruction-steps">{([{title:"copy",body:"stepCopy",keys:["⌘","C"]},{title:"recall",body:"stepRecall",keys:["⌥","V"]},{title:"continue",body:"stepContinue",keys:["Return → ⌘ V"]}] as const).map((s,i)=><li key={s.title}><div className="instruction-title"><h3><span>{i+1}.</span> {t(s.title)}</h3><Keys keys={s.keys} /></div><p>{t(s.body)}</p></li>)}</ol><aside className="note"><h3>{t("directTitle")}</h3><p>{t("directBody")}</p></aside></section>
+  <section className="guide-section" id="keys"><span className="section-index">02</span><h2>{t("keys")}</h2><table className="keyboard-table"><thead><tr><th>{t("action")}</th><th>{t("shortcut")}</th></tr></thead><tbody>{keyRows.map(r=><tr key={r.label}><td>{t(r.label)}</td><td><Keys keys={r.keys} /></td></tr>)}</tbody></table><p className="small-note">{t("keyNote")}</p></section>
+  <section className="guide-section" id="details"><span className="section-index">03</span><h2>{t("details")}</h2><h3>{t("previewTitle")}</h3><p>{t("previewBody")}</p><h3>{t("pinTitle")}</h3><p>{t("pinBody")}</p></section>
+  <section className="guide-section" id="settings"><span className="section-index">04</span><h2>{t("settings")}</h2><h3>{t("appearanceTitle")}</h3><p>{t("appearanceBody")}</p><div className="settings-language-list">{languageNames.map((name,i)=><span key={name} lang={languageTags[i]}>{name}</span>)}</div></section>
+  <section className="guide-section" id="questions"><span className="section-index">05</span><h2>{t("questions")}</h2><div className="faq">{([1,2,3] as const).map(i=><details key={i}><summary>{t(`q${i}`)}<span aria-hidden="true" className="faq-plus">+</span></summary><p>{t(`a${i}`)}</p></details>)}</div><div className="help-block"><h3>{t("helpTitle")}</h3><p>{t("helpBody")}</p><a className="button button-dark" href={`${PUBLIC_SITE}/support.html?lang=${lang}`}>{t("support")} <Arrow /></a></div></section>
+  </div></div></main><Footer lang={lang} base={base} /></div>;
+}
