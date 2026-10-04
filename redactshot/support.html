@@ -1,62 +1,354 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>スミ消し / Redact Shot — サポート</title>
-<style>
-  :root { color-scheme: light dark; }
-  body { font-family: -apple-system, "Hiragino Sans", sans-serif; line-height: 1.8;
-         max-width: 720px; margin: 0 auto; padding: 48px 24px; color: #20242b; background: #f3f5f8; }
-  @media (prefers-color-scheme: dark) { body { color: #e6e9ee; background: #181b20; } }
-  h1 { font-size: 1.6rem; } h2 { font-size: 1.1rem; margin-top: 1.8em; }
-  kbd { font-family: ui-monospace, monospace; background: rgba(128,128,128,.18); padding: 2px 6px; border-radius: 5px; }
-  hr { border: none; border-top: 1px solid rgba(128,128,128,.3); margin: 2.5em 0; }
-  footer { margin-top: 3em; font-size: .85rem; opacity: .7; }
-  a { color: #c0392b; }
-</style>
-</head>
-<body>
-<h1>サポート</h1>
-<h2>使い方</h2>
-<ol>
-  <li>メニューバーのアイコンから「伏せ字ウィンドウを開く」。</li>
-  <li>画像をドラッグ＆ドロップ（または「貼り付け」「開く」）。</li>
-  <li>隠したい場所を<strong>画像の上でドラッグ</strong>して囲む（形は長方形・円・なぞりから選べる）。何箇所でも。</li>
-  <li>「保存」（<kbd>⌘S</kbd>・形式は PNG/JPEG/HEIC/TIFF から選択）で書き出す。またはファイルを作らず「コピー」（<kbd>⌘⇧C</kbd>）でそのままクリップボードへ。</li>
-</ol>
-<h2>クリップボードから取り込む</h2>
-<p>スクショを撮ったら（<kbd>⌘⌃⇧4</kbd> など）、伏せ字ウィンドウで「貼り付け」を押すとそのまま取り込めます。</p>
-<h2>マスクの種類</h2>
-<p><strong>黒塗り</strong>は元のピクセルを物理的に消すため<strong>復元不可</strong>。確実に隠したいときはこちら。モザイク・ぼかしは見栄え重視ですが、復元される恐れがあります。</p>
-<h2>よくある質問</h2>
-<p><strong>Dock にアイコンが出ません。</strong> メニューバー常駐アプリです。メニューバーのアイコンから操作してください。</p>
-<p><strong>ネットに繋がりますか？</strong> アプリ自身は外部と通信しません。画像は端末外に出ません。チップ（アプリ内課金）の決済のみ、Appleのシステムが処理します。</p>
-<p><strong>保存形式は？</strong> PNG・JPEG・HEIC・TIFF の4形式に対応しています。既定は PNG。一度選ぶと、次回の保存パネルでも同じ形式が選ばれた状態になります。</p>
-<p><strong>チップの請求・返金は？</strong> チップ（アプリ内課金）の請求・返金は、Appleのサポート（reportaproblem.apple.com）からお手続きください。</p>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Support — Redact Shot / スミ消し</title><meta name="description" content="Help with Redact Shot image imports, exports, candidate search, and shortcuts. Contact the developer for support."><meta name="site-revision" content="20261001-sumi1"><meta name="theme-color" content="#f8f7f3"><link rel="canonical" href="https://key115.github.io/redactshot/support.html"><link rel="icon" href="assets/appicon.png"><link rel="apple-touch-icon" href="assets/appicon.png"><style>
+/* Sumi 1.0 — reference → semantic → component tokens. */
+:root {
+  --ref-paper: #f8f7f3;
+  --ref-white: #ffffff;
+  --ref-wash: #eeede7;
+  --ref-ink: #191b1a;
+  --ref-graphite: #51564f;
+  --ref-rule: #d5d7cf;
+  --ref-outline: #747a70;
+  --ref-focus: #2455ba;
+  --ref-focus-light: #bdd0ff;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --font-reading: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-expression: "Iowan Old Style", "Baskerville", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-data: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --type-body: 1rem;
+  --type-lead: 1.125rem;
+  --type-label: .875rem;
+  --type-caption: .75rem;
+  --type-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem);
+  --type-headline: clamp(2rem, 1rem + 3.4vw, 4rem);
+  --type-display: clamp(3.25rem, 1.9rem + 4.2vw, 6.25rem);
+  --line-reading: 1.8;
+  --line-heading: 1.18;
+  --surface: var(--ref-paper);
+  --surface-container: var(--ref-wash);
+  --surface-raised: var(--ref-white);
+  --on-surface: var(--ref-ink);
+  --on-surface-secondary: var(--ref-graphite);
+  --surface-inverse: var(--ref-ink);
+  --on-inverse: var(--ref-paper);
+  --on-inverse-secondary: #c9cdc4;
+  --outline: var(--ref-outline);
+  --divider: var(--ref-rule);
+  --action: var(--ref-ink);
+  --on-action: var(--ref-white);
+  --action-hover: #353b35;
+  --action-pressed: #080a08;
+  --state-hover: #e5e7df;
+  --state-selected: var(--ref-white);
+  --focus: var(--ref-focus);
+  --radius-control: .5rem;
+  --radius-group: .75rem;
+  --radius-surface: 1rem;
+  --shadow-paper: 0 1px 2px #191b1a08, 0 20px 60px #191b1a0a;
+  --duration-feedback: 140ms;
+  --duration-change: 200ms;
+  --ease-standard: cubic-bezier(.2, 0, 0, 1);
+  --content-max: 77.5rem;
+  --reading-max: 44rem;
+  --page-gutter: clamp(1.25rem, 4.1vw, 4rem);
+  --section-space: clamp(4.5rem, 8vw, 8rem);
+  --grid-gap: clamp(2rem, 6vw, 6rem);
+  --control-height: 3rem;
+  --control-padding: 1.5rem;
+  --focus-width: 3px;
+  --focus-offset: 4px;
+}
 
-<hr>
-<h1>Support (English)</h1>
-<h2>How to use</h2>
-<ol>
-  <li>Menu-bar icon → “Open Redaction Window”.</li>
-  <li>Drag an image in (or Paste / Open).</li>
-  <li>Choose a shape (rectangle, ellipse, or freehand), then drag over anything to hide. As many as you like.</li>
-  <li>Click Save (<kbd>⌘S</kbd> — choose PNG, JPEG, HEIC, or TIFF) to export, or click Copy (<kbd>⇧⌘C</kbd>) to send it straight to the clipboard with no file created.</li>
-</ol>
-<h2>From the clipboard</h2><p>Take a screenshot, then click Paste in the redaction window to bring it in.</p>
-<h2>Masks</h2><p><strong>Black box</strong> overwrites pixels and is irreversible — use it for true hiding. Pixelate/blur look nicer but may be reversible.</p>
-<h2>FAQ</h2>
-<p><strong>Does it connect to the network?</strong> The app itself makes no network connections; your images never leave your device. Only the optional in-app tip purchase is handled by Apple's systems.</p>
-<p><strong>What export formats are supported?</strong> PNG, JPEG, HEIC, or TIFF. PNG is the default, and your last choice is remembered the next time you save.</p>
-<p><strong>Tip billing & refunds:</strong> Billing and refunds for in-app tips are handled through Apple Support (reportaproblem.apple.com).</p>
+/* Foundations */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+body { margin: 0; color: var(--on-surface); background: var(--surface); font: var(--type-body)/var(--line-reading) var(--font-reading); -webkit-font-smoothing: antialiased; }
+body, h1, h2, h3, p, figure { margin: 0; }
+[hidden] { display: none !important; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: .3em; text-decoration-thickness: 1px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a, button, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: var(--focus-offset); }
+::selection { background: var(--on-surface); color: var(--surface); }
+h1, h2, h3 { font-weight: 400; }
+h1, h2 { font-family: var(--font-expression); text-wrap: balance; }
+h2 { font-size: var(--type-headline); line-height: 1.3; letter-spacing: -.035em; }
+h3 { font-size: var(--type-title); line-height: 1.5; }
+p + p { margin-top: var(--space-4); }
+p, li { text-wrap: pretty; }
+.wrap { width: min(var(--content-max), calc(100% - var(--page-gutter) * 2)); margin-inline: auto; }
+.eyebrow { font: var(--type-caption)/1.6 var(--font-data); letter-spacing: .15em; text-transform: uppercase; }
+.muted, .caption { color: var(--on-surface-secondary); }
+.section { padding-block: var(--section-space); }
+.rule { border-top: 1px solid var(--divider); }
+.skip { position: fixed; z-index: 100; left: var(--space-4); top: -10rem; padding: var(--space-3) var(--space-5); background: var(--surface-raised); }
+.skip:focus { top: var(--space-4); }
 
-<hr>
-<h2>お問い合わせ / Contact</h2>
-<p>不具合・ご要望・ご質問は、メールでお気軽にご連絡ください。通常2〜3営業日以内に返信します。<br>
-For bugs, feature requests, or any questions, just email us — we usually reply within 2–3 business days.</p>
-<p>📧 <a href="mailto:k.oikawa119009@gmail.com?subject=Redact%20Shot%20Support">k.oikawa119009@gmail.com</a></p>
+/* One control language: resting, hover, pressed, selected, focus. */
+.button, .nav-download { display: inline-flex; align-items: center; justify-content: center; min-height: var(--control-height); padding: .75rem var(--control-padding); border: 1px solid var(--action); border-radius: var(--radius-control); background: var(--action); color: var(--on-action); font-size: var(--type-label); font-weight: 550; line-height: 1.5; text-align: center; text-decoration: none; }
+a, button, summary { transition: background-color var(--duration-feedback) var(--ease-standard), color var(--duration-feedback) var(--ease-standard), border-color var(--duration-feedback) var(--ease-standard); }
+.button:active, .nav-download:active { background: var(--action-pressed); }
+.text-link { display: inline-flex; align-items: center; min-height: var(--control-height); font-size: var(--type-label); font-weight: 550; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin-top: var(--space-8); }
+.languages, .demo-controls { display: inline-flex; padding: var(--space-1); gap: var(--space-1); border: 1px solid var(--outline); border-radius: var(--radius-group); background: var(--surface-container); }
+.languages button, .demo-controls button { min-height: var(--control-height); min-width: var(--control-height); padding: var(--space-2) var(--space-4); border: 1px solid transparent; border-radius: var(--radius-control); background: transparent; font-size: var(--type-label); line-height: 1.5; white-space: nowrap; }
+.languages button[aria-pressed=true] { background: var(--state-selected); border-color: var(--outline); font-weight: 600; }
+.demo-controls button[aria-pressed=true] { background: var(--action); color: var(--on-action); border-color: var(--action); }
+.languages button:active, .demo-controls button:active { border-color: var(--on-surface); }
 
-<footer>スミ消し / Redact Shot · 連絡先 / Contact: <a href="mailto:k.oikawa119009@gmail.com">k.oikawa119009@gmail.com</a><br>最終更新 / Last updated: 2026-08-04</footer>
-</body>
-</html>
+/* Shared navigation */
+.header { min-height: 6.25rem; display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); position: relative; z-index: 3; padding-block: var(--space-4); }
+.brand { display: inline-flex; min-height: var(--control-height); align-items: center; gap: var(--space-3); text-decoration: none; font-size: 1.125rem; font-weight: 600; letter-spacing: -.025em; }
+.brand img { width: 2rem; height: 2rem; border-radius: var(--radius-control); }
+.brand small { display: inline-block; margin-left: var(--space-2); font-size: var(--type-caption); font-weight: 400; letter-spacing: .1em; }
+.header nav { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--space-4); }
+.nav-link:not(.nav-download) { display: inline-flex; align-items: center; min-height: var(--control-height); padding-inline: var(--space-3); border-radius: var(--radius-control); font-size: var(--type-label); text-decoration: none; white-space: nowrap; }
+.nav-link[aria-current=page] { text-decoration: underline; text-decoration-thickness: 2px; font-weight: 600; }
+
+/* Artwork remains the entire first view; the content reads like its caption. */
+.hero-shell { position: relative; isolation: isolate; background: #f4f3ed; min-height: max(50rem, 100svh); display: flex; flex-direction: column; }
+.hero-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; z-index: -2; }
+.hero-shell .header { width: 100%; padding-inline: var(--page-gutter); background: rgb(248 247 243 / 96%); min-height: 5.75rem; }
+.hero-shell main { flex: 1; display: flex; flex-direction: column; }
+.hero-content { padding-block: clamp(4rem, 10vh, 8rem) var(--space-20); max-width: 39rem; }
+.hero-content .eyebrow { margin-bottom: var(--space-8); }
+.hero-content h1 { font-size: var(--type-display); line-height: var(--line-heading); letter-spacing: -.045em; }
+.hero-content p { font-size: var(--type-body); max-width: 26rem; line-height: 1.9; margin-top: var(--space-8); }
+.hero-bottom { margin-top: auto; padding: var(--space-8) var(--page-gutter); display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-6); }
+.hero-bottom a { display: inline-flex; align-items: center; min-height: var(--control-height); padding: var(--space-2) var(--space-4); background: var(--surface); border: 1px solid var(--outline); border-radius: var(--radius-control); font-size: var(--type-label); text-decoration: none; }
+.edition { padding: var(--space-3) var(--space-4); background: var(--surface); font: var(--type-caption)/1.6 var(--font-data); letter-spacing: .05em; }
+
+/* Narrative sections share a baseline and reading measure. */
+.intro, .closing { display: grid; grid-template-columns: 1fr 1fr; gap: var(--grid-gap); align-items: start; }
+.intro .eyebrow, .closing .eyebrow { margin-bottom: var(--space-6); }
+.intro-copy { max-width: 29rem; padding-top: var(--space-12); }
+.intro-copy p { font-size: var(--type-lead); color: var(--on-surface-secondary); }
+.facts { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-8); margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid var(--divider); font-size: var(--type-label); color: var(--on-surface-secondary); }
+.demo-section { background: var(--surface-container); }
+.demo-heading { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: var(--grid-gap); align-items: end; margin-bottom: var(--space-12); }
+.demo-heading h2 { margin-top: var(--space-5); }
+.demo-heading p { max-width: 27rem; color: var(--on-surface-secondary); }
+.demo-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--grid-gap); align-items: center; }
+.sample { background: var(--surface-raised); padding: var(--space-12); border: 1px solid var(--divider); box-shadow: var(--shadow-paper); }
+.sample-top { display: flex; justify-content: space-between; gap: var(--space-4); font: var(--type-caption)/1.6 var(--font-data); letter-spacing: .1em; padding-bottom: var(--space-6); border-bottom: 1px solid var(--divider); }
+.sample h3 { font-family: var(--font-expression); margin-block: var(--space-8); }
+.sample-line { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: var(--space-5); border-top: 1px solid var(--divider); padding-block: var(--space-4); font-size: var(--type-label); }
+.sample-value { font-family: var(--font-data); overflow-wrap: anywhere; }
+.redaction { color: transparent; background: var(--on-surface); user-select: none; }
+.sample-bottom { margin-top: var(--space-6); font-size: var(--type-caption); color: var(--on-surface-secondary); }
+.demo-controls { margin-bottom: var(--space-6); max-width: 100%; flex-wrap: wrap; }
+.demo-copy h3 { font-family: var(--font-expression); margin-bottom: var(--space-4); }
+.demo-copy p { color: var(--on-surface-secondary); }
+.caption { font-size: var(--type-label); margin-top: var(--space-5); }
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-12); }
+.feature .eyebrow { display: block; padding-bottom: var(--space-6); margin-bottom: var(--space-6); border-bottom: 1px solid var(--divider); }
+.feature h3 { margin-bottom: var(--space-4); font-family: var(--font-expression); }
+.feature p { color: var(--on-surface-secondary); }
+.guide-invite { --focus: var(--ref-focus-light); color: var(--on-inverse); background: var(--surface-inverse); padding-block: var(--space-20); }
+.guide-invite .wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); }
+.guide-invite .eyebrow { margin: 0 0 var(--space-5); }
+.guide-invite p { max-width: 36rem; margin-top: var(--space-6); color: var(--on-inverse-secondary); }
+.guide-invite .button { background: var(--on-inverse); color: var(--surface-inverse); border-color: var(--on-inverse); }
+.support-note { margin-top: var(--space-6); font-size: var(--type-label); max-width: 36rem; color: var(--on-surface-secondary); }
+.closing-right { padding: var(--space-8); background: var(--surface-container); border-radius: var(--radius-surface); }
+.closing-right h3 { font-family: var(--font-reading); font-size: var(--type-lead); font-weight: 550; margin-bottom: var(--space-4); }
+.footer { padding-block: var(--space-8); border-top: 1px solid var(--divider); }
+.footer-top { display: flex; justify-content: space-between; gap: var(--space-8); align-items: center; }
+.footer nav { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); font-size: var(--type-label); }
+.footer nav a { display: inline-flex; align-items: center; min-height: var(--control-height); }
+.footer-bottom { display: flex; justify-content: space-between; gap: var(--space-6); margin-top: var(--space-6); font-size: var(--type-caption); color: var(--on-surface-secondary); }
+
+/* Reading pages */
+.page-heading { padding-block: var(--space-16) var(--space-12); border-bottom: 1px solid var(--divider); }
+.page-heading h1 { font-size: var(--type-display); line-height: 1.25; letter-spacing: -.04em; margin-block: var(--space-5) var(--space-6); max-width: 60rem; }
+.page-heading .lead { max-width: var(--reading-max); font-size: var(--type-lead); color: var(--on-surface-secondary); }
+.page-layout { display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: var(--grid-gap); padding-block: var(--space-16) var(--section-space); }
+.toc { position: sticky; top: var(--space-8); align-self: start; padding-left: var(--space-5); border-left: 1px solid var(--divider); }
+.toc .eyebrow { margin-bottom: var(--space-4); color: var(--on-surface-secondary); }
+.toc a { display: flex; align-items: center; min-height: var(--control-height); padding: var(--space-3) var(--space-2); font-size: var(--type-label); border-radius: var(--radius-control); text-decoration: none; }
+.article { max-width: var(--reading-max); min-width: 0; }
+.article section + section { margin-top: var(--space-16); padding-top: var(--space-12); border-top: 1px solid var(--divider); }
+.article h2 { font-size: var(--type-title); margin-bottom: var(--space-6); line-height: 1.5; }
+.article h3 { font-size: var(--type-lead); font-weight: 600; margin: var(--space-8) 0 var(--space-3); }
+.article p, .article li, .privacy-article p { color: var(--on-surface-secondary); }
+.article ul, .article ol { padding-left: var(--space-6); }
+.article li + li { margin-top: var(--space-3); }
+.step-number { display: block; font: var(--type-caption)/1.6 var(--font-data); letter-spacing: .1em; margin-bottom: var(--space-4); color: var(--on-surface-secondary); }
+.note, .version-note { padding: var(--space-5) var(--space-6); margin-top: var(--space-6); background: var(--surface-container); border-left: 3px solid var(--outline); border-radius: 0 var(--radius-control) var(--radius-control) 0; }
+.note p { color: var(--on-surface); }
+.version-note { max-width: var(--reading-max); font-size: var(--type-label); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: var(--type-body); margin-block: var(--space-6); }
+th, td { padding: var(--space-4) var(--space-4) var(--space-4) 0; border-bottom: 1px solid var(--divider); vertical-align: top; }
+th { font-weight: 600; }
+kbd { display: inline-block; font: var(--type-label)/1.7 var(--font-data); padding: 1px var(--space-2); background: var(--surface-container); border: 1px solid var(--outline); border-bottom-width: 2px; border-radius: var(--space-1); white-space: nowrap; }
+details { border-bottom: 1px solid var(--divider); }
+summary { cursor: pointer; padding: var(--space-6) var(--space-12) var(--space-6) var(--space-4); font-size: var(--type-lead); font-weight: 500; line-height: 1.6; position: relative; list-style: none; border-radius: var(--radius-control); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: '+'; position: absolute; right: var(--space-4); top: var(--space-6); font: 1.5rem/1.2 var(--font-data); }
+details[open] summary { background: var(--surface-container); }
+details[open] summary::after { content: '−'; }
+details > p { padding: var(--space-5) var(--space-4) var(--space-8); }
+.contact { margin-top: var(--space-16); padding: var(--space-8); border: 1px solid var(--outline); border-radius: var(--radius-surface); }
+.contact a { overflow-wrap: anywhere; }
+.privacy-article { max-width: var(--reading-max); margin-inline: auto; padding-block: var(--space-16) var(--section-space); }
+.privacy-article section + section { margin-top: var(--space-10); }
+.privacy-article h2 { font-family: var(--font-reading); font-size: var(--type-lead); font-weight: 600; margin-bottom: var(--space-3); letter-spacing: 0; }
+.policy-date { margin-top: var(--space-12); font-size: var(--type-label); color: var(--on-surface-secondary); }
+
+/* Japanese is composed independently, not squeezed into the Latin type scale. */
+.lang-root[lang=ja] { line-break: strict; word-break: normal; }
+.ja-phrase { display: inline-block; max-inline-size: 100%; overflow-wrap: normal; }
+.ja-line { display: block; }
+.lang-root[lang=ja] h1, .lang-root[lang=ja] h2 { letter-spacing: .015em; line-height: 1.55; }
+.lang-root[lang=ja] .hero-content h1 { font-size: clamp(2rem, 4.35vw, 4rem); letter-spacing: .03em; }
+.lang-root[lang=ja] .hero-content p { max-width: 26em; }
+.lang-root[lang=ja] h2 { font-size: clamp(1.875rem, 1rem + 2.5vw, 3.5rem); }
+.lang-root[lang=ja] .page-heading h1 { font-size: clamp(2rem, 4.6vw, 4.5rem); }
+.lang-root[lang=ja] .article h2 { font-size: var(--type-title); }
+.lang-root[lang=ja] .privacy-article h2 { font-size: var(--type-lead); }
+
+@media (hover: hover) {
+ .button:hover, .nav-download:hover { background: var(--action-hover); border-color: var(--action-hover); }
+ .languages button:hover:not([aria-pressed=true]), .demo-controls button:hover:not([aria-pressed=true]), summary:hover, .toc a:hover, .nav-link:not(.nav-download):hover, .hero-bottom a:hover { background: var(--state-hover); }
+ .text-link:hover, .footer a:hover { text-decoration-thickness: 2px; }
+ .guide-invite .button:hover { background: var(--ref-white); color: var(--surface-inverse); border-color: var(--ref-white); }
+}
+@media (max-width: 68.75rem) {
+ .brand small { display: none; }
+ .header { gap: var(--space-4); }
+ .hero-content { max-width: 30rem; }
+ .intro-copy { padding-top: var(--space-4); }
+ .features { gap: var(--space-8); }
+ .page-layout { grid-template-columns: 12rem minmax(0, 1fr); gap: var(--space-10); }
+}
+@media (max-width: 48rem) {
+ .header { min-height: 5.25rem; gap: var(--space-3); }
+ .brand { font-size: 1rem; gap: var(--space-2); }
+ .header nav { gap: var(--space-2); }
+ .header .nav-download { display: none; }
+ .hero-shell main > .wrap { width: 100%; padding-inline: var(--page-gutter); background: #f4f3ed; }
+ .hero-content { max-width: 100%; padding-top: var(--space-12); padding-bottom: var(--space-10); }
+ .hero-content h1 { font-size: clamp(3rem, 9.8vw, 4.75rem); }
+ .hero-content .eyebrow { margin-bottom: var(--space-6); }
+ .hero-content p { margin-top: var(--space-6); }
+ .hero-shell { min-height: max(50rem, 100svh); }
+ .hero-art { inset: auto 0 0; height: 48%; object-position: 65% center; }
+ .hero-bottom { padding-block: var(--space-6); }
+ .lang-root[lang=ja] .hero-content h1 { font-size: clamp(1.75rem, 8.5vw, 3.6rem); }
+ .lang-root[lang=ja] .page-heading h1 { font-size: clamp(1.75rem, 7.2vw, 3.4rem); }
+ .lang-root[lang=ja] h2 { font-size: clamp(1.75rem, 6.4vw, 2.75rem); }
+ .lang-root[lang=ja] .article h2 { font-size: clamp(1.4rem, 5.5vw, 1.875rem); }
+ .lang-root[lang=ja] .privacy-article h2 { font-size: var(--type-lead); }
+ .intro, .demo-layout, .demo-heading, .closing { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
+ .intro-copy { padding: 0; }
+ .facts { margin-top: var(--space-8); gap: var(--space-3) var(--space-6); }
+ .demo-heading { margin-bottom: var(--space-8); }
+ .sample { padding: var(--space-6); }
+ .features { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); }
+ .feature .eyebrow { padding-bottom: var(--space-4); margin-bottom: var(--space-4); }
+ .guide-invite { padding-block: var(--space-16); }
+ .guide-invite .wrap { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); justify-items: start; }
+ .footer-top, .footer-bottom { align-items: flex-start; flex-direction: column; gap: var(--space-4); }
+ .page-heading { padding-block: var(--space-10); }
+ .page-heading h1 { font-size: clamp(2.75rem, 8vw, 4rem); }
+ .page-layout { display: block; padding-top: var(--space-8); }
+ .toc { position: static; border-left: 0; border-bottom: 1px solid var(--divider); padding: 0 0 var(--space-6); margin-bottom: var(--space-10); }
+ .toc a { display: inline-flex; margin-right: var(--space-3); }
+ .article section + section { margin-top: var(--space-12); padding-top: var(--space-8); }
+ .contact, .closing-right { padding: var(--space-6); }
+ .privacy-article { padding-top: var(--space-10); }
+ .note, .version-note { padding: var(--space-4) var(--space-5); }
+}
+@media (max-width: 36rem) {
+ .header, .hero-shell .header { flex-wrap: wrap; justify-content: center; padding-block: var(--space-3); }
+ .header .brand { margin-right: auto; }
+ .header nav { margin-left: auto; }
+ .header .nav-link:not(.nav-download) { padding-inline: var(--space-2); }
+ .languages button { padding-inline: var(--space-3); }
+ .languages { flex-shrink: 0; }
+ .hero-bottom { gap: var(--space-3); }
+ .edition { padding: var(--space-2); }
+ .sample-line { grid-template-columns: 4rem minmax(0, 1fr); gap: var(--space-3); }
+ .sample h3 { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+ html { scroll-behavior: auto; }
+ *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+@media (prefers-contrast: more) {
+ :root { --on-surface-secondary: #222522; --divider: var(--outline); }
+ .hero-shell .header { background: var(--surface); }
+}
+@media (forced-colors: active) {
+ .languages button[aria-pressed=true], .demo-controls button[aria-pressed=true] { outline: 2px solid Highlight; outline-offset: -3px; }
+ .redaction { forced-color-adjust: none; background: #191b1a; color: transparent; }
+}
+@media print {
+ .header, .footer, .toc, .demo-controls, .hero-art { display: none; }
+ .hero-shell { min-height: 0; }
+ .hero-content { padding: var(--space-8) 0; }
+ .hero-bottom { position: static; }
+ .wrap { width: 100%; }
+ .section { padding-block: var(--space-8); }
+ .page-layout { display: block; }
+ .article { max-width: none; }
+ .hero-content h1 { font-size: 2.5rem; }
+ details > p { display: block; }
+}
+</style></head><body data-page="support">
+<div class="lang-root" data-lang="en" lang="en"><a class="skip" href="#main">Skip to content</a><header class="header wrap"><a data-local class="brand" href="./?v=20261001-sumi1&amp;lang=en" aria-label="Redact Shot home"><img src="assets/appicon.png" alt="" width="30" height="30"><span>Redact Shot<small>スミ消し</small></span></a><nav aria-label="Main navigation"><a data-local class="nav-link" href="guide.html?v=20261001-sumi1&amp;lang=en">Guide</a><a data-appstore class="nav-link nav-download" href="https://apps.apple.com/app/id6777128789">Get the app</a><div class="languages" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en" aria-label="English" aria-pressed="true">EN</button><button type="button" data-setlang="ja" lang="ja" aria-label="日本語" aria-pressed="false">日本語</button></div></nav></header><main id="main" class="wrap"><div class="page-heading"><p class="eyebrow">HERE TO HELP</p><h1>A little help.</h1><p class="lead">Common questions and a way to get in touch. New here? Start with the guide.</p><div class="actions"><a data-local class="text-link" href="guide.html?v=20261001-sumi1&amp;lang=en">Read the guide</a></div></div><div class="privacy-article"><h2>Frequently asked questions</h2><details><summary>Why can’t I see the editor?</summary><p>After launching, click the menu-bar icon and choose “Open Editor.” The app has no Dock icon, and launching it alone does not show the editor.</p></details><details><summary>Why won’t my image open?</summary><p>In v1.3+, supported inputs include PNG, JPEG, HEIC/HEIF, TIFF, GIF, BMP, WebP, and AVIF when macOS can decode them. PDF/SVG-only inputs are not supported. Limits include 256 MiB of data, 116,640,000 pixels, 32,768 px per side, and an estimated decoded size of about 445 MiB. Resize, split, or export a large image as PNG/JPEG.</p></details><details><summary>What happens to animated GIFs or multi-page TIFFs?</summary><p>In v1.3+, GIF uses the first frame; TIFF uses the page with the most pixels. Inputs allow up to 100 pages/images, or 10,000 GIF frames. Save and Copy reduce the long side when it exceeds 16,384 px.</p></details><details><summary>Why are Save and Copy unavailable?</summary><p>In v1.3+, export may pause until the preview reflects your current masks. Your image and masks are kept. Wait a moment; if “Regenerate Preview” is shown, use it and check the result before exporting.</p></details><details><summary>Why does candidate search miss some details?</summary><p>Candidate search is a review aid in v1.3+. It can miss email addresses, text under 13 pt, non-Retina screenshots, strings split across lines, and IP addresses immediately after Japanese text. Candidates are not masks until accepted. Always review the whole image yourself.</p></details><details><summary>Why doesn’t my shortcut work?</summary><p>Configure the shortcut in v1.3+ Settings; none is assigned by default. Include Command or Control. It works only while the app is running. If another app uses the same combination, choose a different one.</p></details><details><summary>Does the app upload my images?</summary><p>The app itself has no network entitlement. Image processing and text recognition happen on your device. It collects no personal or usage data. Apple’s systems handle optional in-app tip purchases.</p></details><details><summary>How do I handle tip billing or refunds?</summary><p>Apple handles billing and refunds for in-app tips. Visit <a href="https://reportaproblem.apple.com/">reportaproblem.apple.com</a>.</p></details><div class="contact"><p class="eyebrow">CONTACT</p><h2>Still need help?</h2><p>Email us with bugs, feature requests, or questions. We usually reply within 2–3 business days. Include your app version, macOS version, and the steps you tried.</p><p><a href="mailto:k.oikawa119009@gmail.com?subject=Redact%20Shot%20Support">k.oikawa119009@gmail.com</a></p><p class="caption">Please do not send images containing private information.</p></div></div></main><footer class="footer"><div class="wrap"><div class="footer-top"><a data-local class="brand" href="./?v=20261001-sumi1&amp;lang=en">Redact Shot / スミ消し</a><nav aria-label="Footer"><a data-local class="" href="guide.html?v=20261001-sumi1&amp;lang=en">Guide</a><a data-local class="" href="support.html?v=20261001-sumi1&amp;lang=en">Support</a><a data-local class="" href="privacy.html?v=20261001-sumi1&amp;lang=en">Privacy</a></nav></div><div class="footer-bottom"><span>© 2026 Redact Shot</span><span>A little less revealed. A little more protected.</span></div></div></footer></div>
+<div class="lang-root" data-lang="ja" lang="ja" hidden><a class="skip" href="#main-ja">本文へ移動</a><header class="header wrap"><a data-local class="brand" href="./?v=20261001-sumi1&amp;lang=ja" aria-label="Redact Shot ホーム"><img src="assets/appicon.png" alt="" width="30" height="30"><span>Redact Shot<small>スミ消し</small></span></a><nav aria-label="メインナビゲーション"><a data-local class="nav-link" href="guide.html?v=20261001-sumi1&amp;lang=ja">使い方</a><a data-appstore class="nav-link nav-download" href="https://apps.apple.com/app/id6777128789">無料で入手</a><div class="languages" role="group" aria-label="言語"><button type="button" data-setlang="en" lang="en" aria-label="English" aria-pressed="false">EN</button><button type="button" data-setlang="ja" lang="ja" aria-label="日本語" aria-pressed="true">日本語</button></div></nav></header><main id="main-ja" class="wrap"><div class="page-heading"><p class="eyebrow">HERE TO HELP</p><h1><span class="ja-phrase">困ったときの、</span><span class="ja-phrase">余白。</span></h1><p class="lead">よくある質問と、お問い合わせ。初めての方は、使い方ページからどうぞ。</p><div class="actions"><a data-local class="text-link" href="guide.html?v=20261001-sumi1&amp;lang=ja">使い方を読む</a></div></div><div class="privacy-article"><h2>よくある質問</h2><details><summary>編集画面が開きません。</summary><p>起動後、メニューバーのアイコンから「編集画面を開く」を選んでください。Dockにアイコンは表示されません。初回のアプリ起動だけでは編集画面は開きません。</p></details><details><summary>画像を取り込めません。</summary><p>v1.3以降では、PNG・JPEG・HEIC/HEIF・TIFF・GIF・BMP・WebP・AVIFのうちmacOSが読めるものに対応します。PDF/SVGだけの入力には対応していません。データ256MiB、116,640,000画素、各辺32,768px、展開見積約445MiBなどの上限があります。大きな画像は縮小・分割するか、PNG/JPEGへ書き出してお試しください。</p></details><details><summary>GIFや複数ページのTIFFはどうなりますか？</summary><p>v1.3以降では、GIFは先頭フレームのみ、TIFFは最大画素のページのみを編集します。ページ・画像は100まで、GIFは10,000フレームまでです。保存とコピーは、長辺が16,384pxを超えると縮小します。</p></details><details><summary>保存やコピーができません。</summary><p>v1.3以降では、現在のマスクをプレビューに反映できるまで、保存・コピーを止めることがあります。画像とマスクは保持されます。少し待ち、「プレビューを再生成」が表示されている場合は押して、内容を確認してから書き出してください。</p></details><details><summary>候補検索で見つからない情報があります。</summary><p>候補検索はv1.3以降の確認補助です。メールアドレス、13pt未満の小さい文字、非Retina画面の撮影、改行で分かれた文字列、日本語の直後に空白なしで続くIPアドレスなどを見落とすことがあります。候補は確認・採用するまでマスクになりません。必ず画像全体を目でも確認してください。</p></details><details><summary>起動ショートカットが効きません。</summary><p>v1.3以降の設定で登録が必要です（既定は未設定）。CommandまたはControlを含むキーを選んでください。アプリを完全終了すると動作しません。他のアプリと競合する場合は別の組み合わせを登録してください。</p></details><details><summary>画像が外部に送られますか？</summary><p>アプリ自身はネットワーク権限を持たず、画像の処理・文字認識は端末内で完結します。個人情報や利用データの収集・解析もありません。任意のアプリ内チップの決済はAppleのシステムが処理します。</p></details><details><summary>チップの請求・返金について。</summary><p>アプリ内チップの請求・返金はAppleが窓口です。<a href="https://reportaproblem.apple.com/">reportaproblem.apple.com</a>からお手続きください。</p></details><div class="contact"><p class="eyebrow">CONTACT</p><h2>解決しなかったら。</h2><p>不具合・ご要望・ご質問はメールでお寄せください。通常2〜3営業日以内に返信します。アプリのバージョン、macOSのバージョン、試した操作を添えると確認がスムーズです。</p><p><a href="mailto:k.oikawa119009@gmail.com?subject=Redact%20Shot%20Support">k.oikawa119009@gmail.com</a></p><p class="caption">機密情報を含む画像は、そのまま送らないでください。</p></div></div></main><footer class="footer"><div class="wrap"><div class="footer-top"><a data-local class="brand" href="./?v=20261001-sumi1&amp;lang=ja">Redact Shot / スミ消し</a><nav aria-label="フッター"><a data-local class="" href="guide.html?v=20261001-sumi1&amp;lang=ja">使い方</a><a data-local class="" href="support.html?v=20261001-sumi1&amp;lang=ja">サポート</a><a data-local class="" href="privacy.html?v=20261001-sumi1&amp;lang=ja">プライバシー</a></nav></div><div class="footer-bottom"><span>© 2026 Redact Shot</span><span>大切なことだけを、共有する。</span></div></div></footer></div>
+<script>
+(() => {
+  const supported = ['en', 'ja'];
+  const roots = [...document.querySelectorAll('.lang-root')];
+  const titles = {home:{en:'Redact Shot — Share only what matters',ja:'スミ消し — 見せたいものだけ、残す。'},guide:{en:'User guide — Redact Shot',ja:'使い方 — スミ消し / Redact Shot'},support:{en:'Support — Redact Shot',ja:'サポート — スミ消し / Redact Shot'},privacy:{en:'Privacy — Redact Shot',ja:'プライバシー — スミ消し / Redact Shot'}};
+  function setLang(lang, updateUrl = false) {
+    if (!supported.includes(lang)) return;
+    roots.forEach(root => { root.hidden = root.dataset.lang !== lang; });
+    document.documentElement.lang = lang;
+    document.title = titles[document.body.dataset.page]?.[lang] || 'Redact Shot';
+    document.querySelectorAll('[data-setlang]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.setlang === lang)));
+    try { localStorage.setItem('rs_lang', lang); } catch (_) {}
+    if (updateUrl) { const url = new URL(location.href); url.searchParams.set('lang', lang); url.hash = ''; history.replaceState(null, '', url); document.querySelector('.lang-root[data-lang="' + lang + '"] [data-setlang="' + lang + '"]')?.focus({preventScroll:true}); }
+  }
+  let lang = new URL(location.href).searchParams.get('lang');
+  if (!supported.includes(lang)) { try { lang = localStorage.getItem('rs_lang'); } catch (_) {} }
+  if (!supported.includes(lang)) lang = navigator.language?.toLowerCase().startsWith('ja') ? 'ja' : 'en';
+  setLang(lang);
+  document.addEventListener('click', event => {
+    const toggle = event.target.closest('[data-setlang]');
+    if (toggle) { setLang(toggle.dataset.setlang, true); return; }
+    const demo = event.target.closest('[data-demo]');
+    if (demo) {
+      const scope = demo.closest('.lang-root');
+      const redacted = demo.dataset.demo === 'redact';
+      scope.querySelectorAll('[data-sensitive]').forEach(el => {
+        el.classList.toggle('redaction', redacted);
+        el.setAttribute('aria-label', redacted ? (scope.dataset.lang === 'ja' ? '黒塗り済み' : 'Redacted') : el.dataset.original);
+        el.textContent = redacted ? '████████████' : el.dataset.original;
+      });
+      scope.querySelectorAll('[data-demo]').forEach(el => el.setAttribute('aria-pressed', String(el === demo)));
+      const status = scope.querySelector('[data-demo-status]');
+      status.textContent = scope.dataset.lang === 'ja' ? (redacted ? 'メールと参照番号を黒塗りしました。' : '説明用のサンプル情報を表示しています。') : (redacted ? 'Email and reference are redacted.' : 'Showing fictional sample information.');
+    }
+    const link = event.target.closest('a[data-local]');
+    if (link) { const url = new URL(link.href, location.href); url.searchParams.set('lang', document.documentElement.lang); link.href = url.href; }
+  });
+})();
+</script>
+</body></html>

@@ -1,0 +1,8 @@
+{
+  "name": "cliprecall-website",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": { "build": "node scripts/export-pages.cjs .." },
+  "dependencies": { "react": "19.2.6", "react-dom": "19.2.6" },
+  "devDependencies": { "typescript": "5.9.3" }
+}
