@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title data-ja="Sharebar — プライバシー">Sharebar — Privacy</title>
-  <meta name="description" content="Sharebar collects no data. No analytics, no cookies, no servers, no network requests.">
+  <meta name="description" content="The Sharebar app collects no data. This website uses GA4 for website analytics; tool inputs and shared state are not included in analytics events.">
   <meta name="theme-color" content="#0e1014">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Sharebar">
   <meta property="og:title" content="Sharebar — Privacy">
-  <meta property="og:description" content="Sharebar collects no data. No analytics, no cookies, no servers, no network requests.">
+  <meta property="og:description" content="The Sharebar app collects no data. This website uses GA4 for website analytics; tool inputs and shared state are not included in analytics events.">
   <meta property="og:url" content="https://key115.github.io/sharebar/privacy.html">
   <meta property="og:image" content="https://key115.github.io/sharebar/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -20,6 +20,8 @@
   <meta property="og:image:alt" content="Sharebar — Share a developer tool, not a screenshot. Mac menu-bar dev tools with reproducible share links.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css">
+<!-- Google Analytics 4: shared website measurement -->
+<script src="../assets/analytics.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -41,14 +43,16 @@
 
   <main class="wrap doc">
     <h1><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></h1>
-    <p class="updated"><span data-lang="en">Last updated: 2026-08-12</span><span data-lang="ja">最終更新: 2026-08-12</span></p>
+    <p class="updated"><span data-lang="en">Last updated: 2026-10-04</span><span data-lang="ja">最終更新: 2026-10-04</span></p>
 
-    <p data-lang="en">Sharebar is built so that there is nothing to collect. The app runs entirely on your Mac, offline. This page — the Share Page — runs entirely in your browser.</p>
-    <p data-lang="ja">Sharebar は「集めるものが何もない」ように作られています。アプリは Mac 上で完全にオフラインで動作し、このページ（共有ページ）もすべてブラウザ内で完結します。</p>
+    <p data-lang="en">Sharebar is built so that there is nothing to collect. The app runs entirely on your Mac, offline. Shared tools are decoded and evaluated locally in your browser. Website analytics is described separately below.</p>
+    <p data-lang="ja">Sharebar は「集めるものが何もない」ように作られています。アプリは Mac 上で完全にオフラインで動作し、共有ツールのデコードと計算もブラウザ内で行います。ウェブサイトのアクセス解析については、下記で別途説明します。</p>
 
     <h2><span data-lang="en">What this website collects</span><span data-lang="ja">このサイトが収集するもの</span></h2>
-    <p data-lang="en"><strong>Nothing.</strong> This site has no analytics, no cookies, no trackers, and makes no external network requests. The only thing it stores on your device is your language choice for this site (a single en/ja value in your browser's local storage) — never your link contents, and nothing ever leaves your device. When you open a Sharebar link, the shared state lives only in the part of the URL after the <code>#</code> (the fragment), which browsers never send to any server. Decoding and reproducing the tool happens locally, in a Web Worker, on your device.</p>
-    <p data-lang="ja"><strong>何も収集しません。</strong>このサイトにはアナリティクスもクッキーもトラッカーもなく、外部へのネットワークリクエストも行いません。端末に保存されるのは、このサイトの言語設定（ブラウザのローカルストレージに en/ja の1値）だけです — リンクの内容は保存されず、どの情報も端末の外に出ません。Sharebar のリンクを開いたとき、共有状態は URL の <code>#</code> 以降（フラグメント）にのみ存在し、ブラウザはフラグメントをどのサーバーにも送信しません。ツールのデコードと再現は、端末内の Web Worker でローカルに行われます。</p>
+    <p data-lang="en">This website uses Google Analytics 4 (GA4) to measure page views and clicks on App Store links. Website usage data is sent to Google, and GA4 uses cookies. This measures the website, not activity inside the app. See the <a href="../privacy.html">website privacy policy</a> for data handling, URL filtering, and opt-out information.</p>
+    <p data-lang="ja">このウェブサイトでは、ページの閲覧やApp Storeへのリンクのクリックを把握するためGoogle Analytics 4（GA4）を使用します。サイトの利用情報がGoogleへ送信され、GA4はCookieを使用します。対象はウェブサイトであり、アプリ内の利用状況ではありません。取り扱う情報、URLの除外処理、オプトアウトについては<a href="../privacy.html">ウェブサイトのプライバシーポリシー</a>をご覧ください。</p>
+    <p data-lang="en">The site also stores your EN/JA language preference locally. Shared tool state stays in the URL fragment and is decoded and evaluated locally in a Web Worker. The fragment and tool inputs are not included in analytics events.</p>
+    <p data-lang="ja">サイトのEN/JA言語設定は端末内に保存します。共有ツールの状態はURLフラグメントにあり、Web Workerでローカルにデコード・計算します。フラグメントやツールへの入力を解析イベントに含めません。</p>
 
     <h2><span data-lang="en">What the app collects</span><span data-lang="ja">アプリが収集するもの</span></h2>
     <p data-lang="en"><strong>Nothing is sent off your device.</strong> The Sharebar app stores only your own preferences (settings, pinned tools, window position) inside its app container. It does not store your clipboard contents, your inputs, your results, or a history of links you generate. It has no analytics or crash-reporting SDK. Its App Store privacy label is <em>Data Not Collected</em>.</p>

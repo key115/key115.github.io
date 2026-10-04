@@ -3,11 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Strict CSP: same-origin scripts/styles only, no inline script, no eval,
-       zero network egress (connect-src none). Workers are same-origin only.
-       This is the page's XSS backstop on top of the text-node-only render
-       discipline (F-018). -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <!-- CSP: local scripts plus the Google tag; analytics endpoints only.
+       No inline script or eval. Workers and styles remain same-origin. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title data-ja="Sharebar — スクショではなく、開発ツールそのものを共有">Sharebar — share a developer tool, not a screenshot</title>
   <meta name="description" content="Sharebar is a free Mac menu-bar app: ten developer tools plus shareable links that reproduce a regex, cron, color, or Unix-time result in any browser. No server, no account, no tracking.">
@@ -24,6 +22,8 @@
   <meta property="og:image:alt" content="Sharebar — Share a developer tool, not a screenshot. Mac menu-bar dev tools with reproducible share links.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css">
+<!-- Google Analytics 4: shared website measurement -->
+<script src="../assets/analytics.js" defer></script>
 </head>
 <body>
   <header class="site-header">

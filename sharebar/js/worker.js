@@ -19,8 +19,8 @@
 'use strict';
 
 // Order matters: the bundle defines self.SharebarCore, then the glue reads it.
-// Same-origin 'self' scripts only (the page CSP restricts worker-src/script-src
-// to 'self'); no remote importScripts, so no external request.
+// Same-origin shipped scripts only; the page CSP restricts worker-src to 'self'.
+// No remote importScripts and no analytics inside the tool worker.
 importScripts('../vendor/sharebar-core.js', 'reproduce.js');
 
 var Repro = self.SharebarReproduce;

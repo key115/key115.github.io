@@ -22,7 +22,8 @@
 //   * wire the CTAs: "Open in Sharebar" (sharebar://, with graceful fallback to
 //     Get the app when the app is not installed) and "Get the app".
 //
-// No external requests, no cookies, no storage of link content.
+// Tool logic makes no external requests and stores no link content.
+// The separate shared website analytics script measures sanitized page URLs.
 
 'use strict';
 

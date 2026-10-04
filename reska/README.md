@@ -11,8 +11,10 @@ Source for `https://key115.github.io/reska/`:
 - `assets/site.js` — dependency-free EN/JA switch and progressive reveal.
 - `assets/appicon.png` — copied from the shipping app's 512 px icon.
 
-The site makes no third-party requests and contains no analytics, advertising,
-forms, or cookies. The only local storage is the visitor's EN/JA preference.
+The website uses the repository's shared GA4 script for website analytics and
+Analytics cookies. It also stores the visitor's EN/JA preference locally.
+The Reska app itself has no analytics SDK. See `../privacy.html` and this site's
+`privacy.html` for the distinction between website analytics and app privacy.
 
 ## Production paths
 
@@ -49,4 +51,4 @@ python3 -m http.server 8765
 ```
 
 Then open `http://127.0.0.1:8765/`. Verify all three pages in EN and JA,
-desktop and narrow viewports, with no console errors or external requests.
+desktop and narrow viewports, with no console errors. GA4 is disabled on localhost.

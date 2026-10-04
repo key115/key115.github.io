@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; worker-src 'self'; child-src 'self'; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self'; connect-src https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="no-referrer">
   <title data-ja="Sharebar — サポート">Sharebar — Support</title>
   <meta name="description" content="How Sharebar Share Links work, what the Share Page does, and how to get help.">
@@ -20,6 +20,8 @@
   <meta property="og:image:alt" content="Sharebar — Share a developer tool, not a screenshot. Mac menu-bar dev tools with reproducible share links.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css">
+<!-- Google Analytics 4: shared website measurement -->
+<script src="../assets/analytics.js" defer></script>
 </head>
 <body>
   <header class="site-header">
