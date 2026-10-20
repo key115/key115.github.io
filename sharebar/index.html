@@ -250,9 +250,13 @@ not a screenshot.</span><span data-lang="ja">スクショではなく、
         </div>
 
         <div class="btn-row">
-          <a class="btn primary" id="cta-open" href="#open"><span data-lang="en">Open in Sharebar</span><span data-lang="ja">Sharebar で開く</span></a>
+          <a class="btn primary" id="cta-open" href="#open" aria-disabled="true"><span data-lang="en">Open in Sharebar</span><span data-lang="ja">Sharebar で開く</span></a>
           <a class="btn" id="cta-getapp-receiver" href="https://apps.apple.com/app/id6781006552" data-appstore=""><span data-lang="en">Get the app</span><span data-lang="ja">アプリを入手</span></a>
         </div>
+        <!-- #1331: the Open CTA hands the app the ORIGINAL shared link (the
+             verified fragment), never the values edited on this page. Shown
+             only while the CTA is armed (js/app.js setLaunchTarget). -->
+        <p class="open-hint" id="open-note" hidden><span data-lang="en">“Open in Sharebar” opens the original shared content, exactly as it was shared. Edits you make on this page stay here and are not sent to the app.</span><span data-lang="ja">「Sharebar で開く」は、共有された元の内容をそのままアプリで開きます。このページでの編集はこの画面の中だけで、アプリには送られません。</span></p>
         <p class="open-hint" id="open-hint" hidden><span data-lang="en">Don’t have Sharebar yet? The Mac app is free — get it to open links straight from your menu bar.</span><span data-lang="ja">Sharebar をまだお持ちでない方へ — Mac アプリは無料です。インストールすると、リンクをメニューバーから直接開けます。</span></p>
         <!-- Receiver credit (#334 / v1.1 §4): attribution only — relative link,
              no id, no handlers, no tracking. Never shown in landing mode. The

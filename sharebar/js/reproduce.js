@@ -13,7 +13,9 @@
 //   * pick the right `SharebarCore.tools.<kind>.evaluate(...)` for a decoded
 //     state, ARGUMENT-INJECTING the things the core refuses to read itself
 //     (cron's base instant + receiver tz — N-011: the core never reads a host
-//     clock or host tz),
+//     clock or host tz). Cron goes through `SharebarCore.evaluateState`, which
+//     picks the v1 or v2 evaluator from the state's own `v` (#1321) — this
+//     file never decides a cron semantics version,
 //   * normalise the codec/schema LinkError into a small, render-safe shape.
 //
 // It returns PLAIN DATA only (numbers, enums, ranges, epochs). The caller
@@ -75,8 +77,9 @@
   //                       Date.now(), the test passes a fixed instant). N-011.
   //   opts.tz           — receiver-chosen tz override for cron (the tz toggle).
   //                       When absent, cron uses state.tool.tz (sender tz).
-  // Returns { ok:true, kind, result } where `result` is the core's structured
-  // value, or { ok:false, error } if the state is structurally unusable.
+  // Returns { ok:true, kind, v, result } where `result` is the core's
+  // structured value and `v` the state version it was evaluated under, or
+  // { ok:false, error } if the state is structurally unusable.
   function evaluate(state, opts) {
     var C = core();
     opts = opts || {};
@@ -94,14 +97,22 @@
             test: state.tool.test,
           }) };
         case 'cron': {
-          var baseEpochMs = typeof opts.baseEpochMs === 'number' ? opts.baseEpochMs : Date.now();
-          var tz = typeof opts.tz === 'string' && opts.tz ? opts.tz : state.tool.tz;
-          return { ok: true, kind: kind, result: tools.cron.evaluate({
-            expr: state.tool.expr,
-            tz: tz,
-            baseEpochMs: baseEpochMs,
+          // The core's (version x tool) table decides v1 vs v2 semantics.
+          var cronOpts = {
+            baseEpochMs: typeof opts.baseEpochMs === 'number' ? opts.baseEpochMs : Date.now(),
             count: typeof opts.count === 'number' ? opts.count : CRON_RUN_COUNT,
-          }) };
+          };
+          if (typeof opts.tz === 'string' && opts.tz) cronOpts.tz = opts.tz;
+          var evaluated;
+          try {
+            evaluated = C.evaluateState(state, cronOpts);
+          } catch (e) {
+            return { ok: false, error: {
+              code: e && typeof e.code === 'string' ? e.code : 'EVAL_FAILED',
+              message: 'could not reproduce this tool',
+            } };
+          }
+          return { ok: true, kind: kind, v: evaluated.v, result: evaluated.result };
         }
         case 'color':
           return { ok: true, kind: kind, result: tools.color.evaluate({ value: state.tool.value }) };
@@ -129,7 +140,9 @@
     if (!d.ok) return d;
     var ev = evaluate(d.state, opts);
     if (!ev.ok) return ev;
-    return { ok: true, state: d.state, kind: ev.kind, result: ev.result };
+    var out = { ok: true, state: d.state, kind: ev.kind, result: ev.result };
+    if (ev.v !== undefined) out.v = ev.v;
+    return out;
   }
 
   // Flatten a codec LinkError (or any throwable) into a small, fixed,

@@ -20,7 +20,9 @@
 //   * render every result as TEXT NODES only (innerHTML is never used on
 //     fragment-derived data — XSS-safe by construction),
 //   * wire the CTAs: "Open in Sharebar" (sharebar://, with graceful fallback to
-//     Get the app when the app is not installed) and "Get the app".
+//     Get the app when the app is not installed) and "Get the app". The Open
+//     CTA is wired ONCE and launches only the CURRENT, successfully decoded
+//     original fragment — never the edits, never a previous link (#1331).
 //
 // Tool logic makes no external requests and stores no link content.
 // The separate shared website analytics script measures sanitized page URLs.
@@ -163,11 +165,37 @@
     BAD_INPUT: 'This isn’t a Sharebar link.',
     TIMEOUT: 'That pattern is too complex to evaluate safely.',
     WORKER_ERROR: 'Something went wrong loading the engine. Please reload.',
-    WORKER_UNAVAILABLE: 'Live evaluation isn’t available in this environment (Web Workers are blocked or unsupported). The link itself may be fine — open this page over https, or open the link in the Sharebar app.'
+    // The link cannot be verified here, so the Open CTA stays disabled (#1331);
+    // the way on is pasting it into the app's "Open Shared Link…" (F-020).
+    WORKER_UNAVAILABLE: 'Live evaluation isn’t available in this browser (Web Workers are blocked or unsupported), so this link can’t be opened here. Copy the link and paste it into “Open Shared Link…” in the Sharebar menu-bar popover.'
+  };
+  // Japanese twins, rendered as a data-lang pair next to the English text (the
+  // static-page i18n convention). Only messages that tell the user what to do
+  // instead carry one; the rest stay English like the rest of the dynamic UI.
+  var ERROR_TEXT_JA = {
+    WORKER_UNAVAILABLE: 'このブラウザではライブ評価を使えないため（Web Worker がブロックされているか未対応）、このリンクはここでは開けません。リンクをコピーし、Sharebar のメニューバーのポップオーバーにある「共有リンクを開く…」に貼り付けて開いてください。'
   };
   function errorText(err) {
     if (!err) return 'This link could not be read.';
     return ERROR_TEXT[err.code] || 'This link could not be read.';
+  }
+  // WORKER_UNAVAILABLE after a verified decode (the worker could not be
+  // respawned mid-session): the Open CTA is armed, so point to it instead.
+  var ARMED_ERROR_TEXT = {
+    WORKER_UNAVAILABLE: 'Live evaluation isn’t available in this browser (Web Workers are blocked or unsupported), so this result can’t be updated here. “Open in Sharebar” still opens the original shared content in the app.'
+  };
+  var ARMED_ERROR_TEXT_JA = {
+    WORKER_UNAVAILABLE: 'このブラウザではライブ評価を使えないため（Web Worker がブロックされているか未対応）、ここでは結果を更新できません。「Sharebar で開く」から、共有された元の内容をアプリで開けます。'
+  };
+  function errorMsg(err) {
+    var armed = !!launchFragment && !!err && !!ARMED_ERROR_TEXT[err.code];
+    var en = armed ? ARMED_ERROR_TEXT[err.code] : errorText(err);
+    var ja = err && (armed ? ARMED_ERROR_TEXT_JA : ERROR_TEXT_JA)[err.code];
+    if (!ja) return el('p', 'error-msg', en);
+    var p = el('p', 'error-msg');
+    p.appendChild(langSpan('en', en));
+    p.appendChild(langSpan('ja', ja));
+    return p;
   }
 
   // --- state ----------------------------------------------------------------
@@ -207,6 +235,11 @@
   function boot() {
     var myGen = ++gen; // supersede anything still in flight (#218).
     var frag = location.hash || '';
+    // #1331 — a new hash retires the previous link at once: its editor, result
+    // and launch target go away BEFORE the new decode starts, so nothing of the
+    // old link can be edited, re-run or opened while the new one is decoding,
+    // after it fails, or on a non-link hash.
+    resetReceiver();
     if (!isLinkFragment(frag)) {
       showLanding();
       return;
@@ -223,9 +256,34 @@
       }
       current = res.state;
       buildEditor(current);
+      // #1331 — only a decode that is still the newest (checked above) arms the
+      // Open CTA, and it arms it with the ORIGINAL fragment that decoded.
+      setLaunchTarget(frag);
       rerun();
-      wireCTAs(frag);
     });
+  }
+
+  // #1331 — drop everything tied to the previous link (state, editor, result,
+  // launch target, a pending launch attempt and its fallback hint).
+  function resetReceiver() {
+    current = null; // rerun()/onEdit() become no-ops until the new decode lands.
+    tzOverride = null;
+    setLaunchTarget(null);
+    cancelLaunchAttempt();
+    var hint = $('open-hint'); if (hint) hint.hidden = true;
+    var ed = $('editor'); if (ed) clear(ed);
+    var box = $('result'); if (box) clear(box);
+    var title = $('tool-title');
+    if (title) {
+      clear(title);
+      title.appendChild(langSpan('en', 'Opening shared link…'));
+      title.appendChild(langSpan('ja', '共有リンクを開いています…'));
+    }
+  }
+  function langSpan(lang, text) {
+    var s = el('span', null, text);
+    s.setAttribute('data-lang', lang);
+    return s;
   }
 
   function showLanding() {
@@ -241,7 +299,7 @@
     var box = $('result');
     clear(box);
     var e = el('div', 'error');
-    e.appendChild(el('p', 'error-msg', errorText(err)));
+    e.appendChild(errorMsg(err));
     var cta = el('a', 'btn primary', 'Get the app');
     cta.setAttribute('href', '#get');
     cta.id = 'cta-getapp-error';
@@ -368,13 +426,13 @@
     clear(box);
     if (!res || !res.ok) {
       var e = el('div', 'error');
-      e.appendChild(el('p', 'error-msg', errorText(res && res.error)));
+      e.appendChild(errorMsg(res && res.error));
       box.appendChild(e);
       return;
     }
     var r = res.result;
     if (res.kind === 'regex') renderRegex(box, r);
-    else if (res.kind === 'cron') renderCron(box, r);
+    else if (res.kind === 'cron') renderCron(box, r, res.v);
     else if (res.kind === 'color') renderColor(box, r);
     else if (res.kind === 'unixtime') renderUnixtime(box, r);
   }
@@ -400,7 +458,31 @@
     box.appendChild(list);
   }
 
-  function renderCron(box, r) {
+  // A v1 cron link is evaluated with the v1 rules it was shared under (frozen,
+  // ADR-0001) — say so, so it is never mistaken for the corrected v2 rules
+  // (#1321). Both languages are rendered as data-lang pairs (text nodes only);
+  // the stylesheet shows the active one, like the static chrome.
+  function bilingual(cls, en, ja) {
+    var n = el('span', cls);
+    n.appendChild(langSpan('en', en));
+    n.appendChild(langSpan('ja', ja));
+    return n;
+  }
+  function legacyCronNotice() {
+    var wrap = el('div', 'cron-legacy');
+    wrap.id = 'cron-semantics';
+    var r = el('div', 'kv');
+    r.appendChild(bilingual('k', 'Evaluation', '評価'));
+    r.appendChild(bilingual('v', 'Legacy evaluation (v1)', '旧評価（v1）'));
+    wrap.appendChild(r);
+    wrap.appendChild(bilingual('muted',
+      'This link was shared with the v1 rules, which combine a day-of-month step (e.g. */2) and a weekday with OR. Shown as shared, not with the current rules.',
+      'このリンクは v1 の規則で共有されたものです（日付のステップ（例 */2）と曜日を OR で組み合わせます）。現行の規則ではなく、共有時の規則で表示しています。'));
+    return wrap;
+  }
+
+  function renderCron(box, r, v) {
+    if (v === 1) box.appendChild(legacyCronNotice());
     if (!r.valid) { box.appendChild(el('p', 'invalid', r.error || 'invalid expression')); return; }
     box.appendChild(row('Schedule', r.description));
     box.appendChild(row('Time zone', r.tz));
@@ -455,7 +537,32 @@
   // ========================================================================
   // CTAs: Open in Sharebar (with graceful fallback) + Get the app.
   // ========================================================================
-  function wireCTAs(fragment) {
+  // #1331 — the ONE launch target: the original fragment of the link whose
+  // decode succeeded most recently, or null while decoding / after a failure /
+  // on the landing. It is a string captured from location.hash, so edits (which
+  // only mutate `current`) can never leak into it.
+  var launchFragment = null;
+  var launchAttempt = null; // the in-flight openInApp() attempt, if any.
+
+  function setLaunchTarget(fragment) {
+    launchFragment = fragment || null;
+    var open = $('cta-open');
+    if (open) open.setAttribute('aria-disabled', launchFragment ? 'false' : 'true');
+    // The "opens the original content" note describes an armed CTA only.
+    var note = $('open-note');
+    if (note) note.hidden = !launchFragment;
+    // aria-describedby is computed even from a hidden target, so the note is
+    // referenced only while it applies (an armed CTA).
+    if (open) {
+      if (launchFragment) open.setAttribute('aria-describedby', 'open-note');
+      else open.removeAttribute('aria-describedby');
+    }
+  }
+
+  // Wired ONCE from start(). The handler reads launchFragment at click time,
+  // so switching links never stacks listeners that each remember an old link
+  // (#1331: boot() used to add one listener per successful decode).
+  function wireCTAs() {
     var open = $('cta-open');
     // In receiver mode the visible "Get the app" button is #cta-getapp-receiver;
     // the bare #cta-getapp lives in the HIDDEN #landing section, so we must NOT
@@ -467,12 +574,13 @@
     // product-explanation path is the receiver credit line's index.html link);
     // leave it intact.
     if (!open) return;
-
-    // sharebar:// carries the SAME fragment (the receive state), not the edits.
-    var deepLink = 'sharebar://open' + fragment;
     open.addEventListener('click', function (ev) {
+      // Always swallow the '#open' href: following it would change the hash
+      // and re-boot the page onto the landing.
       ev.preventDefault();
-      openInApp(deepLink);
+      if (!launchFragment) return; // nothing verified to open right now.
+      // sharebar:// carries the SAME fragment (the receive state), not the edits.
+      openInApp('sharebar://open' + launchFragment);
     });
   }
 
@@ -481,22 +589,50 @@
   // staying visible after a short grace period (a successful handoff blurs/hides
   // the page). No navigation to an external URL happens here — only the local
   // anchor. (F-018: graceful fallback to Get the app when app not installed.)
+  // Only one attempt lives at a time: a new click or a new link cancels the
+  // previous one, and every ending removes its timer and window listeners (#1331).
   function openInApp(deepLink) {
-    var fellBack = false;
-    var t = setTimeout(function () {
-      if (fellBack) return;
+    cancelLaunchAttempt();
+    // A new attempt starts clean: the previous attempt's "not installed" hint
+    // must not outlive it (it is re-shown only if THIS attempt falls back).
+    var oldHint = $('open-hint');
+    if (oldHint) oldHint.hidden = true;
+    var attempt = {};
+    function end() {
+      if (launchAttempt !== attempt) return;
+      launchAttempt = null;
+      clearTimeout(attempt.timer);
+      window.removeEventListener('blur', end);
+      window.removeEventListener('pagehide', end);
+    }
+    attempt.cancel = end;
+    attempt.timer = setTimeout(function () {
+      if (launchAttempt !== attempt) return;
+      end();
       // Still here -> app didn't take over. Reveal Get-the-app guidance.
       var hint = $('open-hint');
       if (hint) hint.hidden = false;
-      location.hash && null;
       gotoGetApp();
     }, 1200);
-    function cancel() { fellBack = true; clearTimeout(t); }
-    window.addEventListener('blur', cancel, { once: true });
-    window.addEventListener('pagehide', cancel, { once: true });
-    // Trigger the scheme. Assigning location triggers the OS handler without a
-    // navigation if a handler exists.
-    try { window.location.href = deepLink; } catch (e) { cancel(); gotoGetApp(); }
+    launchAttempt = attempt;
+    window.addEventListener('blur', end);
+    window.addEventListener('pagehide', end);
+    try { launchScheme(deepLink); } catch (e) { end(); gotoGetApp(); }
+  }
+  function cancelLaunchAttempt() {
+    if (launchAttempt) launchAttempt.cancel();
+  }
+
+  // The single scheme-launch boundary. A cancelable 'sharebar:launch' event is
+  // dispatched first so the real-browser test can substitute a recording fake
+  // (it cancels the event) and never hand a URL to the OS or the tester's own
+  // app. Nothing in the shipped site listens to it. Assigning location triggers
+  // the OS handler without a navigation if a handler exists.
+  function launchScheme(url) {
+    var ev = null;
+    try { ev = new CustomEvent('sharebar:launch', { cancelable: true, detail: { url: url } }); } catch (e) {}
+    if (ev && typeof window.dispatchEvent === 'function' && !window.dispatchEvent(ev)) return;
+    window.location.href = url;
   }
   function gotoGetApp() {
     // Graceful fallback (F-018): draw attention to the VISIBLE "Get the app"
@@ -538,7 +674,9 @@
 
   // initSupportLanes is one-shot static wiring (#342); only boot() re-runs on
   // hashchange (the lane lives inside #landing, which boot() shows/hides).
-  function start() { initSupportLanes(); boot(); }
+  // wireCTAs is one-shot too: the Open CTA reads the current launch target at
+  // click time instead of being re-wired per link (#1331).
+  function start() { initSupportLanes(); wireCTAs(); boot(); }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
   } else {

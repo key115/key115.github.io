@@ -44,7 +44,7 @@ self.onmessage = function (ev) {
       // (N-011 — the core reads no host clock/tz). The regex case is what the
       // 200 ms watchdog guards: if this never replies, the main thread kills us.
       var ev2 = Repro.evaluate(msg.state, msg.opts || {});
-      self.postMessage({ id: id, type: 'evaluated', ok: ev2.ok, kind: ev2.kind, result: ev2.result, error: ev2.error });
+      self.postMessage({ id: id, type: 'evaluated', ok: ev2.ok, kind: ev2.kind, v: ev2.v, result: ev2.result, error: ev2.error });
       return;
     }
 
