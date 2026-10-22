@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>システムモニター ヘルプ — 監視項目の解説</title>
+<meta name="description" content="モニター画面の監視項目について、意味・単位・計り方・値が高い（低い）時に考えられること・自分でできる対処をまとめた指南書です。">
+<style>
+  :root { color-scheme: light dark; --text: #222; --muted: #5f5f5f; --line: #ddd; --link: #0066cc; --bg: #fff; --soft: #f5f5f3; --mark: #fff3cc; --badge-bg: #ececec; --badge: #444; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text: #e8e8e8; --muted: #a9a9a9; --line: #3b3b3b; --link: #6db3ff; --bg: #1c1c1e; --soft: #262628; --mark: #3d3412; --badge-bg: #353537; --badge: #e0e0e0; }
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; line-height: 1.75; max-width: 780px; margin: 40px auto; padding: 0 20px; color: var(--text); background: var(--bg); overflow-wrap: anywhere; }
+  h1 { border-bottom: 1px solid var(--line); padding-bottom: 8px; font-size: 1.55em; line-height: 1.4; }
+  h2 { font-size: 1.3em; margin: 2.6em 0 .6em; padding-bottom: 6px; border-bottom: 2px solid var(--line); line-height: 1.4; }
+  h3 { font-size: 1.05em; margin: 0 0 .25em; line-height: 1.5; }
+  a { color: var(--link); }
+  .lang { text-align: right; font-size: .9em; margin: 0 0 .5em; }
+  .toc ol { padding-left: 1.5em; columns: 2; column-gap: 2em; }
+  .toc li { break-inside: avoid; }
+  .guide { background: var(--soft); border-radius: 8px; padding: .6em 1.1em; margin: 1em 0; }
+  .guide h3 { margin-top: .4em; }
+  .in-section { font-size: .9em; color: var(--muted); }
+  .item { border-top: 1px solid var(--line); padding: 1.1em .6em .7em; margin: 0 -.6em; border-radius: 6px; }
+  .item:has(> span:target) { background: var(--mark); }
+  .item > span[id] { scroll-margin-top: 28px; }
+  .meta { margin: 0 0 .6em; font-size: .85em; color: var(--muted); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+  .badge { display: inline-block; padding: 0 .6em; margin-right: .5em; border-radius: 999px; background: var(--badge-bg); color: var(--badge); font-weight: 600; }
+  dl { display: grid; grid-template-columns: 9.5em 1fr; gap: .4em 1em; margin: 0; }
+  html[lang="en"] dl { grid-template-columns: 11em 1fr; }
+  dt { font-weight: 600; color: var(--muted); }
+  dd { margin: 0; }
+  dd ul { margin: 0; padding-left: 1.2em; }
+  dd li + li { margin-top: .25em; }
+  ul { padding-left: 1.5em; }
+  .refs { font-size: .9em; }
+  .top { font-size: .85em; margin: 1em 0 0; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--line); font-size: .85em; color: var(--muted); }
+  @media (max-width: 600px) {
+    body { margin: 24px auto; padding: 0 16px; }
+    .toc ol { columns: 1; }
+    dl, html[lang="en"] dl { display: block; }
+    dt { margin-top: .7em; }
+  }
+</style>
+<!-- Google Analytics 4: shared website measurement -->
+<script src="../assets/analytics.js" defer></script>
+</head>
+<body>
+
+<p class="lang"><a href="help-en.html" hreflang="en" lang="en">English</a></p>
+<h1 id="top">システムモニター ヘルプ — 監視項目の解説</h1>
+<p>モニター画面に出る全ての監視項目について、意味・単位・どう計っているか・値が高い（低い）時に考えられること・自分でできる対処をまとめました。モニター画面の「全項目」で項目を選び、「解説」を押すと、その項目の説明がこのページで開きます。</p>
+
+<nav class="toc" aria-labelledby="toc-title">
+<h2 id="toc-title">目次</h2>
+<ol>
+<li><a href="#sec-overview">概要 — このページの読み方</a></li>
+<li><a href="#sec-cpu">CPU</a>（11）</li>
+<li><a href="#sec-memory">メモリ</a>（18）</li>
+<li><a href="#sec-storage">ストレージ</a>（12）</li>
+<li><a href="#sec-network">ネットワーク</a>（13）</li>
+<li><a href="#sec-processes">プロセス</a>（11）</li>
+<li><a href="#sec-power">電源と熱</a>（15）</li>
+<li><a href="#sec-hardware">ハードウェア</a>（18）</li>
+<li><a href="#sec-diagnostics">診断と権限</a>（5）</li>
+</ol>
+</nav>
+
+<section aria-labelledby="sec-overview">
+<h2 id="sec-overview">概要 — このページの読み方</h2>
+<div class="guide">
+<h3 id="guide-states">表示の見方</h3>
+<p>モニター画面の「全項目」では、監視項目ごとに次の状態を表示します。</p><dl><dt>対応可否</dt><dd>この Mac・OS・権限・配布の条件で取れるかどうかです。<strong>対応</strong>（取れる）・<strong>未対応</strong>（この条件では OS が値を出さない）・<strong>権限なし（未要求）</strong>（取るには追加の権限が要り、このアプリは要求していない）・<strong>権限なし（拒否）</strong>（OS が読み取りを断った。例: 他の利用者のプロセスの詳しい値）・<strong>調査中</strong>（取れるかを調べている）・<strong>対象外</strong>（取らないと決めた）。このページでは、対応以外の項に印を付けています。</dd><dt>取得状態</dt><dd>直近の取得の結果です。<strong>計測済み</strong>・<strong>計測待ち</strong>（最初の値を待っている）・<strong>再計測中</strong>（スリープや数値のリセットの後に、差分を取り直している）・<strong>取得不能</strong>（理由つき）。</dd><dt>鮮度</dt><dd><strong>新しい</strong>・<strong>古い値</strong>（最後に取れた時刻を表示）・<strong>未観測</strong>（まだ一度も値がない）。</dd><dt>由来</dt><dd><strong>実測</strong>（OS から読んだ値）・<strong>派生</strong>（実測から計算した値）・<strong>推定</strong>（OS などの予測）・<strong>公称</strong>（機器の仕様の値）。</dd></dl>
+</div>
+<div class="guide">
+<h3 id="guide-wording">画面の言葉と詳しい取得方法</h3>
+<p>画面では「使用中」「確保済み」「先読み」「ページイン」「ページアウト」など、値の意味が分かる名前を使います。% は数字に続けて表示します（例: 42.3%）。採取した割合は小数 1 桁までで、整数の余分な .0 は省きます。0 でない極小値は &lt;0.1%（負なら &gt;-0.1%）と示します。補間中は整数で示し、ちょうど半分の値はゼロから遠い側へ丸めます。受信と送信は別々の量です。毎秒のバイト数は通信量、公称リンク速度は接続の仕様で、同じ数値ではありません。この指南書の「計り方」には API 名や内部の欄名も記載しています。アプリでは「全項目」のインスペクタにある開発者向けの欄で確認できます。</p>
+</div>
+<div class="guide">
+<h3 id="guide-units">単位と数え方</h3>
+<ul><li><strong>累積</strong>は、Mac の起動（またはその機器の数え始め）からの合計です。<strong>毎秒</strong>は、2 回の値の差を、その間の秒数で割った値です。</li><li><strong>%</strong>: CPU 全体は全てのコアの合計を 100%、プロセスの CPU は 1 つのコアを使い切った時を 100% として数えます。</li><li><strong>ページ</strong>: macOS がメモリを管理する単位です。大きさは「実ページサイズ」の項にあります。</li><li><strong>独自の点数</strong>（PRESS・SWAP）は、このアプリが OS の値から計算した 0〜100 の目安で、OS やアクティビティモニタの値とは一致しません。</li></ul>
+</div>
+<div class="guide">
+<h3 id="guide-safety">安全のために</h3>
+<ul><li>このページで勧める対処は、アクティビティモニタで確かめる・アプリを終了する・Mac を再起動する・ストレージを整理する・電源の設定を変える・電源アダプタやケーブルを確かめる、といった、利用者が安全にできる操作だけです。コマンドの入力や、システムのファイルの削除は勧めません。</li><li>アプリを終了する前に、作業を保存してください。強制終了では、保存していない変更が失われることがあります。</li><li>名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>数値は目安です。困った時は、各節の参考にある Apple の記事や、このアプリのサポートをご利用ください。</li></ul>
+</div>
+<div class="guide">
+<h3 id="guide-tools">よく使う道具</h3>
+<ul><li><strong>アクティビティモニタ</strong>（「アプリケーション」フォルダの「ユーティリティ」フォルダ）: どのアプリが CPU・メモリ・エネルギー・ディスク・ネットワークを使っているかを見られます。列の見出しをクリックすると並べ替えられます。</li><li><strong>アプリの強制終了</strong>: アップルメニュー ＞「強制終了」、またはアクティビティモニタの「停止」ボタン。</li><li><strong>システム設定</strong>: ストレージ（「一般」＞「ストレージ」）、バッテリー（「バッテリー」、デスクトップでは「エネルギー」）、アップデート（「一般」＞「ソフトウェアアップデート」）。</li></ul>
+</div>
+<div class="guide">
+<h3 id="guide-privacy">アプリの通信について</h3>
+<p>ヘルプや「解説」を開く時、アプリはこのページの URL をブラウザに渡すだけで、自分では通信しません。モニター画面の値は Mac の中だけで扱い、外へ送りません。</p>
+</div>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/welcome/mac">アクティビティモニタユーザガイド</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-information-about-processes-actmntr1001/mac">Macのアクティビティモニタでプロセスに関する情報を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/if-an-app-freezes-or-quits-unexpectedly-mchlp2579/mac">Macでアプリがフリーズまたは突然終了する場合</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-cpu">
+<h2 id="sec-cpu">CPU</h2>
+<p>CPU は計算をする部品です。Mac の CPU は複数の「コア」でできていて、コアごとに同時に別の処理を進められます。</p>
+<p class="in-section">この節の項目: <a href="#h-cpu-total">CPU 全体の使用率と内訳</a> ・ <a href="#h-cpu-cores">コアごとの使用率・コア別履歴・最大コア使用率</a> ・ <a href="#h-cpu-kind">コアの分類（P コア・E コア）</a> ・ <a href="#h-cpu-config">CPU の構成（名前・コアの数）</a> ・ <a href="#h-cpu-load">負荷平均（1 分・5 分・15 分）</a> ・ <a href="#h-cpu-system-tasks">全体のプロセス数</a> ・ <a href="#h-cpu-system-threads">全体のスレッド数</a> ・ <a href="#h-cpu-time">CPU 累積時間</a> ・ <a href="#h-cpu-frequency">CPU の公称周波数（P/E クラスターは最大）</a> ・ <a href="#h-cpu-frequency-current">CPU の現在周波数</a> ・ <a href="#h-cpu-scheduler">実行待ち・割込・切り替え・性能カウンタ</a></p>
+<article class="item" aria-labelledby="h-cpu-total">
+<span id="cpu.total.busy"></span><span id="cpu.total.user"></span><span id="cpu.total.system"></span><span id="cpu.total.nice"></span><span id="cpu.total.idle"></span>
+<h3 id="h-cpu-total">CPU 全体の使用率と内訳</h3>
+<p class="meta">ID: <code>cpu.total.busy</code> CPU 全体の使用率 ・ <code>cpu.total.user</code> CPU全体 · 利用者の処理 ・ <code>cpu.total.system</code> CPU全体 · システムの処理 ・ <code>cpu.total.nice</code> CPU全体 · 優先度を下げた処理 ・ <code>cpu.total.idle</code> CPU全体 · 未使用</p>
+<dl>
+<dt>意味</dt><dd>Mac 全体で CPU がどれだけ働いているかの割合です。busy は働いていた割合で、user・system・nice の合計（＝100% − idle）。user はアプリなど利用者側の処理、system は macOS の中心部（カーネル）がアプリに代わって行う処理（ファイルの読み書きや通信など）、nice は優先度を下げて動いている処理、idle は何もしていなかった割合です。アクティビティモニタの「CPU」タブの下にある「システム」「ユーザ」「アイドル状態」に相当します（数え方が完全に同じとは限りません）。</dd>
+<dt>単位</dt><dd>%（全てのコアの時間の合計を 100% とする）</dd>
+<dt>計り方</dt><dd>macOS の CPU の時間の積算（host_statistics の HOST_CPU_LOAD_INFO）を約 1 秒ごとに読み、前回との差から割合を出します。</dd>
+<dt>高い時に考えられること</dt><dd>アプリが重い処理（動画の書き出し・プログラムのビルド・ゲーム・たくさんのブラウザのタブなど）をしている時に高くなります。system だけが高い時は、大量のファイルの読み書きや通信など、OS の中の処理が多い状態です。Apple によると、データの移行の後の Spotlight の索引作成などでも負荷が上がります。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「CPU」タブで「% CPU」の列の見出しをクリックして並べ替え、CPU を多く使っているアプリを確かめます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>別の Mac からデータを移した後などは、Spotlight の索引作成でしばらく高くなることがあるので、終わるまで待ちます（Apple のファンの記事）。</li><li>長く続く時は Mac を再起動し、アプリと macOS を最新にします（システム設定 ＞「一般」＞「ソフトウェアアップデート」）。</li></ul></dd>
+<dt>注意</dt><dd>短い間だけ 100% 近くになるのは普通です。長く続き、操作が重い・ファンが回る・電池の減りが速い時に確かめれば十分です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-cores">
+<span id="cpu.core.busy"></span><span id="cpu.core.user"></span><span id="cpu.core.system"></span><span id="cpu.core.nice"></span><span id="cpu.core.idle"></span><span id="cpu.core.history"></span><span id="cpu.core.maximum"></span>
+<h3 id="h-cpu-cores">コアごとの使用率・コア別履歴・最大コア使用率</h3>
+<p class="meta">ID: <code>cpu.core.busy</code> コアの使用率 ・ <code>cpu.core.user</code> コア · 利用者の処理 ・ <code>cpu.core.system</code> コア · システムの処理 ・ <code>cpu.core.nice</code> コア · 優先度を下げた処理 ・ <code>cpu.core.idle</code> コア · 未使用 ・ <code>cpu.core.history</code> コア別履歴 ・ <code>cpu.core.maximum</code> 最大コア使用率</p>
+<dl>
+<dt>意味</dt><dd>コアごとの使用率と、その内訳（busy・user・system・nice・idle）、直近の推移です。最大コア使用率は、一番忙しいコアの使用率です。</dd>
+<dt>単位</dt><dd>%（そのコアの時間を 100% とする）</dd>
+<dt>計り方</dt><dd>コアごとの CPU の時間（host_processor_info の PROCESSOR_CPU_LOAD_INFO）の差分から出します。最大コア使用率は、全てのコアの値が同じ区間でそろった時だけ出します。</dd>
+<dt>高い時に考えられること</dt><dd>1 つのコアだけが 100% 近くで全体は低い時は、1 つの処理が 1 つのコアを使い続けています（並列にできない処理や、1 つのアプリ・タブの重い処理）。全てのコアが高い時は、並列に動く重い処理をしています。Apple シリコンの Mac には高性能（P）コアと高効率（E）コアがあり、OS が処理を振り分けるので、片方だけが高いこともあります。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「CPU」タブで「% CPU」の列の見出しをクリックして並べ替え、CPU を多く使っているアプリを確かめます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>別の Mac からデータを移した後などは、Spotlight の索引作成でしばらく高くなることがあるので、終わるまで待ちます（Apple のファンの記事）。</li><li>長く続く時は Mac を再起動し、アプリと macOS を最新にします（システム設定 ＞「一般」＞「ソフトウェアアップデート」）。</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-kind">
+<span id="cpu.core.kind"></span><span id="cpu.configuration.performance"></span><span id="cpu.configuration.efficiency"></span>
+<h3 id="h-cpu-kind">コアの分類（P コア・E コア）</h3>
+<p class="meta">ID: <code>cpu.core.kind</code> コアの分類 ・ <code>cpu.configuration.performance</code> P コア数 ・ <code>cpu.configuration.efficiency</code> E コア数</p>
+<dl>
+<dt>意味</dt><dd>各コアが高性能（P）コアか高効率（E）コアかと、それぞれの数です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>sysctl の hw.perflevel* の値と、機器の情報（IODeviceTree）・コアの数を照合し、確かめられた構成の時だけ分類します。確かめられない時は「分類不明」と表示します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-config">
+<span id="cpu.configuration.name"></span><span id="cpu.configuration.logical"></span><span id="cpu.configuration.physical"></span><span id="cpu.configuration.active"></span>
+<h3 id="h-cpu-config">CPU の構成（名前・コアの数）</h3>
+<p class="meta">ID: <code>cpu.configuration.name</code> CPU / SoC ・ <code>cpu.configuration.logical</code> 論理コア数（最大） ・ <code>cpu.configuration.physical</code> 物理コア数（最大） ・ <code>cpu.configuration.active</code> 有効コア数</p>
+<dl>
+<dt>意味</dt><dd>CPU（Apple シリコンでは SoC）の名前、論理コア数（OS が同時に処理を割り当てられる数）、物理コア数（部品としてのコアの数）、有効コア数（いま使えるコアの数）です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>sysctl の machdep.cpu.brand_string・hw.logicalcpu_max・hw.physicalcpu_max・hw.activecpu を、最初に必要になった時に一度だけ読みます。</dd>
+<dt>注意</dt><dd>同時マルチスレッディング（Intel の Hyper-Threading）のある Mac では、論理コア数が物理コア数より多くなります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-load">
+<span id="cpu.load.avg1"></span><span id="cpu.load.avg5"></span><span id="cpu.load.avg15"></span>
+<h3 id="h-cpu-load">負荷平均（1 分・5 分・15 分）</h3>
+<p class="meta">ID: <code>cpu.load.avg1</code> 負荷平均 1分 ・ <code>cpu.load.avg5</code> 負荷平均 5分 ・ <code>cpu.load.avg15</code> 負荷平均 15分</p>
+<dl>
+<dt>意味</dt><dd>直近 1 分・5 分・15 分の「負荷平均」です。CPU で実行中か、実行の順番を待っている処理の数の平均で、CPU 使用率（%）とは別の値です。</dd>
+<dt>単位</dt><dd>処理の数</dd>
+<dt>計り方</dt><dd>getloadavg で読みます。</dd>
+<dt>高い時に考えられること</dt><dd>論理コア数より大きい状態が続く時は、CPU の順番待ちが起きていて、操作が重く感じることがあります。1 分の値だけが高く 15 分の値が低い時は、最近始まった一時的な負荷です。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「CPU」タブで「% CPU」の列の見出しをクリックして並べ替え、CPU を多く使っているアプリを確かめます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>別の Mac からデータを移した後などは、Spotlight の索引作成でしばらく高くなることがあるので、終わるまで待ちます（Apple のファンの記事）。</li><li>長く続く時は Mac を再起動し、アプリと macOS を最新にします（システム設定 ＞「一般」＞「ソフトウェアアップデート」）。</li></ul></dd>
+<dt>注意</dt><dd>目安の値です。コアの数が多い Mac ほど、大きな値でも余裕があります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-system-tasks">
+<span id="cpu.system.tasks"></span>
+<h3 id="h-cpu-system-tasks">全体のプロセス数</h3>
+<p class="meta">ID: <code>cpu.system.tasks</code> プロセス数（全体）</p>
+<dl>
+<dt>意味</dt><dd>Mac 全体に存在するプロセスの数です。アプリだけでなく、macOS やバックグラウンドの処理も含みます。プロセス表に表示できた行数とは別の値です。</dd>
+<dt>単位</dt><dd>プロセスの数（件・瞬時値・分母なし）</dd>
+<dt>計り方</dt><dd>CPU のページが見えている間、約 1 秒ごとにカーネルの全体の件数（processor_set_default → processor_set_statistics の PROCESSOR_SET_LOAD_INFO、task_count）を読みます。表の行数を数えているのではありません。</dd>
+<dt>高い時に考えられること</dt><dd>多くのアプリや、その補助のプロセス・バックグラウンドの処理が動いていることがあります。数が多いだけでは、CPU を多く使っている、または異常があるとは判断できません。</dd>
+<dt>対処</dt><dd><ul><li>動作が重い時は、アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「CPU」タブで「% CPU」の列を並べ替え、CPU を多く使っているアプリを確かめます。全体のプロセス数・スレッド数はタブの下に表示されます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>アクティビティモニタとは更新の時刻や数え方が異なることがあり、同じ数になるとは限りません。取得できない時は理由を表示し、0 で埋めません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-system-threads">
+<span id="cpu.system.threads"></span>
+<h3 id="h-cpu-system-threads">全体のスレッド数</h3>
+<p class="meta">ID: <code>cpu.system.threads</code> スレッド数（全体）</p>
+<dl>
+<dt>意味</dt><dd>Mac 全体のスレッドの数です。スレッドはプロセスの中で処理を進める実行単位で、1 つのプロセスに複数あることがあります。kernel_task のスレッドも含みます。</dd>
+<dt>単位</dt><dd>スレッドの数（本・瞬時値・分母なし）</dd>
+<dt>計り方</dt><dd>CPU のページが見えている間、約 1 秒ごとに processor_set_statistics の PROCESSOR_SET_LOAD_INFO、thread_count を読みます。取得できたプロセス表のスレッド数を足した値ではありません。</dd>
+<dt>高い時に考えられること</dt><dd>複数の処理を並行して進めるアプリや、バックグラウンドの処理が多いことがあります。待機中のスレッドもあるので、数が多いことと CPU 使用率が高いことは同じではありません。</dd>
+<dt>対処</dt><dd><ul><li>動作が重い、または数が増え続ける時は、アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）で CPU やメモリを多く使うアプリを確かめます。「表示」＞「列」で表示する列を選び、プロセスを選んで情報を見ることもできます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>CPU のコア数・実行待ちの数・起動後の累計ではありません。kernel_task を含む全体値なので、プロセス表の合計や別の時刻のアクティビティモニタの値とは一致しないことがあります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-time">
+<span id="cpu.time.cumulative"></span>
+<h3 id="h-cpu-time">CPU 累積時間</h3>
+<p class="meta">ID: <code>cpu.time.cumulative</code> CPU累積時間</p>
+<dl>
+<dt>意味</dt><dd>起動してから CPU が使われた時間の合計です。</dd>
+<dt>注意</dt><dd>この版では値を採取していないため、「未観測」と表示されます。何もしなくてよい項目です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-frequency">
+<span id="cpu.frequency.nominal"></span>
+<h3 id="h-cpu-frequency">CPU の公称周波数（P/E クラスターは最大）</h3>
+<p class="meta">ID: <code>cpu.frequency.nominal</code> CPU 公称周波数（クラスターは最大）</p>
+<dl>
+<dt>意味</dt><dd>CPU の構成を表す公称の周波数です。Apple シリコンでは P コア・E コアのクラスターごとに「公称（最大）」を表示します。現在周波数や現在の CPU 使用率ではありません。</dd>
+<dt>単位</dt><dd>原値は Hz（1 秒あたりの回数）。CPU のページでは GHz（10 億 Hz）で表示します。</dd>
+<dt>計り方</dt><dd>最初に CPU の採取が必要になった時に読み、成功値と、取得元・鍵が無いことや表の形式が合わないことを確認した結果を保持します。列挙の開始に失敗した時や途中で無効になった時だけ、次回に再試行します。Apple シリコンでは IORegistry の pmgr にある電圧・周波数の表の最大値（P: voltage-states5-sram、E: voltage-states1-sram）です。Intel では既存の sysctl hw.cpufrequency を公称値として読みます。</dd>
+<dt>高い時に考えられること</dt><dd>構成の表に大きな周波数が記録されていることを示します。今その周波数で動いている、または CPU の負荷が高い、という意味ではありません。この値だけで Mac 同士の性能や故障を判断することもできません。</dd>
+<dt>対処</dt><dd><ul><li>この構成値を下げる対処は不要です。動作が重い時は、アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「CPU」タブで CPU を多く使うアプリを確かめます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>Apple シリコンの値は、Apple が公表した仕様値ではなく、文書の無い IORegistry の鍵から読んだ観測値です。M1 のみ実測済みで、M2 以降・Intel は未検証です。最大値が 500 MHz 以上の Hz の値だけを受け入れます。M4 以降の kHz 形式は実機未検証のため換算せず、範囲外として値を表示しません。M4 の単位と表は別途実機照合が必要です。走査を正常に終えて pmgr や鍵が無い時、または表の長さ・値の範囲が合わない時は、未対応として結果を保持し、毎秒読み直しません。0 や別のクラスターの値で埋めません。列挙の開始失敗・途中の無効化は取得不能とし、次回に再試行します。現在周波数は別の未対応項目です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-frequency-current">
+<span id="cpu.frequency.current"></span>
+<h3 id="h-cpu-frequency-current">CPU の現在周波数</h3>
+<p class="meta"><span class="badge">未対応</span>ID: <code>cpu.frequency.current</code> CPU現在周波数</p>
+<dl>
+<dt>意味</dt><dd>CPU がいま動いているクロック周波数です。この版では未対応です。</dd>
+<dt>取得できない理由</dt><dd>現在周波数の取得候補である IOReport は非公開 API のため、このアプリでは使いません。サンドボックスでの実測でも購読に失敗しました。公称（最大）から現在値を推定することもしません。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。CPU の忙しさは「CPU 全体の使用率」で確認できます。公称（最大）は構成を示す別の項目です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-scheduler">
+<span id="cpu.scheduler.runnable"></span><span id="cpu.scheduler.interrupts"></span><span id="cpu.scheduler.contextSwitches"></span><span id="cpu.performance.counters"></span>
+<h3 id="h-cpu-scheduler">実行待ち・割込・切り替え・性能カウンタ</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>cpu.scheduler.runnable</code> 実行待ち ・ <code>cpu.scheduler.interrupts</code> 割込 ・ <code>cpu.scheduler.contextSwitches</code> コンテキストスイッチ ・ <code>cpu.performance.counters</code> 性能カウンタ</p>
+<dl>
+<dt>意味</dt><dd>実行の順番を待っている処理の数、割り込み（機器などが CPU に知らせる合図）の回数、処理の切り替えの回数、CPU の細かな動作を数える性能カウンタです。</dd>
+<dt>取得できない理由</dt><dd>App Store で配布するアプリ（サンドボックスの中）が、公開された方法で取れるかを調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。処理の待ちの目安は「負荷平均」で見られます。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-cpu-activity-actmntr43452/mac">MacのアクティビティモニタでCPUの動作状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-information-about-processes-actmntr1001/mac">Macのアクティビティモニタでプロセスに関する情報を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/if-an-app-freezes-or-quits-unexpectedly-mchlp2579/mac">Macでアプリがフリーズまたは突然終了する場合</a></li><li><a href="https://support.apple.com/ja-jp/101576">Apple製品のファンとその動作音について</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-memory">
+<h2 id="sec-memory">メモリ</h2>
+<p>メモリ（RAM）は、アプリがいま使っているデータを置く場所です。足りなくなると、macOS は使われていないデータを圧縮したり、ストレージへ書き出したり（スワップ）して空きを作ります。Apple は、メモリが足りているかをアクティビティモニタの「メモリプレッシャー」で判断するよう案内しています。空き（free）が少ないこと自体は問題ではありません。</p>
+<p class="in-section">この節の項目: <a href="#h-mem-pressure">OS のメモリ圧迫の通知</a> ・ <a href="#h-mem-press-score">独自 PRESS（メモリの苦しさの点数）</a> ・ <a href="#h-mem-swap-score">独自 SWAP（スワップの点数）</a> ・ <a href="#h-mem-physical">物理メモリ総量</a> ・ <a href="#h-mem-breakdown">メモリの内訳（Free・Active・Inactive・Wired・Speculative）</a> ・ <a href="#h-mem-compressed">物理圧縮格納量・圧縮前相当量</a> ・ <a href="#h-mem-file">File-backed・Anonymous</a> ・ <a href="#h-mem-app-memory">アプリメモリ</a> ・ <a href="#h-mem-cached-files">キャッシュされたファイル</a> ・ <a href="#h-mem-purgeable">解放可能なメモリ</a> ・ <a href="#h-mem-compression-ratio">圧縮率（倍率）</a> ・ <a href="#h-mem-paging">ページイン・ページアウト</a> ・ <a href="#h-mem-faults">ページフォールト</a> ・ <a href="#h-mem-reactivations">Reactivations（再活性化）</a> ・ <a href="#h-mem-compressions">圧縮・展開の量</a> ・ <a href="#h-mem-swapio">スワップイン・スワップアウト</a> ・ <a href="#h-mem-swap">スワップの使用量・割当量</a> ・ <a href="#h-mem-pagesize">実ページサイズ</a></p>
+<article class="item" aria-labelledby="h-mem-pressure">
+<span id="mem.pressure.event"></span>
+<h3 id="h-mem-pressure">OS のメモリ圧迫の通知</h3>
+<p class="meta">ID: <code>mem.pressure.event</code> OSメモリ圧迫イベント</p>
+<dl>
+<dt>意味</dt><dd>macOS がアプリに知らせる「メモリの圧迫」の合図の最後の状態（正常 normal・警告 warning・深刻 critical）と、その時刻です。</dd>
+<dt>計り方</dt><dd>Dispatch のメモリ圧迫の通知（DispatchSource.makeMemoryPressureSource）を受け取ります。状態が変わった時だけ届くので、最初の通知が来るまでは「未観測」です。</dd>
+<dt>警告・深刻の時に考えられること</dt><dd>実メモリが足りなくなり、macOS がアプリにメモリを減らすよう求めている状態です。多くのアプリやタブを同時に開いている時に起きます。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>アクティビティモニタの「メモリプレッシャー」のグラフとは計り方が違い、同じ値とは限りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-press-score">
+<span id="mem.pressure.score"></span>
+<h3 id="h-mem-press-score">独自 PRESS（メモリの苦しさの点数）</h3>
+<p class="meta">ID: <code>mem.pressure.score</code> メモリ圧迫の目安</p>
+<dl>
+<dt>意味</dt><dd>このアプリ独自の「メモリの苦しさ」の点数（0〜100）です。OS が出す値ではありません。</dd>
+<dt>単位</dt><dd>点（0〜100）</dd>
+<dt>計り方</dt><dd>メモリの内訳（host_statistics64 の HOST_VM_INFO64）から、空きと再利用できるメモリの不足（重み 38%）・圧縮されたメモリの割合（22%）・確保されたメモリ（wired）の割合（15%）・ページアウトの速さ（25%）を足して作ります。</dd>
+<dt>高い時に考えられること</dt><dd>空きが減り、圧縮やストレージへの書き出しが増えている状態です。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>アクティビティモニタの「メモリプレッシャー」とは別の計算で、数値は一致しません。目安として使ってください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-swap-score">
+<span id="mem.swap.score"></span>
+<h3 id="h-mem-swap-score">独自 SWAP（スワップの点数）</h3>
+<p class="meta">ID: <code>mem.swap.score</code> スワップ負荷の目安</p>
+<dl>
+<dt>意味</dt><dd>スワップの使い方から作った、このアプリ独自の点数（0〜100）です。スワップの使用量の割合ではありません。</dd>
+<dt>単位</dt><dd>点（0〜100）</dd>
+<dt>計り方</dt><dd>スワップの使用量を段階で点にし（0.1 GB 未満は 0、3 GB 未満は 20、5 GB 未満は 40、10 GB 未満は 70、それ以上は 100）、ページアウトが続いている時は最大 15 点を足します。</dd>
+<dt>高い時に考えられること</dt><dd>メモリが足りずにスワップを多く使った、または今も書き出している状態です。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>アプリを閉じても、スワップの使用量はすぐには減らないことがあります。今も書き出しているかは「スワップアウト / 秒」で分かります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-physical">
+<span id="mem.physical.total"></span>
+<h3 id="h-mem-physical">物理メモリ総量</h3>
+<p class="meta">ID: <code>mem.physical.total</code> 物理メモリ総量</p>
+<dl>
+<dt>意味</dt><dd>Mac に搭載されている実メモリ（RAM）の量です。アクティビティモニタの「物理メモリ」に当たります。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>ProcessInfo.physicalMemory で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-breakdown">
+<span id="mem.vm.free"></span><span id="mem.vm.active"></span><span id="mem.vm.inactive"></span><span id="mem.vm.wired"></span><span id="mem.vm.speculative"></span>
+<h3 id="h-mem-breakdown">メモリの内訳（Free・Active・Inactive・Wired・Speculative）</h3>
+<p class="meta">ID: <code>mem.vm.free</code> 空き ・ <code>mem.vm.active</code> 使用中 ・ <code>mem.vm.inactive</code> 非アクティブ ・ <code>mem.vm.wired</code> 確保済み ・ <code>mem.vm.speculative</code> 先読み</p>
+<dl>
+<dt>意味</dt><dd>実メモリの使われ方の内訳です。Free＝何にも使われていない分、Active＝最近使われた分、Inactive＝しばらく使われていない分（必要になれば他の用途に回せる）、Wired＝システムの動作に必要で他に回せない分（アクティビティモニタの「確保されているメモリ」）、Speculative＝先回りして読み込んだ分（Free に含まれます）。</dd>
+<dt>単位</dt><dd>バイト（ページの数 × 実ページサイズ）</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）のページの数を、実ページサイズでバイトに直します。</dd>
+<dt>Free が少ない時</dt><dd>普通のことです。macOS は空いたメモリをファイルのキャッシュなどに使います。足りているかは「OS のメモリ圧迫の通知」とアクティビティモニタの「メモリプレッシャー」で判断します。</dd>
+<dt>Wired が大きい時</dt><dd>システムの動作に必要な分です。メモリプレッシャーも高い時は、使っていないアプリを終了し、それでも戻らない時は Mac を再起動します。</dd>
+<dt>注意</dt><dd>内訳は足し算しても全体になりません（分け方に重なりがあるため）。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-compressed">
+<span id="mem.vm.compressed"></span><span id="mem.vm.uncompressed"></span>
+<h3 id="h-mem-compressed">物理圧縮格納量・圧縮前相当量</h3>
+<p class="meta">ID: <code>mem.vm.compressed</code> 物理圧縮格納量 ・ <code>mem.vm.uncompressed</code> 圧縮前相当量</p>
+<dl>
+<dt>意味</dt><dd>圧縮して実メモリに置いているデータの量（物理圧縮格納量）と、それを元に戻した時の量（圧縮前相当量）です。Apple の説明では、メモリが上限に近づくと、使われていないアプリのデータを圧縮して空きを作ります（アクティビティモニタの「圧縮」）。</dd>
+<dt>単位</dt><dd>バイト</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の圧縮のページの数から出します。</dd>
+<dt>高い時に考えられること</dt><dd>メモリが足りなくなってきて、macOS が圧縮で空きを作っています。圧縮は普通の仕組みですが、増え続けてスワップも増える時はメモリが足りていません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>圧縮前相当量 ÷ 物理圧縮格納量 が、圧縮でどれだけ詰められたかの目安です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-file">
+<span id="mem.vm.fileBacked"></span><span id="mem.vm.anonymous"></span>
+<h3 id="h-mem-file">File-backed・Anonymous</h3>
+<p class="meta">ID: <code>mem.vm.fileBacked</code> ファイルに対応 ・ <code>mem.vm.anonymous</code> アプリのデータ</p>
+<dl>
+<dt>意味</dt><dd>File-backed＝ファイルの中身をメモリに置いた分（必要なら捨てて、またファイルから読み直せる）。Anonymous＝ファイルに対応しない、アプリが計算のために作ったデータ（捨てられないので、足りない時は圧縮やスワップの対象になる）。</dd>
+<dt>単位</dt><dd>バイト</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）のページの数から出します。</dd>
+<dt>注意</dt><dd>Active・Inactive とは別の分け方で、重なります。Anonymous が大きくメモリプレッシャーも高い時の対処は「OS のメモリ圧迫の通知」と同じです。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-app-memory">
+<span id="mem.derived.appMemory"></span>
+<h3 id="h-mem-app-memory">アプリメモリ</h3>
+<p class="meta">ID: <code>mem.derived.appMemory</code> アプリメモリ</p>
+<dl>
+<dt>意味</dt><dd>アプリが使うメモリの目安として、このアプリが同じ VM 観測のページ数から計算した量です。</dd>
+<dt>単位</dt><dd>バイト（画面の GB 表示は 1024 進）</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の（internal_page_count − purgeable_count）× 実ページサイズで求めます。</dd>
+<dt>高い時に考えられること</dt><dd>開いているアプリや書類、ブラウザのタブが増えると大きくなることがあります。値が大きいだけでは不足とは判断できません。メモリプレッシャーやスワップも増え、操作が重い時に、どのアプリが使っているかを確かめます。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>見出しの使用済みメモリとは定義が異なります。必要な欄が無い時は未対応、purgeable が internal を超えて差が負になる時は取得不能とし、0 で埋めません。アクティビティモニタとの比較では、計り方・丸め・観測時刻による差に注意してください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-cached-files">
+<span id="mem.derived.cachedFiles"></span>
+<h3 id="h-mem-cached-files">キャッシュされたファイル</h3>
+<p class="meta">ID: <code>mem.derived.cachedFiles</code> キャッシュされたファイル</p>
+<dl>
+<dt>意味</dt><dd>ファイルの読み直しを速くするためにメモリに残しているデータなど、必要に応じて再利用できるメモリの目安です。解放可能なメモリも含みます。</dd>
+<dt>単位</dt><dd>バイト（画面の GB 表示は 1024 進）</dd>
+<dt>計り方</dt><dd>同じ host_statistics64（HOST_VM_INFO64）観測の（external_page_count ＋ purgeable_count）× 実ページサイズで求める、このアプリの派生値です。</dd>
+<dt>高い時に考えられること</dt><dd>ファイルを読み込んだ後などに増えることがあります。macOS が空いたメモリをキャッシュに使うのは普通のことで、大きい値だけでは不調を示しません。</dd>
+<dt>対処</dt><dd><ul><li>値を減らすための操作は不要です。</li><li>操作が重い時は、アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリプレッシャー」とスワップも合わせて確認します。</li></ul></dd>
+<dt>注意</dt><dd>解放可能なメモリや原値の分類と重なるので、これらを合計しないでください。必要な欄が無い時は未対応です。アクティビティモニタとの比較では、計り方・丸め・観測時刻による差に注意してください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-purgeable">
+<span id="mem.vm.purgeable"></span>
+<h3 id="h-mem-purgeable">解放可能なメモリ</h3>
+<p class="meta">ID: <code>mem.vm.purgeable</code> 解放可能なメモリ</p>
+<dl>
+<dt>意味</dt><dd>OS が必要に応じて解放できるページの容量です。</dd>
+<dt>単位</dt><dd>バイト（画面の GB 表示は 1024 進）</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）が返した purgeable_count に、実ページサイズを掛けます。</dd>
+<dt>高い時に考えられること</dt><dd>アプリの利用に伴い増減します。解放できるページが多いことを表す値で、大きいだけではメモリ不足を示しません。</dd>
+<dt>低い時に考えられること</dt><dd>0 も正しい計測値です。解放可能なページが少ないことだけでは不調と判断できません。</dd>
+<dt>対処</dt><dd><ul><li>この値だけを理由にアプリを強制終了したり、ファイルを削除したりする必要はありません。</li><li>操作が重い時は、アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリプレッシャー」も確認します。</li></ul></dd>
+<dt>注意</dt><dd>キャッシュされたファイルにも含まれるため、足し合わせないでください。必要な欄が無い環境では未対応となり、0 とは区別します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-compression-ratio">
+<span id="mem.derived.compressionRatio"></span>
+<h3 id="h-mem-compression-ratio">圧縮率（倍率）</h3>
+<p class="meta">ID: <code>mem.derived.compressionRatio</code> 圧縮率（倍率）</p>
+<dl>
+<dt>意味</dt><dd>圧縮されたデータの元の大きさが、物理メモリの格納量の何倍に当たるかの目安です。</dd>
+<dt>単位</dt><dd>無次元の倍率（例: 3.00×）。百分率やメモリの使用率ではありません。</dd>
+<dt>計り方</dt><dd>同じ host_statistics64（HOST_VM_INFO64）観測の (total_uncompressed_pages_in_compressor − swapped_count) ÷ compressor_page_count、つまり圧縮前相当ページ数からスワップに移ったページ数を引き、RAM 内の圧縮格納ページ数で割ります。各欄の全体が返されたことを確かめてから使います。</dd>
+<dt>高い時に考えられること</dt><dd>元のデータを格納量に対して小さく圧縮できている目安です。倍率が高いだけではメモリ不足を意味しません。操作の重さ、メモリプレッシャー、スワップの推移と合わせて判断します。</dd>
+<dt>対処</dt><dd><ul><li>操作が重くメモリプレッシャーも高い時は、次を確認します。</li><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>RAM 内の圧縮格納ページ数または圧縮前相当ページ数（スワップ分を除く）が 0 の時は「対象なし」、必要な欄が無い時は未対応です。swapped_count が圧縮前相当ページ数を超える時は取得不能です。欠測を 0 で埋めたり、0 で割った値を表示したりしません。倍率の低下だけで、データの展開が起きたとは判断できません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-paging">
+<span id="mem.vm.pageins"></span><span id="mem.vm.pageinsPerSec"></span><span id="mem.vm.pageouts"></span><span id="mem.vm.pageoutsPerSec"></span>
+<h3 id="h-mem-paging">ページイン・ページアウト</h3>
+<p class="meta">ID: <code>mem.vm.pageins</code> ページイン累積 ・ <code>mem.vm.pageinsPerSec</code> ページイン / 秒 ・ <code>mem.vm.pageouts</code> ページアウト累積 ・ <code>mem.vm.pageoutsPerSec</code> ページアウト / 秒</p>
+<dl>
+<dt>意味</dt><dd>ページイン＝ストレージ（ファイル）からメモリへ読み込んだ量、ページアウト＝メモリの内容をストレージへ書き出した量です。累積は起動からの合計、毎秒はその速さです。</dd>
+<dt>単位</dt><dd>ページ・ページ/秒（1 ページの大きさは「実ページサイズ」）</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の起動からの累積と、その差分を経過時間で割った値です。スリープの後は差分を取り直します。</dd>
+<dt>高い時に考えられること</dt><dd>ページインは、アプリの起動やファイルを開いた時に普通に増えます。ページアウトが毎秒続くのは、メモリが足りずにストレージへ書き出している合図で、操作が重くなることがあります。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-faults">
+<span id="mem.vm.faults"></span><span id="mem.vm.faultsPerSec"></span>
+<h3 id="h-mem-faults">ページフォールト</h3>
+<p class="meta">ID: <code>mem.vm.faults</code> ページフォールト累積 ・ <code>mem.vm.faultsPerSec</code> ページフォールト / 秒</p>
+<dl>
+<dt>意味</dt><dd>アプリが使おうとしたメモリが、すぐには使える状態になかった回数です。多くはストレージを読まずに済む軽いものです。</dd>
+<dt>単位</dt><dd>回・回/秒</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の起動からの累積と、その差分です。</dd>
+<dt>高い時に考えられること</dt><dd>アプリの起動や大きな作業で増えるのは普通で、これだけでは問題とは言えません。ページアウトやスワップと一緒に増えている時はメモリ不足を疑います。</dd>
+<dt>対処</dt><dd>ページアウトやスワップも増えている時は、「OS のメモリ圧迫の通知」の対処をします。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-reactivations">
+<span id="mem.vm.reactivations"></span><span id="mem.vm.reactivationsPerSec"></span>
+<h3 id="h-mem-reactivations">Reactivations（再活性化）</h3>
+<p class="meta">ID: <code>mem.vm.reactivations</code> 再利用累積 ・ <code>mem.vm.reactivationsPerSec</code> 再利用 / 秒</p>
+<dl>
+<dt>意味</dt><dd>しばらく使われていなかった（Inactive の）メモリが、また使われて Active に戻った量です。</dd>
+<dt>単位</dt><dd>ページ・ページ/秒</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の起動からの累積と、その差分です。</dd>
+<dt>高い時に考えられること</dt><dd>たくさんのアプリやタブを行き来している時に増えます。これだけでは問題とは言えません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-compressions">
+<span id="mem.vm.compressions"></span><span id="mem.vm.compressionsPerSec"></span><span id="mem.vm.decompressions"></span><span id="mem.vm.decompressionsPerSec"></span>
+<h3 id="h-mem-compressions">圧縮・展開の量</h3>
+<p class="meta">ID: <code>mem.vm.compressions</code> 圧縮累積 ・ <code>mem.vm.compressionsPerSec</code> 圧縮 / 秒 ・ <code>mem.vm.decompressions</code> 展開累積 ・ <code>mem.vm.decompressionsPerSec</code> 展開 / 秒</p>
+<dl>
+<dt>意味</dt><dd>メモリの内容を圧縮した量と、圧縮したものを元に戻した（展開した）量です。</dd>
+<dt>単位</dt><dd>ページ・ページ/秒</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の起動からの累積と、その差分です。</dd>
+<dt>高い時に考えられること</dt><dd>毎秒の圧縮と展開が続くのは、メモリが足りず、アプリを切り替えるたびに圧縮と展開を繰り返している状態です。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-swapio">
+<span id="mem.vm.swapins"></span><span id="mem.vm.swapinsPerSec"></span><span id="mem.vm.swapouts"></span><span id="mem.vm.swapoutsPerSec"></span>
+<h3 id="h-mem-swapio">スワップイン・スワップアウト</h3>
+<p class="meta">ID: <code>mem.vm.swapins</code> スワップイン累積 ・ <code>mem.vm.swapinsPerSec</code> スワップイン / 秒 ・ <code>mem.vm.swapouts</code> スワップアウト累積 ・ <code>mem.vm.swapoutsPerSec</code> スワップアウト / 秒</p>
+<dl>
+<dt>意味</dt><dd>スワップ（ストレージ）から読み戻した量と、スワップへ書き出した量です。</dd>
+<dt>単位</dt><dd>ページ・ページ/秒</dd>
+<dt>計り方</dt><dd>host_statistics64（HOST_VM_INFO64）の起動からの累積と、その差分です。</dd>
+<dt>高い時に考えられること</dt><dd>スワップアウトが続くのは、実メモリが足りず、データをストレージへ追い出している状態です。ストレージはメモリより遅いため、操作が重くなります。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li><li>ストレージの空きが少ない時は、空きも作ります（「ストレージ」の節）。</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-swap">
+<span id="mem.swap.used"></span><span id="mem.swap.allocated"></span>
+<h3 id="h-mem-swap">スワップの使用量・割当量</h3>
+<p class="meta">ID: <code>mem.swap.used</code> スワップ使用量 ・ <code>mem.swap.allocated</code> スワップ割当量</p>
+<dl>
+<dt>意味</dt><dd>使用量＝メモリから追い出したデータのために、起動ディスクで使っている量（アクティビティモニタの「スワップ使用領域」）。割当量＝スワップ用に用意されている量の合計です。</dd>
+<dt>単位</dt><dd>バイト</dd>
+<dt>計り方</dt><dd>sysctl の vm.swapusage で読みます。</dd>
+<dt>高い時に考えられること</dt><dd>今か過去に、メモリが足りない時がありました。今も書き出しているかは「スワップアウト / 秒」で分かります。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>割当量は macOS が必要に応じて用意する量で、実メモリの上限とは関係ありません。独自 SWAP の点数とは別の値です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-pagesize">
+<span id="mem.vm.pageSize"></span>
+<h3 id="h-mem-pagesize">実ページサイズ</h3>
+<p class="meta">ID: <code>mem.vm.pageSize</code> 実ページサイズ</p>
+<dl>
+<dt>意味</dt><dd>メモリを管理する単位（ページ）の大きさです。ページの数をバイトに直すのに使います。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>host_page_size で読みます。決まった大きさを仮定しません。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-memory-usage-actmntr1004/mac">Macのアクティビティモニタでメモリの使用状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/check-if-your-mac-needs-more-ram-actmntr34865/mac">アクティビティモニタでMacに追加のRAMが必要かどうかを確認する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li><li><a href="https://developer.apple.com/documentation/dispatch/dispatchsource/memorypressureevent">DispatchSource.MemoryPressureEvent（Apple Developer）</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-storage">
+<h2 id="sec-storage">ストレージ</h2>
+<p>ストレージは、ファイルやアプリを保存する場所（内蔵の SSD や外付けのディスク）です。ここでは、ボリューム（Finder に出るディスクの区切り）ごとの容量と、装置ごとの読み書きの量・速さを扱います。</p>
+<p class="in-section">この節の項目: <a href="#h-vol-total">容量 全体</a> ・ <a href="#h-vol-free">空き容量と使用率</a> ・ <a href="#h-vol-research">Purgeable・APFS スナップショット・APFS 共有空間</a> ・ <a href="#h-vol-updated">容量の取得時刻</a> ・ <a href="#h-vol-info">ボリュームの情報</a> ・ <a href="#h-vol-media">ボリュームと装置の識別子</a> ・ <a href="#h-vol-files">ファイル数・利用可能 inode</a> ・ <a href="#h-disk-throughput">読み書きの速さと量</a> ・ <a href="#h-disk-ops">読み書きの回数（IOPS）と平均転送サイズ</a> ・ <a href="#h-disk-time">読み書きにかかった時間（サービス時間・待ち時間）</a> ・ <a href="#h-disk-errors">読み書きのエラー・再試行</a> ・ <a href="#h-disk-excluded">I/O の待ち行列・SMART（状態・寿命・温度）</a></p>
+<article class="item" aria-labelledby="h-vol-total">
+<span id="volume.capacity.total"></span><span id="volume.detail.capacity.total"></span>
+<h3 id="h-vol-total">容量 全体</h3>
+<p class="meta">ID: <code>volume.capacity.total</code> 容量 全体 ・ <code>volume.detail.capacity.total</code> ボリューム全体容量</p>
+<dl>
+<dt>意味</dt><dd>ボリュームの全体の容量です。値に良し悪しはありません。</dd>
+<dt>単位</dt><dd>バイト</dd>
+<dt>計り方</dt><dd>mountedVolumeURLs で列挙し、URLResourceValues の volumeTotalCapacity で読みます。成功した容量は 30 秒間キャッシュします。</dd>
+<dt>注意</dt><dd>APFS では、1 つの入れ物（コンテナ）の中のボリュームが空き領域を共有するので（Apple）、同じコンテナのボリュームは全体の容量が同じに見えることがあります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-free">
+<span id="volume.capacity.available"></span><span id="volume.capacity.importantAvailable"></span><span id="volume.capacity.preferredAvailable"></span><span id="volume.detail.capacity.preferredAvailable"></span><span id="volume.detail.capacity.usedRatio"></span><span id="volume.capacity.definition"></span>
+<h3 id="h-vol-free">空き容量と使用率</h3>
+<p class="meta">ID: <code>volume.capacity.available</code> 通常用途の空き ・ <code>volume.capacity.importantAvailable</code> 重要用途の空き ・ <code>volume.capacity.preferredAvailable</code> ディスクの空き（重要用途優先） ・ <code>volume.detail.capacity.preferredAvailable</code> ディスクの空き（重要用途優先） ・ <code>volume.detail.capacity.usedRatio</code> ディスク使用率 ・ <code>volume.capacity.definition</code> 容量の定義</p>
+<dl>
+<dt>意味</dt><dd>空き容量です。通常用途の空き＝いますぐ使える空き。重要用途の空き＝利用者の操作で保存するような大事なデータのために使える空きです（Apple の開発者向けの資料では、利用者の求めで保存するデータには重要用途の空きを使うよう案内しています）。2 つは一致しないことがあります。DISK の空きと使用率は、重要用途の空きを優先して使い（取れない・0 の時は通常用途の空き）、使用率＝1 − 空き ÷ 全体です。「容量の定義」は、どちらの空きを使ったかを示します。</dd>
+<dt>単位</dt><dd>バイト・%</dd>
+<dt>計り方</dt><dd>URLResourceValues の volumeAvailableCapacity と volumeAvailableCapacityForImportantUsage で読みます。</dd>
+<dt>低い時に考えられること</dt><dd>空きが少ないと、新しいファイルを保存できない、macOS のアップデートに必要な空きが足りない、といったことが起きます。</dd>
+<dt>対処</dt><dd><ul><li>システム設定 ＞「一般」＞「ストレージ」で、何が容量を使っているかと、おすすめを確かめます。</li><li>ゴミ箱を空にする（空にするまで容量は戻りません）、「ダウンロード」フォルダの要らないファイルを消す、使わないアプリを削除する、Mac に保存した古い iPhone・iPad のバックアップを消す、写真などのライブラリを外付けのディスクへ移す、といった方法があります（Apple の記事「Macストレージの空き領域を増やす」）。</li><li>システムのフォルダの中のファイルは消さないでください。</li></ul></dd>
+<dt>注意</dt><dd>Finder やシステム設定の表示とは、計り方の違いで少しずれることがあります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-research">
+<span id="volume.capacity.purgeable"></span><span id="volume.apfs.snapshots"></span><span id="volume.apfs.sharedSpace"></span>
+<h3 id="h-vol-research">Purgeable・APFS スナップショット・APFS 共有空間</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>volume.capacity.purgeable</code> 解放可能な容量 ・ <code>volume.apfs.snapshots</code> APFS スナップショット ・ <code>volume.apfs.sharedSpace</code> APFS共有空間</p>
+<dl>
+<dt>意味</dt><dd>必要に応じて macOS が空けられる領域の量、APFS のスナップショット（ある時点の状態の記録）の数、同じコンテナのボリュームが共有している領域です。</dd>
+<dt>取得できない理由</dt><dd>App Store で配布するアプリ（サンドボックスの中）が、公開された方法で取れるかを調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。容量の内訳はシステム設定 ＞「一般」＞「ストレージ」で見られます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-updated">
+<span id="volume.capacity.updatedAt"></span>
+<h3 id="h-vol-updated">容量の取得時刻</h3>
+<p class="meta">ID: <code>volume.capacity.updatedAt</code> 容量の取得時刻</p>
+<dl>
+<dt>意味</dt><dd>容量を OS から最後に読んだ時刻です。値に良し悪しはありません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-info">
+<span id="volume.name"></span><span id="volume.mountPoint"></span><span id="volume.kind"></span><span id="volume.readOnly"></span><span id="volume.internal"></span><span id="volume.local"></span><span id="volume.inventory.count"></span>
+<h3 id="h-vol-info">ボリュームの情報</h3>
+<p class="meta">ID: <code>volume.name</code> ボリューム名 ・ <code>volume.mountPoint</code> マウント点 ・ <code>volume.kind</code> 種類 ・ <code>volume.readOnly</code> 読み取り専用 ・ <code>volume.internal</code> 内蔵・外付け ・ <code>volume.local</code> ローカル・ネットワーク ・ <code>volume.inventory.count</code> マウント中のボリューム数</p>
+<dl>
+<dt>意味</dt><dd>ボリュームの名前、マウント点（Mac の中でボリュームが見える場所）、種類（APFS などのファイルシステム）、読み取り専用か、内蔵か外付けか、この Mac のディスクかネットワークの共有か、マウント中のボリュームの数です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>FileManager の mountedVolumeURLs と URLResourceValues で読みます。ファイルは開きません。</dd>
+<dt>外付けのディスクに書き込めない時</dt><dd>読み取り専用になっていないかを確かめます。ディスクの形式や状態は、ディスクユーティリティで確かめられます。</dd>
+<dt>注意</dt><dd>macOS はシステム用のボリュームも使うため、数は Finder に見えるより多いことがあります。名前やマウント点は書き出しでは伏せます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-media">
+<span id="volume.media.bsdName"></span><span id="volume.media.wholeBSDName"></span><span id="volume.media.registryID"></span><span id="volume.media.driverID"></span>
+<h3 id="h-vol-media">ボリュームと装置の識別子</h3>
+<p class="meta">ID: <code>volume.media.bsdName</code> ボリュームの BSD 装置 ・ <code>volume.media.wholeBSDName</code> 全体の媒体 ・ <code>volume.media.registryID</code> 媒体の識別番号 ・ <code>volume.media.driverID</code> 関係が取れた I/O ドライバー ID</p>
+<dl>
+<dt>意味</dt><dd>ボリュームと、その下のストレージの装置を結び付ける、OS の中の識別子（BSD の装置名・全体の媒体・IORegistry の ID・I/O ドライバーの ID）です。読み書きの値がどの装置のものかを対応付けるのに使います。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>Disk Arbitration と IORegistry で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-files">
+<span id="volume.files.count"></span><span id="volume.inodes.available"></span>
+<h3 id="h-vol-files">ファイル数・利用可能 inode</h3>
+<p class="meta">ID: <code>volume.files.count</code> ファイル数 ・ <code>volume.inodes.available</code> 利用可能なファイル管理番号</p>
+<dl>
+<dt>意味</dt><dd>ボリュームにあるファイルの数と、まだ作れるファイルの数（inode）です。</dd>
+<dt>注意</dt><dd>この版では値を採取していないため、「未観測」と表示されます。何もしなくてよい項目です。APFS は 1 つのボリュームに 9 × 10<sup>18</sup> 個を超えるファイルを置ける設計です（Apple）。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-throughput">
+<span id="diskio.read.bytesPerSec"></span><span id="diskio.write.bytesPerSec"></span><span id="diskio.device.read.bytesPerSec"></span><span id="diskio.device.write.bytesPerSec"></span><span id="diskio.read.bytes"></span><span id="diskio.write.bytes"></span>
+<h3 id="h-disk-throughput">読み書きの速さと量</h3>
+<p class="meta">ID: <code>diskio.read.bytesPerSec</code> 読み込み バイト/秒 ・ <code>diskio.write.bytesPerSec</code> 書き込み バイト/秒 ・ <code>diskio.device.read.bytesPerSec</code> 読み込み速度 ・ <code>diskio.device.write.bytesPerSec</code> 書き込み速度 ・ <code>diskio.read.bytes</code> 読み込み累積バイト数 ・ <code>diskio.write.bytes</code> 書き込み累積バイト数</p>
+<dl>
+<dt>意味</dt><dd>ストレージの装置が読み込み・書き込みしたデータの速さ（毎秒）と、起動からの量（累積）です。読み込み速度・書き込み速度は、装置ごとの値とその合計です。</dd>
+<dt>単位</dt><dd>バイト/秒・バイト</dd>
+<dt>計り方</dt><dd>IOKit の IOBlockStorageDriver Statistics を registry entry ID ごとに読み、差分を単調時計の経過時間で割ります。合計は親子で重ならない末端ドライバーだけを使い、必要なカウンタが欠けた合計は取得不能とします。</dd>
+<dt>高い時に考えられること</dt><dd>大きなファイルのコピー、アプリやアップデートのインストール、Time Machine のバックアップ、写真や動画の読み込み、Spotlight の索引作成などで高くなります。メモリが足りずスワップが多い時も書き込みが増えます。</dd>
+<dt>対処</dt><dd>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ディスク」タブで、列の見出しをクリックして並べ替え、読み書きの多いプロセスを確かめます。コピーやバックアップなどの作業が終われば下がるので、多くの場合は待つだけで十分です。スワップが多い時は、メモリの対処（「メモリ」の節）をします。</dd>
+<dt>注意</dt><dd>高いこと自体は故障ではありません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-ops">
+<span id="diskio.read.operations"></span><span id="diskio.write.operations"></span><span id="diskio.read.iops"></span><span id="diskio.write.iops"></span><span id="diskio.read.meanTransferSize"></span><span id="diskio.write.meanTransferSize"></span>
+<h3 id="h-disk-ops">読み書きの回数（IOPS）と平均転送サイズ</h3>
+<p class="meta">ID: <code>diskio.read.operations</code> 読み操作累積 ・ <code>diskio.write.operations</code> 書き操作累積 ・ <code>diskio.read.iops</code> 読み IOPS ・ <code>diskio.write.iops</code> 書き IOPS ・ <code>diskio.read.meanTransferSize</code> 平均読み転送サイズ ・ <code>diskio.write.meanTransferSize</code> 平均書き転送サイズ</p>
+<dl>
+<dt>意味</dt><dd>読み書きの回数（累積）と毎秒の回数（IOPS）、1 回あたりの平均の大きさです。</dd>
+<dt>単位</dt><dd>回・回/秒・バイト</dd>
+<dt>計り方</dt><dd>IOBlockStorageDriver Statistics の差分を使います。IOPS = ΔOperations ÷ 単調時計の秒数。平均転送サイズはバイト数の差分 ÷ ΔOperations です。回数が 0 の区間では平均を出しません。</dd>
+<dt>高い時に考えられること</dt><dd>小さなファイルをたくさん読み書きする時（索引作成・ソフトウェアの更新・プログラムのビルドなど）に回数が増えます。</dd>
+<dt>対処</dt><dd>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ディスク」タブで、列の見出しをクリックして並べ替え、読み書きの多いプロセスを確かめます。コピーやバックアップなどの作業が終われば下がるので、多くの場合は待つだけで十分です。スワップが多い時は、メモリの対処（「メモリ」の節）をします。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-time">
+<span id="diskio.read.totalTime"></span><span id="diskio.write.totalTime"></span><span id="diskio.read.meanServiceTime"></span><span id="diskio.write.meanServiceTime"></span><span id="diskio.read.meanLatency"></span><span id="diskio.write.meanLatency"></span>
+<h3 id="h-disk-time">読み書きにかかった時間（サービス時間・待ち時間）</h3>
+<p class="meta">ID: <code>diskio.read.totalTime</code> 読みサービス時間累積 ・ <code>diskio.write.totalTime</code> 書きサービス時間累積 ・ <code>diskio.read.meanServiceTime</code> 平均読みサービス時間 ・ <code>diskio.write.meanServiceTime</code> 平均書きサービス時間 ・ <code>diskio.read.meanLatency</code> 平均読み待ち時間 ・ <code>diskio.write.meanLatency</code> 平均書き待ち時間</p>
+<dl>
+<dt>意味</dt><dd>装置が読み書きにかかった時間の合計（累積）と 1 回あたりの平均（サービス時間）、装置が報告する待ちの時間の 1 回あたりの平均です。</dd>
+<dt>単位</dt><dd>秒</dd>
+<dt>計り方</dt><dd>IOBlockStorageDriver Statistics の平均サービス時間 = ΔTotal Time ÷ ΔOperations。Latency Time も別のカウンタとして同じ区間で割ります。元の単位は ns、画面は ms です。合計の平均は操作数で重み付けします。Total Time はサービス時間の累積で、壁時計の経過や最大値ではありません。回数が 0 の区間では平均を出しません。</dd>
+<dt>高い時に考えられること</dt><dd>大きな読み書きが重なると一時的に長くなります。外付けのディスクでは、接続（ポート・ケーブル）やディスクそのものの速さで長くなります。いつも長く、エラーや再試行も増えている時は、装置の不具合の可能性があります。</dd>
+<dt>対処</dt><dd>大きな読み書きが終わるのを待ちます。外付けのディスクなら、別のポートやケーブルを試します。エラーや再試行も増えている時は「読み書きのエラー・再試行」の対処をします。</dd>
+<dt>注意</dt><dd>装置のドライバが数えた値です。目安として使ってください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-errors">
+<span id="diskio.read.errors"></span><span id="diskio.write.errors"></span><span id="diskio.read.retries"></span><span id="diskio.write.retries"></span>
+<h3 id="h-disk-errors">読み書きのエラー・再試行</h3>
+<p class="meta">ID: <code>diskio.read.errors</code> 読みエラー累積 ・ <code>diskio.write.errors</code> 書きエラー累積 ・ <code>diskio.read.retries</code> 読み再試行累積 ・ <code>diskio.write.retries</code> 書き再試行累積</p>
+<dl>
+<dt>意味</dt><dd>読み書きが失敗した回数と、やり直した回数（起動からの累積）です。</dd>
+<dt>単位</dt><dd>回</dd>
+<dt>計り方</dt><dd>IOBlockStorageDriver の Statistics の Errors と Retries を読みます。</dd>
+<dt>増え続ける時に考えられること</dt><dd>装置・ケーブル・接続の不具合の可能性があります。外付けのディスクでは、ケーブルの緩みや電源の不足でも起きます。</dd>
+<dt>対処</dt><dd>まず大事なデータをバックアップします（Time Machine など）。外付けのディスクなら、ケーブルとポートを替え、電源のあるディスクは電源を確かめます。ディスクユーティリティの「First Aid」でディスクを確かめます（Apple の手順）。ディスクユーティリティが故障の予兆を示した時は、Apple の案内どおり、バックアップしてからディスクを交換します。</dd>
+<dt>注意</dt><dd>普通は 0 です。増え続けるかどうかを見てください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-excluded">
+<span id="diskio.queue"></span><span id="diskio.smart.state"></span><span id="diskio.smart.life"></span><span id="diskio.smart.temperature"></span>
+<h3 id="h-disk-excluded">I/O の待ち行列・SMART（状態・寿命・温度）</h3>
+<p class="meta"><span class="badge">対象外</span>ID: <code>diskio.queue</code> 入出力の待ち行列 ・ <code>diskio.smart.state</code> SMART状態 ・ <code>diskio.smart.life</code> 媒体寿命 ・ <code>diskio.smart.temperature</code> 媒体温度</p>
+<dl>
+<dt>意味</dt><dd>装置の待ち行列の長さと、SMART（ストレージの自己診断）の状態・寿命・温度です。</dd>
+<dt>取得できない理由</dt><dd>このアプリが使える OS の情報に、これらの値が含まれていません。提供されない値は作らないため、取らないことにしています。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。ディスクの状態は、ディスクユーティリティの「First Aid」で確かめられます。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/102624">Macストレージの空き領域を増やす</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/mac-shares-space-apfs-volumes-sysp560a2952/mac">Macの複数のAPFSボリュームで領域が共有されているかどうかを確認する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-disk-activity-actmntr1005/mac">Macのアクティビティモニタでディスクの動作状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/disk-utility/repair-a-storage-device-dskutl1040/mac">Macのディスクユーティリティでストレージデバイスを修復する</a></li><li><a href="https://developer.apple.com/documentation/foundation/checking-volume-storage-capacity">Checking Volume Storage Capacity（Apple Developer）</a></li><li><a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/APFS_Guide/Features/Features.html">Apple File System Guide: Features（Apple Developer）</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-network">
+<h2 id="sec-network">ネットワーク</h2>
+<p>Wi-Fi や有線 LAN などの通信です。インターフェイス（IF）は通信の口のことで、Wi-Fi・有線・VPN などがあります。このアプリは数値を読むだけで、自分から外へ通信しません。</p>
+<p class="in-section">この節の項目: <a href="#h-net-aggregate">全体の受信・送信の速さ</a> ・ <a href="#h-net-traffic">インターフェイスごとの受信・送信</a> ・ <a href="#h-net-link-speed">有線のリンク速度（公称）</a> ・ <a href="#h-net-errors">受信・送信のエラーと受信の取りこぼし</a> ・ <a href="#h-net-txdrops">送信の取りこぼし</a> ・ <a href="#h-net-info">インターフェイスの情報</a> ・ <a href="#h-net-path">経路の状態</a> ・ <a href="#h-net-dns">DNS の設定</a> ・ <a href="#h-net-relations">ブリッジ・VPN の関係</a> ・ <a href="#h-net-wifi">Wi-Fi の詳細（SSID・電波の強さ など）</a> ・ <a href="#h-net-probes">遅延・損失・到達性・DNS 応答</a> ・ <a href="#h-net-process">プロセスごとの通信・TCP と UDP の接続</a> ・ <a href="#h-net-throughput">実効転送速度テスト</a></p>
+<article class="item" aria-labelledby="h-net-aggregate">
+<span id="net.aggregate.rxBytesPerSec"></span><span id="net.aggregate.txBytesPerSec"></span><span id="net.aggregate.members"></span>
+<h3 id="h-net-aggregate">全体の受信・送信の速さ</h3>
+<p class="meta">ID: <code>net.aggregate.rxBytesPerSec</code> 受信速度の合計 ・ <code>net.aggregate.txBytesPerSec</code> 送信速度の合計 ・ <code>net.aggregate.members</code> 全体の集計対象</p>
+<dl>
+<dt>意味</dt><dd>Mac 全体の受信（ダウンロード）と送信（アップロード）の速さと、その合計に入れたインターフェイスの一覧です。</dd>
+<dt>単位</dt><dd>バイト/秒</dd>
+<dt>計り方</dt><dd>各インターフェイスの数値（sysctl の IFMIB）の差分を合計します。Mac の中だけの通信（lo）と、下のインターフェイスと同じ通信を数えうるトンネル（utun・ipsec・ppp・gif・stf）は除きます。</dd>
+<dt>高い時に考えられること</dt><dd>大きなファイルのダウンロードやアップロード、iCloud や写真の同期、ソフトウェアアップデート、動画の視聴やビデオ通話、ネットワーク上へのバックアップなどで高くなります。</dd>
+<dt>対処</dt><dd>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ネットワーク」タブで、列の見出しをクリックして並べ替え、送受信の多いプロセスを確かめます。要らない同期やダウンロードなら、そのアプリで止めるか、アプリを終了します。</dd>
+<dt>注意</dt><dd>ブリッジとその中のインターフェイスを両方数えることがあり、実際より大きく出ることがあります。回線の速さ（Mbps、ビット）とは単位が違います（1 バイト＝8 ビット）。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-traffic">
+<span id="net.if.rxBytes"></span><span id="net.if.txBytes"></span><span id="net.if.rxBytesPerSec"></span><span id="net.if.txBytesPerSec"></span><span id="net.if.rxPackets"></span><span id="net.if.txPackets"></span><span id="net.if.rxPacketsPerSec"></span><span id="net.if.txPacketsPerSec"></span>
+<h3 id="h-net-traffic">インターフェイスごとの受信・送信</h3>
+<p class="meta">ID: <code>net.if.rxBytes</code> 受信累積バイト数 ・ <code>net.if.txBytes</code> 送信累積バイト数 ・ <code>net.if.rxBytesPerSec</code> 受信速度 ・ <code>net.if.txBytesPerSec</code> 送信速度 ・ <code>net.if.rxPackets</code> 受信累積パケット数 ・ <code>net.if.txPackets</code> 送信累積パケット数 ・ <code>net.if.rxPacketsPerSec</code> 受信パケット数 / 秒 ・ <code>net.if.txPacketsPerSec</code> 送信パケット数 / 秒</p>
+<dl>
+<dt>意味</dt><dd>インターフェイスごとの受信（RX）・送信（TX）の量（累積）と速さ、パケット（通信の小包）の数と毎秒の数です。アクティビティモニタの「受信パケット数」「受信したデータ」「毎秒データ受信」などに当たります。</dd>
+<dt>単位</dt><dd>バイト・バイト/秒・パケット・パケット/秒</dd>
+<dt>計り方</dt><dd>sysctl の IFMIB（if_data64、インターフェイスができてからの累積）と、その差分を経過時間で割った値です。数値のリセットやスリープの後は差分を取り直します。</dd>
+<dt>高い時に考えられること</dt><dd>全体の受信・送信と同じです。</dd>
+<dt>対処</dt><dd>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ネットワーク」タブで、列の見出しをクリックして並べ替え、送受信の多いプロセスを確かめます。要らない同期やダウンロードなら、そのアプリで止めるか、アプリを終了します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-link-speed">
+<span id="net.if.linkSpeed"></span>
+<h3 id="h-net-link-speed">有線のリンク速度（公称）</h3>
+<p class="meta">ID: <code>net.if.linkSpeed</code> リンク速度</p>
+<dl>
+<dt>意味</dt><dd>有線インターフェイスが報告する公称のリンク速度です。実際に送受信した量や、インターネットの実効速度を計った値ではありません。</dd>
+<dt>単位</dt><dd>Mb/s（Mbps、毎秒 100 万ビット）。丸めて 1000 Mb/s 以上になる値は Gb/s で表示します（1 Gb/s＝1000 Mb/s）。バイト/秒とは異なります（1 バイト＝8 ビット）。小さな非 0 の値は「&lt; 0.01 Mb/s」のように表示し、0 に丸めません。</dd>
+<dt>計り方</dt><dd>macOS の IFMIB が報告するインターフェイスごとの bit/s を Mb/s に換算します。経路とは独立した装置一覧（SystemConfiguration）で有線と確認でき、リンクが有効な接続だけを対象にします。DHCP の失敗などで通信経路が無くても取得します。</dd>
+<dt>高い時に考えられること</dt><dd>公称の接続速度が高いことを示します。大量に通信している、混雑している、という意味ではありません。高い値だけで対処する必要はありません。</dd>
+<dt>低い時に考えられること</dt><dd>想定より低い場合は、ケーブル・アダプタ・接続先ポートの対応速度や接続状態を確認します。</dd>
+<dt>対処</dt><dd><ul><li>想定する速度に対応したケーブル・アダプタ・ポートかどうかと、接続が緩んでいないかを確認します。</li><li>実際の通信も遅い時は、アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ネットワーク」タブで通信量の多いアプリを確認します。不要なアプリを終了する場合は、次の注意に従ってください。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>Wi-Fi など有線でない接続と OS の値が 0 の場合は未対応、10 Tbps（10000 Gb/s）を超える値は取得不能です。種別やリンク状態が一時的に分からない時は取得不能とし、以前の値があれば古い値として残します。リンクが無効なら速度を消して接続を待ち、0 や別の速度で埋めません。Apple は、管理者から特別な指示がない限り、ネットワークのハードウェア設定を自動設定のまま使うよう案内しています。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-errors">
+<span id="net.if.rxErrors"></span><span id="net.if.txErrors"></span><span id="net.if.rxDrops"></span>
+<h3 id="h-net-errors">受信・送信のエラーと受信の取りこぼし</h3>
+<p class="meta">ID: <code>net.if.rxErrors</code> 受信エラー数 ・ <code>net.if.txErrors</code> 送信エラー数 ・ <code>net.if.rxDrops</code> 受信破棄数</p>
+<dl>
+<dt>意味</dt><dd>受信・送信のエラーの数と、受信で取りこぼしたパケットの数（累積）です。</dd>
+<dt>単位</dt><dd>回・パケット</dd>
+<dt>計り方</dt><dd>sysctl の IFMIB（if_data64）の ierrors・oerrors・iqdrops を読みます。</dd>
+<dt>増え続ける時に考えられること</dt><dd>Wi-Fi の電波が弱い・混んでいる、有線のケーブルやアダプタの不良、つないでいる機器の不具合などが考えられます。</dd>
+<dt>対処</dt><dd>Wi-Fi なら、ルーターに近づく、Wi-Fi をいったん切ってつなぎ直す、ルーターを再起動する、を試します。option キーを押しながらメニューバーの Wi-Fi のアイコンをクリックし、「ワイヤレス診断を開く」で調べられます（Apple の手順）。有線なら、ケーブルやアダプタを替えます。</dd>
+<dt>注意</dt><dd>増え続けるかどうかと、通信が遅い・切れるといった症状とを合わせて見てください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-txdrops">
+<span id="net.if.txDrops"></span>
+<h3 id="h-net-txdrops">送信の取りこぼし</h3>
+<p class="meta"><span class="badge">未対応</span>ID: <code>net.if.txDrops</code> 送信破棄数</p>
+<dl>
+<dt>意味</dt><dd>送信で取りこぼしたパケットの数です。</dd>
+<dt>取得できない理由</dt><dd>macOS の IFMIB は送信の待ち行列の取りこぼしだけを出し、送信全体の取りこぼしを出しません。別の値で代用することもしません。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。送信の問題は「送信のエラー」で見られます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-info">
+<span id="net.if.name"></span><span id="net.if.index"></span><span id="net.if.kind"></span><span id="net.if.flags"></span><span id="net.if.mtu"></span><span id="net.if.ipv4"></span><span id="net.if.ipv6"></span><span id="net.if.addressScope"></span><span id="net.if.linkState"></span>
+<h3 id="h-net-info">インターフェイスの情報</h3>
+<p class="meta">ID: <code>net.if.name</code> 接続名 ・ <code>net.if.index</code> 接続番号 ・ <code>net.if.kind</code> 接続の種類 ・ <code>net.if.flags</code> 接続の属性 ・ <code>net.if.mtu</code> MTU ・ <code>net.if.ipv4</code> IPv4 ・ <code>net.if.ipv6</code> IPv6 ・ <code>net.if.addressScope</code> アドレスのスコープ ・ <code>net.if.linkState</code> リンク状態</p>
+<dl>
+<dt>意味</dt><dd>インターフェイスの名前（en0 など）・番号・種類（Wi-Fi・有線・ブリッジ・トンネルなど）・状態の印（UP・RUNNING など）・MTU（1 回で送れる最大の大きさ）・IPv4 と IPv6 のアドレスとその範囲（scope）・リンクの状態（ケーブルや電波でつながっているか）です。</dd>
+<dt>計り方</dt><dd>getifaddrs・sysctl の IFMIB・SCDynamicStore（リンクの状態）で読みます。</dd>
+<dt>リンクなし・UP/RUNNING でない時</dt><dd>そのインターフェイスはつながっていません。使うはずのネットワークなら、Wi-Fi の接続、ケーブルの抜け、アダプタの接続を確かめます。</dd>
+<dt>注意</dt><dd>IP アドレスはアプリのメモリの中だけに置き、書き出しでは伏せます。MAC アドレスは取りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-path">
+<span id="net.path.state"></span>
+<h3 id="h-net-path">経路の状態</h3>
+<p class="meta">ID: <code>net.path.state</code> 経路状態</p>
+<dl>
+<dt>意味</dt><dd>このアプリから見て、通信に使える経路があるかです。Apple の説明では、satisfied＝接続を作ってデータを送れる、unsatisfied＝使えない、requiresConnection＝今は使えないが、接続を始めると使えるかもしれない、です。</dd>
+<dt>計り方</dt><dd>Network フレームワークの NWPathMonitor で受け取ります。</dd>
+<dt>使えない時に考えられること</dt><dd>Wi-Fi や有線がつながっていない、ネットワークの設定に問題がある、などです。</dd>
+<dt>対処</dt><dd>Wi-Fi のメニューで接続を確かめ、Apple の記事「MacがWi-Fi経由でインターネットに接続できない場合」の手順（再起動・日付と時刻の確認・VPN やセキュリティソフトの確認・ルーターの再起動・ワイヤレス診断など）を試します。</dd>
+<dt>注意</dt><dd>satisfied は、インターネットの先のサービスに届くことや、回線の速さを意味しません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-dns">
+<span id="net.dns.configuration"></span>
+<h3 id="h-net-dns">DNS の設定</h3>
+<p class="meta">ID: <code>net.dns.configuration</code> DNS設定</p>
+<dl>
+<dt>意味</dt><dd>名前（apple.com など）をアドレスに変える仕組み（DNS）の設定です。どの DNS サーバに問い合わせるか、補うドメインと検索の順番などです。</dd>
+<dt>計り方</dt><dd>SCDynamicStore の設定を読むだけで、DNS の問い合わせは送りません。</dd>
+<dt>Web が開かない時に考えられること</dt><dd>VPN やセキュリティソフトが接続を妨げていることがあります（Apple の記事の確認事項の 1 つ）。</dd>
+<dt>対処</dt><dd>Apple の記事「MacがWi-Fi経由でインターネットに接続できない場合」の手順を試します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-relations">
+<span id="net.if.bridge"></span><span id="net.if.vpn"></span>
+<h3 id="h-net-relations">ブリッジ・VPN の関係</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>net.if.bridge</code> ブリッジ関係 ・ <code>net.if.vpn</code> VPN関係</p>
+<dl>
+<dt>意味</dt><dd>ブリッジ（複数のインターフェイスを束ねたもの）や VPN と、その下のインターフェイスとの関係です。</dd>
+<dt>取得できない理由</dt><dd>関係を確かに取れる方法を調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-wifi">
+<span id="net.wifi.ssid"></span><span id="net.wifi.bssid"></span><span id="net.wifi.channel"></span><span id="net.wifi.rssi"></span><span id="net.wifi.noise"></span><span id="net.wifi.snr"></span><span id="net.wifi.linkMbps"></span><span id="net.wifi.security"></span>
+<h3 id="h-net-wifi">Wi-Fi の詳細（SSID・電波の強さ など）</h3>
+<p class="meta"><span class="badge">権限なし（未要求）</span>ID: <code>net.wifi.ssid</code> SSID ・ <code>net.wifi.bssid</code> BSSID ・ <code>net.wifi.channel</code> Wi-Fi チャンネル ・ <code>net.wifi.rssi</code> Wi-Fi RSSI ・ <code>net.wifi.noise</code> Wi-Fi ノイズ ・ <code>net.wifi.snr</code> Wi-Fi SNR ・ <code>net.wifi.linkMbps</code> Wi-Fi公称リンク速度 ・ <code>net.wifi.security</code> Wi-Fi セキュリティ</p>
+<dl>
+<dt>意味</dt><dd>接続中の Wi-Fi の名前（SSID）、アクセスポイントの識別子（BSSID）、チャンネル、電波の強さ（RSSI）、雑音（noise）、信号と雑音の差（SNR）、公称の通信速度、暗号化の方式です。</dd>
+<dt>取得できない理由</dt><dd>Wi-Fi の詳細を読むには追加の権限が要り、SSID と BSSID はさらに位置情報の許可も要ります。このアプリはこれらを要求していません。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。Wi-Fi の状態は、option キーを押しながらメニューバーの Wi-Fi のアイコンをクリックし、「ワイヤレス診断を開く」で調べられます。</dd>
+<dt>注意</dt><dd>公称の通信速度（Mbps）と、アプリの通信の速さ（バイト/秒）は別のものです。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-probes">
+<span id="net.diag.latency"></span><span id="net.diag.loss"></span><span id="net.diag.reachability"></span><span id="net.diag.dnsResponse"></span>
+<h3 id="h-net-probes">遅延・損失・到達性・DNS 応答</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>net.diag.latency</code> 遅延 ・ <code>net.diag.loss</code> 損失 ・ <code>net.diag.reachability</code> 到達性 ・ <code>net.diag.dnsResponse</code> DNS応答</p>
+<dl>
+<dt>意味</dt><dd>外の機器までの往復の時間、パケットの損失、相手に届くかどうか、DNS の応答の時間です。</dd>
+<dt>取得できない理由</dt><dd>これらは外へ問い合わせを送る必要があります。このアプリは自分から通信しない方針のため、利用者がはっきり同意した時だけ行う形を調べています。この版では行いません。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。接続の問題は、ワイヤレス診断で調べられます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-process">
+<span id="net.diag.process.bytes"></span><span id="net.diag.process.connections"></span><span id="net.diag.process.destination"></span><span id="net.diag.tcpStates"></span><span id="net.diag.udpEndpoints"></span>
+<h3 id="h-net-process">プロセスごとの通信・TCP と UDP の接続</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>net.diag.process.bytes</code> PID別通信量 ・ <code>net.diag.process.connections</code> PID別接続 ・ <code>net.diag.process.destination</code> PID別宛先 ・ <code>net.diag.tcpStates</code> TCP状態別件数 ・ <code>net.diag.udpEndpoints</code> UDP 通信端点の件数</p>
+<dl>
+<dt>意味</dt><dd>プロセスごとの通信量・接続・宛先と、TCP の状態ごとの接続の数、UDP の口の数です。</dd>
+<dt>取得できない理由</dt><dd>App Store で配布するアプリ（サンドボックスの中）が、公開された方法で取れるかを調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>アプリごとの通信量は、アクティビティモニタの「ネットワーク」タブで見られます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-throughput">
+<span id="net.diag.throughput"></span>
+<h3 id="h-net-throughput">実効転送速度テスト</h3>
+<p class="meta"><span class="badge">対象外</span>ID: <code>net.diag.throughput</code> 実効転送速度テスト</p>
+<dl>
+<dt>意味</dt><dd>回線の実際の速さを計るテストです。</dd>
+<dt>取得できない理由</dt><dd>速さのテストは外のサーバと大量に通信するため、このアプリでは行いません。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-network-activity-actmntr1006/mac">Macのアクティビティモニタでネットワークの動作状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/101588">MacがWi-Fi経由でインターネットに接続できない場合</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/use-wireless-diagnostics-mchlf4de377f/mac">Macでワイヤレス診断を使用する</a></li><li><a href="https://developer.apple.com/documentation/network/nwpath/status-swift.enum">NWPath.Status（Apple Developer）</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/mchlp25052/mac">Macでハードウェアのオプションを設定する</a></li><li><a href="https://developer.apple.com/documentation/systemconfiguration/scnetworkinterface">SCNetworkInterface（Apple Developer）</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-processes">
+<h2 id="sec-processes">プロセス</h2>
+<p>プロセスは、Mac で動いているプログラムの単位です。アプリのほか、画面に出ない macOS の処理もプロセスです（Apple）。このアプリは App Store の決まり（サンドボックス）の中で動くため、自分と同じ利用者のプロセスの詳しい情報だけを表示します。</p>
+<p class="in-section">この節の項目: <a href="#h-proc-cpu">CPU 使用率（1 コア基準）</a> ・ <a href="#h-proc-cputime">CPU 時間・観測窓・経過</a> ・ <a href="#h-proc-other">その他（システム・他ユーザー）CPU</a> ・ <a href="#h-proc-memory">プロセスのメモリ（RSS・物理 RAM 比・Virtual size・Pageins）</a> ・ <a href="#h-proc-identity">プロセスの名前・所有者・PID・開始時刻・スレッド数・状態</a> ・ <a href="#h-proc-parent">親プロセス</a> ・ <a href="#h-proc-table">列挙した件数・保持した件数</a> ・ <a href="#h-proc-restricted">プロセスのディスクの読み書き・Physical footprint・Wakeups・Wired size</a> ・ <a href="#h-proc-unsupported">エネルギー影響・GPU・クラッシュ・ハング・アプリ名・通信量・FD 数・QoS</a> ・ <a href="#h-proc-workload">作業ごとの資源の関係（ビルド・ローカル LLM・VM とコンテナ）</a> ・ <a href="#h-proc-marker">手動マーカー</a></p>
+<article class="item" aria-labelledby="h-proc-cpu">
+<span id="proc.cpu.usage"></span>
+<h3 id="h-proc-cpu">CPU 使用率（1 コア基準）</h3>
+<p class="meta">ID: <code>proc.cpu.usage</code> CPU使用率（1コア基準）</p>
+<dl>
+<dt>意味</dt><dd>そのプロセスが CPU を使っている割合です。1 つのコアを使い切った時を 100% とするので、複数のコアを使うプロセスは 100% を超えます。</dd>
+<dt>単位</dt><dd>%（1 コア＝100%）</dd>
+<dt>計り方</dt><dd>プロセスの CPU の時間（PROC_PIDTASKINFO）の差分を、スリープ中は進まない時計の経過時間で割ります。区間は 250 ミリ秒以上です。</dd>
+<dt>高い時に考えられること</dt><dd>そのアプリが重い処理をしています。処理が終わっているはずなのに高いまま続く時は、アプリが応答しない、または同じ処理を繰り返している可能性があります。</dd>
+<dt>対処</dt><dd><ul><li>作業中なら終わるのを待ちます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>繰り返す時は、そのアプリのアップデートを確かめます（Apple の記事「Macでアプリがフリーズまたは突然終了する場合」）。</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-cputime">
+<span id="proc.cpu.time"></span><span id="proc.cpu.userTime"></span><span id="proc.cpu.systemTime"></span><span id="proc.cpu.interval"></span><span id="proc.task.elapsed"></span>
+<h3 id="h-proc-cputime">CPU 時間・観測窓・経過</h3>
+<p class="meta">ID: <code>proc.cpu.time</code> CPU時間 ・ <code>proc.cpu.userTime</code> アプリの CPU 時間累積 ・ <code>proc.cpu.systemTime</code> システムの CPU 時間累積 ・ <code>proc.cpu.interval</code> CPU観測窓 ・ <code>proc.task.elapsed</code> プロセス経過</p>
+<dl>
+<dt>意味</dt><dd>プロセスが起動してから使った CPU の時間の合計（user＝自分の処理、system＝OS の中心部が代わりにした処理）、使用率を計った区間の長さ（CPU 観測窓）、プロセスが起動してからの経過時間です。</dd>
+<dt>単位</dt><dd>秒</dd>
+<dt>計り方</dt><dd>PROC_PIDTASKINFO と PROC_PIDTBSDINFO で読みます。</dd>
+<dt>注意</dt><dd>長く動いているプロセスほど CPU 時間は大きくなります。いまの重さを比べる時は CPU 使用率を見てください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-other">
+<span id="proc.cpu.other"></span>
+<h3 id="h-proc-other">その他（システム・他ユーザー）CPU</h3>
+<p class="meta">ID: <code>proc.cpu.other</code> その他（システム・他ユーザー）CPU</p>
+<dl>
+<dt>意味</dt><dd>Mac 全体の CPU の使用のうち、一覧に詳しく出ないプロセス（macOS のシステムや他の利用者のプロセス）の分です。</dd>
+<dt>単位</dt><dd>%（1 コア＝100%）</dd>
+<dt>計り方</dt><dd>全体の CPU 使用率 × 論理コア数 × 100% から、一覧で読めたプロセスの合計を引きます（派生の値）。区間がそろわない時は出しません。</dd>
+<dt>高い時に考えられること</dt><dd>システムや他の利用者のプロセスが CPU を使っています。データの移行の後の索引作成、写真の解析、バックアップなどが考えられます。</dd>
+<dt>対処</dt><dd>アクティビティモニタは全てのプロセスを表示できます（「表示」＞「すべてのプロセス」）。そこで確かめ、作業が終わるのを待ちます。長く続く時は Mac を再起動します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-memory">
+<span id="proc.task.rss"></span><span id="proc.task.memoryPercent"></span><span id="proc.task.virtual"></span><span id="proc.task.pageins"></span>
+<h3 id="h-proc-memory">プロセスのメモリ（RSS・物理 RAM 比・Virtual size・Pageins）</h3>
+<p class="meta">ID: <code>proc.task.rss</code> メモリ ・ <code>proc.task.memoryPercent</code> メモリ（物理 RAM 比） ・ <code>proc.task.virtual</code> 仮想メモリ ・ <code>proc.task.pageins</code> ページイン</p>
+<dl>
+<dt>意味</dt><dd>RSS（常駐サイズ）＝そのプロセスがいま実メモリに置いている量（他のプロセスと共有している分も含む）。メモリ（物理 RAM 比）＝RSS ÷ 搭載メモリ。Virtual size＝そのプロセスが確保したアドレスの広さで、実メモリの使用量ではありません。Pageins＝そのプロセスがストレージから読み込んだページの数です。</dd>
+<dt>単位</dt><dd>バイト・%・ページ</dd>
+<dt>計り方</dt><dd>PROC_PIDTASKINFO で読みます。物理 RAM 比の分母は hw.memsize です。</dd>
+<dt>高い時に考えられること</dt><dd>RSS が大きいアプリは、メモリを多く使っています。メモリの圧迫が高い時に減らす候補です。</dd>
+<dt>対処</dt><dd>使っていないアプリなら終了します。ブラウザなら使っていないタブを閉じます。</dd>
+<dt>注意</dt><dd>共有分を含むため、全てのプロセスの RSS の合計は搭載メモリより大きくなることがあります。アクティビティモニタの「メモリ」の列とは計り方が違い、値は一致しません。Virtual size が大きいのは普通です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-identity">
+<span id="proc.identity.name"></span><span id="proc.identity.owner"></span><span id="proc.identity.pid"></span><span id="proc.identity.startTime"></span><span id="proc.task.threads"></span><span id="proc.task.state"></span>
+<h3 id="h-proc-identity">プロセスの名前・所有者・PID・開始時刻・スレッド数・状態</h3>
+<p class="meta">ID: <code>proc.identity.name</code> プロセス名 ・ <code>proc.identity.owner</code> 所有者 ・ <code>proc.identity.pid</code> PID ・ <code>proc.identity.startTime</code> 開始時刻 ・ <code>proc.task.threads</code> スレッド数 ・ <code>proc.task.state</code> プロセス状態</p>
+<dl>
+<dt>意味</dt><dd>プロセスの名前、所有者（どの利用者のプロセスか）、PID（プロセスの番号。終わると別のプロセスに使い回されます）、開始時刻、スレッド数（プロセスの中で同時に進む処理の数）、状態（実行中・待機中・終了など）です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>KERN_PROC_ALL でプロセスを数え、PROC_PIDTBSDINFO と PROC_PIDTASKINFO で読みます。</dd>
+<dt>注意</dt><dd>プロセスの名前などは書き出しでは伏せます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-parent">
+<span id="proc.identity.parentPID"></span>
+<h3 id="h-proc-parent">親プロセス</h3>
+<p class="meta">ID: <code>proc.identity.parentPID</code> 親プロセスの PID</p>
+<dl>
+<dt>意味</dt><dd>選んだプロセスの親の番号（PID）です。親が一覧にあれば、名前も出します。親があなたのプロセスなら、その行へ移動できます。</dd>
+<dt>単位</dt><dd>番号（count）。使用率ではなく、大小に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>既存の KERN_PROC_ALL の kp_eproc.e_ppid を読み、同じ子の親 PID が2回の一覧の読み取りで一致することを確かめます。途中で変わった時は、その回だけ「親は終了済み（不明）」にします。開始時刻の前後では判定しません。</dd>
+<dt>対処</dt><dd>負荷の大きいプロセスがどの処理に属するかを調べる手がかりにします。アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」でも関係を確かめられます。</dd>
+<dt>注意</dt><dd>一覧に親がいない時（読み取りの間に終了・保持上限など）と親 PID が 0 の時は不明です。名前を推測しません。親 PID と名前は診断の要約で既定の伏せ字対象です。名前の分からないプロセスや macOS のプロセスを終了しないでください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-table">
+<span id="proc.table.total"></span><span id="proc.table.shown"></span>
+<h3 id="h-proc-table">列挙した件数・保持した件数</h3>
+<p class="meta">ID: <code>proc.table.total</code> 列挙した件数 ・ <code>proc.table.shown</code> 保持した件数</p>
+<dl>
+<dt>意味</dt><dd>OS から読み出したプロセスの数と、そのうちモニター画面の一覧に残した数です。値に良し悪しはありません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-restricted">
+<span id="proc.disk.readBytes"></span><span id="proc.disk.writeBytes"></span><span id="proc.task.physFootprint"></span><span id="proc.task.wakeups"></span><span id="proc.task.wired"></span>
+<h3 id="h-proc-restricted">プロセスのディスクの読み書き・Physical footprint・Wakeups・Wired size</h3>
+<p class="meta"><span class="badge">未対応</span>ID: <code>proc.disk.readBytes</code> プロセスのディスク読み込み ・ <code>proc.disk.writeBytes</code> プロセスのディスク書き込み ・ <code>proc.task.physFootprint</code> 物理メモリの使用量の見積もり ・ <code>proc.task.wakeups</code> CPU を起こした回数 ・ <code>proc.task.wired</code> 固定されたメモリ量</p>
+<dl>
+<dt>意味</dt><dd>プロセスごとのディスクの読み書きの量、Physical footprint（そのプロセスが使っているメモリの見積もり）、Wakeups（CPU を休みから起こした回数）、確保された（wired）メモリです。</dd>
+<dt>計り方</dt><dd>phys_footprint・wired・wakeups などの内部の欄を読む方法は proc_pid_rusage です。</dd>
+<dt>取得できない理由</dt><dd>これらを読む方法（proc_pid_rusage）は、サンドボックスのアプリからは使えません。</dd>
+<dt>利用者ができること</dt><dd>アクティビティモニタの「メモリ」「ディスク」「エネルギー」タブで、プロセスごとの値を見られます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-unsupported">
+<span id="proc.energy.impact"></span><span id="proc.gpu.attribution"></span><span id="proc.diagnostics.crash"></span><span id="proc.diagnostics.hang"></span><span id="proc.identity.appName"></span><span id="proc.net.bytes"></span><span id="proc.task.fileDescriptors"></span><span id="proc.task.qos"></span>
+<h3 id="h-proc-unsupported">エネルギー影響・GPU・クラッシュ・ハング・アプリ名・通信量・FD 数・QoS</h3>
+<p class="meta"><span class="badge">未対応</span>ID: <code>proc.energy.impact</code> エネルギーへの影響 ・ <code>proc.gpu.attribution</code> GPU帰属 ・ <code>proc.diagnostics.crash</code> クラッシュ ・ <code>proc.diagnostics.hang</code> ハング ・ <code>proc.identity.appName</code> アプリ名 ・ <code>proc.net.bytes</code> プロセス別ネット通信量 ・ <code>proc.task.fileDescriptors</code> FD数 ・ <code>proc.task.qos</code> QoS</p>
+<dl>
+<dt>意味</dt><dd>プロセスごとのエネルギー影響、GPU の使用、クラッシュ、応答なし（ハング）、アプリ名、通信量、開いているファイルの数（FD 数）、QoS（処理の優先度の区分）です。</dd>
+<dt>取得できない理由</dt><dd>サンドボックスのアプリが公開された方法で取れないか、取れるかを確かめられていないため、この版では未対応です。</dd>
+<dt>利用者ができること</dt><dd>エネルギー影響はアクティビティモニタの「エネルギー」タブで、応答しないプロセスは「（応答なし）」と赤で表示されて見られます。アプリごとの通信量は「ネットワーク」タブで見られます。アプリが固まる・突然終了する時は、Apple の記事「Macでアプリがフリーズまたは突然終了する場合」の手順を試します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-workload">
+<span id="workload.correlation.build"></span><span id="workload.correlation.localLLM"></span><span id="workload.correlation.vmContainer"></span><span id="workload.elapsed"></span>
+<h3 id="h-proc-workload">作業ごとの資源の関係（ビルド・ローカル LLM・VM とコンテナ）</h3>
+<p class="meta"><span class="badge">未対応</span>ID: <code>workload.correlation.build</code> ビルドのプロセス・資源相関 ・ <code>workload.correlation.localLLM</code> ローカルLLMのプロセス・資源相関 ・ <code>workload.correlation.vmContainer</code> VM・コンテナのプロセス・資源相関 ・ <code>workload.elapsed</code> 作業の経過</p>
+<dl>
+<dt>意味</dt><dd>プログラムのビルド、ローカルの LLM（AI のモデル）、仮想マシンやコンテナが、CPU やメモリなどをどれだけ使ったかの関係と、その作業の経過時間です。</dd>
+<dt>取得できない理由</dt><dd>決まった方法で取れる値がまだ無く、この版では未対応です。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-marker">
+<span id="workload.marker"></span>
+<h3 id="h-proc-marker">手動マーカー</h3>
+<p class="meta">ID: <code>workload.marker</code> 手動マーカー</p>
+<dl>
+<dt>意味</dt><dd>作業の始まりなどに、利用者が付ける印です。</dd>
+<dt>注意</dt><dd>この版のモニター画面には印を付ける操作がまだ無く、「未観測」と表示されます。何もしなくてよい項目です。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-information-about-processes-actmntr1001/mac">Macのアクティビティモニタでプロセスに関する情報を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-cpu-activity-actmntr43452/mac">MacのアクティビティモニタでCPUの動作状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/if-an-app-freezes-or-quits-unexpectedly-mchlp2579/mac">Macでアプリがフリーズまたは突然終了する場合</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-power">
+<h2 id="sec-power">電源と熱</h2>
+<p>電源（電池・電源アダプタ・スリープ）と熱の状態です。電池の項目は、電池のある Mac（ノートブック）でだけ値があります。このアプリは読み取るだけで、電源の設定は変えません。</p>
+<p class="in-section">この節の項目: <a href="#h-batt-charge">電池残量</a> ・ <a href="#h-batt-state">電源の種類・AC 接続・充電中・充電完了・電池の搭載</a> ・ <a href="#h-batt-capacity">電池の容量と健全度</a> ・ <a href="#h-batt-cycles">充放電回数</a> ・ <a href="#h-batt-time">推定残時間</a> ・ <a href="#h-system-power">システムの消費電力</a> ・ <a href="#h-adapter-input">アダプターからの入力電力・電圧・電流</a> ・ <a href="#h-batt-flow">電池の電圧・電流・計算した電力</a> ・ <a href="#h-batt-os-power">電池の電力（OS の報告値）</a> ・ <a href="#h-adapter">電源アダプタの仕様</a> ・ <a href="#h-lowpower">低電力モード</a> ・ <a href="#h-assertions">スリープ抑止（assertion）</a> ・ <a href="#h-thermal-state">熱の状態（Thermal state）と通知時刻</a> ・ <a href="#h-thermal-pressure">熱の圧迫の段階（OS の5段階）</a> ・ <a href="#h-thermal-research">温度・ファン・部位の電力</a></p>
+<article class="item" aria-labelledby="h-batt-charge">
+<span id="power.battery.chargeRatio"></span>
+<h3 id="h-batt-charge">電池残量</h3>
+<p class="meta">ID: <code>power.battery.chargeRatio</code> 電池残量</p>
+<dl>
+<dt>意味</dt><dd>電池の残りの量です。</dd>
+<dt>単位</dt><dd>%</dd>
+<dt>計り方</dt><dd>macOS の電源の情報（IOPowerSources）の「現在容量 ÷ 満充電容量」です。</dd>
+<dt>低い時・減りが速い時に考えられること</dt><dd>画面の明るさ、重い処理、GPU を使うアプリ、たくさんのブラウザのタブなどで、電池の減りが速くなります。</dd>
+<dt>対処</dt><dd><ul><li>充電します。</li><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブで「エネルギー影響」や「12時間の電力」の大きいアプリを確かめ、使っていないなら終了します。</li><li>低電力モードを使うと消費電力を抑えられます（システム設定 ＞「バッテリー」＞「エネルギーモード」）。</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-state">
+<span id="power.source.kind"></span><span id="power.source.ac"></span><span id="power.battery.charging"></span><span id="power.battery.charged"></span><span id="power.battery.present"></span>
+<h3 id="h-batt-state">電源の種類・AC 接続・充電中・充電完了・電池の搭載</h3>
+<p class="meta">ID: <code>power.source.kind</code> 電源種別 ・ <code>power.source.ac</code> AC接続 ・ <code>power.battery.charging</code> 充電中 ・ <code>power.battery.charged</code> 充電完了 ・ <code>power.battery.present</code> 内蔵電池の搭載</p>
+<dl>
+<dt>意味</dt><dd>いまの電源（AC 電源・電池・UPS）、電源アダプタがつながっているか、充電中か、充電が終わったか、内蔵の電池があるかです。</dd>
+<dt>計り方</dt><dd>macOS の電源の情報（IOPowerSources）で読みます。</dd>
+<dt>電源につないでも充電中にならない時に考えられること</dt><dd>「バッテリー充電の最適化」や充電上限で充電を止めている（バッテリーのメニューに「充電保留中」などと表示）、電源アダプタのワット数が足りない、ケーブルがデータ転送専用、電源アダプタが熱くなって止まっている、などです（Apple の記事）。</dd>
+<dt>対処</dt><dd>バッテリーのメニューで状態を確かめ、すぐに満充電が要る時は「今すぐフル充電」を選びます。付属のものと同じかそれ以上のワット数の電源アダプタと、充電に使えるケーブルを使います。電源アダプタをコンセントから抜いて数秒待ってから差し直し、Mac を再起動します（Apple の記事「USB-C電源アダプタでMacノートブックが充電されない場合」）。</dd>
+<dt>注意</dt><dd>「電源接続・非充電」は故障とは限りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-capacity">
+<span id="power.battery.currentCapacity"></span><span id="power.battery.maxCapacity"></span><span id="power.battery.designCapacity"></span><span id="power.battery.health"></span>
+<h3 id="h-batt-capacity">電池の容量と健全度</h3>
+<p class="meta">ID: <code>power.battery.currentCapacity</code> 現在容量 ・ <code>power.battery.maxCapacity</code> 満充電容量 ・ <code>power.battery.designCapacity</code> 設計容量 ・ <code>power.battery.health</code> 電池の健全度（条件付き）</p>
+<dl>
+<dt>意味</dt><dd>現在容量、満充電容量（いまの電池がためられる量）、設計容量（新品の時の量）と、健全度（電池の詳しい情報にある満充電の容量 ÷ 設計容量の目安）です。</dd>
+<dt>単位</dt><dd>現在容量と満充電容量は OS の相対の単位（mAh とは限りません）、設計容量は電池の情報の単位、健全度は %</dd>
+<dt>計り方</dt><dd>現在容量と満充電容量は IOPowerSources、設計容量と健全度は電池の詳しい情報（AppleSmartBattery。Apple が文書にしていない値）で読みます。値がない Mac もあります。</dd>
+<dt>低い時に考えられること</dt><dd>電池は使うにつれて少しずつ劣化し、ためられる量が減ります。</dd>
+<dt>対処</dt><dd>電池の状態は、システム設定 ＞「バッテリー」の「バッテリーの状態」で確かめます。「修理サービス推奨」と表示された時は Apple の案内に従います（そのまま使っても安全で、不便を感じる時は修理サービスを利用できます）。</dd>
+<dt>注意</dt><dd>Apple は、他社のアプリが表示する電池の状態は正確でないことがあるとし、macOS が表示する情報を参考にするよう案内しています。この値は目安として使ってください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-cycles">
+<span id="power.battery.cycles"></span>
+<h3 id="h-batt-cycles">充放電回数</h3>
+<p class="meta">ID: <code>power.battery.cycles</code> 充放電回数</p>
+<dl>
+<dt>意味</dt><dd>電池の充放電回数です。電池の電力を全部使い切った分で 1 回と数えるので、充電した回数とは一致しません（Apple）。</dd>
+<dt>単位</dt><dd>回</dd>
+<dt>計り方</dt><dd>電池の詳しい情報（AppleSmartBattery）で読みます。</dd>
+<dt>多い時に考えられること</dt><dd>Apple は機種ごとに最大の充放電回数を示しています。最大に達すると電池は消耗したとみなされ、交換が推奨されます。使い続けることはできますが、使える時間は短くなります。</dd>
+<dt>対処</dt><dd>機種ごとの最大の回数は Apple の記事「Macノートブックのバッテリーの充放電回数を調べる」で確かめます。option キーを押しながらアップルメニュー ＞「システム情報」＞「電源」でも回数を確かめられます。「バッテリー充電の最適化」をオンにすると劣化を抑えられます（Apple）。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-time">
+<span id="power.battery.timeRemaining"></span>
+<h3 id="h-batt-time">推定残時間</h3>
+<p class="meta">ID: <code>power.battery.timeRemaining</code> 推定残時間</p>
+<dl>
+<dt>意味</dt><dd>いまの使い方で、電池がなくなるまでの推定の時間です。充電が終わるまでの時間ではありません。</dd>
+<dt>単位</dt><dd>時間（推定）</dd>
+<dt>計り方</dt><dd>IOPSGetTimeRemainingEstimate で読みます。電源につないでいる時は「無制限（外部電源）」、OS が計算中の時は「不明」です。</dd>
+<dt>短い時</dt><dd>電池残量と同じです。</dd>
+<dt>対処</dt><dd><ul><li>充電します。</li><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブで「エネルギー影響」や「12時間の電力」の大きいアプリを確かめ、使っていないなら終了します。</li><li>低電力モードを使うと消費電力を抑えられます（システム設定 ＞「バッテリー」＞「エネルギーモード」）。</li></ul></dd>
+<dt>注意</dt><dd>使い方が変わると大きく変わる推定の値です。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-system-power">
+<span id="power.system.loadWatts"></span>
+<h3 id="h-system-power">システムの消費電力</h3>
+<p class="meta">ID: <code>power.system.loadWatts</code> システムの消費電力（W）</p>
+<dl>
+<dt>意味</dt><dd>OS が報告するシステムの消費電力です。CPU だけの電力ではありません。</dd>
+<dt>単位</dt><dd>W（ワット）</dd>
+<dt>計り方</dt><dd>IORegistryEntryCreateCFProperty で AppleSmartBattery の PowerTelemetryData.SystemLoad を読み、mW ÷ 1,000 で W に換算します。</dd>
+<dt>高い時に考えられること</dt><dd>作業量・充電・接続するアダプターにより値が変わります。CPU だけの使用量や、故障の有無を示す値ではありません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブで、エネルギー消費の大きいアプリを確かめます。</li><li>必要のないアプリは、作業を保存してから通常の方法で終了します。名前の分からないプロセスや macOS のプロセスは終了しないでください。</li></ul></dd>
+<dt>注意</dt><dd>OS が数十秒ごとに更新する値を、表示中は約60秒ごとに読みます。表示の時刻は取得時刻で、毎秒の測定ではありません。電源の切り替え直後は計測待ちにし、約40秒後に読み直します。取得元の辞書の鍵・単位・符号は公開文書がなく、機種・OS により値が欠けます。電池のない Mac は未対応です。電池駆動時の符号と値の意味は実機での照合が済んでいません。符号だけで充電・放電の向きを判断せず、入力と電池の値を合算して全体の電力を作らないでください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-adapter-input">
+<span id="power.system.inputWatts"></span><span id="power.system.inputVolts"></span><span id="power.system.inputAmperes"></span>
+<h3 id="h-adapter-input">アダプターからの入力電力・電圧・電流</h3>
+<p class="meta">ID: <code>power.system.inputWatts</code> アダプターからの入力（W） ・ <code>power.system.inputVolts</code> アダプターからの入力（V） ・ <code>power.system.inputAmperes</code> アダプターからの入力（A）</p>
+<dl>
+<dt>意味</dt><dd>OS が報告するアダプターからの入力です。アダプターの公称仕様や、コンセントでの消費電力とは別の値です。</dd>
+<dt>単位</dt><dd>電力は W、電圧は V、電流は A</dd>
+<dt>計り方</dt><dd>IORegistryEntryCreateCFProperty で AppleSmartBattery の PowerTelemetryData を読みます。SystemPowerIn（mW）・SystemVoltageIn（mV）・SystemCurrentIn（mA）をそれぞれ 1,000 で割り、W・V・A に換算します。</dd>
+<dt>高い時に考えられること</dt><dd>作業量・充電・接続するアダプターにより値が変わります。CPU だけの使用量や、故障の有無を示す値ではありません。</dd>
+<dt>低い時に考えられること</dt><dd>入力が低いだけで故障とは判断できません。作業量や充電の状態、接続するアダプターと合わせて読みます。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブで、エネルギー消費の大きいアプリを確かめます。</li><li>必要のないアプリは、作業を保存してから通常の方法で終了します。名前の分からないプロセスや macOS のプロセスは終了しないでください。</li></ul></dd>
+<dt>注意</dt><dd>OS が数十秒ごとに更新する値を、表示中は約60秒ごとに読みます。表示の時刻は取得時刻で、毎秒の測定ではありません。電源の切り替え直後は計測待ちにし、約40秒後に読み直します。取得元の辞書の鍵・単位・符号は公開文書がなく、機種・OS により値が欠けます。電池のない Mac は未対応です。電池駆動時の符号と値の意味は実機での照合が済んでいません。符号だけで充電・放電の向きを判断せず、入力と電池の値を合算して全体の電力を作らないでください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-flow">
+<span id="power.battery.volts"></span><span id="power.battery.amperes"></span><span id="power.battery.watts"></span>
+<h3 id="h-batt-flow">電池の電圧・電流・計算した電力</h3>
+<p class="meta">ID: <code>power.battery.volts</code> 電池の電圧（V） ・ <code>power.battery.amperes</code> 電池の電流（A・符号付き） ・ <code>power.battery.watts</code> 電池の電力（W・電圧×電流）</p>
+<dl>
+<dt>意味</dt><dd>電池の電圧と符号付きの電流、そこから計算した電力です。アダプターの電圧・電流とは別です。電力は実測からの派生値です。</dd>
+<dt>単位</dt><dd>電圧は V、電流は A、電力は W</dd>
+<dt>計り方</dt><dd>IORegistryEntryCreateCFProperty で AppleSmartBattery の Voltage（mV）と符号付き Amperage（mA）を読み、それぞれ 1,000 で割ります。電池の電力は電圧 V × 符号付き電流 A で計算し、元の符号を保ちます。</dd>
+<dt>高い時に考えられること</dt><dd>作業量・充電・接続するアダプターにより値が変わります。CPU だけの使用量や、故障の有無を示す値ではありません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブで、エネルギー消費の大きいアプリを確かめます。</li><li>必要のないアプリは、作業を保存してから通常の方法で終了します。名前の分からないプロセスや macOS のプロセスは終了しないでください。</li></ul></dd>
+<dt>注意</dt><dd>OS が数十秒ごとに更新する値を、表示中は約60秒ごとに読みます。表示の時刻は取得時刻で、毎秒の測定ではありません。電源の切り替え直後は計測待ちにし、約40秒後に読み直します。取得元の辞書の鍵・単位・符号は公開文書がなく、機種・OS により値が欠けます。電池のない Mac は未対応です。電池駆動時の符号と値の意味は実機での照合が済んでいません。符号だけで充電・放電の向きを判断せず、入力と電池の値を合算して全体の電力を作らないでください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-os-power">
+<span id="power.battery.telemetryWatts"></span>
+<h3 id="h-batt-os-power">電池の電力（OS の報告値）</h3>
+<p class="meta">ID: <code>power.battery.telemetryWatts</code> 電池の電力（W・OS の報告値）</p>
+<dl>
+<dt>意味</dt><dd>電圧×電流の計算とは別に OS が報告する電池の電力です。両方を別々に示します。</dd>
+<dt>単位</dt><dd>W（ワット）</dd>
+<dt>計り方</dt><dd>IORegistryEntryCreateCFProperty で AppleSmartBattery の PowerTelemetryData.BatteryPower を読み、mW ÷ 1,000 で W に換算します。</dd>
+<dt>高い時に考えられること</dt><dd>作業量・充電・接続するアダプターにより値が変わります。CPU だけの使用量や、故障の有無を示す値ではありません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブで、エネルギー消費の大きいアプリを確かめます。</li><li>必要のないアプリは、作業を保存してから通常の方法で終了します。名前の分からないプロセスや macOS のプロセスは終了しないでください。</li></ul></dd>
+<dt>注意</dt><dd>OS が数十秒ごとに更新する値を、表示中は約60秒ごとに読みます。表示の時刻は取得時刻で、毎秒の測定ではありません。電源の切り替え直後は計測待ちにし、約40秒後に読み直します。取得元の辞書の鍵・単位・符号は公開文書がなく、機種・OS により値が欠けます。電池のない Mac は未対応です。電池駆動時の符号と値の意味は実機での照合が済んでいません。符号だけで充電・放電の向きを判断せず、入力と電池の値を合算して全体の電力を作らないでください。 BatteryPower と電圧×電流は、更新される時点や符号の意味が同じとは確認できていません。照合用の独立した値として扱い、互いに代入・合算しません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-adapter">
+<span id="power.adapter.watts"></span><span id="power.adapter.volts"></span><span id="power.adapter.amperes"></span><span id="power.adapter.tier"></span><span id="power.adapter.wireless"></span>
+<h3 id="h-adapter">電源アダプタの仕様</h3>
+<p class="meta">ID: <code>power.adapter.watts</code> アダプター仕様W ・ <code>power.adapter.volts</code> アダプター仕様V ・ <code>power.adapter.amperes</code> アダプター仕様A ・ <code>power.adapter.tier</code> アダプターの仕様区分 ・ <code>power.adapter.wireless</code> 無線アダプター</p>
+<dl>
+<dt>意味</dt><dd>つないでいる電源アダプタの公称の仕様（W・V・A）、仕様の段階（tier）、無線（ワイヤレス）の充電器かどうかです。</dd>
+<dt>計り方</dt><dd>IOPSCopyExternalPowerAdapterDetails で読みます。アダプタをつないでいない時は「アダプター未接続」です。</dd>
+<dt>W が小さい時に考えられること</dt><dd>ワット数の小さい電源アダプタでは、Mac は動いても電池が充電されないことがあります（Apple）。</dd>
+<dt>対処</dt><dd>Mac に付属のものと同じかそれ以上のワット数の電源アダプタを使います（Apple の記事）。</dd>
+<dt>注意</dt><dd>公称の仕様で、いまの充電の電力や Mac 全体の消費電力ではありません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-lowpower">
+<span id="power.lowPower"></span>
+<h3 id="h-lowpower">低電力モード</h3>
+<p class="meta">ID: <code>power.lowPower</code> 低電力モード</p>
+<dl>
+<dt>意味</dt><dd>低電力モードがオンかどうかです。Apple の説明では、消費電力を抑えて電池を長持ちさせるモードで、一部の機種ではファンの音も減らせます。</dd>
+<dt>計り方</dt><dd>ProcessInfo.isLowPowerModeEnabled で読みます。</dd>
+<dt>オンの時に考えられること</dt><dd>Apple の開発者向けの資料では、CPU と GPU の性能を下げる、画面を暗くする、などで電力を抑えるとされています。そのため、処理が遅く感じることがあります。</dd>
+<dt>対処</dt><dd>切り替えは、システム設定 ＞「バッテリー」（デスクトップでは「エネルギー」）＞「エネルギーモード」で行います。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-assertions">
+<span id="power.assertions"></span><span id="power.assertion.type"></span><span id="power.assertion.owner"></span><span id="power.assertion.status"></span><span id="power.assertion.created"></span>
+<h3 id="h-assertions">スリープ抑止（assertion）</h3>
+<p class="meta">ID: <code>power.assertions</code> スリープを止める要求 ・ <code>power.assertion.type</code> 抑止の種類 ・ <code>power.assertion.owner</code> 所有プロセス ・ <code>power.assertion.status</code> OS が報告する抑止の種類（有効・無効を含む） ・ <code>power.assertion.created</code> 作成時刻</p>
+<dl>
+<dt>意味</dt><dd>アプリや macOS が「スリープしないで」と OS に出している要求（電源の assertion）の一覧と、その種類・出しているプロセス・状態・作った時刻です。</dd>
+<dt>計り方</dt><dd>IOPMCopyAssertionsByProcess と IOPMCopyAssertionsStatus で読むだけで、要求は変えません。約 60 秒ごとに読み直します。</dd>
+<dt>Mac がスリープしない時に考えられること</dt><dd>動画の再生、ファイルのダウンロードやコピー、バックアップ、共有の機能などは、その間スリープを止めます。終わったのに残っている時は、そのアプリが要求を出したままです。Apple によると、ディスクへのアクセスや Spotlight の索引作成、共有のサービスもスリープしない原因になります。</dd>
+<dt>対処</dt><dd>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「エネルギー」タブの「非スリープ」の列で、スリープを止めているアプリを確かめ、要らないなら終了します。使っていない共有の機能は、システム設定 ＞「一般」＞「共有」でオフにします（Apple の記事「Macが突然スリープまたはスリープ解除する場合」）。</dd>
+<dt>注意</dt><dd>種類には、画面や利用者の操作の状態も含まれます。所有プロセスの名前は書き出しでは伏せます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thermal-state">
+<span id="thermal.state"></span><span id="thermal.notificationTime"></span>
+<h3 id="h-thermal-state">熱の状態（Thermal state）と通知時刻</h3>
+<p class="meta">ID: <code>thermal.state</code> 熱の状態 ・ <code>thermal.notificationTime</code> 熱の状態が変わった時刻</p>
+<dl>
+<dt>意味</dt><dd>macOS が報告する熱の状態と、最後に変わった時刻です。温度の数値ではありません。Apple の説明では、nominal（通常）＝正常の範囲、fair（やや高い）＝少し高い、serious（高い）＝高い、critical（危険域）＝システムの性能に大きく影響していて、冷やす必要がある状態です。</dd>
+<dt>計り方</dt><dd>ProcessInfo.thermalState と、その変化の通知で読みます。</dd>
+<dt>注意</dt><dd>通常・やや高い・高い・危険域の4段階です。下の「熱の圧迫の段階」（OS の5段階）とは別の指標で、相互に段階を換算しません。</dd>
+<dt>高い時に考えられること</dt><dd>重い処理が続いている、周りの温度が高い、柔らかい場所（ソファ・ベッド・ひざの上など）で使って通気口がふさがれている、などです（Apple のファンの記事）。</dd>
+<dt>対処</dt><dd>机のような硬く平らな場所に置き、通気口をふさがないようにします。CPU や GPU を多く使っているアプリ（アクティビティモニタで確かめる）を終了するか、重い作業を止めます。周りの温度が低い場所で使います。低電力モードを使うと、一部の機種ではファンの音も減らせます。負荷が低いのにファンが回り続ける時は、Apple の記事「Apple製品のファンとその動作音について」の機種ごとの手順に従います。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thermal-pressure">
+<span id="thermal.limitation"></span>
+<h3 id="h-thermal-pressure">熱の圧迫の段階（OS の5段階）</h3>
+<p class="meta">ID: <code>thermal.limitation</code> 熱の圧迫の段階（OS の5段階）</p>
+<dl>
+<dt>意味</dt><dd>OS が知らせる熱の圧迫の段階です。0 nominal（通常）・1 moderate（中程度）・2 heavy（高い）・3 trapping（非常に高い）・4 sleeping（スリープ）の5段階です。温度や性能の制限率ではありません。</dd>
+<dt>単位</dt><dd>0〜4 の段階（温度や % ではありません）</dd>
+<dt>計り方</dt><dd>SDK の公開ヘッダ OSThermalNotification.h の OSThermalPressureLevel を、notify_register_dispatch で登録した通知の token を使って notify_get_state で初回に読みます。その後は同じ通知で変化を受け取ります。</dd>
+<dt>高い時に考えられること</dt><dd>重い作業が続く時や通気が妨げられる時などに、OS が高い段階を報告することがあります。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）で負荷の高いアプリを確かめ、重い作業を減らします。使っていないアプリを終了する前には作業を保存してください。</li><li>Mac を机のような硬く平らな場所に置き、通気口をふさがないようにします（Apple のファンの記事）。</li></ul></dd>
+<dt>注意</dt><dd>「熱の状態」（ProcessInfo.thermalState の4段階）とは別の指標です。温度の実測や安全の保証として使わないでください。実機では段階0の取得を確認していますが、段階1〜4の負荷時の照合は済んでいません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thermal-research">
+<span id="thermal.cpu.temperature"></span><span id="thermal.gpu.temperature"></span><span id="thermal.battery.temperature"></span><span id="thermal.ambient.temperature"></span><span id="thermal.fan.rpm"></span><span id="thermal.component.watts"></span>
+<h3 id="h-thermal-research">温度・ファン・部位の電力</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>thermal.cpu.temperature</code> CPU温度 ・ <code>thermal.gpu.temperature</code> GPU温度 ・ <code>thermal.battery.temperature</code> 電池温度 ・ <code>thermal.ambient.temperature</code> 周辺温度 ・ <code>thermal.fan.rpm</code> ファンRPM ・ <code>thermal.component.watts</code> 部位の電力</p>
+<dl>
+<dt>意味</dt><dd>CPU・GPU・電池・周りの温度、ファンの回転数、部品ごとの電力です。</dd>
+<dt>取得できない理由</dt><dd>App Store で配布するアプリ（サンドボックスの中）が、公開された方法で読めるかを調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。熱の状態は「熱の状態（Thermal state）」で分かります。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-energy-consumption-actmntr43697/mac">Macのアクティビティモニタでエネルギー消費を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/check-the-condition-of-your-computers-battery-mh20865/mac">Macノートブックのバッテリーの状態を確認する</a></li><li><a href="https://support.apple.com/ja-jp/108376">Macノートブックでバッテリーが「修理サービス推奨」と表示される場合</a></li><li><a href="https://support.apple.com/ja-jp/102888">Macノートブックのバッテリーの充放電回数を調べる</a></li><li><a href="https://support.apple.com/ja-jp/102338">Macの「バッテリー充電の最適化」と充電上限について</a></li><li><a href="https://support.apple.com/ja-jp/102464">USB-C電源アダプタでMacノートブックが充電されない場合</a></li><li><a href="https://support.apple.com/ja-jp/101613">Macの電源モードについて</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/if-your-mac-sleeps-or-wakes-unexpectedly-mchlp2995/mac">Macが突然スリープまたはスリープ解除する場合</a></li><li><a href="https://support.apple.com/ja-jp/101576">Apple製品のファンとその動作音について</a></li><li><a href="https://developer.apple.com/documentation/foundation/processinfo/thermalstate-swift.enum">ProcessInfo.ThermalState（Apple Developer）</a></li><li><a href="https://developer.apple.com/documentation/foundation/processinfo/islowpowermodeenabled">ProcessInfo.isLowPowerModeEnabled（Apple Developer）</a></li><li><a href="https://developer.apple.com/documentation/iokit/1514293-ioregistryentrycreatecfproperty">IORegistryEntryCreateCFProperty（Apple Developer）</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-hardware">
+<h2 id="sec-hardware">ハードウェア</h2>
+<p>Mac の機種・OS・部品と、つないでいる機器の情報です。多くは値に良し悪しがなく、困った時に Apple のサポートなどへ伝える情報として使えます。</p>
+<p class="in-section">この節の項目: <a href="#h-sys-identity">モデル識別子・OS の版とビルド・アーキテクチャ・CPU 名</a> ・ <a href="#h-sys-cores">コアの数と P/E の構成</a> ・ <a href="#h-sys-memory">RAM 総量</a> ・ <a href="#h-sys-time">起動時刻・起動後経過・起きていた時間</a> ・ <a href="#h-app-version">アプリ版・測定器版</a> ・ <a href="#h-gpu-info">GPU の情報</a> ・ <a href="#h-gpu-memory">GPU メモリ予算・このアプリの Metal 割当</a> ・ <a href="#h-gpu-system-usage">GPU 全体の使用率</a> ・ <a href="#h-gpu-renderer-usage">GPU レンダラー使用率</a> ・ <a href="#h-gpu-tiler-usage">GPU タイラー使用率</a> ・ <a href="#h-gpu-system-memory">GPU が使用中の統合メモリ</a> ・ <a href="#h-gpu-memory-allocated">GPU が確保した統合メモリ</a> ・ <a href="#h-gpu-research">GPU の周波数・電力・プロセス帰属と Neural Engine</a> ・ <a href="#h-displays">ディスプレイ</a> ・ <a href="#h-audio">音声の機器</a> ・ <a href="#h-usb">USB の機器</a> ・ <a href="#h-thunderbolt">Thunderbolt・USB4</a> ・ <a href="#h-bluetooth">Bluetooth の機器</a></p>
+<article class="item" aria-labelledby="h-sys-identity">
+<span id="sys.model"></span><span id="sys.os.version"></span><span id="sys.os.build"></span><span id="sys.architecture"></span><span id="sys.cpu.name"></span>
+<h3 id="h-sys-identity">モデル識別子・OS の版とビルド・アーキテクチャ・CPU 名</h3>
+<p class="meta">ID: <code>sys.model</code> モデル識別子 ・ <code>sys.os.version</code> OS版 ・ <code>sys.os.build</code> OSビルド ・ <code>sys.architecture</code> アーキテクチャ ・ <code>sys.cpu.name</code> CPU・SoC名</p>
+<dl>
+<dt>意味</dt><dd>Mac のモデル識別子、macOS の版とビルド番号、アーキテクチャ（arm64＝Apple シリコン、x86_64＝Intel）、CPU・SoC の名前です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>sysctl の hw.* と kern.os* で読みます。</dd>
+<dt>注意</dt><dd>機種や macOS の版は、アップルメニュー ＞「このMacについて」でも見られます。Apple は、その Mac で使える最新の macOS を使うよう勧めています（システム設定 ＞「一般」＞「ソフトウェアアップデート」）。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sys-cores">
+<span id="sys.cores.logical"></span><span id="sys.cores.physical"></span><span id="sys.cores.active"></span><span id="sys.cores.performanceEfficiency"></span>
+<h3 id="h-sys-cores">コアの数と P/E の構成</h3>
+<p class="meta">ID: <code>sys.cores.logical</code> 論理コア数 ・ <code>sys.cores.physical</code> 物理コア数 ・ <code>sys.cores.active</code> アクティブコア数 ・ <code>sys.cores.performanceEfficiency</code> P/E構成</p>
+<dl>
+<dt>意味</dt><dd>論理コア数・物理コア数・アクティブなコア数と、高性能（P）コアと高効率（E）コアの構成です。CPU の節の値をハードウェアの一覧にまとめたものです。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>sysctl の hw.logicalcpu・hw.physicalcpu・hw.activecpu・hw.perflevel* で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sys-memory">
+<span id="sys.memory.physical"></span>
+<h3 id="h-sys-memory">RAM 総量</h3>
+<p class="meta">ID: <code>sys.memory.physical</code> RAM総量</p>
+<dl>
+<dt>意味</dt><dd>搭載されている実メモリ（RAM）の量です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>ProcessInfo.physicalMemory で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sys-time">
+<span id="sys.boot.time"></span><span id="sys.uptime"></span><span id="sys.awakeTime"></span>
+<h3 id="h-sys-time">起動時刻・起動後経過・起きていた時間</h3>
+<p class="meta">ID: <code>sys.boot.time</code> 起動時刻 ・ <code>sys.uptime</code> 起動後経過 ・ <code>sys.awakeTime</code> 起きていた時間</p>
+<dl>
+<dt>意味</dt><dd>Mac を起動した時刻、起動してからの経過時間（スリープしていた時間を含む）、起動してから起きていた時間（Apple の説明: 最後に再起動してからシステムが起きていた時間）です。</dd>
+<dt>計り方</dt><dd>sysctl の kern.boottime と、ProcessInfo.systemUptime で読みます。</dd>
+<dt>長い時</dt><dd>長く再起動していないこと自体は問題ではありません。動作が不安定な時は、Mac の再起動を試します。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-app-version">
+<span id="sys.app.version"></span><span id="sys.collector.version"></span>
+<h3 id="h-app-version">アプリ版・測定器版</h3>
+<p class="meta">ID: <code>sys.app.version</code> アプリ版 ・ <code>sys.collector.version</code> 測定器版</p>
+<dl>
+<dt>意味</dt><dd>このアプリの版と、値を集める部分（測定器）の版です。お問い合わせの時にお知らせください。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>アプリの Info.plist（Bundle.infoDictionary）で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-info">
+<span id="gpu.metal.name"></span><span id="gpu.metal.deviceCount"></span><span id="gpu.metal.lowPower"></span><span id="gpu.metal.external"></span><span id="gpu.metal.unifiedMemory"></span><span id="gpu.metal.deviceCapabilities"></span>
+<h3 id="h-gpu-info">GPU の情報</h3>
+<p class="meta">ID: <code>gpu.metal.name</code> GPU名 ・ <code>gpu.metal.deviceCount</code> GPU数 ・ <code>gpu.metal.lowPower</code> 低電力GPU ・ <code>gpu.metal.external</code> 外部GPU ・ <code>gpu.metal.unifiedMemory</code> 統合メモリ対応 ・ <code>gpu.metal.deviceCapabilities</code> GPU 機器の特性</p>
+<dl>
+<dt>意味</dt><dd>GPU（画像の計算をする部品）の名前と数、低電力の GPU か、外付けの GPU か、CPU と同じメモリを共有するか（ユニファイドメモリ）、GPU の機能です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>Metal（MTLDevice）で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-memory">
+<span id="gpu.metal.recommendedMaxWorkingSetSize"></span><span id="gpu.metal.currentAllocatedSize"></span>
+<h3 id="h-gpu-memory">GPU メモリ予算・このアプリの Metal 割当</h3>
+<p class="meta">ID: <code>gpu.metal.recommendedMaxWorkingSetSize</code> GPUメモリ予算（API） ・ <code>gpu.metal.currentAllocatedSize</code> このアプリのMetal割当</p>
+<dl>
+<dt>意味</dt><dd>GPU のメモリの予算（Apple の説明: 性能に影響を与えずに GPU が確保できるメモリの量の近似値）と、このアプリが GPU に確保しているメモリの量（他のアプリの分は含みません）です。値に良し悪しはありません。</dd>
+<dt>単位</dt><dd>バイト</dd>
+<dt>計り方</dt><dd>MTLDevice の recommendedMaxWorkingSetSize と currentAllocatedSize で読みます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-system-usage">
+<span id="gpu.system.usage"></span>
+<h3 id="h-gpu-system-usage">GPU 全体の使用率</h3>
+<p class="meta">ID: <code>gpu.system.usage</code> 全体GPU使用率</p>
+<dl>
+<dt>意味</dt><dd>Mac 全体の GPU がどれだけ働いているかを示す、OS が返す Device 使用率です。</dd>
+<dt>単位</dt><dd>%（内部では 0〜1 の比率）</dd>
+<dt>計り方</dt><dd>IORegistry の IOAccelerator にある PerformanceStatistics の Device Utilization % を、GPU の節など値を出す面が見えている間だけ 1 秒ごとに読み、100 で割って保持します。</dd>
+<dt>高い時に考えられること</dt><dd>動画の書き出し、ゲームなどの GPU を使う処理が続いている可能性があります。高い値だけで異常とは判断しません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ウインドウ」＞「GPUの履歴」で、同じ時刻の GPU の動作状況を確かめます。</li><li>動画の書き出しなど、実行中の重い処理があれば完了を待つか、そのアプリ内の停止操作で一時停止して値の変化を確認します。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>Device・Renderer・Tiler の使用率は足し合わせません。読み取りに使う IOKit 関数は公開されていますが、PerformanceStatistics の鍵と OS 内部の観測窓は Apple の文書にありません。値は OS の観測値として扱い、アクティビティモニタと数値が完全に一致するとは限りません。M1・macOS 27.0.1 の ad-hoc 署名＋app-sandbox で取得を確認しました。他の機種・世代と Apple Development 署名・配布は未検証です。鍵がなければ理由つきの取得不能、GPU がない場合や複数 GPU の全体値は未対応で、0 を作りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-renderer-usage">
+<span id="gpu.system.rendererUsage"></span>
+<h3 id="h-gpu-renderer-usage">GPU レンダラー使用率</h3>
+<p class="meta">ID: <code>gpu.system.rendererUsage</code> GPU レンダラー使用率</p>
+<dl>
+<dt>意味</dt><dd>OS が Renderer Utilization % という名前で返す GPU の稼働割合です。Device 全体の使用率とは別の観測値です。</dd>
+<dt>単位</dt><dd>%（内部では 0〜1 の比率）</dd>
+<dt>計り方</dt><dd>IOAccelerator の PerformanceStatistics にある Renderer Utilization % を、値を出す面が見えている間だけ 1 秒ごとに読み、100 で割って保持します。</dd>
+<dt>高い時に考えられること</dt><dd>GPU を使う処理が続いている可能性があります。この値だけでは、どのアプリや種類の処理が原因かは分かりません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ウインドウ」＞「GPUの履歴」で、同じ時刻の GPU の動作状況を確かめます。</li><li>動画の書き出しなど、実行中の重い処理があれば完了を待つか、そのアプリ内の停止操作で一時停止して値の変化を確認します。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>Device や Tiler の値とは足し合わせません。Renderer という鍵名から、処理の詳しい内訳を断定しません。読み取りに使う IOKit 関数は公開されていますが、PerformanceStatistics の鍵と OS 内部の観測窓は Apple の文書にありません。値は OS の観測値として扱い、アクティビティモニタと数値が完全に一致するとは限りません。M1・macOS 27.0.1 の ad-hoc 署名＋app-sandbox で取得を確認しました。他の機種・世代と Apple Development 署名・配布は未検証です。鍵がなければ理由つきの取得不能、GPU がない場合や複数 GPU の全体値は未対応で、0 を作りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-tiler-usage">
+<span id="gpu.system.tilerUsage"></span>
+<h3 id="h-gpu-tiler-usage">GPU タイラー使用率</h3>
+<p class="meta">ID: <code>gpu.system.tilerUsage</code> GPU タイラー使用率</p>
+<dl>
+<dt>意味</dt><dd>OS が Tiler Utilization % という名前で返す GPU の稼働割合です。Device や Renderer とは別の観測値です。</dd>
+<dt>単位</dt><dd>%（内部では 0〜1 の比率）</dd>
+<dt>計り方</dt><dd>IOAccelerator の PerformanceStatistics にある Tiler Utilization % を、値を出す面が見えている間だけ 1 秒ごとに読み、100 で割って保持します。</dd>
+<dt>高い時に考えられること</dt><dd>GPU を使う処理が続いている可能性があります。この値だけでは、どのアプリや種類の処理が原因かは分かりません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「ウインドウ」＞「GPUの履歴」で、同じ時刻の GPU の動作状況を確かめます。</li><li>動画の書き出しなど、実行中の重い処理があれば完了を待つか、そのアプリ内の停止操作で一時停止して値の変化を確認します。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li></ul></dd>
+<dt>注意</dt><dd>Device や Renderer の値とは足し合わせません。Tiler という鍵名から、処理の詳しい内訳を断定しません。読み取りに使う IOKit 関数は公開されていますが、PerformanceStatistics の鍵と OS 内部の観測窓は Apple の文書にありません。値は OS の観測値として扱い、アクティビティモニタと数値が完全に一致するとは限りません。M1・macOS 27.0.1 の ad-hoc 署名＋app-sandbox で取得を確認しました。他の機種・世代と Apple Development 署名・配布は未検証です。鍵がなければ理由つきの取得不能、GPU がない場合や複数 GPU の全体値は未対応で、0 を作りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-system-memory">
+<span id="gpu.system.memory"></span>
+<h3 id="h-gpu-system-memory">GPU が使用中の統合メモリ</h3>
+<p class="meta">ID: <code>gpu.system.memory</code> GPU が使用中の統合メモリ</p>
+<dl>
+<dt>意味</dt><dd>GPU が使用中の、CPU と共有する統合メモリの量です。Mac のメモリ使用量の内数で、メモリの使用量に足して二重に数えません。Metal のメモリ予算や、このアプリだけの割当量とは異なります。</dd>
+<dt>単位</dt><dd>バイト（表示は MB・GB など）</dd>
+<dt>計り方</dt><dd>IOAccelerator の PerformanceStatistics にある In use system memory を、値を出す面が見えている間だけ 1 秒ごとに読みます。</dd>
+<dt>高い時に考えられること</dt><dd>GPU を使う処理が多くの共有メモリを使っている可能性があります。量が多いだけでメモリ不足とは判断せず、メモリの圧迫やスワップも併せて確認します。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>専用 VRAM の容量や、全プロセスのメモリを足した値ではありません。読み取りに使う IOKit 関数は公開されていますが、PerformanceStatistics の鍵と OS 内部の観測窓は Apple の文書にありません。値は OS の観測値として扱い、アクティビティモニタと数値が完全に一致するとは限りません。M1・macOS 27.0.1 の ad-hoc 署名＋app-sandbox で取得を確認しました。他の機種・世代と Apple Development 署名・配布は未検証です。鍵がなければ理由つきの取得不能、GPU がない場合や複数 GPU の全体値は未対応で、0 を作りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-memory-allocated">
+<span id="gpu.system.memoryAllocated"></span>
+<h3 id="h-gpu-memory-allocated">GPU が確保した統合メモリ</h3>
+<p class="meta">ID: <code>gpu.system.memoryAllocated</code> GPU が確保した統合メモリ</p>
+<dl>
+<dt>意味</dt><dd>OS が GPU の確保量として返す統合メモリの量です。使用中の量（In use system memory）とは異なり、このアプリだけの Metal 割当量でもありません。</dd>
+<dt>単位</dt><dd>バイト（表示は MB・GB など）</dd>
+<dt>計り方</dt><dd>IOAccelerator の PerformanceStatistics にある Alloc system memory を、値を出す面が見えている間だけ 1 秒ごとに読みます。</dd>
+<dt>高い時に考えられること</dt><dd>GPU 向けに多くのメモリが確保されている可能性があります。この値だけで、全てが使用中、メモリ不足、またはメモリリークと判断することはできません。</dd>
+<dt>対処</dt><dd><ul><li>アクティビティモニタ（「アプリケーション」フォルダの「ユーティリティ」フォルダ）の「メモリ」タブで「メモリ」の列で並べ替え、多く使っているアプリを確かめます。ブラウザなら使っていないタブを閉じます。</li><li>使っていないアプリを終了します（作業は先に保存）。応答しないアプリは、アップルメニュー ＞「強制終了」か、アクティビティモニタの「停止」ボタン ＞「強制終了」で終了します。強制終了では保存していない変更が失われることがあります。名前の分からないプロセスや macOS のプロセスは終了しないでください。終了したプロセスを他のアプリやプロセスが使っていると、それらに問題が起きることがあります（Apple）。関係は、アクティビティモニタの「表示」＞「すべてのプロセス（階層表示）」で見られます。</li><li>タブの下の「メモリプレッシャー」のグラフの色は、Apple の説明では、緑＝RAM を効率よく使えている・黄＝今後 RAM が不足するおそれ・赤＝RAM の増設が必要な状態です。赤が続く時は、同時に使うアプリを減らします。増設できる Mac かどうかは Apple の記事「アクティビティモニタでMacに追加のRAMが必要かどうかを確認する」で確かめられます。</li></ul></dd>
+<dt>注意</dt><dd>使用中の GPU メモリや Mac のメモリ使用量と足し合わせません。確保量と使用中の量の差を、そのまま解放できる量と見なすこともできません。読み取りに使う IOKit 関数は公開されていますが、PerformanceStatistics の鍵と OS 内部の観測窓は Apple の文書にありません。値は OS の観測値として扱い、アクティビティモニタと数値が完全に一致するとは限りません。M1・macOS 27.0.1 の ad-hoc 署名＋app-sandbox で取得を確認しました。他の機種・世代と Apple Development 署名・配布は未検証です。鍵がなければ理由つきの取得不能、GPU がない場合や複数 GPU の全体値は未対応で、0 を作りません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-research">
+<span id="gpu.system.frequency"></span><span id="gpu.system.watts"></span><span id="gpu.process.attribution"></span><span id="ane.system.usage"></span><span id="ane.system.watts"></span>
+<h3 id="h-gpu-research">GPU の周波数・電力・プロセス帰属と Neural Engine</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>gpu.system.frequency</code> 全体GPU周波数 ・ <code>gpu.system.watts</code> 全体GPU電力 ・ <code>gpu.process.attribution</code> GPU のプロセス帰属 ・ <code>ane.system.usage</code> ANE使用率 ・ <code>ane.system.watts</code> ANE電力</p>
+<dl>
+<dt>意味</dt><dd>現在の GPU の周波数と電力、プロセスごとの GPU の使用、Neural Engine（機械学習のための部品）の使用率と電力です。</dd>
+<dt>取得できない理由</dt><dd>App Store で配布するアプリ（サンドボックスの中）が、公開された方法で取れるかを調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>GPU の使用状況は、アクティビティモニタの「ウインドウ」＞「GPUの履歴」で見られます。Apple は、Mac が熱い・電池の減りが速い時に GPU の動作状況を確かめるよう案内しています。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-displays">
+<span id="devices.display.count"></span><span id="devices.display.name"></span><span id="devices.display.resolution"></span><span id="devices.display.logicalSize"></span><span id="devices.display.scale"></span><span id="devices.display.refresh"></span><span id="devices.display.maxFPS"></span><span id="devices.display.hdrSupport"></span><span id="devices.display.hdrState"></span><span id="devices.display.colorGamut"></span>
+<h3 id="h-displays">ディスプレイ</h3>
+<p class="meta">ID: <code>devices.display.count</code> ディスプレイ数 ・ <code>devices.display.name</code> ディスプレイ名 ・ <code>devices.display.resolution</code> ディスプレイ解像度（px） ・ <code>devices.display.logicalSize</code> ディスプレイ論理サイズ（pt） ・ <code>devices.display.scale</code> ディスプレイの表示倍率 ・ <code>devices.display.refresh</code> 現在のリフレッシュレート（Hz） ・ <code>devices.display.maxFPS</code> ディスプレイ最大FPS（公称） ・ <code>devices.display.hdrSupport</code> EDR（HDR）対応 ・ <code>devices.display.hdrState</code> 現在のEDR余裕 ・ <code>devices.display.colorGamut</code> ディスプレイ色域</p>
+<dl>
+<dt>意味</dt><dd>ディスプレイの数と名前、解像度（ピクセル）、論理サイズ（ポイント。画面の広さの見え方）、倍率（1 ポイントが何ピクセルか）、いまのリフレッシュレート（1 秒に描き直す回数）、最大のフレームレート（公称）、EDR（HDR）に対応するか、いまの EDR の余裕（Apple の説明では、HDR の内容を表示していない時は 1.0）、色域（表示できる色の範囲）です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>NSScreen と CoreGraphics のディスプレイモードで読みます。</dd>
+<dt>注意</dt><dd>対応するディスプレイでは、リフレッシュレートをシステム設定 ＞「ディスプレイ」で変えられます（Apple の記事）。ProMotion などでは、表示する内容に合わせて自動で変わります。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-audio">
+<span id="devices.audio.count"></span><span id="devices.audio.inputs"></span><span id="devices.audio.outputs"></span><span id="devices.audio.default"></span><span id="devices.audio.sampleRate"></span><span id="devices.audio.inputChannels"></span><span id="devices.audio.outputChannels"></span><span id="devices.audio.transport"></span>
+<h3 id="h-audio">音声の機器</h3>
+<p class="meta">ID: <code>devices.audio.count</code> 音声機器数 ・ <code>devices.audio.inputs</code> 音声入力機器 ・ <code>devices.audio.outputs</code> 音声出力機器 ・ <code>devices.audio.default</code> 音声の既定機器 ・ <code>devices.audio.sampleRate</code> 音声サンプルレート ・ <code>devices.audio.inputChannels</code> 音声入力チャンネル数 ・ <code>devices.audio.outputChannels</code> 音声出力チャンネル数 ・ <code>devices.audio.transport</code> 音声の接続方式</p>
+<dl>
+<dt>意味</dt><dd>音声の機器の数、入力（マイクなど）と出力（スピーカー・ヘッドフォンなど）の機器、既定の機器、サンプルレート（1 秒間の音の刻みの数）、チャンネルの数、接続の方式（内蔵・USB・Bluetooth など）です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>CoreAudio で読みます。</dd>
+<dt>注意</dt><dd>音が出ない・違う機器から出る時は、システム設定の「サウンド」で出力と入力の機器を確かめます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-usb">
+<span id="devices.usb.count"></span><span id="devices.usb.identity"></span><span id="devices.usb.vendor"></span><span id="devices.usb.standard"></span><span id="devices.usb.nominalSpeed"></span><span id="devices.usb.port"></span>
+<h3 id="h-usb">USB の機器</h3>
+<p class="meta">ID: <code>devices.usb.count</code> USB機器数 ・ <code>devices.usb.identity</code> USB 機器名 ・ <code>devices.usb.vendor</code> USBベンダー ・ <code>devices.usb.standard</code> USB接続クラス ・ <code>devices.usb.nominalSpeed</code> USB速度クラス（公称） ・ <code>devices.usb.port</code> USB の接続位置</p>
+<dl>
+<dt>意味</dt><dd>つないでいる USB の機器の数、名前と識別、メーカー、接続の規格の区分、公称の速さ、つないだ場所（locationID）です。</dd>
+<dt>計り方</dt><dd>IORegistry の IOUSBHostDevice で読みます。</dd>
+<dt>機器の速さが出ない時に考えられること</dt><dd>ケーブル・ハブ・ポートのどれかが遅い規格だと、その速さでつながります。</dd>
+<dt>対処</dt><dd>別のポートやケーブルを試します。Mac のポートの種類は Apple の記事「Macのポートを調べる」で確かめられます。</dd>
+<dt>注意</dt><dd>公称の値で、実際の転送の速さではありません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thunderbolt">
+<span id="devices.thunderbolt.count"></span><span id="devices.thunderbolt.identity"></span><span id="devices.thunderbolt.standard"></span><span id="devices.thunderbolt.nominalSpeed"></span><span id="devices.thunderbolt.depth"></span><span id="devices.thunderbolt.port"></span>
+<h3 id="h-thunderbolt">Thunderbolt・USB4</h3>
+<p class="meta">ID: <code>devices.thunderbolt.count</code> Thunderbolt/USB4ルーター数 ・ <code>devices.thunderbolt.identity</code> Thunderbolt 機器名 ・ <code>devices.thunderbolt.standard</code> Thunderbolt接続規格 ・ <code>devices.thunderbolt.nominalSpeed</code> Thunderboltポート上限（公称） ・ <code>devices.thunderbolt.depth</code> Thunderbolt接続段数 ・ <code>devices.thunderbolt.port</code> 上流ポート番号</p>
+<dl>
+<dt>意味</dt><dd>Thunderbolt・USB4 のルーター（接続の口）の数、識別、接続の規格、ポートの公称の上限の速さ、つないだ段数（数珠つなぎの何台目か）、上流のポートの番号です。</dd>
+<dt>計り方</dt><dd>IORegistry の IOThunderboltController などで読みます。</dd>
+<dt>機器の速さが出ない時に考えられること</dt><dd>ケーブルや途中の機器が対応する規格によって、速さが変わります。</dd>
+<dt>対処</dt><dd>別のポートやケーブルを試します。Mac のポートの種類は Apple の記事「Macのポートを調べる」で確かめられます。</dd>
+<dt>注意</dt><dd>公称の値で、実際の転送の速さではありません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-bluetooth">
+<span id="devices.bluetooth.battery"></span><span id="devices.bluetooth.connected"></span><span id="devices.bluetooth.known"></span>
+<h3 id="h-bluetooth">Bluetooth の機器</h3>
+<p class="meta"><span class="badge">権限なし（未要求）</span>ID: <code>devices.bluetooth.battery</code> Bluetooth電池 ・ <code>devices.bluetooth.connected</code> Bluetooth接続 ・ <code>devices.bluetooth.known</code> Bluetooth既知機器</p>
+<dl>
+<dt>意味</dt><dd>Bluetooth の機器の電池、接続しているか、登録済みの機器です。</dd>
+<dt>取得できない理由</dt><dd>Bluetooth を使うには追加の権限（と確認の画面）が要り、このアプリは要求していません。</dd>
+<dt>利用者ができること</dt><dd>何もしなくてよい項目です。Bluetooth の機器はシステム設定の「Bluetooth」で確かめられます。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/mac-help/get-system-information-about-your-mac-syspr35536/mac">Macのシステム情報を取得する</a></li><li><a href="https://support.apple.com/ja-jp/108382">MacのmacOSをアップデートする</a></li><li><a href="https://support.apple.com/ja-jp/109523">Macのポートを調べる</a></li><li><a href="https://support.apple.com/ja-jp/102297">MacBook ProやApple製のディスプレイでリフレッシュレートを変更する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-gpu-activity-actm9329b315/mac">MacのアクティビティモニタウインドウでGPUの動作状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/view-memory-usage-actmntr1004/mac">Macのアクティビティモニタでメモリの使用状況を表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/check-if-your-mac-needs-more-ram-actmntr34865/mac">アクティビティモニタでMacに追加のRAMが必要かどうかを確認する</a></li><li><a href="https://support.apple.com/ja-jp/guide/activity-monitor/quit-a-process-actmntr1002/mac">Macのアクティビティモニタでアプリまたはプロセスを終了する</a></li><li><a href="https://developer.apple.com/documentation/iokit/1514293-ioregistryentrycreatecfproperty">IORegistryEntryCreateCFProperty（Apple Developer）</a></li><li><a href="https://developer.apple.com/documentation/foundation/processinfo/systemuptime">ProcessInfo.systemUptime（Apple Developer）</a></li><li><a href="https://developer.apple.com/documentation/metal/mtldevice/recommendedmaxworkingsetsize">MTLDevice.recommendedMaxWorkingSetSize（Apple Developer）</a></li><li><a href="https://developer.apple.com/documentation/appkit/nsscreen/maximumextendeddynamicrangecolorcomponentvalue">NSScreen.maximumExtendedDynamicRangeColorComponentValue（Apple Developer）</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<section aria-labelledby="sec-diagnostics">
+<h2 id="sec-diagnostics">診断と権限</h2>
+<p>Mac とこのアプリに起きた出来事と、セキュリティの状態です。出来事はアプリのメモリの中だけに、件数の上限つきで記録し、外へ送りません。</p>
+<p class="in-section">この節の項目: <a href="#h-events-system">スリープ・画面・電源・接続の出来事</a> ・ <a href="#h-events-app">採取の失敗・復旧と、このアプリの取得エラー</a> ・ <a href="#h-sec-ownapp">自アプリ権限</a> ・ <a href="#h-sec-research">FileVault・ファイアウォール・Gatekeeper・SIP・アップデートの状態</a> ・ <a href="#h-sec-reports">クラッシュレポート・パニックレポート</a></p>
+<article class="item" aria-labelledby="h-events-system">
+<span id="events.sleepWake"></span><span id="events.displaySleepWake"></span><span id="events.powerSource"></span><span id="events.interfaceConnection"></span><span id="events.volumeConnection"></span>
+<h3 id="h-events-system">スリープ・画面・電源・接続の出来事</h3>
+<p class="meta">ID: <code>events.sleepWake</code> スリープ・復帰 ・ <code>events.displaySleepWake</code> 画面の消灯・復帰 ・ <code>events.powerSource</code> 電源切替 ・ <code>events.interfaceConnection</code> IF接続・切断 ・ <code>events.volumeConnection</code> ボリューム接続・切断</p>
+<dl>
+<dt>意味</dt><dd>スリープと復帰、画面の消灯と復帰、電源の切り替え、ネットワークのインターフェイスの接続と切断、ボリュームの接続と切断の出来事です。</dd>
+<dt>計り方</dt><dd>NSWorkspace の通知と、このアプリの監視項目の変化から記録します。</dd>
+<dt>多い時に考えられること</dt><dd>意図しないスリープや復帰が多い時は、共有の機能・ネットワーク経由のスリープ解除・つないでいる機器などが考えられます（Apple の記事）。接続と切断を繰り返す時は、ケーブルや接続が不安定なことがあります。</dd>
+<dt>対処</dt><dd>スリープについては Apple の記事「Macが突然スリープまたはスリープ解除する場合」の手順を試します。接続と切断を繰り返す機器は、ケーブルやポートを替えます。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-events-app">
+<span id="events.acquisitionFailure"></span><span id="events.ownAppError"></span>
+<h3 id="h-events-app">採取の失敗・復旧と、このアプリの取得エラー</h3>
+<p class="meta">ID: <code>events.acquisitionFailure</code> 採取失敗・復旧 ・ <code>events.ownAppError</code> 自アプリの取得エラー</p>
+<dl>
+<dt>意味</dt><dd>このアプリが値を取れなかった時と、取れるようになった時（採取の失敗・復旧）、このアプリの取得のエラーです。</dd>
+<dt>計り方</dt><dd>このアプリの中の出来事として記録します（システムのログは読みません）。</dd>
+<dt>多い時に考えられること</dt><dd>スリープからの復帰の直後などは、一時的に取れないことがあり、自動で復旧します。</dd>
+<dt>対処</dt><dd>続く時は、このアプリを終了して開き直します。それでも続く時は、このページの下のサポートへご連絡ください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sec-ownapp">
+<span id="sec.ownApp.permissions"></span>
+<h3 id="h-sec-ownapp">自アプリ権限</h3>
+<p class="meta">ID: <code>sec.ownApp.permissions</code> 自アプリ権限</p>
+<dl>
+<dt>意味</dt><dd>このアプリが持つ権限（App Sandbox など、署名に含まれる entitlement）の一覧です。値に良し悪しはありません。</dd>
+<dt>計り方</dt><dd>自分の署名を読みます（SecCodeCopySelf・SecCodeCopySigningInformation）。network.client の entitlement は付与していません。システム全体の crash・panic のログには管理者権限や専用 entitlement が必要なため、採取しません。プロセスへの attach も行いません。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sec-research">
+<span id="sec.fileVault"></span><span id="sec.firewall"></span><span id="sec.gatekeeper"></span><span id="sec.sip"></span><span id="sec.updates"></span>
+<h3 id="h-sec-research">FileVault・ファイアウォール・Gatekeeper・SIP・アップデートの状態</h3>
+<p class="meta"><span class="badge">調査中</span>ID: <code>sec.fileVault</code> FileVault状態 ・ <code>sec.firewall</code> ファイアウォール状態 ・ <code>sec.gatekeeper</code> Gatekeeper状態 ・ <code>sec.sip</code> SIP状態 ・ <code>sec.updates</code> 更新状態</p>
+<dl>
+<dt>意味</dt><dd>FileVault（ディスクの暗号化）、ファイアウォール、Gatekeeper（信頼できるソフトウェアだけを実行させる仕組み）、SIP（システム整合性保護）、ソフトウェアアップデートの状態です。</dd>
+<dt>取得できない理由</dt><dd>App Store で配布するアプリ（サンドボックスの中）が、公開された方法で読めるかを調べている途中です。</dd>
+<dt>利用者ができること</dt><dd>システム設定で直接確かめられます。FileVault は「プライバシーとセキュリティ」＞「FileVault」、ファイアウォールは「ネットワーク」＞「ファイアウォール」、アプリの実行の許可は「プライバシーとセキュリティ」の「ダウンロードしたアプリケーションの実行許可」、アップデートは「一般」＞「ソフトウェアアップデート」です。SIP については Apple の記事「Macのシステム整合性保護について」をご覧ください。</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sec-reports">
+<span id="sec.reports.crash"></span><span id="sec.reports.panic"></span>
+<h3 id="h-sec-reports">クラッシュレポート・パニックレポート</h3>
+<p class="meta"><span class="badge">権限なし（未要求）</span>ID: <code>sec.reports.crash</code> クラッシュレポート ・ <code>sec.reports.panic</code> パニックレポート</p>
+<dl>
+<dt>意味</dt><dd>アプリが突然終了した時の記録（クラッシュレポート）と、Mac が問題で再起動した時の記録（パニックレポート）です。</dd>
+<dt>取得できない理由</dt><dd>システム全体のログを読む権限が要り、このアプリは要求していません。</dd>
+<dt>利用者ができること</dt><dd>クラッシュレポートは「コンソール」（「アプリケーション」フォルダの「ユーティリティ」フォルダ）のサイドバーの「クラッシュレポート」で見られます（管理者でない時は自分のレポートだけ）。Mac が問題で再起動した時は、Apple の記事「問題が起きてMacが再起動した場合」の手順（アップデートを入れる・周辺機器を外して確かめる など）を試します。</dd>
+</dl>
+</article>
+<div class="refs"><h3>参考（Apple の公式資料）</h3><ul><li><a href="https://support.apple.com/ja-jp/guide/mac-help/if-your-mac-sleeps-or-wakes-unexpectedly-mchlp2995/mac">Macが突然スリープまたはスリープ解除する場合</a></li><li><a href="https://support.apple.com/ja-jp/102382">問題が起きてMacが再起動した場合</a></li><li><a href="https://support.apple.com/ja-jp/guide/console/reports-cnsl664be99a/mac">Macの「コンソール」でレポートを表示する</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac">MacのデータをFileVaultで保護する</a></li><li><a href="https://support.apple.com/ja-jp/guide/mac-help/block-connections-to-your-mac-with-a-firewall-mh34041/mac">ファイアウォールを使用してMacへの接続をブロックする</a></li><li><a href="https://support.apple.com/ja-jp/102445">Macでアプリを安全に開く</a></li><li><a href="https://support.apple.com/ja-jp/102149">Macのシステム整合性保護について</a></li><li><a href="https://support.apple.com/ja-jp/108382">MacのmacOSをアップデートする</a></li></ul></div>
+<p class="top"><a href="#top">目次へ戻る</a></p>
+</section>
+
+<footer><p>内容は Apple の公式資料をもとにしています。macOS の版によって画面の名前や手順が変わることがあります。最終更新: 2026 年 10 月 19 日</p><p><a href="support.html">サポート</a> ・ <a href="privacy.html">プライバシーポリシー</a> ・ <a href="help-en.html" hreflang="en" lang="en">English</a></p></footer>
+
+</body>
+</html>

@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>System Monitor Help — Guide to Every Metric</title>
+<meta name="description" content="What each metric means, its unit, how it is measured, what a high or low value can mean, and what you can safely do.">
+<style>
+  :root { color-scheme: light dark; --text: #222; --muted: #5f5f5f; --line: #ddd; --link: #0066cc; --bg: #fff; --soft: #f5f5f3; --mark: #fff3cc; --badge-bg: #ececec; --badge: #444; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text: #e8e8e8; --muted: #a9a9a9; --line: #3b3b3b; --link: #6db3ff; --bg: #1c1c1e; --soft: #262628; --mark: #3d3412; --badge-bg: #353537; --badge: #e0e0e0; }
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; line-height: 1.75; max-width: 780px; margin: 40px auto; padding: 0 20px; color: var(--text); background: var(--bg); overflow-wrap: anywhere; }
+  h1 { border-bottom: 1px solid var(--line); padding-bottom: 8px; font-size: 1.55em; line-height: 1.4; }
+  h2 { font-size: 1.3em; margin: 2.6em 0 .6em; padding-bottom: 6px; border-bottom: 2px solid var(--line); line-height: 1.4; }
+  h3 { font-size: 1.05em; margin: 0 0 .25em; line-height: 1.5; }
+  a { color: var(--link); }
+  .lang { text-align: right; font-size: .9em; margin: 0 0 .5em; }
+  .toc ol { padding-left: 1.5em; columns: 2; column-gap: 2em; }
+  .toc li { break-inside: avoid; }
+  .guide { background: var(--soft); border-radius: 8px; padding: .6em 1.1em; margin: 1em 0; }
+  .guide h3 { margin-top: .4em; }
+  .in-section { font-size: .9em; color: var(--muted); }
+  .item { border-top: 1px solid var(--line); padding: 1.1em .6em .7em; margin: 0 -.6em; border-radius: 6px; }
+  .item:has(> span:target) { background: var(--mark); }
+  .item > span[id] { scroll-margin-top: 28px; }
+  .meta { margin: 0 0 .6em; font-size: .85em; color: var(--muted); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+  .badge { display: inline-block; padding: 0 .6em; margin-right: .5em; border-radius: 999px; background: var(--badge-bg); color: var(--badge); font-weight: 600; }
+  dl { display: grid; grid-template-columns: 9.5em 1fr; gap: .4em 1em; margin: 0; }
+  html[lang="en"] dl { grid-template-columns: 11em 1fr; }
+  dt { font-weight: 600; color: var(--muted); }
+  dd { margin: 0; }
+  dd ul { margin: 0; padding-left: 1.2em; }
+  dd li + li { margin-top: .25em; }
+  ul { padding-left: 1.5em; }
+  .refs { font-size: .9em; }
+  .top { font-size: .85em; margin: 1em 0 0; }
+  footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--line); font-size: .85em; color: var(--muted); }
+  @media (max-width: 600px) {
+    body { margin: 24px auto; padding: 0 16px; }
+    .toc ol { columns: 1; }
+    dl, html[lang="en"] dl { display: block; }
+    dt { margin-top: .7em; }
+  }
+</style>
+<!-- Google Analytics 4: shared website measurement -->
+<script src="../assets/analytics.js" defer></script>
+</head>
+<body>
+
+<p class="lang"><a href="help.html" hreflang="ja" lang="ja">日本語</a></p>
+<h1 id="top">System Monitor Help — Guide to Every Metric</h1>
+<p>This guide covers every metric in the Monitor window: what it means, its unit, how it's measured, what a high (or low) value can mean, and what you can do about it. Select a metric in All Metrics in the Monitor window and click Learn More to open its entry on this page.</p>
+
+<nav class="toc" aria-labelledby="toc-title">
+<h2 id="toc-title">Contents</h2>
+<ol>
+<li><a href="#sec-overview">Overview — How to read this guide</a></li>
+<li><a href="#sec-cpu">CPU</a> (11)</li>
+<li><a href="#sec-memory">Memory</a> (18)</li>
+<li><a href="#sec-storage">Storage</a> (12)</li>
+<li><a href="#sec-network">Network</a> (13)</li>
+<li><a href="#sec-processes">Processes</a> (11)</li>
+<li><a href="#sec-power">Power &amp; Thermal</a> (15)</li>
+<li><a href="#sec-hardware">Hardware</a> (18)</li>
+<li><a href="#sec-diagnostics">Diagnostics &amp; Permissions</a> (5)</li>
+</ol>
+</nav>
+
+<section aria-labelledby="sec-overview">
+<h2 id="sec-overview">Overview — How to read this guide</h2>
+<div class="guide">
+<h3 id="guide-states">Reading the status</h3>
+<p>All Metrics in the Monitor window shows the following for each metric.</p><dl><dt>Support</dt><dd>Whether the metric can be read on this Mac, OS, permissions and distribution. <strong>Supported</strong>, <strong>Unsupported</strong> (macOS doesn't provide it in these conditions), <strong>Permission required (not requested)</strong> (it needs an additional permission this app doesn't request), <strong>Permission denied</strong> (macOS refused access, for example to details of other users' processes), <strong>Under investigation</strong>, and <strong>Excluded</strong> (we decided not to collect it). This page marks every entry that isn't supported.</dd><dt>Acquisition</dt><dd>The result of the latest reading: <strong>Measured</strong>, <strong>Waiting for sample</strong> (waiting for the first value), <strong>Rebaselining</strong> (restarting a rate after sleep or a counter reset) and <strong>Unavailable</strong> (with a reason).</dd><dt>Freshness</dt><dd><strong>Fresh</strong>, <strong>Stale</strong> (shows when it was last read) and <strong>Unobserved</strong> (no value yet).</dd><dt>Provenance</dt><dd><strong>Measured</strong> (read from macOS), <strong>Derived</strong> (calculated from measured values), <strong>Estimated</strong> (a prediction, for example by macOS) and <strong>Nominal</strong> (a device specification).</dd></dl>
+</div>
+<div class="guide">
+<h3 id="guide-wording">Screen labels and collection details</h3>
+<p>Screen labels describe the measurements: Active, Wired, Speculative, Page-ins and Page-outs. Percentages follow the number without a space (for example, 42.3%). Sampled percentages use up to one decimal place, omitting an unnecessary .0. Tiny nonzero values appear as &lt;0.1% (or &gt;-0.1% when negative). Interpolated values use whole numbers, with exact ties rounded away from zero. Received and sent traffic are separate quantities. Bytes per second measures traffic; nominal link speed describes the connection specification. This guide’s measurement descriptions include API names and internal field names. In the app, these details are available in the developer section of the All Metrics inspector.</p>
+</div>
+<div class="guide">
+<h3 id="guide-units">Units and counting</h3>
+<ul><li><strong>Cumulative</strong> values are totals since your Mac started (or since the device began counting). <strong>Per-second</strong> values are the difference between two readings divided by the seconds between them.</li><li><strong>%</strong>: total CPU treats all cores together as 100%; process CPU treats one fully used core as 100%.</li><li><strong>Pages</strong>: the unit macOS uses to manage memory. See Actual page size for its size.</li><li><strong>App scores</strong> (PRESS and SWAP) are 0–100 guides this app calculates from macOS values; they won't match values in macOS or Activity Monitor.</li></ul>
+</div>
+<div class="guide">
+<h3 id="guide-safety">Staying safe</h3>
+<ul><li>This guide only suggests actions you can take safely: checking Activity Monitor, quitting apps, restarting your Mac, freeing up storage, changing power settings, and checking your power adapter and cables. It never suggests typing commands or deleting system files.</li><li>Save your work before quitting an app. Force quitting can lose unsaved changes.</li><li>Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>Values are a guide. If you need help, see Apple's articles listed in each section, or contact this app's support.</li></ul>
+</div>
+<div class="guide">
+<h3 id="guide-tools">Tools you'll use</h3>
+<ul><li><strong>Activity Monitor</strong> (in the Utilities folder inside Applications): shows which apps use CPU, memory, energy, disk and network. Click a column heading to sort.</li><li><strong>Force quitting an app</strong>: Apple menu &gt; Force Quit, or the Stop button in Activity Monitor.</li><li><strong>System Settings</strong>: storage (General &gt; Storage), battery (Battery, or Energy on desktop Macs) and updates (General &gt; Software Update).</li></ul>
+</div>
+<div class="guide">
+<h3 id="guide-privacy">About network access</h3>
+<p>When you open Help or Learn More, the app only hands this page's URL to your browser and doesn't connect to the network itself. Values in the Monitor stay on your Mac and are never sent anywhere.</p>
+</div>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/activity-monitor/welcome/mac">Activity Monitor User Guide</a></li><li><a href="https://support.apple.com/guide/activity-monitor/view-information-about-processes-actmntr1001/mac">View information about Mac processes in Activity Monitor</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/if-an-app-freezes-or-quits-unexpectedly-mchlp2579/mac">If an app freezes or quits unexpectedly on Mac</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-cpu">
+<h2 id="sec-cpu">CPU</h2>
+<p>The CPU is the part that does the computing. A Mac's CPU has several cores, and each core can work on a different task at the same time.</p>
+<p class="in-section">In this section: <a href="#h-cpu-total">Total CPU usage and breakdown</a> · <a href="#h-cpu-cores">Per-core usage, per-core history and busiest core</a> · <a href="#h-cpu-kind">Core classification (P and E cores)</a> · <a href="#h-cpu-config">CPU configuration (name and core counts)</a> · <a href="#h-cpu-load">Load average (1, 5 and 15 minutes)</a> · <a href="#h-cpu-system-tasks">System-wide process count</a> · <a href="#h-cpu-system-threads">System-wide thread count</a> · <a href="#h-cpu-time">Cumulative CPU time</a> · <a href="#h-cpu-frequency">Nominal CPU frequency (P/E cluster maximum)</a> · <a href="#h-cpu-frequency-current">Current CPU frequency</a> · <a href="#h-cpu-scheduler">Runnable tasks, interrupts, context switches and performance counters</a></p>
+<article class="item" aria-labelledby="h-cpu-total">
+<span id="cpu.total.busy"></span><span id="cpu.total.user"></span><span id="cpu.total.system"></span><span id="cpu.total.nice"></span><span id="cpu.total.idle"></span>
+<h3 id="h-cpu-total">Total CPU usage and breakdown</h3>
+<p class="meta">ID: <code>cpu.total.busy</code> Total CPU usage · <code>cpu.total.user</code> Total CPU user · <code>cpu.total.system</code> Total CPU system · <code>cpu.total.nice</code> Total CPU nice · <code>cpu.total.idle</code> Total CPU idle</p>
+<dl>
+<dt>Meaning</dt><dd>How busy the CPU is across the whole Mac. busy is the share of time spent working: user + system + nice (= 100% − idle). user is work done by apps and other user-side code, system is work done by the core of macOS (the kernel) on behalf of apps, such as reading files or networking, nice is work running at a lowered priority, and idle is time spent doing nothing. These correspond to System, User and Idle at the bottom of Activity Monitor's CPU tab (the counting may not be exactly the same).</dd>
+<dt>Unit</dt><dd>% (the time of all cores together is 100%)</dd>
+<dt>How it's measured</dt><dd>Reads the CPU time counters of macOS (host_statistics, HOST_CPU_LOAD_INFO) about once a second and computes the share from the difference since the last reading.</dd>
+<dt>When it's high</dt><dd>Apps doing heavy work (exporting video, building software, games, many browser tabs) push it up. If only system is high, the OS itself is doing a lot of work, such as heavy file reading/writing or networking. Apple notes that work such as Spotlight indexing after a data migration also raises the load.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the CPU tab and sort by the % CPU column to find the apps using the most CPU.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>After migrating data from another Mac, for example, Spotlight indexing can keep it high for a while; let it finish (Apple's article on fans).</li><li>If it stays high, restart your Mac and update your apps and macOS (System Settings &gt; General &gt; Software Update).</li></ul></dd>
+<dt>Note</dt><dd>Short spikes near 100% are normal. Look into it only when it stays high and your Mac feels slow, the fans spin up, or the battery drains quickly.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-cores">
+<span id="cpu.core.busy"></span><span id="cpu.core.user"></span><span id="cpu.core.system"></span><span id="cpu.core.nice"></span><span id="cpu.core.idle"></span><span id="cpu.core.history"></span><span id="cpu.core.maximum"></span>
+<h3 id="h-cpu-cores">Per-core usage, per-core history and busiest core</h3>
+<p class="meta">ID: <code>cpu.core.busy</code> Core usage · <code>cpu.core.user</code> Core user · <code>cpu.core.system</code> Core system · <code>cpu.core.nice</code> Core nice · <code>cpu.core.idle</code> Core idle · <code>cpu.core.history</code> Per-core history · <code>cpu.core.maximum</code> Busiest core usage</p>
+<dl>
+<dt>Meaning</dt><dd>Usage of each core with its breakdown (busy, user, system, nice, idle) and its recent history. Busiest core usage is the usage of the busiest core.</dd>
+<dt>Unit</dt><dd>% (the time of that core is 100%)</dd>
+<dt>How it's measured</dt><dd>Computed from the difference in each core's CPU time (host_processor_info, PROCESSOR_CPU_LOAD_INFO). The busiest core is shown only when all cores were measured over the same interval.</dd>
+<dt>When it's high</dt><dd>If one core is near 100% while the total is low, a single task keeps one core busy (work that can't run in parallel, or one heavy app or tab). If all cores are high, something heavy is running in parallel. Macs with Apple silicon have performance (P) and efficiency (E) cores, and macOS assigns work between them, so one kind can be busier than the other.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the CPU tab and sort by the % CPU column to find the apps using the most CPU.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>After migrating data from another Mac, for example, Spotlight indexing can keep it high for a while; let it finish (Apple's article on fans).</li><li>If it stays high, restart your Mac and update your apps and macOS (System Settings &gt; General &gt; Software Update).</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-kind">
+<span id="cpu.core.kind"></span><span id="cpu.configuration.performance"></span><span id="cpu.configuration.efficiency"></span>
+<h3 id="h-cpu-kind">Core classification (P and E cores)</h3>
+<p class="meta">ID: <code>cpu.core.kind</code> Core classification · <code>cpu.configuration.performance</code> P cores · <code>cpu.configuration.efficiency</code> E cores</p>
+<dl>
+<dt>Meaning</dt><dd>Whether each core is a performance (P) core or an efficiency (E) core, and how many of each there are. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Cross-checks sysctl hw.perflevel* with the device tree (IODeviceTree) and the core counts, and classifies only when the layout is confirmed. Otherwise the core shows as unclassified.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-config">
+<span id="cpu.configuration.name"></span><span id="cpu.configuration.logical"></span><span id="cpu.configuration.physical"></span><span id="cpu.configuration.active"></span>
+<h3 id="h-cpu-config">CPU configuration (name and core counts)</h3>
+<p class="meta">ID: <code>cpu.configuration.name</code> CPU / SoC · <code>cpu.configuration.logical</code> Logical cores (maximum) · <code>cpu.configuration.physical</code> Physical cores (maximum) · <code>cpu.configuration.active</code> Active cores</p>
+<dl>
+<dt>Meaning</dt><dd>The name of the CPU (the SoC on Apple silicon), the logical core count (how many tasks macOS can schedule at once), the physical core count (the cores as hardware) and the active core count (cores available now). There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Reads sysctl machdep.cpu.brand_string, hw.logicalcpu_max, hw.physicalcpu_max and hw.activecpu once, the first time they're needed.</dd>
+<dt>Note</dt><dd>On Macs with simultaneous multithreading (Intel Hyper-Threading), the logical core count is larger than the physical core count.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-load">
+<span id="cpu.load.avg1"></span><span id="cpu.load.avg5"></span><span id="cpu.load.avg15"></span>
+<h3 id="h-cpu-load">Load average (1, 5 and 15 minutes)</h3>
+<p class="meta">ID: <code>cpu.load.avg1</code> Load average 1 minute · <code>cpu.load.avg5</code> Load average 5 minutes · <code>cpu.load.avg15</code> Load average 15 minutes</p>
+<dl>
+<dt>Meaning</dt><dd>The load average over the last 1, 5 and 15 minutes: the average number of tasks running on the CPU or waiting for their turn. It's a different value from CPU usage (%).</dd>
+<dt>Unit</dt><dd>Number of tasks</dd>
+<dt>How it's measured</dt><dd>Read with getloadavg.</dd>
+<dt>When it's high</dt><dd>If it stays above the logical core count, tasks are waiting for the CPU and your Mac can feel slow. If only the 1-minute value is high and the 15-minute value is low, the load started recently and is temporary.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the CPU tab and sort by the % CPU column to find the apps using the most CPU.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>After migrating data from another Mac, for example, Spotlight indexing can keep it high for a while; let it finish (Apple's article on fans).</li><li>If it stays high, restart your Mac and update your apps and macOS (System Settings &gt; General &gt; Software Update).</li></ul></dd>
+<dt>Note</dt><dd>Use it as a rough guide. The more cores a Mac has, the higher the value it can handle.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-system-tasks">
+<span id="cpu.system.tasks"></span>
+<h3 id="h-cpu-system-tasks">System-wide process count</h3>
+<p class="meta">ID: <code>cpu.system.tasks</code> Processes (system total)</p>
+<dl>
+<dt>Meaning</dt><dd>The number of processes across the whole Mac, including macOS and background work as well as apps. It differs from the number of rows available in the process table.</dd>
+<dt>Unit</dt><dd>Number of processes (instantaneous count, no denominator)</dd>
+<dt>How it's measured</dt><dd>While the CPU page is visible, reads the kernel's system-wide count about once a second: processor_set_default → processor_set_statistics, PROCESSOR_SET_LOAD_INFO, task_count. It does not count process-table rows.</dd>
+<dt>When it's high</dt><dd>Many apps, helper processes or background tasks may be running. A high count alone does not show high CPU usage or a problem.</dd>
+<dt>What you can do</dt><dd><ul><li>If your Mac feels slow, open Activity Monitor (in the Utilities folder inside Applications), click CPU and sort by the % CPU column to find apps using the most CPU. The system process and thread counts appear below the list.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>Activity Monitor can use different update times or counting rules, so the counts may differ. If the value cannot be read, the app shows a reason instead of filling in zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-system-threads">
+<span id="cpu.system.threads"></span>
+<h3 id="h-cpu-system-threads">System-wide thread count</h3>
+<p class="meta">ID: <code>cpu.system.threads</code> Threads (system total)</p>
+<dl>
+<dt>Meaning</dt><dd>The number of threads across the whole Mac. A thread is a unit of execution within a process, and one process can have several threads. Includes kernel_task threads.</dd>
+<dt>Unit</dt><dd>Number of threads (instantaneous count, no denominator)</dd>
+<dt>How it's measured</dt><dd>While the CPU page is visible, reads thread_count from processor_set_statistics, PROCESSOR_SET_LOAD_INFO, about once a second. It does not sum thread counts from the available process-table rows.</dd>
+<dt>When it's high</dt><dd>Apps doing several things in parallel, or background work, may have many threads. Threads can be waiting, so a large count is not the same as high CPU usage.</dd>
+<dt>What you can do</dt><dd><ul><li>If your Mac feels slow or the count keeps growing, open Activity Monitor (in the Utilities folder inside Applications) and check which apps use the most CPU or memory. Choose View &gt; Columns to select columns, or select a process to inspect its information.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>This is not the CPU core count, the run queue length or a total since startup. It includes kernel_task, so it may differ from a process-table sum or Activity Monitor readings taken at another time.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-time">
+<span id="cpu.time.cumulative"></span>
+<h3 id="h-cpu-time">Cumulative CPU time</h3>
+<p class="meta">ID: <code>cpu.time.cumulative</code> Cumulative CPU time</p>
+<dl>
+<dt>Meaning</dt><dd>The total CPU time used since startup.</dd>
+<dt>Note</dt><dd>This version doesn't collect this value, so it shows as Unobserved. You don't need to do anything.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-frequency">
+<span id="cpu.frequency.nominal"></span>
+<h3 id="h-cpu-frequency">Nominal CPU frequency (P/E cluster maximum)</h3>
+<p class="meta">ID: <code>cpu.frequency.nominal</code> Nominal CPU frequency (cluster maximum)</p>
+<dl>
+<dt>Meaning</dt><dd>A nominal frequency describing the CPU's configuration. On Apple silicon, each P-core or E-core cluster shows a nominal (maximum) value. It is neither current frequency nor current CPU usage.</dd>
+<dt>Unit</dt><dd>Raw values use Hz (cycles per second). The CPU page displays GHz (one billion Hz).</dd>
+<dt>How it's measured</dt><dd>Read when CPU sampling is first needed, retaining successful values and confirmed missing sources or keys and incompatible tables. Only a failure to start enumeration or an invalidated enumeration is retried next time. On Apple silicon, it is the maximum in the pmgr voltage/frequency table in IORegistry: voltage-states5-sram for P, voltage-states1-sram for E. Intel retains the existing sysctl hw.cpufrequency as its nominal value.</dd>
+<dt>When it's high</dt><dd>A higher frequency is recorded in the configuration table. It does not mean the CPU is running at that frequency now or that CPU load is high. This value alone cannot establish relative Mac performance or a hardware problem.</dd>
+<dt>What you can do</dt><dd><ul><li>There is no need to reduce this configuration value. If your Mac feels slow, open Activity Monitor (in the Utilities folder inside Applications) and use the CPU tab to find apps using the most CPU.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>The Apple silicon value is an observation read from undocumented IORegistry keys, not a specification published by Apple. Tested on M1 only; M2 and later and Intel are unverified. Only Hz values with a maximum of at least 500 MHz are accepted. The kHz format on M4 and later is unverified on hardware: it is rejected as out of range rather than converted. M4 units and tables still need hardware comparison. A completed scan without pmgr or the required keys, or an incompatible table length or value range, is unsupported. These results are retained without rereading every second or substituting zero or another cluster's value. A failure to start enumeration or an invalidated enumeration is unavailable and retried next time. Current frequency is a separate, unsupported metric.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-frequency-current">
+<span id="cpu.frequency.current"></span>
+<h3 id="h-cpu-frequency-current">Current CPU frequency</h3>
+<p class="meta"><span class="badge">Unsupported</span>ID: <code>cpu.frequency.current</code> Current CPU frequency</p>
+<dl>
+<dt>Meaning</dt><dd>The CPU's clock frequency right now. Unsupported in this version.</dd>
+<dt>Why it's unavailable</dt><dd>IOReport, a candidate source for current frequency, is a private API and is not used by this app. Subscription also failed in the sandbox probe. The app does not infer current frequency from the nominal (maximum) value.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. Total CPU usage shows how busy the CPU is. Nominal (maximum) frequency is a separate configuration metric.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-cpu-scheduler">
+<span id="cpu.scheduler.runnable"></span><span id="cpu.scheduler.interrupts"></span><span id="cpu.scheduler.contextSwitches"></span><span id="cpu.performance.counters"></span>
+<h3 id="h-cpu-scheduler">Runnable tasks, interrupts, context switches and performance counters</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>cpu.scheduler.runnable</code> Runnable tasks · <code>cpu.scheduler.interrupts</code> Interrupts · <code>cpu.scheduler.contextSwitches</code> Context switches · <code>cpu.performance.counters</code> Performance counters</p>
+<dl>
+<dt>Meaning</dt><dd>The number of tasks waiting to run, the number of interrupts (signals from devices to the CPU), the number of context switches between tasks, and the CPU's performance counters that count low-level events.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating whether an app distributed on the App Store (inside the sandbox) can read these through public methods.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. Load average gives a rough idea of how many tasks are waiting.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/activity-monitor/view-cpu-activity-actmntr43452/mac">View CPU activity in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/activity-monitor/view-information-about-processes-actmntr1001/mac">View information about Mac processes in Activity Monitor</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/if-an-app-freezes-or-quits-unexpectedly-mchlp2579/mac">If an app freezes or quits unexpectedly on Mac</a></li><li><a href="https://support.apple.com/en-us/101576">About fans and fan noise in your Apple product</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-memory">
+<h2 id="sec-memory">Memory</h2>
+<p>Memory (RAM) holds the data apps are using right now. When it runs short, macOS compresses data that isn't in use or writes it out to storage (swap) to make room. Apple recommends judging whether you have enough memory from Memory Pressure in Activity Monitor. Having little free memory isn't a problem by itself.</p>
+<p class="in-section">In this section: <a href="#h-mem-pressure">OS memory pressure event</a> · <a href="#h-mem-press-score">App PRESS score</a> · <a href="#h-mem-swap-score">App SWAP score</a> · <a href="#h-mem-physical">Total physical memory</a> · <a href="#h-mem-breakdown">Memory breakdown (free, active, inactive, wired, speculative)</a> · <a href="#h-mem-compressed">Physical compressor storage and uncompressed equivalent</a> · <a href="#h-mem-file">File-backed and anonymous memory</a> · <a href="#h-mem-app-memory">App Memory</a> · <a href="#h-mem-cached-files">Cached Files</a> · <a href="#h-mem-purgeable">Reclaimable Memory</a> · <a href="#h-mem-compression-ratio">Compression Ratio (×)</a> · <a href="#h-mem-paging">Page-ins and page-outs</a> · <a href="#h-mem-faults">Page faults</a> · <a href="#h-mem-reactivations">Reactivations</a> · <a href="#h-mem-compressions">Compressions and decompressions</a> · <a href="#h-mem-swapio">Swap-ins and swap-outs</a> · <a href="#h-mem-swap">Swap used and swap allocated</a> · <a href="#h-mem-pagesize">Actual page size</a></p>
+<article class="item" aria-labelledby="h-mem-pressure">
+<span id="mem.pressure.event"></span>
+<h3 id="h-mem-pressure">OS memory pressure event</h3>
+<p class="meta">ID: <code>mem.pressure.event</code> OS memory pressure event</p>
+<dl>
+<dt>Meaning</dt><dd>The last state of the memory pressure signal that macOS sends to apps (normal, warning, critical) and when it arrived.</dd>
+<dt>How it's measured</dt><dd>Receives Dispatch memory pressure events (DispatchSource.makeMemoryPressureSource). Events arrive only when the state changes, so it shows Unobserved until the first one.</dd>
+<dt>When it's warning or critical</dt><dd>Physical memory is running short and macOS is asking apps to use less. It happens when many apps or tabs are open at once.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>It's measured differently from the Memory Pressure graph in Activity Monitor, so the two may not match.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-press-score">
+<span id="mem.pressure.score"></span>
+<h3 id="h-mem-press-score">App PRESS score</h3>
+<p class="meta">ID: <code>mem.pressure.score</code> Memory pressure score</p>
+<dl>
+<dt>Meaning</dt><dd>This app's own score (0–100) for how strained memory is. It isn't a value from macOS.</dd>
+<dt>Unit</dt><dd>Points (0–100)</dd>
+<dt>How it's measured</dt><dd>Built from the memory breakdown (host_statistics64, HOST_VM_INFO64) by adding the shortage of free and reusable memory (weight 38%), the share of compressed memory (22%), the share of wired memory (15%) and the page-out rate (25%).</dd>
+<dt>When it's high</dt><dd>Free memory is shrinking and compression or writing out to storage is increasing.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>It's calculated differently from Memory Pressure in Activity Monitor, so the numbers won't match. Use it as a rough guide.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-swap-score">
+<span id="mem.swap.score"></span>
+<h3 id="h-mem-swap-score">App SWAP score</h3>
+<p class="meta">ID: <code>mem.swap.score</code> Swap strain score</p>
+<dl>
+<dt>Meaning</dt><dd>This app's own score (0–100) built from how swap is being used. It isn't the share of swap in use.</dd>
+<dt>Unit</dt><dd>Points (0–100)</dd>
+<dt>How it's measured</dt><dd>Scores swap used in steps (under 0.1 GB: 0, under 3 GB: 20, under 5 GB: 40, under 10 GB: 70, above: 100) and adds up to 15 points while page-outs continue.</dd>
+<dt>When it's high</dt><dd>Memory ran short and a lot of swap was used, or data is still being written out.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>Swap used may not go down right after you close apps. Swap-outs per second shows whether data is still being written out.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-physical">
+<span id="mem.physical.total"></span>
+<h3 id="h-mem-physical">Total physical memory</h3>
+<p class="meta">ID: <code>mem.physical.total</code> Total physical memory</p>
+<dl>
+<dt>Meaning</dt><dd>The amount of physical memory (RAM) installed in your Mac. It corresponds to Physical Memory in Activity Monitor. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with ProcessInfo.physicalMemory.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-breakdown">
+<span id="mem.vm.free"></span><span id="mem.vm.active"></span><span id="mem.vm.inactive"></span><span id="mem.vm.wired"></span><span id="mem.vm.speculative"></span>
+<h3 id="h-mem-breakdown">Memory breakdown (free, active, inactive, wired, speculative)</h3>
+<p class="meta">ID: <code>mem.vm.free</code> Free · <code>mem.vm.active</code> Active · <code>mem.vm.inactive</code> Inactive · <code>mem.vm.wired</code> Wired · <code>mem.vm.speculative</code> Speculative</p>
+<dl>
+<dt>Meaning</dt><dd>How physical memory is being used. Free is memory not used for anything; Active was used recently; Inactive hasn't been used for a while (it can be reused when needed); Wired is required by the system and can't be given to others (Wired Memory in Activity Monitor); Speculative was read ahead in advance (included in Free).</dd>
+<dt>Unit</dt><dd>Bytes (number of pages × actual page size)</dd>
+<dt>How it's measured</dt><dd>Converts the page counts from host_statistics64 (HOST_VM_INFO64) to bytes with the actual page size.</dd>
+<dt>When free is low</dt><dd>That's normal. macOS uses spare memory for things like file caches. Judge whether memory is enough from the OS memory pressure event and Memory Pressure in Activity Monitor.</dd>
+<dt>When wired is large</dt><dd>It's memory the system needs to operate. If memory pressure is also high, quit apps you aren't using, and restart your Mac if it doesn't come down.</dd>
+<dt>Note</dt><dd>The parts don't add up to the total, because the categories overlap.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-compressed">
+<span id="mem.vm.compressed"></span><span id="mem.vm.uncompressed"></span>
+<h3 id="h-mem-compressed">Physical compressor storage and uncompressed equivalent</h3>
+<p class="meta">ID: <code>mem.vm.compressed</code> Physical compressor storage · <code>mem.vm.uncompressed</code> Uncompressed equivalent</p>
+<dl>
+<dt>Meaning</dt><dd>The amount of compressed data kept in physical memory (physical compressor storage) and how large it would be uncompressed (uncompressed equivalent). According to Apple, as memory approaches its limit, macOS compresses data of inactive apps to make room (Compressed in Activity Monitor).</dd>
+<dt>Unit</dt><dd>Bytes</dd>
+<dt>How it's measured</dt><dd>Computed from the compressor page counts in host_statistics64 (HOST_VM_INFO64).</dd>
+<dt>When it's high</dt><dd>Memory is getting short and macOS is making room by compressing. Compression is normal, but if it keeps growing along with swap, memory isn't enough.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>Uncompressed equivalent ÷ physical compressor storage shows roughly how much compression saved.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-file">
+<span id="mem.vm.fileBacked"></span><span id="mem.vm.anonymous"></span>
+<h3 id="h-mem-file">File-backed and anonymous memory</h3>
+<p class="meta">ID: <code>mem.vm.fileBacked</code> File-backed · <code>mem.vm.anonymous</code> Anonymous</p>
+<dl>
+<dt>Meaning</dt><dd>File-backed is memory holding file contents (it can be dropped and read again from the file). Anonymous is data apps created for their work that isn't backed by a file (it can't be dropped, so it's what gets compressed or swapped when memory is short).</dd>
+<dt>Unit</dt><dd>Bytes</dd>
+<dt>How it's measured</dt><dd>Computed from page counts in host_statistics64 (HOST_VM_INFO64).</dd>
+<dt>Note</dt><dd>This is a different split from active/inactive, and they overlap. If anonymous memory is large and memory pressure is high, follow the steps for the OS memory pressure event.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-app-memory">
+<span id="mem.derived.appMemory"></span>
+<h3 id="h-mem-app-memory">App Memory</h3>
+<p class="meta">ID: <code>mem.derived.appMemory</code> App Memory</p>
+<dl>
+<dt>Meaning</dt><dd>An indication of memory used by apps, calculated by this app from page counts in one VM observation.</dd>
+<dt>Unit</dt><dd>Bytes (GB on screen uses powers of 1024)</dd>
+<dt>How it's measured</dt><dd>Computed as (internal_page_count − purgeable_count) × actual page size from host_statistics64 (HOST_VM_INFO64).</dd>
+<dt>When it's high</dt><dd>It can rise as you open more apps, documents or browser tabs. A large value alone doesn't establish a shortage. If memory pressure and swap also rise and your Mac feels slow, check which apps are using memory.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>Its definition differs from the headline memory used value. Missing fields mean Unsupported; a negative difference when purgeable exceeds internal means Unavailable. Missing or invalid values aren't filled with zero. When comparing with Activity Monitor, allow for differences in definitions, rounding and observation times.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-cached-files">
+<span id="mem.derived.cachedFiles"></span>
+<h3 id="h-mem-cached-files">Cached Files</h3>
+<p class="meta">ID: <code>mem.derived.cachedFiles</code> Cached Files</p>
+<dl>
+<dt>Meaning</dt><dd>An indication of memory holding data such as file contents to speed up later reads, which can be reused when needed. It includes purgeable memory.</dd>
+<dt>Unit</dt><dd>Bytes (GB on screen uses powers of 1024)</dd>
+<dt>How it's measured</dt><dd>An app-derived value: (external_page_count + purgeable_count) × actual page size from one host_statistics64 (HOST_VM_INFO64) observation.</dd>
+<dt>When it's high</dt><dd>It can rise after file reads. macOS normally uses spare memory for caches, so a large value alone doesn't indicate a problem.</dd>
+<dt>What you can do</dt><dd><ul><li>You don't need to clear it just to reduce the value.</li><li>If your Mac feels slow, also check Memory Pressure and swap in Activity Monitor (in the Utilities folder inside Applications).</li></ul></dd>
+<dt>Note</dt><dd>It overlaps with Reclaimable Memory and the raw classifications; don't add these values together. Missing fields mean Unsupported. When comparing with Activity Monitor, allow for differences in definitions, rounding and observation times.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-purgeable">
+<span id="mem.vm.purgeable"></span>
+<h3 id="h-mem-purgeable">Reclaimable Memory</h3>
+<p class="meta">ID: <code>mem.vm.purgeable</code> Reclaimable Memory</p>
+<dl>
+<dt>Meaning</dt><dd>The capacity of pages the OS can reclaim when needed.</dd>
+<dt>Unit</dt><dd>Bytes (GB on screen uses powers of 1024)</dd>
+<dt>How it's measured</dt><dd>Multiplies the purgeable_count returned by host_statistics64 (HOST_VM_INFO64) by the actual page size.</dd>
+<dt>When it's high</dt><dd>It changes with app activity. A large value means more pages can be reclaimed; it doesn't establish a memory shortage.</dd>
+<dt>When it's low</dt><dd>Measured zero is valid. Few purgeable pages alone don't establish a problem.</dd>
+<dt>What you can do</dt><dd><ul><li>This value alone is no reason to force quit apps or delete files.</li><li>If your Mac feels slow, also check Memory Pressure in Activity Monitor (in the Utilities folder inside Applications).</li></ul></dd>
+<dt>Note</dt><dd>It's also included in Cached Files, so don't add the two together. If the field is absent, it remains Unsupported, distinct from measured zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-compression-ratio">
+<span id="mem.derived.compressionRatio"></span>
+<h3 id="h-mem-compression-ratio">Compression Ratio (×)</h3>
+<p class="meta">ID: <code>mem.derived.compressionRatio</code> Compression Ratio (×)</p>
+<dl>
+<dt>Meaning</dt><dd>An indication of how many times larger the original compressed data would be than its storage in physical memory.</dd>
+<dt>Unit</dt><dd>A dimensionless multiplier, for example 3.00×. It isn't a percentage or memory usage ratio.</dd>
+<dt>How it's measured</dt><dd>Computed as (total_uncompressed_pages_in_compressor − swapped_count) ÷ compressor_page_count from one host_statistics64 (HOST_VM_INFO64) observation: subtract pages moved to swap from the uncompressed equivalent, then divide by compressor storage pages in RAM. Each field is used only if it was returned in full.</dd>
+<dt>When it's high</dt><dd>It indicates that the original data fits in relatively little compressor storage. A high multiplier alone doesn't establish a shortage. Consider responsiveness, Memory Pressure and swap trends together.</dd>
+<dt>What you can do</dt><dd><ul><li>If your Mac feels slow and Memory Pressure is also high, check the following.</li><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>Zero compressor storage pages in RAM or zero uncompressed equivalent pages after subtracting swap mean Not applicable; missing fields mean Unsupported. If swapped_count exceeds the uncompressed equivalent, the value is Unavailable. Missing values aren't filled with zero, and no division by zero is displayed. A falling multiplier alone doesn't show that decompression occurred.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-paging">
+<span id="mem.vm.pageins"></span><span id="mem.vm.pageinsPerSec"></span><span id="mem.vm.pageouts"></span><span id="mem.vm.pageoutsPerSec"></span>
+<h3 id="h-mem-paging">Page-ins and page-outs</h3>
+<p class="meta">ID: <code>mem.vm.pageins</code> Cumulative page-ins · <code>mem.vm.pageinsPerSec</code> Page-ins per second · <code>mem.vm.pageouts</code> Cumulative page-outs · <code>mem.vm.pageoutsPerSec</code> Page-outs per second</p>
+<dl>
+<dt>Meaning</dt><dd>Page-ins are data read from storage (files) into memory; page-outs are memory contents written out to storage. Cumulative values are totals since startup; per-second values are rates.</dd>
+<dt>Unit</dt><dd>Pages and pages per second (see Actual page size for the size of a page)</dd>
+<dt>How it's measured</dt><dd>Cumulative counters from host_statistics64 (HOST_VM_INFO64), and their difference divided by the elapsed time. The rate restarts after sleep.</dd>
+<dt>When it's high</dt><dd>Page-ins rise normally when you open apps or files. Page-outs continuing every second mean memory is short and data is being written to storage, which can make your Mac feel slow.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-faults">
+<span id="mem.vm.faults"></span><span id="mem.vm.faultsPerSec"></span>
+<h3 id="h-mem-faults">Page faults</h3>
+<p class="meta">ID: <code>mem.vm.faults</code> Cumulative page faults · <code>mem.vm.faultsPerSec</code> Page faults per second</p>
+<dl>
+<dt>Meaning</dt><dd>How many times memory an app tried to use wasn't immediately ready. Most are light and don't need to read storage.</dd>
+<dt>Unit</dt><dd>Count and count per second</dd>
+<dt>How it's measured</dt><dd>Cumulative counter from host_statistics64 (HOST_VM_INFO64) and its difference.</dd>
+<dt>When it's high</dt><dd>It rises normally when apps start or do large jobs and doesn't indicate a problem by itself. If it rises together with page-outs and swap, suspect a memory shortage.</dd>
+<dt>What you can do</dt><dd>If page-outs and swap also rise, follow the steps for the OS memory pressure event.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-reactivations">
+<span id="mem.vm.reactivations"></span><span id="mem.vm.reactivationsPerSec"></span>
+<h3 id="h-mem-reactivations">Reactivations</h3>
+<p class="meta">ID: <code>mem.vm.reactivations</code> Cumulative reactivations · <code>mem.vm.reactivationsPerSec</code> Reactivations per second</p>
+<dl>
+<dt>Meaning</dt><dd>Memory that hadn't been used for a while (inactive) and became active again.</dd>
+<dt>Unit</dt><dd>Pages and pages per second</dd>
+<dt>How it's measured</dt><dd>Cumulative counter from host_statistics64 (HOST_VM_INFO64) and its difference.</dd>
+<dt>When it's high</dt><dd>It rises when you switch between many apps or tabs. It doesn't indicate a problem by itself.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-compressions">
+<span id="mem.vm.compressions"></span><span id="mem.vm.compressionsPerSec"></span><span id="mem.vm.decompressions"></span><span id="mem.vm.decompressionsPerSec"></span>
+<h3 id="h-mem-compressions">Compressions and decompressions</h3>
+<p class="meta">ID: <code>mem.vm.compressions</code> Cumulative compressions · <code>mem.vm.compressionsPerSec</code> Compressions per second · <code>mem.vm.decompressions</code> Cumulative decompressions · <code>mem.vm.decompressionsPerSec</code> Decompressions per second</p>
+<dl>
+<dt>Meaning</dt><dd>How much memory was compressed, and how much compressed memory was restored (decompressed).</dd>
+<dt>Unit</dt><dd>Pages and pages per second</dd>
+<dt>How it's measured</dt><dd>Cumulative counters from host_statistics64 (HOST_VM_INFO64) and their difference.</dd>
+<dt>When it's high</dt><dd>Continuous compression and decompression every second means memory is short and data is compressed and restored each time you switch apps.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-swapio">
+<span id="mem.vm.swapins"></span><span id="mem.vm.swapinsPerSec"></span><span id="mem.vm.swapouts"></span><span id="mem.vm.swapoutsPerSec"></span>
+<h3 id="h-mem-swapio">Swap-ins and swap-outs</h3>
+<p class="meta">ID: <code>mem.vm.swapins</code> Cumulative swap-ins · <code>mem.vm.swapinsPerSec</code> Swap-ins per second · <code>mem.vm.swapouts</code> Cumulative swap-outs · <code>mem.vm.swapoutsPerSec</code> Swap-outs per second</p>
+<dl>
+<dt>Meaning</dt><dd>How much data was read back from swap (storage) and how much was written out to swap.</dd>
+<dt>Unit</dt><dd>Pages and pages per second</dd>
+<dt>How it's measured</dt><dd>Cumulative counters from host_statistics64 (HOST_VM_INFO64) and their difference.</dd>
+<dt>When it's high</dt><dd>Continuous swap-outs mean physical memory is short and data is being pushed out to storage. Storage is slower than memory, so your Mac feels slow.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li><li>If storage is nearly full, free up some space too (see Storage).</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-swap">
+<span id="mem.swap.used"></span><span id="mem.swap.allocated"></span>
+<h3 id="h-mem-swap">Swap used and swap allocated</h3>
+<p class="meta">ID: <code>mem.swap.used</code> Swap used · <code>mem.swap.allocated</code> Swap allocated</p>
+<dl>
+<dt>Meaning</dt><dd>Used is the space on the startup disk used for data pushed out of memory (Swap Used in Activity Monitor). Allocated is the total space set aside for swap.</dd>
+<dt>Unit</dt><dd>Bytes</dd>
+<dt>How it's measured</dt><dd>Read with sysctl vm.swapusage.</dd>
+<dt>When it's high</dt><dd>Memory ran short at some point, now or earlier. Swap-outs per second shows whether data is still being written out.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>Allocated is set aside by macOS as needed and isn't related to the physical memory limit. It's a different value from the app's SWAP score.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-mem-pagesize">
+<span id="mem.vm.pageSize"></span>
+<h3 id="h-mem-pagesize">Actual page size</h3>
+<p class="meta">ID: <code>mem.vm.pageSize</code> Actual page size</p>
+<dl>
+<dt>Meaning</dt><dd>The size of a page, the unit macOS uses to manage memory. It's used to convert page counts to bytes. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with host_page_size; no fixed size is assumed.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/activity-monitor/view-memory-usage-actmntr1004/mac">View memory usage in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/activity-monitor/check-if-your-mac-needs-more-ram-actmntr34865/mac">Check if your Mac needs more RAM in Activity Monitor</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li><li><a href="https://developer.apple.com/documentation/dispatch/dispatchsource/memorypressureevent">DispatchSource.MemoryPressureEvent (Apple Developer)</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-storage">
+<h2 id="sec-storage">Storage</h2>
+<p>Storage is where files and apps are kept (the internal SSD and external drives). This section covers the capacity of each volume (a disk as it appears in Finder) and how much and how fast each device reads and writes.</p>
+<p class="in-section">In this section: <a href="#h-vol-total">Total capacity</a> · <a href="#h-vol-free">Available capacity and used ratio</a> · <a href="#h-vol-research">Purgeable capacity, APFS snapshots and APFS shared space</a> · <a href="#h-vol-updated">Capacity acquisition time</a> · <a href="#h-vol-info">Volume information</a> · <a href="#h-vol-media">Volume and device identifiers</a> · <a href="#h-vol-files">File count and available inodes</a> · <a href="#h-disk-throughput">Read and write rate and amount</a> · <a href="#h-disk-ops">Read/write operations (IOPS) and mean transfer size</a> · <a href="#h-disk-time">Read/write time (service time and latency)</a> · <a href="#h-disk-errors">Read/write errors and retries</a> · <a href="#h-disk-excluded">I/O queue and SMART (state, media life, temperature)</a></p>
+<article class="item" aria-labelledby="h-vol-total">
+<span id="volume.capacity.total"></span><span id="volume.detail.capacity.total"></span>
+<h3 id="h-vol-total">Total capacity</h3>
+<p class="meta">ID: <code>volume.capacity.total</code> Total capacity · <code>volume.detail.capacity.total</code> Volume total capacity</p>
+<dl>
+<dt>Meaning</dt><dd>The total capacity of the volume. There is no good or bad value.</dd>
+<dt>Unit</dt><dd>Bytes</dd>
+<dt>How it's measured</dt><dd>Enumerated with mountedVolumeURLs and read from URLResourceValues volumeTotalCapacity. Successful capacity reads are cached for 30 seconds.</dd>
+<dt>Note</dt><dd>With APFS, volumes in the same container share free space (Apple), so volumes in one container can show the same total capacity.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-free">
+<span id="volume.capacity.available"></span><span id="volume.capacity.importantAvailable"></span><span id="volume.capacity.preferredAvailable"></span><span id="volume.detail.capacity.preferredAvailable"></span><span id="volume.detail.capacity.usedRatio"></span><span id="volume.capacity.definition"></span>
+<h3 id="h-vol-free">Available capacity and used ratio</h3>
+<p class="meta">ID: <code>volume.capacity.available</code> Normal available capacity · <code>volume.capacity.importantAvailable</code> Important available capacity · <code>volume.capacity.preferredAvailable</code> Existing DISK available (important preferred) · <code>volume.detail.capacity.preferredAvailable</code> Available for DISK (important preferred) · <code>volume.detail.capacity.usedRatio</code> DISK used ratio · <code>volume.capacity.definition</code> Capacity definition</p>
+<dl>
+<dt>Meaning</dt><dd>Free space. Normal available is space usable right now. Important available is space usable for important data such as files the user asks to save (Apple's developer documentation recommends using it for data stored at the user's request). The two may differ. DISK available and used ratio prefer important available (falling back to normal available when it's missing or 0), and used ratio = 1 − available ÷ total. Capacity definition shows which value was used.</dd>
+<dt>Unit</dt><dd>Bytes and %</dd>
+<dt>How it's measured</dt><dd>Read from URLResourceValues volumeAvailableCapacity and volumeAvailableCapacityForImportantUsage.</dd>
+<dt>When it's low</dt><dd>With little free space you may be unable to save new files, or have too little room to install macOS updates.</dd>
+<dt>What you can do</dt><dd><ul><li>Open System Settings &gt; General &gt; Storage to see what is using space and the recommendations.</li><li>You can empty the Trash (space isn't freed until you do), delete files you don't need from the Downloads folder, delete apps you don't use, delete old iPhone or iPad backups stored on your Mac, or move libraries such as Photos to an external drive (Apple's article “Free up storage space on Mac”).</li><li>Don't delete files inside system folders.</li></ul></dd>
+<dt>Note</dt><dd>It can differ slightly from what Finder or System Settings show, because of differences in how space is counted.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-research">
+<span id="volume.capacity.purgeable"></span><span id="volume.apfs.snapshots"></span><span id="volume.apfs.sharedSpace"></span>
+<h3 id="h-vol-research">Purgeable capacity, APFS snapshots and APFS shared space</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>volume.capacity.purgeable</code> Purgeable capacity · <code>volume.apfs.snapshots</code> APFS snapshots · <code>volume.apfs.sharedSpace</code> APFS shared space</p>
+<dl>
+<dt>Meaning</dt><dd>The amount of space macOS can free when needed, the number of APFS snapshots (records of the volume at a point in time), and the space shared by volumes in the same container.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating whether an app distributed on the App Store (inside the sandbox) can read these through public methods.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. System Settings &gt; General &gt; Storage shows how space is used.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-updated">
+<span id="volume.capacity.updatedAt"></span>
+<h3 id="h-vol-updated">Capacity acquisition time</h3>
+<p class="meta">ID: <code>volume.capacity.updatedAt</code> Capacity acquisition time</p>
+<dl>
+<dt>Meaning</dt><dd>When the capacity was last read from macOS. There is no good or bad value.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-info">
+<span id="volume.name"></span><span id="volume.mountPoint"></span><span id="volume.kind"></span><span id="volume.readOnly"></span><span id="volume.internal"></span><span id="volume.local"></span><span id="volume.inventory.count"></span>
+<h3 id="h-vol-info">Volume information</h3>
+<p class="meta">ID: <code>volume.name</code> Volume name · <code>volume.mountPoint</code> Mount point · <code>volume.kind</code> Volume kind · <code>volume.readOnly</code> Read only · <code>volume.internal</code> Internal / external · <code>volume.local</code> Local / network · <code>volume.inventory.count</code> Mounted volume count</p>
+<dl>
+<dt>Meaning</dt><dd>The volume's name, mount point (where the volume appears in the file system), kind (file system such as APFS), whether it's read-only, internal or external, local or a network share, and the number of mounted volumes. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with FileManager mountedVolumeURLs and URLResourceValues. No files are opened.</dd>
+<dt>When you can't write to an external drive</dt><dd>Check whether it's read-only. Disk Utility shows the drive's format and condition.</dd>
+<dt>Note</dt><dd>macOS also uses volumes for the system, so the count can be larger than what you see in Finder. Names and mount points are hidden when exported.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-media">
+<span id="volume.media.bsdName"></span><span id="volume.media.wholeBSDName"></span><span id="volume.media.registryID"></span><span id="volume.media.driverID"></span>
+<h3 id="h-vol-media">Volume and device identifiers</h3>
+<p class="meta">ID: <code>volume.media.bsdName</code> Volume BSD device · <code>volume.media.wholeBSDName</code> Whole media (Disk Arbitration) · <code>volume.media.registryID</code> Media identifier · <code>volume.media.driverID</code> Related I/O driver ID</p>
+<dl>
+<dt>Meaning</dt><dd>Identifiers inside macOS that link a volume to the storage device under it (BSD device name, whole media, IORegistry ID and I/O driver ID). They're used to match read/write figures to a device. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with Disk Arbitration and the IORegistry.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-vol-files">
+<span id="volume.files.count"></span><span id="volume.inodes.available"></span>
+<h3 id="h-vol-files">File count and available inodes</h3>
+<p class="meta">ID: <code>volume.files.count</code> File count · <code>volume.inodes.available</code> Available inodes</p>
+<dl>
+<dt>Meaning</dt><dd>The number of files on the volume and how many more can be created (inodes).</dd>
+<dt>Note</dt><dd>This version doesn't collect this value, so it shows as Unobserved. You don't need to do anything. APFS supports over 9 quintillion files on a single volume (Apple).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-throughput">
+<span id="diskio.read.bytesPerSec"></span><span id="diskio.write.bytesPerSec"></span><span id="diskio.device.read.bytesPerSec"></span><span id="diskio.device.write.bytesPerSec"></span><span id="diskio.read.bytes"></span><span id="diskio.write.bytes"></span>
+<h3 id="h-disk-throughput">Read and write rate and amount</h3>
+<p class="meta">ID: <code>diskio.read.bytesPerSec</code> Read bytes per second · <code>diskio.write.bytesPerSec</code> Write bytes per second · <code>diskio.device.read.bytesPerSec</code> Read rate · <code>diskio.device.write.bytesPerSec</code> Write rate · <code>diskio.read.bytes</code> Cumulative read bytes · <code>diskio.write.bytes</code> Cumulative write bytes</p>
+<dl>
+<dt>Meaning</dt><dd>How fast storage devices are reading and writing (per second), and how much since startup (cumulative). Read rate and write rate show each device and their total.</dd>
+<dt>Unit</dt><dd>Bytes per second and bytes</dd>
+<dt>How it's measured</dt><dd>Reads IOBlockStorageDriver Statistics through IOKit by registry entry ID and divides differences by monotonic elapsed seconds. Totals include only nonoverlapping leaf drivers; a missing required counter makes the total unavailable.</dd>
+<dt>When it's high</dt><dd>It rises when copying large files, installing apps or updates, backing up with Time Machine, importing photos or video, or during Spotlight indexing. Writes also rise when memory is short and swap is heavy.</dd>
+<dt>What you can do</dt><dd>Open Activity Monitor (in the Utilities folder inside Applications), click the Disk tab and sort by a column to find the processes reading or writing the most. It drops when copying or backups finish, so usually waiting is enough. If swap is heavy, follow the steps in the Memory section.</dd>
+<dt>Note</dt><dd>A high value isn't a sign of failure by itself.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-ops">
+<span id="diskio.read.operations"></span><span id="diskio.write.operations"></span><span id="diskio.read.iops"></span><span id="diskio.write.iops"></span><span id="diskio.read.meanTransferSize"></span><span id="diskio.write.meanTransferSize"></span>
+<h3 id="h-disk-ops">Read/write operations (IOPS) and mean transfer size</h3>
+<p class="meta">ID: <code>diskio.read.operations</code> Cumulative read operations · <code>diskio.write.operations</code> Cumulative write operations · <code>diskio.read.iops</code> Read IOPS · <code>diskio.write.iops</code> Write IOPS · <code>diskio.read.meanTransferSize</code> Mean read transfer size · <code>diskio.write.meanTransferSize</code> Mean write transfer size</p>
+<dl>
+<dt>Meaning</dt><dd>The number of reads and writes (cumulative), per second (IOPS), and the average size of each one.</dd>
+<dt>Unit</dt><dd>Count, count per second and bytes</dd>
+<dt>How it's measured</dt><dd>Uses differences in IOBlockStorageDriver Statistics: IOPS = ΔOperations / monotonic seconds; mean transfer size = byte difference / ΔOperations. No average is shown for an interval with zero operations.</dd>
+<dt>When it's high</dt><dd>It rises when many small files are read or written (indexing, software updates, building software).</dd>
+<dt>What you can do</dt><dd>Open Activity Monitor (in the Utilities folder inside Applications), click the Disk tab and sort by a column to find the processes reading or writing the most. It drops when copying or backups finish, so usually waiting is enough. If swap is heavy, follow the steps in the Memory section.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-time">
+<span id="diskio.read.totalTime"></span><span id="diskio.write.totalTime"></span><span id="diskio.read.meanServiceTime"></span><span id="diskio.write.meanServiceTime"></span><span id="diskio.read.meanLatency"></span><span id="diskio.write.meanLatency"></span>
+<h3 id="h-disk-time">Read/write time (service time and latency)</h3>
+<p class="meta">ID: <code>diskio.read.totalTime</code> Cumulative read service time · <code>diskio.write.totalTime</code> Cumulative write service time · <code>diskio.read.meanServiceTime</code> Mean read service time · <code>diskio.write.meanServiceTime</code> Mean write service time · <code>diskio.read.meanLatency</code> Mean read latency · <code>diskio.write.meanLatency</code> Mean write latency</p>
+<dl>
+<dt>Meaning</dt><dd>The total time the device spent on reads and writes (cumulative), the average per operation (service time), and the average latency reported by the device per operation.</dd>
+<dt>Unit</dt><dd>Seconds</dd>
+<dt>How it's measured</dt><dd>Mean service time = ΔTotal Time / ΔOperations from IOBlockStorageDriver Statistics. Latency Time is a separate counter divided over the same interval. Source units are ns; the screen uses ms. Total means are weighted by operation count. Total Time is cumulative service time, not wall time or a maximum. No average is shown for an interval with zero operations.</dd>
+<dt>When it's high</dt><dd>It's temporarily longer when large reads and writes overlap. For external drives, the connection (port, cable) and the drive's own speed make it longer. If it's always long and errors or retries also rise, the device may have a problem.</dd>
+<dt>What you can do</dt><dd>Wait for large reads and writes to finish. For an external drive, try another port or cable. If errors or retries also rise, follow the steps for read/write errors and retries.</dd>
+<dt>Note</dt><dd>These are counted by the device driver. Use them as a rough guide.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-errors">
+<span id="diskio.read.errors"></span><span id="diskio.write.errors"></span><span id="diskio.read.retries"></span><span id="diskio.write.retries"></span>
+<h3 id="h-disk-errors">Read/write errors and retries</h3>
+<p class="meta">ID: <code>diskio.read.errors</code> Cumulative read errors · <code>diskio.write.errors</code> Cumulative write errors · <code>diskio.read.retries</code> Cumulative read retries · <code>diskio.write.retries</code> Cumulative write retries</p>
+<dl>
+<dt>Meaning</dt><dd>How many reads and writes failed, and how many were retried (cumulative since startup).</dd>
+<dt>Unit</dt><dd>Count</dd>
+<dt>How it's measured</dt><dd>Reads Errors and Retries in IOBlockStorageDriver Statistics.</dd>
+<dt>When it keeps increasing</dt><dd>The device, cable or connection may have a problem. With external drives, a loose cable or insufficient power can also cause it.</dd>
+<dt>What you can do</dt><dd>First back up important data (for example with Time Machine). For an external drive, try another cable and port, and check the power of drives that have their own power supply. Check the disk with First Aid in Disk Utility (Apple's steps). If Disk Utility warns that the disk is about to fail, follow Apple's advice: back up and replace the disk.</dd>
+<dt>Note</dt><dd>It's normally 0. Watch whether it keeps increasing.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-disk-excluded">
+<span id="diskio.queue"></span><span id="diskio.smart.state"></span><span id="diskio.smart.life"></span><span id="diskio.smart.temperature"></span>
+<h3 id="h-disk-excluded">I/O queue and SMART (state, media life, temperature)</h3>
+<p class="meta"><span class="badge">Excluded</span>ID: <code>diskio.queue</code> I/O queue · <code>diskio.smart.state</code> SMART state · <code>diskio.smart.life</code> Media life · <code>diskio.smart.temperature</code> Media temperature</p>
+<dl>
+<dt>Meaning</dt><dd>The length of the device's queue, and SMART (the storage self-test) state, media life and temperature.</dd>
+<dt>Why it's unavailable</dt><dd>These values aren't included in the OS information this app can use. The app doesn't invent values that aren't provided, so it doesn't collect them.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. You can check a disk with First Aid in Disk Utility.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/en-us/102624">Free up storage space on Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/mac-shares-space-apfs-volumes-sysp560a2952/mac">See if your Mac shares space across APFS volumes</a></li><li><a href="https://support.apple.com/guide/activity-monitor/view-disk-activity-actmntr1005/mac">View disk activity in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/disk-utility/repair-a-storage-device-dskutl1040/mac">Repair a storage device in Disk Utility on Mac</a></li><li><a href="https://developer.apple.com/documentation/foundation/checking-volume-storage-capacity">Checking Volume Storage Capacity (Apple Developer)</a></li><li><a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/APFS_Guide/Features/Features.html">Apple File System Guide: Features (Apple Developer)</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-network">
+<h2 id="sec-network">Network</h2>
+<p>Communication over Wi-Fi, wired Ethernet and so on. An interface (IF) is a network connection point, such as Wi-Fi, Ethernet or a VPN. This app only reads counters and never contacts outside servers itself.</p>
+<p class="in-section">In this section: <a href="#h-net-aggregate">Total receive and send rate</a> · <a href="#h-net-traffic">Per-interface receive and send</a> · <a href="#h-net-link-speed">Wired link speed (nominal)</a> · <a href="#h-net-errors">Receive/send errors and receive drops</a> · <a href="#h-net-txdrops">Send drops</a> · <a href="#h-net-info">Interface information</a> · <a href="#h-net-path">Path state</a> · <a href="#h-net-dns">DNS configuration</a> · <a href="#h-net-relations">Bridge and VPN relationships</a> · <a href="#h-net-wifi">Wi-Fi details (SSID, signal strength and more)</a> · <a href="#h-net-probes">Latency, loss, reachability and DNS response</a> · <a href="#h-net-process">Per-process network use and TCP/UDP connections</a> · <a href="#h-net-throughput">Throughput test</a></p>
+<article class="item" aria-labelledby="h-net-aggregate">
+<span id="net.aggregate.rxBytesPerSec"></span><span id="net.aggregate.txBytesPerSec"></span><span id="net.aggregate.members"></span>
+<h3 id="h-net-aggregate">Total receive and send rate</h3>
+<p class="meta">ID: <code>net.aggregate.rxBytesPerSec</code> Total received bytes per second · <code>net.aggregate.txBytesPerSec</code> Total sent bytes per second · <code>net.aggregate.members</code> Aggregate interfaces</p>
+<dl>
+<dt>Meaning</dt><dd>How fast the whole Mac is receiving (downloading) and sending (uploading), and which interfaces are included in the total.</dd>
+<dt>Unit</dt><dd>Bytes per second</dd>
+<dt>How it's measured</dt><dd>Adds up the differences in each interface's counters (sysctl IFMIB). Local-only traffic (lo) and tunnels that can count the same traffic as the interface below them (utun, ipsec, ppp, gif, stf) are excluded.</dd>
+<dt>When it's high</dt><dd>Large downloads or uploads, iCloud or Photos syncing, software updates, streaming video or video calls, and backups over the network push it up.</dd>
+<dt>What you can do</dt><dd>Open Activity Monitor (in the Utilities folder inside Applications), click the Network tab and sort by a column to find the processes sending or receiving the most. If it's a sync or download you don't need, stop it in that app or quit the app.</dd>
+<dt>Note</dt><dd>A bridge and the interfaces inside it can both be counted, so the value can be larger than the actual traffic. Line speeds are in Mbps (bits), a different unit (1 byte = 8 bits).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-traffic">
+<span id="net.if.rxBytes"></span><span id="net.if.txBytes"></span><span id="net.if.rxBytesPerSec"></span><span id="net.if.txBytesPerSec"></span><span id="net.if.rxPackets"></span><span id="net.if.txPackets"></span><span id="net.if.rxPacketsPerSec"></span><span id="net.if.txPacketsPerSec"></span>
+<h3 id="h-net-traffic">Per-interface receive and send</h3>
+<p class="meta">ID: <code>net.if.rxBytes</code> Received bytes · <code>net.if.txBytes</code> Sent bytes · <code>net.if.rxBytesPerSec</code> Received bytes per second · <code>net.if.txBytesPerSec</code> Sent bytes per second · <code>net.if.rxPackets</code> Received packets · <code>net.if.txPackets</code> Sent packets · <code>net.if.rxPacketsPerSec</code> Received packets per second · <code>net.if.txPacketsPerSec</code> Sent packets per second</p>
+<dl>
+<dt>Meaning</dt><dd>How much each interface has received (RX) and sent (TX) cumulatively and how fast, plus the number of packets and packets per second. These correspond to Packets in, Data received, Data received/sec and so on in Activity Monitor.</dd>
+<dt>Unit</dt><dd>Bytes, bytes per second, packets and packets per second</dd>
+<dt>How it's measured</dt><dd>sysctl IFMIB (if_data64, cumulative since the interface was created), and the difference divided by the elapsed time. The rate restarts after a counter reset or sleep.</dd>
+<dt>When it's high</dt><dd>Same as the total receive and send rate.</dd>
+<dt>What you can do</dt><dd>Open Activity Monitor (in the Utilities folder inside Applications), click the Network tab and sort by a column to find the processes sending or receiving the most. If it's a sync or download you don't need, stop it in that app or quit the app.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-link-speed">
+<span id="net.if.linkSpeed"></span>
+<h3 id="h-net-link-speed">Wired link speed (nominal)</h3>
+<p class="meta">ID: <code>net.if.linkSpeed</code> Link speed</p>
+<dl>
+<dt>Meaning</dt><dd>The nominal link speed reported by a wired interface. It is not the amount of data actually transferred or a measurement of internet throughput.</dd>
+<dt>Unit</dt><dd>Mb/s (Mbps, one million bits per second). Values rounding to 1000 Mb/s or more are displayed in Gb/s (1 Gb/s = 1000 Mb/s). This differs from bytes per second (1 byte = 8 bits). Tiny nonzero values are shown as, for example, &lt; 0.01 Mb/s rather than rounded to zero.</dd>
+<dt>How it's measured</dt><dd>Converts the per-interface bit/s reported by macOS IFMIB to Mb/s. Only connections identified as wired Ethernet in the route-independent device inventory (SystemConfiguration), with an active link, are included. A network route is not required, including when DHCP fails.</dd>
+<dt>When it's high</dt><dd>The nominal connection speed is high. This does not mean heavy traffic or congestion. A high value alone needs no action.</dd>
+<dt>When it's low</dt><dd>If lower than expected, check the supported speeds and connections of the cable, adapter and connected port.</dd>
+<dt>What you can do</dt><dd><ul><li>Check that the cable, adapter and port support the expected speed and that their connections are secure.</li><li>If actual transfers are also slow, open Activity Monitor (in the Utilities folder inside Applications) and use the Network tab to identify apps transferring a lot of data. Follow the precautions below if quitting apps you don't need.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>Wi-Fi and other non-wired connections, and an OS value of zero, are unsupported; a value above 10 Tbps (10000 Gb/s) is unavailable. Temporarily unknown media or link state makes the reading unavailable and retains any previous value as stale. An inactive link clears the speed and waits for a connection. Missing values are not replaced with zero or another speed. Apple advises using automatic network hardware settings unless your administrator gives specific instructions.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-errors">
+<span id="net.if.rxErrors"></span><span id="net.if.txErrors"></span><span id="net.if.rxDrops"></span>
+<h3 id="h-net-errors">Receive/send errors and receive drops</h3>
+<p class="meta">ID: <code>net.if.rxErrors</code> Received errors · <code>net.if.txErrors</code> Sent errors · <code>net.if.rxDrops</code> Received drops</p>
+<dl>
+<dt>Meaning</dt><dd>The number of receive and send errors, and the number of packets dropped on receive (cumulative).</dd>
+<dt>Unit</dt><dd>Count and packets</dd>
+<dt>How it's measured</dt><dd>Reads ierrors, oerrors and iqdrops from sysctl IFMIB (if_data64).</dd>
+<dt>When it keeps increasing</dt><dd>Possible causes include a weak or crowded Wi-Fi signal, a faulty cable or adapter, or a problem with the connected device.</dd>
+<dt>What you can do</dt><dd>For Wi-Fi, move closer to the router, turn Wi-Fi off and on, or restart the router. You can hold Option, click the Wi-Fi icon in the menu bar and choose Open Wireless Diagnostics (Apple's steps). For a wired connection, try another cable or adapter.</dd>
+<dt>Note</dt><dd>Look at whether it keeps increasing together with symptoms such as slow or dropped connections.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-txdrops">
+<span id="net.if.txDrops"></span>
+<h3 id="h-net-txdrops">Send drops</h3>
+<p class="meta"><span class="badge">Unsupported</span>ID: <code>net.if.txDrops</code> Sent drops</p>
+<dl>
+<dt>Meaning</dt><dd>The number of packets dropped when sending.</dd>
+<dt>Why it's unavailable</dt><dd>macOS IFMIB provides only drops in the send queue, not total send drops. The app doesn't substitute another value.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. Send errors show problems when sending.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-info">
+<span id="net.if.name"></span><span id="net.if.index"></span><span id="net.if.kind"></span><span id="net.if.flags"></span><span id="net.if.mtu"></span><span id="net.if.ipv4"></span><span id="net.if.ipv6"></span><span id="net.if.addressScope"></span><span id="net.if.linkState"></span>
+<h3 id="h-net-info">Interface information</h3>
+<p class="meta">ID: <code>net.if.name</code> Connection name · <code>net.if.index</code> Connection number · <code>net.if.kind</code> Connection type · <code>net.if.flags</code> Connection attributes · <code>net.if.mtu</code> MTU · <code>net.if.ipv4</code> IPv4 · <code>net.if.ipv6</code> IPv6 · <code>net.if.addressScope</code> Address scope · <code>net.if.linkState</code> Link state</p>
+<dl>
+<dt>Meaning</dt><dd>The interface name (such as en0), index, kind (Wi-Fi, Ethernet, bridge, tunnel and so on), flags (UP, RUNNING and others), MTU (the largest size sent at once), IPv4 and IPv6 addresses with their scope, and the link state (whether a cable or radio link is connected).</dd>
+<dt>How it's measured</dt><dd>Read with getifaddrs, sysctl IFMIB and SCDynamicStore (link state).</dd>
+<dt>When there's no link or it isn't UP/RUNNING</dt><dd>That interface isn't connected. If you expect to use it, check the Wi-Fi connection, an unplugged cable, or the adapter connection.</dd>
+<dt>Note</dt><dd>IP addresses are kept only in the app's memory and hidden when exported. MAC addresses aren't collected.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-path">
+<span id="net.path.state"></span>
+<h3 id="h-net-path">Path state</h3>
+<p class="meta">ID: <code>net.path.state</code> Path state</p>
+<dl>
+<dt>Meaning</dt><dd>Whether this app sees a path usable for communication. According to Apple: satisfied means the path is available to establish connections and send data; unsatisfied means it isn't available; requiresConnection means it isn't available now, but establishing a new connection may activate it.</dd>
+<dt>How it's measured</dt><dd>Received through NWPathMonitor in the Network framework.</dd>
+<dt>When it isn't usable</dt><dd>Wi-Fi or Ethernet may not be connected, or there may be a problem with network settings.</dd>
+<dt>What you can do</dt><dd>Check the connection in the Wi-Fi menu and try the steps in Apple's article “If your Mac isn't connecting to the internet over Wi-Fi” (restart, check the date and time, check VPN or security software, restart the router, Wireless Diagnostics and so on).</dd>
+<dt>Note</dt><dd>satisfied doesn't mean that services on the internet are reachable, or anything about line speed.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-dns">
+<span id="net.dns.configuration"></span>
+<h3 id="h-net-dns">DNS configuration</h3>
+<p class="meta">ID: <code>net.dns.configuration</code> DNS configuration</p>
+<dl>
+<dt>Meaning</dt><dd>Settings for DNS, which turns names (such as apple.com) into addresses: which DNS servers are asked, supplemental domains, search order and so on.</dd>
+<dt>How it's measured</dt><dd>Only reads the settings in SCDynamicStore; no DNS queries are sent.</dd>
+<dt>When web pages don't open</dt><dd>VPN or security software can interfere with the connection (one of the checks in Apple's article).</dd>
+<dt>What you can do</dt><dd>Try the steps in Apple's article “If your Mac isn't connecting to the internet over Wi-Fi”.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-relations">
+<span id="net.if.bridge"></span><span id="net.if.vpn"></span>
+<h3 id="h-net-relations">Bridge and VPN relationships</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>net.if.bridge</code> Bridge relationship · <code>net.if.vpn</code> VPN relationship</p>
+<dl>
+<dt>Meaning</dt><dd>The relationship between a bridge (several interfaces combined) or a VPN and the interfaces under it.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating a reliable way to read these relationships.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-wifi">
+<span id="net.wifi.ssid"></span><span id="net.wifi.bssid"></span><span id="net.wifi.channel"></span><span id="net.wifi.rssi"></span><span id="net.wifi.noise"></span><span id="net.wifi.snr"></span><span id="net.wifi.linkMbps"></span><span id="net.wifi.security"></span>
+<h3 id="h-net-wifi">Wi-Fi details (SSID, signal strength and more)</h3>
+<p class="meta"><span class="badge">Permission required (not requested)</span>ID: <code>net.wifi.ssid</code> SSID · <code>net.wifi.bssid</code> BSSID · <code>net.wifi.channel</code> Wi-Fi channel · <code>net.wifi.rssi</code> Wi-Fi RSSI · <code>net.wifi.noise</code> Wi-Fi noise · <code>net.wifi.snr</code> Wi-Fi SNR · <code>net.wifi.linkMbps</code> Wi-Fi nominal link rate · <code>net.wifi.security</code> Wi-Fi security</p>
+<dl>
+<dt>Meaning</dt><dd>The name of the connected Wi-Fi network (SSID), the access point identifier (BSSID), channel, signal strength (RSSI), noise, signal-to-noise ratio (SNR), nominal link rate and security type.</dd>
+<dt>Why it's unavailable</dt><dd>Reading Wi-Fi details needs an additional permission, and SSID and BSSID also need location permission. This app doesn't request them.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. You can examine Wi-Fi by holding Option, clicking the Wi-Fi icon in the menu bar and choosing Open Wireless Diagnostics.</dd>
+<dt>Note</dt><dd>The nominal link rate (Mbps) is different from how fast apps are actually communicating (bytes per second).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-probes">
+<span id="net.diag.latency"></span><span id="net.diag.loss"></span><span id="net.diag.reachability"></span><span id="net.diag.dnsResponse"></span>
+<h3 id="h-net-probes">Latency, loss, reachability and DNS response</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>net.diag.latency</code> Probe latency · <code>net.diag.loss</code> Probe packet loss · <code>net.diag.reachability</code> Probe reachability · <code>net.diag.dnsResponse</code> DNS response</p>
+<dl>
+<dt>Meaning</dt><dd>Round-trip time to an outside host, packet loss, whether the host is reachable, and DNS response time.</dd>
+<dt>Why it's unavailable</dt><dd>These require sending queries to the outside. Because this app doesn't contact the network itself, we're investigating doing them only with your explicit consent. This version doesn't do them.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. Wireless Diagnostics can examine connection problems.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-process">
+<span id="net.diag.process.bytes"></span><span id="net.diag.process.connections"></span><span id="net.diag.process.destination"></span><span id="net.diag.tcpStates"></span><span id="net.diag.udpEndpoints"></span>
+<h3 id="h-net-process">Per-process network use and TCP/UDP connections</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>net.diag.process.bytes</code> Network bytes by process · <code>net.diag.process.connections</code> Connections by process · <code>net.diag.process.destination</code> Destinations by process · <code>net.diag.tcpStates</code> TCP counts by state · <code>net.diag.udpEndpoints</code> UDP endpoint count</p>
+<dl>
+<dt>Meaning</dt><dd>Network bytes, connections and destinations per process, the number of TCP connections by state, and the number of UDP endpoints.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating whether an app distributed on the App Store (inside the sandbox) can read these through public methods.</dd>
+<dt>What you can do</dt><dd>Activity Monitor's Network tab shows network use per app.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-net-throughput">
+<span id="net.diag.throughput"></span>
+<h3 id="h-net-throughput">Throughput test</h3>
+<p class="meta"><span class="badge">Excluded</span>ID: <code>net.diag.throughput</code> Throughput test</p>
+<dl>
+<dt>Meaning</dt><dd>A test that measures the real speed of your connection.</dd>
+<dt>Why it's unavailable</dt><dd>A speed test exchanges a lot of data with outside servers, so this app doesn't do it.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/activity-monitor/view-network-activity-actmntr1006/mac">View network activity in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/en-us/101588">If your Mac isn't connecting to the internet over Wi-Fi</a></li><li><a href="https://support.apple.com/guide/mac-help/use-wireless-diagnostics-mchlf4de377f/mac">Use Wireless Diagnostics on your Mac</a></li><li><a href="https://developer.apple.com/documentation/network/nwpath/status-swift.enum">NWPath.Status (Apple Developer)</a></li><li><a href="https://support.apple.com/guide/mac-help/mchlp25052/mac">Set hardware options on Mac</a></li><li><a href="https://developer.apple.com/documentation/systemconfiguration/scnetworkinterface">SCNetworkInterface (Apple Developer)</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-processes">
+<h2 id="sec-processes">Processes</h2>
+<p>A process is a program running on your Mac. Besides apps, background work of macOS that you don't see is also a process (Apple). Because this app runs inside the App Store sandbox, it shows details only for processes of the same user.</p>
+<p class="in-section">In this section: <a href="#h-proc-cpu">Process CPU usage (one core)</a> · <a href="#h-proc-cputime">CPU time, observation interval and elapsed time</a> · <a href="#h-proc-other">Other (system / other users) CPU</a> · <a href="#h-proc-memory">Process memory (resident size, % of RAM, virtual size, page-ins)</a> · <a href="#h-proc-identity">Process name, owner, PID, start time, threads and state</a> · <a href="#h-proc-parent">Parent process</a> · <a href="#h-proc-table">Enumerated and retained processes</a> · <a href="#h-proc-restricted">Process disk reads/writes, physical footprint, wakeups and wired size</a> · <a href="#h-proc-unsupported">Energy Impact, GPU, crashes, hangs, app name, network bytes, file descriptors and QoS</a> · <a href="#h-proc-workload">Workload resource correlation (builds, local LLMs, VMs and containers)</a> · <a href="#h-proc-marker">Manual workload marker</a></p>
+<article class="item" aria-labelledby="h-proc-cpu">
+<span id="proc.cpu.usage"></span>
+<h3 id="h-proc-cpu">Process CPU usage (one core)</h3>
+<p class="meta">ID: <code>proc.cpu.usage</code> Process CPU usage (one core)</p>
+<dl>
+<dt>Meaning</dt><dd>How much CPU the process is using. One fully used core is 100%, so a process using several cores goes above 100%.</dd>
+<dt>Unit</dt><dd>% (one core = 100%)</dd>
+<dt>How it's measured</dt><dd>The difference in the process's CPU time (PROC_PIDTASKINFO) divided by the elapsed time of a clock that stops during sleep. The interval is at least 250 milliseconds.</dd>
+<dt>When it's high</dt><dd>The app is doing heavy work. If it stays high when the work should be done, the app may be unresponsive or repeating the same work.</dd>
+<dt>What you can do</dt><dd><ul><li>If it's working, let it finish.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>If it keeps happening, check for updates to the app (Apple's article “If an app freezes or quits unexpectedly on Mac”).</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-cputime">
+<span id="proc.cpu.time"></span><span id="proc.cpu.userTime"></span><span id="proc.cpu.systemTime"></span><span id="proc.cpu.interval"></span><span id="proc.task.elapsed"></span>
+<h3 id="h-proc-cputime">CPU time, observation interval and elapsed time</h3>
+<p class="meta">ID: <code>proc.cpu.time</code> Process CPU time · <code>proc.cpu.userTime</code> CPU user cumulative · <code>proc.cpu.systemTime</code> CPU system cumulative · <code>proc.cpu.interval</code> Process CPU observation interval · <code>proc.task.elapsed</code> Process elapsed time</p>
+<dl>
+<dt>Meaning</dt><dd>The total CPU time the process has used since it started (user is its own work, system is work the OS core did for it), the length of the interval used for CPU usage (observation interval), and the time since the process started.</dd>
+<dt>Unit</dt><dd>Seconds</dd>
+<dt>How it's measured</dt><dd>Read with PROC_PIDTASKINFO and PROC_PIDTBSDINFO.</dd>
+<dt>Note</dt><dd>Processes that run longer accumulate more CPU time. To compare how heavy they are now, look at CPU usage.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-other">
+<span id="proc.cpu.other"></span>
+<h3 id="h-proc-other">Other (system / other users) CPU</h3>
+<p class="meta">ID: <code>proc.cpu.other</code> Other (system / other users) CPU</p>
+<dl>
+<dt>Meaning</dt><dd>The part of the Mac's total CPU use taken by processes that aren't shown in detail (macOS system processes and other users' processes).</dd>
+<dt>Unit</dt><dd>% (one core = 100%)</dd>
+<dt>How it's measured</dt><dd>Total CPU usage × logical core count × 100% minus the sum of the processes the app could read (a derived value). Not shown when the intervals don't line up.</dd>
+<dt>When it's high</dt><dd>System or other users' processes are using CPU, for example indexing after a data migration, photo analysis, or backups.</dd>
+<dt>What you can do</dt><dd>Activity Monitor can show every process (View &gt; All Processes). Check there and let the work finish. If it lasts a long time, restart your Mac.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-memory">
+<span id="proc.task.rss"></span><span id="proc.task.memoryPercent"></span><span id="proc.task.virtual"></span><span id="proc.task.pageins"></span>
+<h3 id="h-proc-memory">Process memory (resident size, % of RAM, virtual size, page-ins)</h3>
+<p class="meta">ID: <code>proc.task.rss</code> Resident size · <code>proc.task.memoryPercent</code> Memory / physical RAM · <code>proc.task.virtual</code> Virtual size · <code>proc.task.pageins</code> Page-ins</p>
+<dl>
+<dt>Meaning</dt><dd>Resident size (RSS) is how much the process keeps in physical memory now (including memory shared with other processes). Memory / physical RAM is RSS ÷ installed memory. Virtual size is the address space the process has reserved and isn't physical memory use. Page-ins are pages the process read from storage.</dd>
+<dt>Unit</dt><dd>Bytes, % and pages</dd>
+<dt>How it's measured</dt><dd>Read with PROC_PIDTASKINFO. The denominator for % of RAM is hw.memsize.</dd>
+<dt>When it's high</dt><dd>An app with a large resident size is using a lot of memory and is a candidate to close when memory pressure is high.</dd>
+<dt>What you can do</dt><dd>Quit it if you aren't using it. In a browser, close tabs you don't need.</dd>
+<dt>Note</dt><dd>Because shared memory is included, the resident sizes of all processes can add up to more than the installed memory. Activity Monitor's Memory column is measured differently, so the values won't match. A large virtual size is normal.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-identity">
+<span id="proc.identity.name"></span><span id="proc.identity.owner"></span><span id="proc.identity.pid"></span><span id="proc.identity.startTime"></span><span id="proc.task.threads"></span><span id="proc.task.state"></span>
+<h3 id="h-proc-identity">Process name, owner, PID, start time, threads and state</h3>
+<p class="meta">ID: <code>proc.identity.name</code> Process name · <code>proc.identity.owner</code> Process owner · <code>proc.identity.pid</code> PID · <code>proc.identity.startTime</code> Process start time · <code>proc.task.threads</code> Thread count · <code>proc.task.state</code> Process state</p>
+<dl>
+<dt>Meaning</dt><dd>The process name, owner (which user it belongs to), PID (the process number, reused by another process after it ends), start time, thread count (tasks running at once inside the process) and state (running, waiting, exited and so on). There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Enumerates processes with KERN_PROC_ALL and reads PROC_PIDTBSDINFO and PROC_PIDTASKINFO.</dd>
+<dt>Note</dt><dd>Process names and similar details are hidden when exported.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-parent">
+<span id="proc.identity.parentPID"></span>
+<h3 id="h-proc-parent">Parent process</h3>
+<p class="meta">ID: <code>proc.identity.parentPID</code> Parent process PID</p>
+<dl>
+<dt>Meaning</dt><dd>The PID of the selected process's parent. Its name is shown when it is in the process list. If the parent is one of your processes, you can go to its row.</dd>
+<dt>Unit</dt><dd>An identifier (count). It is not a usage rate; higher or lower numbers are neither good nor bad.</dd>
+<dt>How it's measured</dt><dd>Reads kp_eproc.e_ppid from the existing KERN_PROC_ALL query and checks that the same child's parent PID matches across both process-list reads. If it changes between reads, the parent is shown as exited (unknown) for that observation. Start-time ordering is not used.</dd>
+<dt>What you can do</dt><dd>Use it as a clue to which work a busy process belongs to. Activity Monitor's View &gt; All Processes, Hierarchically also shows relationships.</dd>
+<dt>Note</dt><dd>The parent is unknown when absent from the list (exited between reads or outside the retained rows) or when its PID is 0. No name is guessed. Parent PIDs and names are masked by default in the diagnostic summary. Don't quit processes you don't recognize or processes belonging to macOS.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-table">
+<span id="proc.table.total"></span><span id="proc.table.shown"></span>
+<h3 id="h-proc-table">Enumerated and retained processes</h3>
+<p class="meta">ID: <code>proc.table.total</code> Enumerated · <code>proc.table.shown</code> Retained</p>
+<dl>
+<dt>Meaning</dt><dd>How many processes were read from macOS, and how many of them were kept in the Monitor list. There is no good or bad value.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-restricted">
+<span id="proc.disk.readBytes"></span><span id="proc.disk.writeBytes"></span><span id="proc.task.physFootprint"></span><span id="proc.task.wakeups"></span><span id="proc.task.wired"></span>
+<h3 id="h-proc-restricted">Process disk reads/writes, physical footprint, wakeups and wired size</h3>
+<p class="meta"><span class="badge">Unsupported</span>ID: <code>proc.disk.readBytes</code> Process disk read bytes · <code>proc.disk.writeBytes</code> Process disk write bytes · <code>proc.task.physFootprint</code> Physical footprint · <code>proc.task.wakeups</code> Wakeups · <code>proc.task.wired</code> Wired size</p>
+<dl>
+<dt>Meaning</dt><dd>Disk bytes read and written by each process, physical footprint (an estimate of the memory the process uses), wakeups (times it woke the CPU from idle) and wired memory.</dd>
+<dt>How it's measured</dt><dd>Internal fields such as phys_footprint, wired and wakeups are read with proc_pid_rusage.</dd>
+<dt>Why it's unavailable</dt><dd>The method that reads these (proc_pid_rusage) isn't available to sandboxed apps.</dd>
+<dt>What you can do</dt><dd>Activity Monitor's Memory, Disk and Energy tabs show these per process.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-unsupported">
+<span id="proc.energy.impact"></span><span id="proc.gpu.attribution"></span><span id="proc.diagnostics.crash"></span><span id="proc.diagnostics.hang"></span><span id="proc.identity.appName"></span><span id="proc.net.bytes"></span><span id="proc.task.fileDescriptors"></span><span id="proc.task.qos"></span>
+<h3 id="h-proc-unsupported">Energy Impact, GPU, crashes, hangs, app name, network bytes, file descriptors and QoS</h3>
+<p class="meta"><span class="badge">Unsupported</span>ID: <code>proc.energy.impact</code> Energy Impact · <code>proc.gpu.attribution</code> Process GPU attribution · <code>proc.diagnostics.crash</code> Process crash · <code>proc.diagnostics.hang</code> Process hang · <code>proc.identity.appName</code> Application name · <code>proc.net.bytes</code> Per-process network bytes · <code>proc.task.fileDescriptors</code> File descriptor count · <code>proc.task.qos</code> QoS</p>
+<dl>
+<dt>Meaning</dt><dd>Per-process Energy Impact, GPU use, crashes, hangs (not responding), application name, network bytes, number of open files (file descriptors) and QoS (the priority class of work).</dd>
+<dt>Why it's unavailable</dt><dd>A sandboxed app can't read these through public methods, or we haven't been able to confirm that it can, so this version doesn't support them.</dd>
+<dt>What you can do</dt><dd>Activity Monitor's Energy tab shows Energy Impact, and processes that don't respond are marked (Not Responding) in red. The Network tab shows network use per app. If an app freezes or quits unexpectedly, try the steps in Apple's article “If an app freezes or quits unexpectedly on Mac”.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-workload">
+<span id="workload.correlation.build"></span><span id="workload.correlation.localLLM"></span><span id="workload.correlation.vmContainer"></span><span id="workload.elapsed"></span>
+<h3 id="h-proc-workload">Workload resource correlation (builds, local LLMs, VMs and containers)</h3>
+<p class="meta"><span class="badge">Unsupported</span>ID: <code>workload.correlation.build</code> Build resource correlation · <code>workload.correlation.localLLM</code> Local LLM resource correlation · <code>workload.correlation.vmContainer</code> VM / container resource correlation · <code>workload.elapsed</code> Workload elapsed time</p>
+<dl>
+<dt>Meaning</dt><dd>How much CPU, memory and so on were used by software builds, local LLMs (AI models), virtual machines or containers, and how long that work took.</dd>
+<dt>Why it's unavailable</dt><dd>There isn't yet a defined way to get these values, so this version doesn't support them.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-proc-marker">
+<span id="workload.marker"></span>
+<h3 id="h-proc-marker">Manual workload marker</h3>
+<p class="meta">ID: <code>workload.marker</code> Manual workload marker</p>
+<dl>
+<dt>Meaning</dt><dd>A marker you place, for example when a piece of work starts.</dd>
+<dt>Note</dt><dd>This version of the Monitor has no control for placing a marker yet, so it shows as Unobserved. You don't need to do anything.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/activity-monitor/view-information-about-processes-actmntr1001/mac">View information about Mac processes in Activity Monitor</a></li><li><a href="https://support.apple.com/guide/activity-monitor/view-cpu-activity-actmntr43452/mac">View CPU activity in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/if-an-app-freezes-or-quits-unexpectedly-mchlp2579/mac">If an app freezes or quits unexpectedly on Mac</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-power">
+<h2 id="sec-power">Power &amp; Thermal</h2>
+<p>Power (battery, power adapter, sleep) and thermal state. Battery items have values only on Macs with a battery (laptops). This app only reads these and never changes power settings.</p>
+<p class="in-section">In this section: <a href="#h-batt-charge">Battery charge</a> · <a href="#h-batt-state">Power source, AC connected, charging, charged and battery present</a> · <a href="#h-batt-capacity">Battery capacity and health</a> · <a href="#h-batt-cycles">Battery cycle count</a> · <a href="#h-batt-time">Estimated time remaining</a> · <a href="#h-system-power">System power consumption</a> · <a href="#h-adapter-input">Adapter input power, voltage and current</a> · <a href="#h-batt-flow">Battery voltage, current and calculated power</a> · <a href="#h-batt-os-power">Battery power (OS reading)</a> · <a href="#h-adapter">Power adapter specifications</a> · <a href="#h-lowpower">Low Power Mode</a> · <a href="#h-assertions">Sleep prevention assertions</a> · <a href="#h-thermal-state">Thermal state and notification time</a> · <a href="#h-thermal-pressure">Thermal pressure (5 OS levels)</a> · <a href="#h-thermal-research">Temperatures, fans and component power</a></p>
+<article class="item" aria-labelledby="h-batt-charge">
+<span id="power.battery.chargeRatio"></span>
+<h3 id="h-batt-charge">Battery charge</h3>
+<p class="meta">ID: <code>power.battery.chargeRatio</code> Battery charge</p>
+<dl>
+<dt>Meaning</dt><dd>How much charge is left in the battery.</dd>
+<dt>Unit</dt><dd>%</dd>
+<dt>How it's measured</dt><dd>Current capacity ÷ maximum capacity from macOS power source information (IOPowerSources).</dd>
+<dt>When it's low or drains quickly</dt><dd>Screen brightness, heavy work, apps using the GPU and many browser tabs make the battery drain faster.</dd>
+<dt>What you can do</dt><dd><ul><li>Charge your Mac.</li><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check apps with a high Energy Impact or 12 hr Power, and quit them if you aren't using them.</li><li>Low Power Mode reduces energy use (System Settings &gt; Battery &gt; Energy Mode).</li></ul></dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-state">
+<span id="power.source.kind"></span><span id="power.source.ac"></span><span id="power.battery.charging"></span><span id="power.battery.charged"></span><span id="power.battery.present"></span>
+<h3 id="h-batt-state">Power source, AC connected, charging, charged and battery present</h3>
+<p class="meta">ID: <code>power.source.kind</code> Power source kind · <code>power.source.ac</code> AC connected · <code>power.battery.charging</code> Charging · <code>power.battery.charged</code> Charged · <code>power.battery.present</code> Internal battery present</p>
+<dl>
+<dt>Meaning</dt><dd>The current power source (AC power, battery, UPS), whether a power adapter is connected, whether the battery is charging, whether it's fully charged, and whether there's a built-in battery.</dd>
+<dt>How it's measured</dt><dd>Read from macOS power source information (IOPowerSources).</dd>
+<dt>When it doesn't charge while plugged in</dt><dd>Optimized Battery Charging or a charge limit may be holding charging (the battery menu shows a message such as Charging On Hold), the power adapter may have too few watts, the cable may support only data, or the adapter may have stopped because it's hot (Apple's articles).</dd>
+<dt>What you can do</dt><dd>Check the battery menu, and choose Charge to Full Now if you need a full charge right away. Use a power adapter with the same or higher wattage as the one that came with your Mac, and a cable that supports charging. Unplug the adapter from the outlet, wait a few seconds, plug it back in, and restart your Mac (Apple's article “If your USB-C power adapter isn't charging your Mac laptop”).</dd>
+<dt>Note</dt><dd>Connected but not charging isn't necessarily a fault.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-capacity">
+<span id="power.battery.currentCapacity"></span><span id="power.battery.maxCapacity"></span><span id="power.battery.designCapacity"></span><span id="power.battery.health"></span>
+<h3 id="h-batt-capacity">Battery capacity and health</h3>
+<p class="meta">ID: <code>power.battery.currentCapacity</code> Current capacity · <code>power.battery.maxCapacity</code> Maximum capacity · <code>power.battery.designCapacity</code> Design capacity · <code>power.battery.health</code> Battery health (conditional)</p>
+<dl>
+<dt>Meaning</dt><dd>Current capacity, maximum capacity (how much the battery can hold now), design capacity (how much it held when new), and health (a rough guide: the full-charge capacity in the detailed battery information ÷ design capacity).</dd>
+<dt>Unit</dt><dd>Current and maximum capacity are in relative OS units (not necessarily mAh); design capacity is in the battery's own units; health is a %</dd>
+<dt>How it's measured</dt><dd>Current and maximum capacity come from IOPowerSources; design capacity and health come from detailed battery information (AppleSmartBattery, values Apple doesn't document). Some Macs don't provide them.</dd>
+<dt>When it's low</dt><dd>Batteries gradually wear as they're used and can hold less charge.</dd>
+<dt>What you can do</dt><dd>Check System Settings &gt; Battery &gt; Battery Health. If it shows Service Recommended, follow Apple's guidance (you can keep using your Mac safely, and get service if the reduced capacity bothers you).</dd>
+<dt>Note</dt><dd>Apple says battery health reported by third-party apps might not be accurate and recommends relying on the information macOS reports. Use this value as a rough guide.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-cycles">
+<span id="power.battery.cycles"></span>
+<h3 id="h-batt-cycles">Battery cycle count</h3>
+<p class="meta">ID: <code>power.battery.cycles</code> Battery cycle count</p>
+<dl>
+<dt>Meaning</dt><dd>The battery's cycle count. Using all of the battery's power counts as one cycle, so it isn't the same as the number of times you charged (Apple).</dd>
+<dt>Unit</dt><dd>Count</dd>
+<dt>How it's measured</dt><dd>Read from detailed battery information (AppleSmartBattery).</dd>
+<dt>When it's high</dt><dd>Apple lists a maximum cycle count for each model. At that point the battery is considered consumed and replacement is recommended; you can keep using it, but it runs for a shorter time.</dd>
+<dt>What you can do</dt><dd>Find your model's maximum in Apple's article “Determine battery cycle count for Mac laptops”. You can also see the count by holding Option and choosing Apple menu &gt; System Information &gt; Power. Turning on Optimized Battery Charging helps reduce wear (Apple).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-time">
+<span id="power.battery.timeRemaining"></span>
+<h3 id="h-batt-time">Estimated time remaining</h3>
+<p class="meta">ID: <code>power.battery.timeRemaining</code> Estimated time remaining</p>
+<dl>
+<dt>Meaning</dt><dd>The estimated time until the battery runs out at the current usage. It isn't the time until charging finishes.</dd>
+<dt>Unit</dt><dd>Time (estimated)</dd>
+<dt>How it's measured</dt><dd>Read with IOPSGetTimeRemainingEstimate. It shows Unlimited (external power) while plugged in, and Unknown while macOS is still calculating.</dd>
+<dt>When it's short</dt><dd>Same as battery charge.</dd>
+<dt>What you can do</dt><dd><ul><li>Charge your Mac.</li><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check apps with a high Energy Impact or 12 hr Power, and quit them if you aren't using them.</li><li>Low Power Mode reduces energy use (System Settings &gt; Battery &gt; Energy Mode).</li></ul></dd>
+<dt>Note</dt><dd>It's an estimate that changes a lot when your usage changes.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-system-power">
+<span id="power.system.loadWatts"></span>
+<h3 id="h-system-power">System power consumption</h3>
+<p class="meta">ID: <code>power.system.loadWatts</code> System power consumption (W)</p>
+<dl>
+<dt>Meaning</dt><dd>System power consumption reported by the OS. It is not CPU-only power.</dd>
+<dt>Unit</dt><dd>W (watts)</dd>
+<dt>How it's measured</dt><dd>Reads AppleSmartBattery PowerTelemetryData.SystemLoad with IORegistryEntryCreateCFProperty and converts mW to W by dividing by 1,000.</dd>
+<dt>When it's high</dt><dd>Workload, charging and the connected adapter affect readings. These do not measure CPU-only activity or establish whether hardware is faulty.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check apps with high energy use.</li><li>Save your work and quit apps you don't need normally. Don't quit processes you don't recognize or processes that belong to macOS.</li></ul></dd>
+<dt>Note</dt><dd>The OS updates these cached readings every tens of seconds; the app reads them about every 60 seconds while visible. Timestamps mark acquisition, not per-second measurement. After a power-source change, readings show Waiting for sample until a new reading about 40 seconds later. The source dictionary keys, units and signs are undocumented and readings may be missing on some hardware or OS versions. Macs without a battery are unsupported. Signs and meaning on battery power have not yet been verified on hardware. Do not judge charging or discharging from signs alone, or add input and battery readings to estimate total power.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-adapter-input">
+<span id="power.system.inputWatts"></span><span id="power.system.inputVolts"></span><span id="power.system.inputAmperes"></span>
+<h3 id="h-adapter-input">Adapter input power, voltage and current</h3>
+<p class="meta">ID: <code>power.system.inputWatts</code> Adapter input (W) · <code>power.system.inputVolts</code> Adapter input (V) · <code>power.system.inputAmperes</code> Adapter input (A)</p>
+<dl>
+<dt>Meaning</dt><dd>Input from the adapter as reported by the OS. Separate from rated adapter specifications and wall-socket consumption.</dd>
+<dt>Unit</dt><dd>W for power, V for voltage, A for current</dd>
+<dt>How it's measured</dt><dd>Reads AppleSmartBattery PowerTelemetryData with IORegistryEntryCreateCFProperty. Divides SystemPowerIn (mW), SystemVoltageIn (mV) and SystemCurrentIn (mA) by 1,000 to obtain W, V and A respectively.</dd>
+<dt>When it's high</dt><dd>Workload, charging and the connected adapter affect readings. These do not measure CPU-only activity or establish whether hardware is faulty.</dd>
+<dt>When it's low</dt><dd>Low input alone does not establish a fault. Read it alongside workload, charging state and the connected adapter.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check apps with high energy use.</li><li>Save your work and quit apps you don't need normally. Don't quit processes you don't recognize or processes that belong to macOS.</li></ul></dd>
+<dt>Note</dt><dd>The OS updates these cached readings every tens of seconds; the app reads them about every 60 seconds while visible. Timestamps mark acquisition, not per-second measurement. After a power-source change, readings show Waiting for sample until a new reading about 40 seconds later. The source dictionary keys, units and signs are undocumented and readings may be missing on some hardware or OS versions. Macs without a battery are unsupported. Signs and meaning on battery power have not yet been verified on hardware. Do not judge charging or discharging from signs alone, or add input and battery readings to estimate total power.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-flow">
+<span id="power.battery.volts"></span><span id="power.battery.amperes"></span><span id="power.battery.watts"></span>
+<h3 id="h-batt-flow">Battery voltage, current and calculated power</h3>
+<p class="meta">ID: <code>power.battery.volts</code> Battery voltage (V) · <code>power.battery.amperes</code> Battery current (A, signed) · <code>power.battery.watts</code> Battery power (W, voltage × current)</p>
+<dl>
+<dt>Meaning</dt><dd>Battery voltage, signed current, and power calculated from them. Separate from adapter voltage and current. Power is derived from measured readings.</dd>
+<dt>Unit</dt><dd>V for voltage, A for current, W for power</dd>
+<dt>How it's measured</dt><dd>Reads AppleSmartBattery Voltage (mV) and signed Amperage (mA) with IORegistryEntryCreateCFProperty and divides each by 1,000. Battery power is voltage in V × signed current in A, preserving the original sign.</dd>
+<dt>When it's high</dt><dd>Workload, charging and the connected adapter affect readings. These do not measure CPU-only activity or establish whether hardware is faulty.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check apps with high energy use.</li><li>Save your work and quit apps you don't need normally. Don't quit processes you don't recognize or processes that belong to macOS.</li></ul></dd>
+<dt>Note</dt><dd>The OS updates these cached readings every tens of seconds; the app reads them about every 60 seconds while visible. Timestamps mark acquisition, not per-second measurement. After a power-source change, readings show Waiting for sample until a new reading about 40 seconds later. The source dictionary keys, units and signs are undocumented and readings may be missing on some hardware or OS versions. Macs without a battery are unsupported. Signs and meaning on battery power have not yet been verified on hardware. Do not judge charging or discharging from signs alone, or add input and battery readings to estimate total power.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-batt-os-power">
+<span id="power.battery.telemetryWatts"></span>
+<h3 id="h-batt-os-power">Battery power (OS reading)</h3>
+<p class="meta">ID: <code>power.battery.telemetryWatts</code> Battery power (W, OS reading)</p>
+<dl>
+<dt>Meaning</dt><dd>Battery power reported separately by the OS, independent of the voltage × current calculation. Both are shown separately.</dd>
+<dt>Unit</dt><dd>W (watts)</dd>
+<dt>How it's measured</dt><dd>Reads AppleSmartBattery PowerTelemetryData.BatteryPower with IORegistryEntryCreateCFProperty and converts mW to W by dividing by 1,000.</dd>
+<dt>When it's high</dt><dd>Workload, charging and the connected adapter affect readings. These do not measure CPU-only activity or establish whether hardware is faulty.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check apps with high energy use.</li><li>Save your work and quit apps you don't need normally. Don't quit processes you don't recognize or processes that belong to macOS.</li></ul></dd>
+<dt>Note</dt><dd>The OS updates these cached readings every tens of seconds; the app reads them about every 60 seconds while visible. Timestamps mark acquisition, not per-second measurement. After a power-source change, readings show Waiting for sample until a new reading about 40 seconds later. The source dictionary keys, units and signs are undocumented and readings may be missing on some hardware or OS versions. Macs without a battery are unsupported. Signs and meaning on battery power have not yet been verified on hardware. Do not judge charging or discharging from signs alone, or add input and battery readings to estimate total power. BatteryPower and voltage × current have not been verified to share the same update window or sign meaning. Treat them as independent readings for comparison; do not substitute one for the other or add them.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-adapter">
+<span id="power.adapter.watts"></span><span id="power.adapter.volts"></span><span id="power.adapter.amperes"></span><span id="power.adapter.tier"></span><span id="power.adapter.wireless"></span>
+<h3 id="h-adapter">Power adapter specifications</h3>
+<p class="meta">ID: <code>power.adapter.watts</code> Nominal adapter watts · <code>power.adapter.volts</code> Nominal adapter volts · <code>power.adapter.amperes</code> Nominal adapter amperes · <code>power.adapter.tier</code> Nominal adapter tier · <code>power.adapter.wireless</code> Wireless adapter</p>
+<dl>
+<dt>Meaning</dt><dd>The nominal specifications of the connected power adapter (W, V, A), its power tier, and whether it's a wireless charger.</dd>
+<dt>How it's measured</dt><dd>Read with IOPSCopyExternalPowerAdapterDetails. When no adapter is connected it shows Adapter not connected.</dd>
+<dt>When the wattage is low</dt><dd>With a low-wattage adapter, your Mac may run without charging the battery (Apple).</dd>
+<dt>What you can do</dt><dd>Use a power adapter with the same or higher wattage as the one that came with your Mac (Apple's article).</dd>
+<dt>Note</dt><dd>These are nominal specifications, not the current charging power or the Mac's total power use.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-lowpower">
+<span id="power.lowPower"></span>
+<h3 id="h-lowpower">Low Power Mode</h3>
+<p class="meta">ID: <code>power.lowPower</code> Low power mode</p>
+<dl>
+<dt>Meaning</dt><dd>Whether Low Power Mode is on. According to Apple, it reduces energy use to extend battery life, and on some models it also reduces fan noise.</dd>
+<dt>How it's measured</dt><dd>Read with ProcessInfo.isLowPowerModeEnabled.</dd>
+<dt>When it's on</dt><dd>Apple's developer documentation says it saves energy by measures such as reducing CPU and GPU performance and lowering screen brightness, so work can feel slower.</dd>
+<dt>What you can do</dt><dd>Turn it on or off in System Settings &gt; Battery (Energy on desktop Macs) &gt; Energy Mode.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-assertions">
+<span id="power.assertions"></span><span id="power.assertion.type"></span><span id="power.assertion.owner"></span><span id="power.assertion.status"></span><span id="power.assertion.created"></span>
+<h3 id="h-assertions">Sleep prevention assertions</h3>
+<p class="meta">ID: <code>power.assertions</code> Requests to prevent sleep · <code>power.assertion.type</code> Request type · <code>power.assertion.owner</code> Owner process · <code>power.assertion.status</code> OS-reported request types (active and inactive) · <code>power.assertion.created</code> Created at</p>
+<dl>
+<dt>Meaning</dt><dd>The list of requests that apps or macOS have made to prevent sleep (power assertions), with their type, owning process, status and creation time.</dd>
+<dt>How it's measured</dt><dd>Only reads them with IOPMCopyAssertionsByProcess and IOPMCopyAssertionsStatus; nothing is changed. Re-read about every 60 seconds.</dd>
+<dt>When your Mac doesn't sleep</dt><dd>Playing video, downloading or copying files, backups and sharing features prevent sleep while they run. If one remains after the work is done, the app is still holding the request. According to Apple, disk access, Spotlight indexing and sharing services can also keep a Mac awake.</dd>
+<dt>What you can do</dt><dd>Open Activity Monitor (in the Utilities folder inside Applications), click the Energy tab and check the Preventing Sleep column to find apps keeping your Mac awake, and quit them if you don't need them. Turn off sharing features you don't use in System Settings &gt; General &gt; Sharing (Apple's article “If your Mac sleeps or wakes unexpectedly”).</dd>
+<dt>Note</dt><dd>Types also include the state of the display and user activity. Owning process names are hidden when exported.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thermal-state">
+<span id="thermal.state"></span><span id="thermal.notificationTime"></span>
+<h3 id="h-thermal-state">Thermal state and notification time</h3>
+<p class="meta">ID: <code>thermal.state</code> Thermal state · <code>thermal.notificationTime</code> Thermal state changed at</p>
+<dl>
+<dt>Meaning</dt><dd>The thermal state reported by macOS and when it last changed. It isn't a temperature. According to Apple: nominal is within normal limits, fair is slightly elevated, serious is high, and critical is significantly impacting the performance of the system and the device needs to cool down.</dd>
+<dt>How it's measured</dt><dd>Read with ProcessInfo.thermalState and its change notification.</dd>
+<dt>Note</dt><dd>Its 4 levels are nominal, fair, serious and critical. This is separate from the 5 OS thermal-pressure levels below; levels are not converted between the two.</dd>
+<dt>When it's high</dt><dd>Heavy work that continues, a hot environment, or using your Mac on a soft surface (a couch, bed or your lap) that blocks the vents (Apple's article on fans).</dd>
+<dt>What you can do</dt><dd>Put your Mac on a hard, flat surface like a desk and keep the vents clear. Quit apps using a lot of CPU or GPU (check in Activity Monitor) or stop heavy work. Use it in a cooler place. On some models Low Power Mode also reduces fan noise. If the fans keep running while the load is low, follow the steps for your model in Apple's article “About fans and fan noise in your Apple product”.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thermal-pressure">
+<span id="thermal.limitation"></span>
+<h3 id="h-thermal-pressure">Thermal pressure (5 OS levels)</h3>
+<p class="meta">ID: <code>thermal.limitation</code> Thermal pressure (5 OS levels)</p>
+<dl>
+<dt>Meaning</dt><dd>Thermal pressure reported by the OS: 0 nominal, 1 moderate, 2 heavy, 3 trapping and 4 sleeping. This is not a temperature or a throttling percentage.</dd>
+<dt>Unit</dt><dd>A level from 0 to 4, not a temperature or percentage</dd>
+<dt>How it's measured</dt><dd>Registers with notify_register_dispatch, then reads OSThermalPressureLevel from the public SDK header OSThermalNotification.h using notify_get_state on that same token. The same registration delivers subsequent changes.</dd>
+<dt>When it's high</dt><dd>The OS may report a higher level during sustained heavy work or when ventilation is obstructed.</dd>
+<dt>What you can do</dt><dd><ul><li>Check demanding apps in Activity Monitor (in the Utilities folder inside Applications) and reduce heavy work. Save your work before quitting apps you don't need.</li><li>Put your Mac on a hard, flat surface like a desk and keep its vents clear (Apple's article on fans).</li></ul></dd>
+<dt>Note</dt><dd>Separate from the 4-level Thermal state (ProcessInfo.thermalState). Do not use this as a temperature measurement or a safety guarantee. Level 0 has been read on hardware; levels 1–4 under load have not yet been verified.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thermal-research">
+<span id="thermal.cpu.temperature"></span><span id="thermal.gpu.temperature"></span><span id="thermal.battery.temperature"></span><span id="thermal.ambient.temperature"></span><span id="thermal.fan.rpm"></span><span id="thermal.component.watts"></span>
+<h3 id="h-thermal-research">Temperatures, fans and component power</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>thermal.cpu.temperature</code> CPU temperature · <code>thermal.gpu.temperature</code> GPU temperature · <code>thermal.battery.temperature</code> Battery temperature · <code>thermal.ambient.temperature</code> Ambient temperature · <code>thermal.fan.rpm</code> Fan RPM · <code>thermal.component.watts</code> Component power</p>
+<dl>
+<dt>Meaning</dt><dd>CPU, GPU, battery and ambient temperatures, fan speed and power per component.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating whether an app distributed on the App Store (inside the sandbox) can read these through public methods.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. Thermal state shows how hot your Mac is running.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/activity-monitor/view-energy-consumption-actmntr43697/mac">View energy consumption in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/check-the-condition-of-your-computers-battery-mh20865/mac">Check the condition of your Mac laptop's battery</a></li><li><a href="https://support.apple.com/en-us/108376">If you see battery 'Service Recommended' on your Mac laptop</a></li><li><a href="https://support.apple.com/en-us/102888">Determine battery cycle count for Mac laptops</a></li><li><a href="https://support.apple.com/en-us/102338">About Optimized Battery Charging and Charge Limit on Mac</a></li><li><a href="https://support.apple.com/en-us/102464">If your USB-C power adapter isn't charging your Mac laptop</a></li><li><a href="https://support.apple.com/en-us/101613">About Power Modes on your Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/if-your-mac-sleeps-or-wakes-unexpectedly-mchlp2995/mac">If your Mac sleeps or wakes unexpectedly</a></li><li><a href="https://support.apple.com/en-us/101576">About fans and fan noise in your Apple product</a></li><li><a href="https://developer.apple.com/documentation/foundation/processinfo/thermalstate-swift.enum">ProcessInfo.ThermalState (Apple Developer)</a></li><li><a href="https://developer.apple.com/documentation/foundation/processinfo/islowpowermodeenabled">ProcessInfo.isLowPowerModeEnabled (Apple Developer)</a></li><li><a href="https://developer.apple.com/documentation/iokit/1514293-ioregistryentrycreatecfproperty">IORegistryEntryCreateCFProperty (Apple Developer)</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-hardware">
+<h2 id="sec-hardware">Hardware</h2>
+<p>Information about your Mac's model, OS, parts and connected devices. Most values have no good or bad value and are useful to share when you contact support.</p>
+<p class="in-section">In this section: <a href="#h-sys-identity">Model identifier, OS version and build, architecture and CPU name</a> · <a href="#h-sys-cores">Core counts and P/E layout</a> · <a href="#h-sys-memory">Physical RAM</a> · <a href="#h-sys-time">Boot time, time since boot and awake time</a> · <a href="#h-app-version">App version and collector version</a> · <a href="#h-gpu-info">GPU information</a> · <a href="#h-gpu-memory">GPU memory budget and this app's Metal allocation</a> · <a href="#h-gpu-system-usage">System GPU usage</a> · <a href="#h-gpu-renderer-usage">GPU Renderer usage</a> · <a href="#h-gpu-tiler-usage">GPU Tiler usage</a> · <a href="#h-gpu-system-memory">Unified memory in use by the GPU</a> · <a href="#h-gpu-memory-allocated">Unified memory allocated by the GPU</a> · <a href="#h-gpu-research">GPU frequency, power, process attribution and Neural Engine</a> · <a href="#h-displays">Displays</a> · <a href="#h-audio">Audio devices</a> · <a href="#h-usb">USB devices</a> · <a href="#h-thunderbolt">Thunderbolt and USB4</a> · <a href="#h-bluetooth">Bluetooth devices</a></p>
+<article class="item" aria-labelledby="h-sys-identity">
+<span id="sys.model"></span><span id="sys.os.version"></span><span id="sys.os.build"></span><span id="sys.architecture"></span><span id="sys.cpu.name"></span>
+<h3 id="h-sys-identity">Model identifier, OS version and build, architecture and CPU name</h3>
+<p class="meta">ID: <code>sys.model</code> Model identifier · <code>sys.os.version</code> OS version · <code>sys.os.build</code> OS build · <code>sys.architecture</code> Architecture · <code>sys.cpu.name</code> CPU / SoC name</p>
+<dl>
+<dt>Meaning</dt><dd>The Mac's model identifier, the macOS version and build, the architecture (arm64 = Apple silicon, x86_64 = Intel) and the CPU/SoC name. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read from sysctl hw.* and kern.os*.</dd>
+<dt>Note</dt><dd>You can also see the model and macOS version in Apple menu &gt; About This Mac. Apple recommends using the latest macOS your Mac supports (System Settings &gt; General &gt; Software Update).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sys-cores">
+<span id="sys.cores.logical"></span><span id="sys.cores.physical"></span><span id="sys.cores.active"></span><span id="sys.cores.performanceEfficiency"></span>
+<h3 id="h-sys-cores">Core counts and P/E layout</h3>
+<p class="meta">ID: <code>sys.cores.logical</code> Logical core count · <code>sys.cores.physical</code> Physical core count · <code>sys.cores.active</code> Active core count · <code>sys.cores.performanceEfficiency</code> Performance / efficiency topology</p>
+<dl>
+<dt>Meaning</dt><dd>Logical, physical and active core counts, and the layout of performance (P) and efficiency (E) cores—the CPU values gathered in the hardware list. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read from sysctl hw.logicalcpu, hw.physicalcpu, hw.activecpu and hw.perflevel*.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sys-memory">
+<span id="sys.memory.physical"></span>
+<h3 id="h-sys-memory">Physical RAM</h3>
+<p class="meta">ID: <code>sys.memory.physical</code> Physical RAM</p>
+<dl>
+<dt>Meaning</dt><dd>The amount of physical memory (RAM) installed. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with ProcessInfo.physicalMemory.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sys-time">
+<span id="sys.boot.time"></span><span id="sys.uptime"></span><span id="sys.awakeTime"></span>
+<h3 id="h-sys-time">Boot time, time since boot and awake time</h3>
+<p class="meta">ID: <code>sys.boot.time</code> Boot time · <code>sys.uptime</code> Elapsed since boot · <code>sys.awakeTime</code> Awake time</p>
+<dl>
+<dt>Meaning</dt><dd>When your Mac started up, the time since then (including sleep), and the time it has been awake (Apple: the amount of time the system has been awake since the last time it was restarted).</dd>
+<dt>How it's measured</dt><dd>Read from sysctl kern.boottime and ProcessInfo.systemUptime.</dd>
+<dt>When it's long</dt><dd>Not restarting for a long time isn't a problem by itself. If your Mac behaves oddly, try restarting it.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-app-version">
+<span id="sys.app.version"></span><span id="sys.collector.version"></span>
+<h3 id="h-app-version">App version and collector version</h3>
+<p class="meta">ID: <code>sys.app.version</code> App version · <code>sys.collector.version</code> Collector version</p>
+<dl>
+<dt>Meaning</dt><dd>The version of this app and of its data-collecting part (collector). Please include them when you contact support. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read from the app's Info.plist (Bundle.infoDictionary).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-info">
+<span id="gpu.metal.name"></span><span id="gpu.metal.deviceCount"></span><span id="gpu.metal.lowPower"></span><span id="gpu.metal.external"></span><span id="gpu.metal.unifiedMemory"></span><span id="gpu.metal.deviceCapabilities"></span>
+<h3 id="h-gpu-info">GPU information</h3>
+<p class="meta">ID: <code>gpu.metal.name</code> GPU name · <code>gpu.metal.deviceCount</code> GPU count · <code>gpu.metal.lowPower</code> Low power GPU · <code>gpu.metal.external</code> External GPU · <code>gpu.metal.unifiedMemory</code> Unified memory support · <code>gpu.metal.deviceCapabilities</code> GPU device capabilities</p>
+<dl>
+<dt>Meaning</dt><dd>The name and number of GPUs (the part that does graphics computing), whether a GPU is low-power or external, whether it shares memory with the CPU (unified memory), and its capabilities. There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with Metal (MTLDevice).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-memory">
+<span id="gpu.metal.recommendedMaxWorkingSetSize"></span><span id="gpu.metal.currentAllocatedSize"></span>
+<h3 id="h-gpu-memory">GPU memory budget and this app's Metal allocation</h3>
+<p class="meta">ID: <code>gpu.metal.recommendedMaxWorkingSetSize</code> GPU memory budget (API) · <code>gpu.metal.currentAllocatedSize</code> This app's Metal allocation</p>
+<dl>
+<dt>Meaning</dt><dd>The GPU memory budget (Apple: an approximation of how much memory this GPU device can allocate without affecting its runtime performance) and the memory this app has allocated on the GPU (other apps aren't included). There is no good or bad value.</dd>
+<dt>Unit</dt><dd>Bytes</dd>
+<dt>How it's measured</dt><dd>Read from MTLDevice recommendedMaxWorkingSetSize and currentAllocatedSize.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-system-usage">
+<span id="gpu.system.usage"></span>
+<h3 id="h-gpu-system-usage">System GPU usage</h3>
+<p class="meta">ID: <code>gpu.system.usage</code> System GPU usage</p>
+<dl>
+<dt>Meaning</dt><dd>The OS-reported Device usage, indicating how hard the Mac's GPU is working system-wide.</dd>
+<dt>Unit</dt><dd>% (stored internally as a ratio from 0 to 1)</dd>
+<dt>How it's measured</dt><dd>Read Device Utilization % from IOAccelerator's PerformanceStatistics in the IORegistry once per second only while a surface showing the value, such as the GPU section, is visible. The stored value is divided by 100.</dd>
+<dt>When it's high</dt><dd>GPU work such as video export or gaming may be ongoing. A high value alone doesn't establish a problem.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications) and choose Window &gt; GPU History to compare GPU activity at the same time.</li><li>Let demanding work such as a video export finish, or pause it using the app's own controls and compare the readings.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>Do not add Device, Renderer and Tiler usage. The IOKit reading functions are public, but Apple doesn't document the PerformanceStatistics keys or the OS's internal observation window. These are OS-reported observations and need not exactly match Activity Monitor's numbers. Reading was verified on M1 with macOS 27.0.1, ad-hoc signing and app-sandbox. Other models/generations, Apple Development signing and distribution remain unverified. Missing keys are unavailable with a reason; no GPU or a system-wide value for multiple GPUs is unsupported. Neither is replaced with zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-renderer-usage">
+<span id="gpu.system.rendererUsage"></span>
+<h3 id="h-gpu-renderer-usage">GPU Renderer usage</h3>
+<p class="meta">ID: <code>gpu.system.rendererUsage</code> GPU Renderer usage</p>
+<dl>
+<dt>Meaning</dt><dd>The GPU activity ratio the OS reports as Renderer Utilization %. It is a separate observation from overall Device usage.</dd>
+<dt>Unit</dt><dd>% (stored internally as a ratio from 0 to 1)</dd>
+<dt>How it's measured</dt><dd>Read Renderer Utilization % from IOAccelerator's PerformanceStatistics once per second only while a surface showing the value is visible, and divide by 100 for storage.</dd>
+<dt>When it's high</dt><dd>GPU work may be ongoing. This value alone doesn't identify the app or type of work responsible.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications) and choose Window &gt; GPU History to compare GPU activity at the same time.</li><li>Let demanding work such as a video export finish, or pause it using the app's own controls and compare the readings.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>Do not add this to Device or Tiler usage, or infer a detailed workload breakdown from the Renderer key's name. The IOKit reading functions are public, but Apple doesn't document the PerformanceStatistics keys or the OS's internal observation window. These are OS-reported observations and need not exactly match Activity Monitor's numbers. Reading was verified on M1 with macOS 27.0.1, ad-hoc signing and app-sandbox. Other models/generations, Apple Development signing and distribution remain unverified. Missing keys are unavailable with a reason; no GPU or a system-wide value for multiple GPUs is unsupported. Neither is replaced with zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-tiler-usage">
+<span id="gpu.system.tilerUsage"></span>
+<h3 id="h-gpu-tiler-usage">GPU Tiler usage</h3>
+<p class="meta">ID: <code>gpu.system.tilerUsage</code> GPU Tiler usage</p>
+<dl>
+<dt>Meaning</dt><dd>The GPU activity ratio the OS reports as Tiler Utilization %. It is a separate observation from Device or Renderer usage.</dd>
+<dt>Unit</dt><dd>% (stored internally as a ratio from 0 to 1)</dd>
+<dt>How it's measured</dt><dd>Read Tiler Utilization % from IOAccelerator's PerformanceStatistics once per second only while a surface showing the value is visible, and divide by 100 for storage.</dd>
+<dt>When it's high</dt><dd>GPU work may be ongoing. This value alone doesn't identify the app or type of work responsible.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications) and choose Window &gt; GPU History to compare GPU activity at the same time.</li><li>Let demanding work such as a video export finish, or pause it using the app's own controls and compare the readings.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li></ul></dd>
+<dt>Note</dt><dd>Do not add this to Device or Renderer usage, or infer a detailed workload breakdown from the Tiler key's name. The IOKit reading functions are public, but Apple doesn't document the PerformanceStatistics keys or the OS's internal observation window. These are OS-reported observations and need not exactly match Activity Monitor's numbers. Reading was verified on M1 with macOS 27.0.1, ad-hoc signing and app-sandbox. Other models/generations, Apple Development signing and distribution remain unverified. Missing keys are unavailable with a reason; no GPU or a system-wide value for multiple GPUs is unsupported. Neither is replaced with zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-system-memory">
+<span id="gpu.system.memory"></span>
+<h3 id="h-gpu-system-memory">Unified memory in use by the GPU</h3>
+<p class="meta">ID: <code>gpu.system.memory</code> Unified memory in use by GPU</p>
+<dl>
+<dt>Meaning</dt><dd>The unified memory shared with the CPU that is currently in use by the GPU. It is a subset of the Mac's memory usage: do not add it to memory usage and count it twice. It differs from the Metal memory budget and this app's own allocation.</dd>
+<dt>Unit</dt><dd>Bytes (displayed as MB, GB and similar units)</dd>
+<dt>How it's measured</dt><dd>Read In use system memory from IOAccelerator's PerformanceStatistics once per second only while a surface showing the value is visible.</dd>
+<dt>When it's high</dt><dd>GPU work may be using a large amount of shared memory. The amount alone doesn't establish a shortage; also check memory pressure and swap.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>This isn't dedicated VRAM capacity or a sum of all processes' memory. The IOKit reading functions are public, but Apple doesn't document the PerformanceStatistics keys or the OS's internal observation window. These are OS-reported observations and need not exactly match Activity Monitor's numbers. Reading was verified on M1 with macOS 27.0.1, ad-hoc signing and app-sandbox. Other models/generations, Apple Development signing and distribution remain unverified. Missing keys are unavailable with a reason; no GPU or a system-wide value for multiple GPUs is unsupported. Neither is replaced with zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-memory-allocated">
+<span id="gpu.system.memoryAllocated"></span>
+<h3 id="h-gpu-memory-allocated">Unified memory allocated by the GPU</h3>
+<p class="meta">ID: <code>gpu.system.memoryAllocated</code> Unified memory allocated by GPU</p>
+<dl>
+<dt>Meaning</dt><dd>The unified memory amount the OS reports as allocated for the GPU. It differs from memory in use (In use system memory) and from this app's own Metal allocation.</dd>
+<dt>Unit</dt><dd>Bytes (displayed as MB, GB and similar units)</dd>
+<dt>How it's measured</dt><dd>Read Alloc system memory from IOAccelerator's PerformanceStatistics once per second only while a surface showing the value is visible.</dd>
+<dt>When it's high</dt><dd>A large amount of memory may be allocated for the GPU. This value alone doesn't mean it is all in use, that memory is short, or that there is a memory leak.</dd>
+<dt>What you can do</dt><dd><ul><li>Open Activity Monitor (in the Utilities folder inside Applications), click the Memory tab and sort by the Memory column to find the apps using the most memory. In a browser, close tabs you aren't using.</li><li>Quit apps you aren't using (save your work first). If an app doesn't respond, choose Apple menu &gt; Force Quit, or click the Stop button in Activity Monitor and choose Force Quit. Force quitting can lose unsaved changes. Don't quit processes you don't recognize or processes that belong to macOS: if other apps or processes are using a process you quit, they can have problems (Apple). To see how processes are related, choose View &gt; All Processes, Hierarchically in Activity Monitor.</li><li>The color of the Memory Pressure graph below the list means, according to Apple: green, your Mac is using its RAM efficiently; yellow, it might eventually need more RAM; red, it needs more RAM. If it stays red, use fewer apps at the same time. Apple's article “Check if your Mac needs more RAM in Activity Monitor” explains how to see whether your Mac's memory can be upgraded.</li></ul></dd>
+<dt>Note</dt><dd>Do not add this to GPU memory in use or the Mac's memory usage. The difference between allocated and in-use memory isn't necessarily an amount you can free. The IOKit reading functions are public, but Apple doesn't document the PerformanceStatistics keys or the OS's internal observation window. These are OS-reported observations and need not exactly match Activity Monitor's numbers. Reading was verified on M1 with macOS 27.0.1, ad-hoc signing and app-sandbox. Other models/generations, Apple Development signing and distribution remain unverified. Missing keys are unavailable with a reason; no GPU or a system-wide value for multiple GPUs is unsupported. Neither is replaced with zero.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-gpu-research">
+<span id="gpu.system.frequency"></span><span id="gpu.system.watts"></span><span id="gpu.process.attribution"></span><span id="ane.system.usage"></span><span id="ane.system.watts"></span>
+<h3 id="h-gpu-research">GPU frequency, power, process attribution and Neural Engine</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>gpu.system.frequency</code> System GPU frequency · <code>gpu.system.watts</code> System GPU power · <code>gpu.process.attribution</code> GPU process attribution · <code>ane.system.usage</code> ANE usage · <code>ane.system.watts</code> ANE power</p>
+<dl>
+<dt>Meaning</dt><dd>Current GPU frequency and power, GPU use per process, and Neural Engine (the part for machine learning) usage and power.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating whether an app distributed on the App Store (inside the sandbox) can read these through public methods.</dd>
+<dt>What you can do</dt><dd>Activity Monitor shows GPU activity in Window &gt; GPU History. Apple suggests checking GPU activity when your Mac runs hot or the battery drains quickly.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-displays">
+<span id="devices.display.count"></span><span id="devices.display.name"></span><span id="devices.display.resolution"></span><span id="devices.display.logicalSize"></span><span id="devices.display.scale"></span><span id="devices.display.refresh"></span><span id="devices.display.maxFPS"></span><span id="devices.display.hdrSupport"></span><span id="devices.display.hdrState"></span><span id="devices.display.colorGamut"></span>
+<h3 id="h-displays">Displays</h3>
+<p class="meta">ID: <code>devices.display.count</code> Display count · <code>devices.display.name</code> Display name · <code>devices.display.resolution</code> Display resolution (px) · <code>devices.display.logicalSize</code> Display logical size (pt) · <code>devices.display.scale</code> Display scale · <code>devices.display.refresh</code> Current display refresh (Hz) · <code>devices.display.maxFPS</code> Nominal display maximum FPS · <code>devices.display.hdrSupport</code> EDR (HDR) support · <code>devices.display.hdrState</code> Current EDR headroom · <code>devices.display.colorGamut</code> Display color gamut</p>
+<dl>
+<dt>Meaning</dt><dd>The number and names of displays, resolution (pixels), logical size (points, how much fits on screen), scale (pixels per point), current refresh rate (redraws per second), nominal maximum frame rate, EDR (HDR) support, current EDR headroom (according to Apple, 1.0 when no HDR content is shown) and color gamut (the range of colors it can show). There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read from NSScreen and the CoreGraphics display mode.</dd>
+<dt>Note</dt><dd>On supported displays you can change the refresh rate in System Settings &gt; Displays (Apple's article). With ProMotion and similar, it changes automatically to match the content.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-audio">
+<span id="devices.audio.count"></span><span id="devices.audio.inputs"></span><span id="devices.audio.outputs"></span><span id="devices.audio.default"></span><span id="devices.audio.sampleRate"></span><span id="devices.audio.inputChannels"></span><span id="devices.audio.outputChannels"></span><span id="devices.audio.transport"></span>
+<h3 id="h-audio">Audio devices</h3>
+<p class="meta">ID: <code>devices.audio.count</code> Audio device count · <code>devices.audio.inputs</code> Audio input device · <code>devices.audio.outputs</code> Audio output device · <code>devices.audio.default</code> Audio default role · <code>devices.audio.sampleRate</code> Audio sample rate · <code>devices.audio.inputChannels</code> Audio input channels · <code>devices.audio.outputChannels</code> Audio output channels · <code>devices.audio.transport</code> Audio transport</p>
+<dl>
+<dt>Meaning</dt><dd>The number of audio devices, input devices (such as microphones) and output devices (such as speakers or headphones), the default devices, sample rate (sound samples per second), channel counts and connection type (built-in, USB, Bluetooth and so on). There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Read with CoreAudio.</dd>
+<dt>Note</dt><dd>If there's no sound or it comes from the wrong device, check the output and input devices in System Settings &gt; Sound.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-usb">
+<span id="devices.usb.count"></span><span id="devices.usb.identity"></span><span id="devices.usb.vendor"></span><span id="devices.usb.standard"></span><span id="devices.usb.nominalSpeed"></span><span id="devices.usb.port"></span>
+<h3 id="h-usb">USB devices</h3>
+<p class="meta">ID: <code>devices.usb.count</code> USB device count · <code>devices.usb.identity</code> USB identity · <code>devices.usb.vendor</code> USB vendor · <code>devices.usb.standard</code> USB connection class · <code>devices.usb.nominalSpeed</code> USB speed class (nominal) · <code>devices.usb.port</code> USB connection location</p>
+<dl>
+<dt>Meaning</dt><dd>The number of connected USB devices, their names and identity, vendor, connection class, nominal speed and where they're connected (locationID).</dd>
+<dt>How it's measured</dt><dd>Read from IOUSBHostDevice in the IORegistry.</dd>
+<dt>When a device isn't as fast as expected</dt><dd>If the cable, hub or port uses a slower standard, the device connects at that speed.</dd>
+<dt>What you can do</dt><dd>Try another port or cable. Apple's article “Identify the ports on your Mac” shows which ports your Mac has.</dd>
+<dt>Note</dt><dd>These are nominal values, not actual transfer speeds.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-thunderbolt">
+<span id="devices.thunderbolt.count"></span><span id="devices.thunderbolt.identity"></span><span id="devices.thunderbolt.standard"></span><span id="devices.thunderbolt.nominalSpeed"></span><span id="devices.thunderbolt.depth"></span><span id="devices.thunderbolt.port"></span>
+<h3 id="h-thunderbolt">Thunderbolt and USB4</h3>
+<p class="meta">ID: <code>devices.thunderbolt.count</code> Thunderbolt/USB4 router count · <code>devices.thunderbolt.identity</code> Thunderbolt identity · <code>devices.thunderbolt.standard</code> Thunderbolt connection standard · <code>devices.thunderbolt.nominalSpeed</code> Thunderbolt port maximum (nominal) · <code>devices.thunderbolt.depth</code> Thunderbolt hop depth · <code>devices.thunderbolt.port</code> Upstream port number</p>
+<dl>
+<dt>Meaning</dt><dd>The number of Thunderbolt/USB4 routers (connection points), their identity, connection standard, the port's nominal maximum speed, the hop depth (position in a daisy chain) and the upstream port number.</dd>
+<dt>How it's measured</dt><dd>Read from IOThunderboltController and related entries in the IORegistry.</dd>
+<dt>When a device isn't as fast as expected</dt><dd>The speed depends on the standards supported by the cable and any devices in between.</dd>
+<dt>What you can do</dt><dd>Try another port or cable. Apple's article “Identify the ports on your Mac” shows which ports your Mac has.</dd>
+<dt>Note</dt><dd>These are nominal values, not actual transfer speeds.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-bluetooth">
+<span id="devices.bluetooth.battery"></span><span id="devices.bluetooth.connected"></span><span id="devices.bluetooth.known"></span>
+<h3 id="h-bluetooth">Bluetooth devices</h3>
+<p class="meta"><span class="badge">Permission required (not requested)</span>ID: <code>devices.bluetooth.battery</code> Bluetooth battery · <code>devices.bluetooth.connected</code> Bluetooth connection · <code>devices.bluetooth.known</code> Known Bluetooth devices</p>
+<dl>
+<dt>Meaning</dt><dd>Bluetooth device battery, whether devices are connected, and known devices.</dd>
+<dt>Why it's unavailable</dt><dd>Using Bluetooth needs an additional permission (and a consent prompt), which this app doesn't request.</dd>
+<dt>What you can do</dt><dd>You don't need to do anything. Check Bluetooth devices in System Settings &gt; Bluetooth.</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/mac-help/get-system-information-about-your-mac-syspr35536/mac">Get system information about your Mac</a></li><li><a href="https://support.apple.com/en-us/108382">Update macOS on Mac</a></li><li><a href="https://support.apple.com/en-us/109523">Identify the ports on your Mac</a></li><li><a href="https://support.apple.com/en-us/102297">Change the refresh rate on your MacBook Pro or Apple display</a></li><li><a href="https://support.apple.com/guide/activity-monitor/view-gpu-activity-actm9329b315/mac">View GPU activity in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/activity-monitor/view-memory-usage-actmntr1004/mac">View memory usage in Activity Monitor on Mac</a></li><li><a href="https://support.apple.com/guide/activity-monitor/check-if-your-mac-needs-more-ram-actmntr34865/mac">Check if your Mac needs more RAM in Activity Monitor</a></li><li><a href="https://support.apple.com/guide/activity-monitor/quit-a-process-actmntr1002/mac">Quit an app or process in Activity Monitor on Mac</a></li><li><a href="https://developer.apple.com/documentation/iokit/1514293-ioregistryentrycreatecfproperty">IORegistryEntryCreateCFProperty (Apple Developer)</a></li><li><a href="https://developer.apple.com/documentation/foundation/processinfo/systemuptime">ProcessInfo.systemUptime (Apple Developer)</a></li><li><a href="https://developer.apple.com/documentation/metal/mtldevice/recommendedmaxworkingsetsize">MTLDevice.recommendedMaxWorkingSetSize (Apple Developer)</a></li><li><a href="https://developer.apple.com/documentation/appkit/nsscreen/maximumextendeddynamicrangecolorcomponentvalue">NSScreen.maximumExtendedDynamicRangeColorComponentValue (Apple Developer)</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<section aria-labelledby="sec-diagnostics">
+<h2 id="sec-diagnostics">Diagnostics &amp; Permissions</h2>
+<p>Events on your Mac and in this app, and the security state. Events are kept only in the app's memory, with a limit on how many, and are never sent anywhere.</p>
+<p class="in-section">In this section: <a href="#h-events-system">Sleep, display, power and connection events</a> · <a href="#h-events-app">Acquisition failures/recovery and this app's errors</a> · <a href="#h-sec-ownapp">Own app permissions</a> · <a href="#h-sec-research">FileVault, firewall, Gatekeeper, SIP and update state</a> · <a href="#h-sec-reports">Crash and panic reports</a></p>
+<article class="item" aria-labelledby="h-events-system">
+<span id="events.sleepWake"></span><span id="events.displaySleepWake"></span><span id="events.powerSource"></span><span id="events.interfaceConnection"></span><span id="events.volumeConnection"></span>
+<h3 id="h-events-system">Sleep, display, power and connection events</h3>
+<p class="meta">ID: <code>events.sleepWake</code> Sleep / wake · <code>events.displaySleepWake</code> Display sleep / wake · <code>events.powerSource</code> Power source changes · <code>events.interfaceConnection</code> Interface connection changes · <code>events.volumeConnection</code> Volume connection changes</p>
+<dl>
+<dt>Meaning</dt><dd>Events for sleep and wake, display sleep and wake, power source changes, network interfaces connecting and disconnecting, and volumes connecting and disconnecting.</dd>
+<dt>How it's measured</dt><dd>Recorded from NSWorkspace notifications and changes in this app's metrics.</dd>
+<dt>When there are many</dt><dd>Unexpected sleep or wake can come from sharing features, wake for network access, or connected devices (Apple's article). Repeated connects and disconnects can mean an unstable cable or connection.</dd>
+<dt>What you can do</dt><dd>For sleep, try the steps in Apple's article “If your Mac sleeps or wakes unexpectedly”. For a device that keeps connecting and disconnecting, try another cable or port.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-events-app">
+<span id="events.acquisitionFailure"></span><span id="events.ownAppError"></span>
+<h3 id="h-events-app">Acquisition failures/recovery and this app's errors</h3>
+<p class="meta">ID: <code>events.acquisitionFailure</code> Acquisition failure / recovery · <code>events.ownAppError</code> Own app acquisition errors</p>
+<dl>
+<dt>Meaning</dt><dd>When this app couldn't get values and when it could again (acquisition failure and recovery), and this app's acquisition errors.</dd>
+<dt>How it's measured</dt><dd>Recorded as events inside this app (the system log isn't read).</dd>
+<dt>When there are many</dt><dd>Right after waking from sleep, values can be briefly unavailable; they recover automatically.</dd>
+<dt>What you can do</dt><dd>If it continues, quit and reopen this app. If it still continues, contact support (link at the bottom of this page).</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sec-ownapp">
+<span id="sec.ownApp.permissions"></span>
+<h3 id="h-sec-ownapp">Own app permissions</h3>
+<p class="meta">ID: <code>sec.ownApp.permissions</code> Own app permissions</p>
+<dl>
+<dt>Meaning</dt><dd>The permissions this app has (entitlements in its signature, such as App Sandbox). There is no good or bad value.</dd>
+<dt>How it's measured</dt><dd>Reads its own signature (SecCodeCopySelf, SecCodeCopySigningInformation). The network.client entitlement is absent. System-wide crash and panic logs require administrator access or dedicated entitlements and are not collected. The app never attaches to processes.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sec-research">
+<span id="sec.fileVault"></span><span id="sec.firewall"></span><span id="sec.gatekeeper"></span><span id="sec.sip"></span><span id="sec.updates"></span>
+<h3 id="h-sec-research">FileVault, firewall, Gatekeeper, SIP and update state</h3>
+<p class="meta"><span class="badge">Under investigation</span>ID: <code>sec.fileVault</code> FileVault state · <code>sec.firewall</code> Firewall state · <code>sec.gatekeeper</code> Gatekeeper state · <code>sec.sip</code> SIP state · <code>sec.updates</code> Update state</p>
+<dl>
+<dt>Meaning</dt><dd>The state of FileVault (disk encryption), the firewall, Gatekeeper (which makes sure only trusted software runs), SIP (System Integrity Protection) and software updates.</dd>
+<dt>Why it's unavailable</dt><dd>We're still investigating whether an app distributed on the App Store (inside the sandbox) can read these through public methods.</dd>
+<dt>What you can do</dt><dd>You can check them directly in System Settings: FileVault in Privacy &amp; Security &gt; FileVault, the firewall in Network &gt; Firewall, which downloaded apps are allowed in Privacy &amp; Security, and updates in General &gt; Software Update. For SIP, see Apple's article “About System Integrity Protection on your Mac”.</dd>
+</dl>
+</article>
+<article class="item" aria-labelledby="h-sec-reports">
+<span id="sec.reports.crash"></span><span id="sec.reports.panic"></span>
+<h3 id="h-sec-reports">Crash and panic reports</h3>
+<p class="meta"><span class="badge">Permission required (not requested)</span>ID: <code>sec.reports.crash</code> Crash reports · <code>sec.reports.panic</code> Panic reports</p>
+<dl>
+<dt>Meaning</dt><dd>Records of apps quitting unexpectedly (crash reports) and of your Mac restarting because of a problem (panic reports).</dd>
+<dt>Why it's unavailable</dt><dd>Reading them requires access to the system-wide logs, which this app doesn't request.</dd>
+<dt>What you can do</dt><dd>Crash reports are in Console (in the Utilities folder inside Applications) under Crash Reports in the sidebar (non-administrators see only their own reports). If your Mac restarted because of a problem, try the steps in Apple's article “If your Mac restarted because of a problem” (install updates, disconnect peripherals to check, and so on).</dd>
+</dl>
+</article>
+<div class="refs"><h3>References (official Apple resources)</h3><ul><li><a href="https://support.apple.com/guide/mac-help/if-your-mac-sleeps-or-wakes-unexpectedly-mchlp2995/mac">If your Mac sleeps or wakes unexpectedly</a></li><li><a href="https://support.apple.com/en-us/102382">If your Mac restarted because of a problem</a></li><li><a href="https://support.apple.com/guide/console/reports-cnsl664be99a/mac">View reports in Console on Mac</a></li><li><a href="https://support.apple.com/guide/mac-help/protect-data-on-your-mac-with-filevault-mh11785/mac">Protect data on your Mac with FileVault</a></li><li><a href="https://support.apple.com/guide/mac-help/block-connections-to-your-mac-with-a-firewall-mh34041/mac">Block connections to your Mac with a firewall</a></li><li><a href="https://support.apple.com/en-us/102445">Safely open apps on your Mac</a></li><li><a href="https://support.apple.com/en-us/102149">About System Integrity Protection on your Mac</a></li><li><a href="https://support.apple.com/en-us/108382">Update macOS on Mac</a></li></ul></div>
+<p class="top"><a href="#top">Back to contents</a></p>
+</section>
+
+<footer><p>This guide is based on official Apple resources. Screen names and steps can differ between macOS versions. Last updated: October 19, 2026</p><p><a href="support.html">Support</a> · <a href="privacy.html">Privacy Policy</a> · <a href="help.html" hreflang="ja" lang="ja">日本語</a></p></footer>
+
+</body>
+</html>

@@ -21,7 +21,7 @@
 <body>
 
 <h1>禅羅万象（Zenrabansho）プライバシーポリシー</h1>
-<p class="meta">最終更新日: 2026 年 10 月 4 日</p>
+<p class="meta">最終更新日: 2026 年 10 月 21 日</p>
 
 <p>禅羅万象（以下「本アプリ」）は、ユーザーのプライバシーを最大限尊重します。本ポリシーでは、本アプリがどのような情報を扱い、扱わないかを明示します。</p>
 
@@ -29,19 +29,24 @@
 <p><strong>本アプリは、ユーザーの個人情報を一切収集しません。</strong></p>
 <ul>
   <li>氏名・メールアドレス・電話番号などの登録情報を要求しません</li>
-  <li>位置情報、連絡先、写真等のユーザーデータへアクセスしません</li>
+  <li>写真ライブラリ、位置情報、連絡先などのユーザーデータに、本アプリが自らアクセスすることはありません。利用者が背景に使うために自分で選んだ画像の取り扱いは、以下の「2.1. 利用者が選んだ画像」のとおりです</li>
   <li>クラッシュレポート、利用統計、分析データを送信しません</li>
 </ul>
 
 <h2>2. 端末内で取得する情報</h2>
-<p>本アプリは、可視化を目的として以下のシステム情報を <strong>端末内のみで</strong> 取得します。これらは外部に送信されることはありません。</p>
+<p>本アプリは、可視化を目的として、macOS の API から次のようなシステム情報を <strong>端末内のみで</strong> 取得します。版によって表示する項目は異なります。これらは外部に送信されることはありません。</p>
 <ul>
-  <li>CPU 使用率（macOS 標準 API: <code>host_statistics64</code>）</li>
-  <li>メモリ使用状況（同 <code>host_statistics64</code> / <code>vm_statistics64</code>）</li>
-  <li>ディスク I/O 統計（<code>getrusage</code>）</li>
-  <li>ネットワーク送受信バイト数（<code>getifaddrs</code>）</li>
+  <li>CPU・GPU・メモリの使用状況</li>
+  <li>ストレージの容量・読み書きの統計・ボリューム名など</li>
+  <li>ネットワークの通信量・IP アドレス・DNS 設定など</li>
+  <li>電池と電源・熱の状態など</li>
+  <li>プロセスの名前・ID・使用状況など</li>
+  <li>ハードウェアの仕様・機器名など</li>
 </ul>
-<p>これらの情報は本アプリ実行中にメモリ上で曼荼羅描画に使用され、アプリ終了時に破棄されます。永続的な保存・記録は一切行いません。</p>
+<p>システム情報は本アプリ実行中にメモリ上で画面の表示に使用され、アプリ終了時に破棄されます。本アプリが読むシステム情報は、永続的に保存・記録しません。本アプリが永続的に保存するのは、設定と「2.1. 利用者が選んだ画像」の写し・一覧だけです。診断の要約や値をクリップボードにコピーするのは、利用者がコピー操作を行った場合に限ります。</p>
+
+<h3>2.1. 利用者が選んだ画像</h3>
+<p>利用者が背景に使う画像を自分で選んだ場合（ファイルを選ぶ画面での選択、ドロップ、写真 App からのドラッグ）に限り、本アプリは利用者が選んだ（ドロップした）ファイルだけを端末内で読み込みます。撮影情報・位置情報などのメタデータを除いた JPEG の写し（画面より大きい画像は画面の大きさまで縮小します）を、端末内のアプリの保存領域に保存します。元のファイル名（拡張子を除く）と取り込んだ日時も同じ保存領域の一覧に保存します。写真 App からのドラッグで受け取った元の画像は、取り込みの処理が終わった後に（途中で終了した場合は次の起動時に）端末内の一時領域から削除します。画像を背景の一覧から削除すると、その写しも削除します。画像・写し・ファイル名・取り込んだ日時を外部に送信することはありません。</p>
 
 <h2>3. 外部通信</h2>
 <p><strong>本アプリは、いかなる外部サーバとも通信しません。</strong></p>
@@ -78,7 +83,7 @@
 <hr class="lang-divider">
 
 <h1>Zenrabansho — Privacy Policy</h1>
-<p class="meta">Last updated: October 4, 2026</p>
+<p class="meta">Last updated: October 21, 2026</p>
 
 <p>Zenrabansho ("the App") respects your privacy to the fullest extent. This policy explicitly states what information the App handles and does not handle.</p>
 
@@ -86,19 +91,24 @@
 <p><strong>The App collects no personal information whatsoever.</strong></p>
 <ul>
   <li>We do not request registration information such as name, email, or phone number</li>
-  <li>We do not access user data such as location, contacts, photos, etc.</li>
+  <li>The App does not access user data such as your photo library, location, or contacts on its own. Images you choose yourself to use as backgrounds are handled as described in "2.1. Images You Choose" below</li>
   <li>We do not send crash reports, usage statistics, or analytics data</li>
 </ul>
 
 <h2>2. Information Read Locally on Device</h2>
-<p>The App reads the following system information <strong>locally on the device only</strong> for visualization purposes. None of this is transmitted externally.</p>
+<p>The App reads system information such as the following from macOS APIs <strong>locally on the device only</strong> for visualization purposes. The items displayed vary by version. None of this is transmitted externally.</p>
 <ul>
-  <li>CPU usage (macOS standard API: <code>host_statistics64</code>)</li>
-  <li>Memory usage (<code>host_statistics64</code> / <code>vm_statistics64</code>)</li>
-  <li>Disk I/O statistics (<code>getrusage</code>)</li>
-  <li>Network traffic byte counts (<code>getifaddrs</code>)</li>
+  <li>CPU, GPU, and memory usage</li>
+  <li>Storage capacity, read/write statistics, volume names, and related information</li>
+  <li>Network traffic, IP addresses, DNS settings, and related information</li>
+  <li>Battery, power, thermal status, and related information</li>
+  <li>Process names, IDs, resource usage, and related information</li>
+  <li>Hardware specifications, device names, and related information</li>
 </ul>
-<p>This information is held in memory only during App execution for mandala rendering, and is discarded when the App exits. No persistent storage or recording occurs.</p>
+<p>System information is held in memory during App execution for display on screen, and is discarded when the App exits. The App does not persistently store or record any system information it reads. The App persistently stores only settings and the copies and list described in "2.1. Images You Choose". Diagnostic summaries or values are copied to the clipboard only when you perform a copy action.</p>
+
+<h3>2.1. Images You Choose</h3>
+<p>Only if you choose an image yourself to use as a background (through the file picker, by dropping it, or by dragging it from the Photos app) does the App read files, and only those you choose or drop, locally on your device. It saves, in the App's storage area on your device, a JPEG copy with camera, location, and other metadata removed (images larger than your display are scaled down to fit it). The original file name (without its extension) and import date and time are also saved in a list in the same storage area. The original image received by dragging from the Photos app is deleted from temporary storage on your device after import processing finishes (or at the next launch if the App exits during processing). Removing the image from the background list also deletes its copy. The image, copy, file name, and import date and time are never sent externally.</p>
 
 <h2>3. External Communication</h2>
 <p><strong>The App does not communicate with any external server.</strong></p>
