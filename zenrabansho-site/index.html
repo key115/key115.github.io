@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>禅羅万象 — あなたの宇宙を、曼荼羅で観る。 | Zenrabansho, a meditative system monitor for macOS</title>
-<meta name="description" content="禅羅万象（Zenrabansho）は、Macのシステム状態を曼荼羅として描き出す瞑想用システムモニター。CPU・メモリ・ディスク・ネットワークを息遣いとして観る。無料・広告なし・データ収集ゼロ・データ送信ゼロ。macOS 14+。">
-<meta property="og:title" content="禅羅万象 / Zenrabansho — A meditative system monitor for macOS">
-<meta property="og:description" content="あなたの宇宙を、曼荼羅で観る。Watch your Mac's pulse as breath.">
-<meta property="og:image" content="https://key115.github.io/zenrabansho-site/assets/sakura.jpg">
+<title>禅羅万象 — Mac の負荷を、いつもの画面で確かめる。 | Zenrabansho, a system monitor for Mac</title>
+<meta name="description" content="禅羅万象（Zenrabansho）は、CPU・メモリ・ストレージ・ネットワークなどの状態を作業のそばで確かめる Mac のシステムモニター。背景に表示・手前に表示・サイドに表で配置の 3 つの表示モードと、監視項目ごとの解説。無料・広告なし。アプリ自身はデータを集めず、送りません。macOS 14 以降。">
+<meta property="og:title" content="禅羅万象 / Zenrabansho — A system monitor for Mac">
+<meta property="og:description" content="Mac の負荷を、いつもの画面で確かめる。See your Mac's workload where you work.">
+<meta property="og:image" content="https://key115.github.io/zenrabansho-site/assets/screen-background.jpg">
 <meta property="og:url" content="https://key115.github.io/zenrabansho-site/">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="assets/appicon.png">
@@ -153,45 +153,21 @@
 
   .wrap{max-width:1080px;margin:0 auto}
 
-  /* ---------- 息継ぎ（全幅画像） ---------- */
-  .breath{
-    padding:0;margin:0;
-    position:relative;
-  }
-  .breath img{width:100%;height:min(78vh,720px);object-fit:cover;object-position:center}
-  .breath figcaption{
-    position:absolute;right:6vw;bottom:2.4rem;
-    text-align:right;font-size:.78rem;letter-spacing:.3em;color:rgba(232,224,210,.85);
-    text-shadow:0 1px 12px rgba(0,0,0,.8);
-  }
-  .breath figcaption .en{display:block;letter-spacing:.08em;color:rgba(232,224,210,.6)}
-  .breath::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(to bottom,var(--ink) 0%,transparent 12%,transparent 84%,var(--ink) 100%);
-    pointer-events:none;
-  }
-
-  /* ---------- 様式ギャラリー ---------- */
-  .styles-grid{
-    display:grid;gap:3.5rem;
-    grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));
-    margin-top:3.5rem;
-  }
-  .style-card{position:relative}
-  .style-card img{
+  /* ---------- 画面（スクリーンショット） ---------- */
+  .screen{margin:3.5rem 0 0}
+  .screen img{
+    width:100%;height:auto;
     border:1px solid var(--line);
     box-shadow:0 24px 80px rgba(0,0,0,.5);
-    height:min(64vh,560px);width:100%;object-fit:cover;object-position:top center;
   }
-  .style-card.pano img{object-position:center}
-  .style-card figcaption{
-    display:flex;justify-content:space-between;align-items:baseline;
+  .screen figcaption{
+    display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;
     margin-top:1.1rem;font-size:.85rem;letter-spacing:.18em;
   }
-  .style-card figcaption .name{color:var(--kin)}
-  .style-card figcaption .en{font-size:.75rem}
+  .screen figcaption .name{color:var(--kin)}
+  .screen figcaption .en{font-size:.75rem}
 
-  /* ---------- 観の作法（機能） ---------- */
+  /* ---------- 表示モード・お賽銭の枠 ---------- */
   .modes{
     display:grid;gap:1px;background:var(--line);
     grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
@@ -239,6 +215,22 @@
   .kofi-btn:hover{background:var(--kin);color:var(--ink)}
   .kofi-btn small{display:block;font-size:.62rem;letter-spacing:.18em;opacity:.75;margin-top:.25rem;font-style:normal}
 
+  /* ---------- 四 · 解説への入口 ---------- */
+  .guides{display:flex;gap:1rem 1.4rem;flex-wrap:wrap;margin-top:2rem}
+  .guide-btn{
+    display:inline-block;
+    padding:.85rem 2rem;
+    border:1px solid var(--kin);
+    border-radius:2px;
+    color:var(--kin);
+    text-decoration:none;
+    letter-spacing:.14em;
+    font-size:.85rem;
+    transition:background .35s ease,color .35s ease;
+  }
+  .guide-btn:hover{background:var(--kin);color:var(--ink)}
+  .guide-btn small{display:block;font-size:.62rem;letter-spacing:.18em;opacity:.75;margin-top:.25rem;font-style:normal}
+
   /* ---------- 結び ---------- */
   .close{text-align:center}
   .close .enso{top:50%;left:50%;translate:-50% -50%;width:min(60vmin,480px);height:min(60vmin,480px)}
@@ -259,8 +251,8 @@
     display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;
     font-size:.78rem;color:var(--paper-dim);letter-spacing:.12em;
   }
-  footer nav{display:flex;gap:2.2rem}
-  footer a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s,color .3s}
+  footer nav{display:flex;flex-wrap:wrap;gap:.8rem 2.2rem}
+  footer a{white-space:nowrap;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s,color .3s}
   footer a:hover{color:var(--paper);border-color:var(--shu)}
 </style>
 <!-- Google Analytics 4: shared website measurement -->
@@ -273,9 +265,9 @@
   <div class="enso" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <p class="romaji">Zenrabansho — Mac Mandala</p>
-      <h1>あなたの宇宙を、<br>曼荼羅で観る。</h1>
-      <span class="en">A meditative system monitor for macOS.<br>Watch your Mac's pulse as breath.</span>
+      <p class="romaji">Zenrabansho — System Monitor for Mac</p>
+      <h1>Mac の負荷を、<br>いつもの画面で確かめる。</h1>
+      <span class="en">See your Mac's workload where you work.<br>CPU, memory, storage, network and more.</span>
       <a class="cta" href="https://apps.apple.com/app/id6766777378" data-appstore="">
         Mac App Store で入手
         <small>GET IT ON THE MAC APP STORE</small>
@@ -286,68 +278,96 @@
   </div>
 </header>
 
-<!-- ═══════════ 息継ぎ ═══════════ -->
-<figure class="breath">
-  <img src="assets/sakura.jpg" alt="様式 Sakura — 花吹雪の中で呼吸する桜色の曼荼羅（全画面背景モード）" loading="lazy">
-  <figcaption>様式 · Sakura — 花吹雪の呼吸<span class="en">Full-screen background mode</span></figcaption>
-</figure>
-
 <!-- ═══════════ 一 · 観 ═══════════ -->
 <section>
   <div class="wrap">
-    <p class="kanji-index">一 · 観 — SEEING</p>
-    <h2>数値の対極に、気配がある。</h2>
+    <p class="kanji-index">一 · 観 — AT A GLANCE</p>
+    <h2>作業の手を止めずに、Mac の様子を。</h2>
     <p class="lead">
-      禅羅万象は、CPU・メモリ・ディスク・ネットワークの 4 リソースを 1 秒ごとにサンプリングし、
-      曼荼羅の<em>「層」「花弁」「光線」</em>へ写し取ります。数字を読むのではなく、
-      <em>息遣いとして感じる</em>。Activity Monitor の対極にある、瞑想のためのシステムモニターです。
-      <span class="en">CPU, memory, disk, and network — sampled every second, mapped to rings, petals, and rays. The opposite of Activity Monitor.</span>
+      禅羅万象は、CPU・メモリ・ストレージ・ネットワーク・プロセス・電源の状態を、作業のそばで確かめるためのシステムモニターです。
+      デスクトップの背景、作業中の画面の手前、画面の端の表から、作業に合う置き方を選べます。
+      <span class="en">Zenrabansho is a system monitor for checking CPU, memory, storage, network traffic, processes and power while you work — on your desktop, above your work, or in a table at the edge of the screen.</span>
+    </p>
+    <figure class="screen">
+      <img src="assets/screen-background.jpg" width="1600" height="1000" alt="背景に表示 — デスクトップの背景に、CPU の使用率を中心にメモリ・ディスク・ネットワーク・電池の値を同心円で表示した画面（一部）" loading="lazy">
+      <figcaption><span class="name">背景に表示</span><span class="en">Show in Background (detail)</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════ 二 · 置 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">二 · 置 — THREE DISPLAY MODES</p>
+    <h2>置き方は、三つ。</h2>
+    <div class="modes">
+      <div class="mode"><span class="num">I</span><h3>背景に表示</h3><p>デスクトップの背景として、数値と中心の図を表示します。<span class="en">Show in Background — readings and a center graphic as your desktop background.</span></p></div>
+      <div class="mode"><span class="num">II</span><h3>手前に表示</h3><p>作業中の画面の手前に、薄く重ねて表示します。クリックは下の窓へ通るので、そのまま作業を続けられます。<span class="en">Show in Front — a faint display above your work. Clicks pass through to the windows below.</span></p></div>
+      <div class="mode"><span class="num">III</span><h3>サイドに表で配置</h3><p>画面の左か右に数値の表を置きます。ほかのアプリの窓の端に重ねて表示します。<span class="en">Arrange as Side Table — a table of readings at the left or right edge of the screen.</span></p></div>
+    </div>
+    <p class="lead">
+      ショートカット（初期設定は ⌃⌥⌘M）で、表示と非表示を切り替えられます。手前に表示はスクリーンショットや画面共有に写るので、共有の前にショートカットで隠してください。
+      <span class="en">Press the shortcut (⌃⌥⌘M by default) to show or hide the display. Show in Front appears in screenshots and screen sharing, so hide it before you share your screen.</span>
+    </p>
+    <figure class="screen">
+      <img src="assets/screen-side.jpg" width="1600" height="1000" alt="サイドに表で配置 — 画面の右端に、CPU・メモリ・ディスク・ネットワーク・電池などの値を並べた表（一部）" loading="lazy">
+      <figcaption><span class="name">サイドに表で配置</span><span class="en">Arrange as Side Table (detail)</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════ 三 · 整 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">三 · 整 — SETTINGS</p>
+    <h2>置き方も、見た目も、ひとつの画面で。</h2>
+    <p class="lead">
+      メニューバーのアイコンをクリックすると、設定画面が開きます。表示モード、背景、中心の見せ方、濃さ、表示するディスプレイ、サイドの表の項目と順番、ショートカットをまとめて変えられ、試し見で仕上がりを確かめられます。
+      <span class="en">Click the menu bar icon to open Settings. Change the display mode, background, center graphic, opacity, display, side table rows and order, and shortcut in one place, and check the result in the live preview.</span>
+    </p>
+    <p class="lead">
+      背景は 6 つの絵（紅の反逆・夜の油彩・薄膜の光・環の惑星・墨の円相・切り紙の断層）、自分の画像（最大 20 枚）、なしから選べます。中心の図は「コア」と「曼荼羅」から選べます。
+      <span class="en">Choose one of six backgrounds, up to 20 of your own images, or none, and pick Core or Mandala as the center graphic.</span>
+    </p>
+    <figure class="screen">
+      <img src="assets/screen-settings.jpg" width="1600" height="1000" alt="設定画面 — 表示モード・背景の濃さ・表示するディスプレイと、背景の絵の選択（一部）" loading="lazy">
+      <figcaption><span class="name">設定画面</span><span class="en">Settings (detail)</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══════════ 四 · 知 ═══════════ -->
+<section>
+  <div class="wrap">
+    <p class="kanji-index">四 · 知 — MONITOR &amp; GUIDE</p>
+    <h2>気になる値は、詳しく。</h2>
+    <p class="lead">
+      メニューバーのアイコンを右クリックして「モニターを開く」を選ぶと、概要・CPU・メモリ・ストレージ・ネットワーク・プロセス・電源と熱・ハードウェア・診断と権限・全項目を、履歴や内訳と一緒に確かめられます。取得できない値は 0 と表示せず、理由を示します。
+      <span class="en">Right-click the menu bar icon and choose Open Monitor to see history and breakdowns for Overview, CPU, Memory, Storage, Network, Processes, Power &amp; Thermal, Hardware, Diagnostics &amp; Permissions, and All Metrics. Readings that can't be measured are never shown as zero.</span>
+    </p>
+    <p class="lead">
+      各項目の「解説」とメニューの「ヘルプ」は、ブラウザでこのサイトの解説を開きます。項目の意味、単位、計り方、値が高い・低いときに考えられることと、自分でできる対処を、日本語と英語で載せています。
+      <span class="en">Each metric's Learn More and the Help menu open the metric guide on this website. It explains what each metric means, its unit, how it is measured, what high or low values may indicate, and what you can do — in Japanese and English.</span>
+    </p>
+    <div class="guides">
+      <a class="guide-btn" href="help.html">監視項目の解説を読む<small>GUIDE IN JAPANESE</small></a>
+      <a class="guide-btn" href="help-en.html">Read the metric guide<small>GUIDE IN ENGLISH</small></a>
+    </div>
+    <figure class="screen">
+      <img src="assets/screen-monitor.jpg" width="1600" height="1000" alt="モニター画面の概要 — CPU・メモリ・スワップ・ストレージ容量・ディスク I/O・ネットワークの値と推移（見本のデータ）" loading="lazy">
+      <figcaption><span class="name">モニター画面</span><span class="en">Monitor</span></figcaption>
+    </figure>
+    <p class="lead" style="font-size:.78rem">
+      取得できる項目は、Mac の機種・macOS の版・権限によって異なります。部位ごとの温度やファンの回転数は表示しません。
+      <span class="en">Available readings depend on your Mac, macOS version and permissions. Per-component temperatures and fan speeds are not shown.</span>
     </p>
   </div>
 </section>
 
-<!-- ═══════════ 二 · 様式 ═══════════ -->
+<!-- ═══════════ 五 · 無 ═══════════ -->
 <section>
   <div class="wrap">
-    <p class="kanji-index">二 · 様式 — FOUR STYLES</p>
-    <h2>四つの様式、四つの宇宙。</h2>
-    <p class="lead">アプリ内の「様式」切替で、曼荼羅は姿を変えます。<span class="en">Switch styles inside the app.</span></p>
-    <div class="styles-grid">
-      <figure class="style-card">
-        <img src="assets/zen.jpg" alt="様式 Zen — 金色の曼荼羅とメトリクスカードのフル表示" loading="lazy">
-        <figcaption><span class="name">Zen</span><span>金色の静寂 <span class="en">— full view with metric cards</span></span></figcaption>
-      </figure>
-      <figure class="style-card">
-        <img src="assets/samurai.jpg" alt="様式 Samurai — 蒼白に脈打つ曼荼羅のフル表示" loading="lazy">
-        <figcaption><span class="name">Samurai</span><span>蒼白の気迫 <span class="en">— full view</span></span></figcaption>
-      </figure>
-      <figure class="style-card pano" style="grid-column:1/-1">
-        <img src="assets/cosmic.jpg" alt="様式 Cosmic — 海景の壁紙の上に浮かぶ半透明の曼荼羅（前面オーバーレイ）" loading="lazy">
-        <figcaption><span class="name">Cosmic</span><span>景色の上に浮かぶ <span class="en">— translucent overlay on your desktop</span></span></figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ 三 · 作法 ═══════════ -->
-<section>
-  <div class="wrap">
-    <p class="kanji-index">三 · 作法 — FOUR MODES</p>
-    <h2>視界の片隅から、全画面の没入まで。</h2>
-    <div class="modes">
-      <div class="mode"><span class="num">I</span><h3>フル</h3><p>曼荼羅とメトリクスカード、ヘルプを一望。今日の調子を 1 秒で。<span class="en">Mandala + metric cards.</span></p></div>
-      <div class="mode"><span class="num">II</span><h3>曼荼羅のみ</h3><p>円形ウィンドウの純粋な可視化。机上の小さな宇宙。<span class="en">Pure visualization in a circular window.</span></p></div>
-      <div class="mode"><span class="num">III</span><h3>背景全画面</h3><p>デスクトップ背景として常時描画。離席中も Mac は呼吸し続ける。<span class="en">Wallpaper-level background.</span></p></div>
-      <div class="mode"><span class="num">IV</span><h3>前面オーバーレイ</h3><p>透過率 1〜100% の半透明装飾。作業の邪魔をせず、気配だけ。<span class="en">Translucent overlay, opacity 1–100%.</span></p></div>
-    </div>
-    <p class="lead" style="margin-top:2.4rem">メニューバーアイコンは 12 弁のロータス。CPU 負荷に応じて中心が脈打ちます。<span class="en">The menu-bar lotus pulses under CPU load.</span></p>
-  </div>
-</section>
-
-<!-- ═══════════ 四 · 無 ═══════════ -->
-<section>
-  <div class="wrap">
-    <p class="kanji-index">四 · 無 — THREE ZEROS</p>
+    <p class="kanji-index">五 · 無 — THREE ZEROS</p>
     <h2>集めない。送らない。鳴らさない。</h2>
     <div class="zeros">
       <div class="zero"><div class="glyph">無</div><h3>データ収集ゼロ</h3><p class="en">Zero data collection</p></div>
@@ -355,27 +375,27 @@
       <div class="zero"><div class="glyph">無</div><h3>通知ゼロ</h3><p class="en">Zero notifications</p></div>
     </div>
     <p class="lead" style="margin:3rem auto 0;text-align:center">
-      アプリ自身による外部通信・データ収集はありません。お賽銭（アプリ内課金）の決済はAppleのApp Storeが処理し、開発者は個人データを受け取りません。
-      <span class="en">The app itself makes no network connections and collects no data. Optional tips are processed by Apple's App Store; the developer receives no personal data.</span>
+      アプリ自身による外部通信・データ収集はありません。監視データは Mac の中だけで扱います。お賽銭（アプリ内課金）の決済はAppleのApp Storeが処理し、開発者は個人データを受け取りません。
+      <span class="en">The app itself makes no network connections and collects no data. Monitoring data stays on your Mac. Optional tips are processed by Apple's App Store; the developer receives no personal data.</span>
     </p>
   </div>
 </section>
 
-<!-- ═══════════ 五 · 縁 ═══════════ -->
+<!-- ═══════════ 六 · 縁 ═══════════ -->
 <section>
   <div class="wrap">
-    <p class="kanji-index">五 · 縁 — SUPPORT</p>
+    <p class="kanji-index">六 · 縁 — SUPPORT</p>
     <h2>観るは、無料。応援は、お気持ちで。</h2>
     <p class="en" style="font-size:.85rem;letter-spacing:.03em;margin-top:.5rem">Free for everyone — supported by optional tips.</p>
     <p class="lead" style="margin-top:1.6rem">
-      禅羅万象は無料になりました。広告を載せず、データも集めません。制作は、使い続けてくださる方の『お気持ち』に支えられています。
-      <span class="en">Zenrabansho is now free. No ads, no data collection — development is sustained by optional tips from people who enjoy it.</span>
+      禅羅万象は無料です。広告を載せず、データも集めません。制作は、使い続けてくださる方の『お気持ち』に支えられています。
+      <span class="en">Zenrabansho is free. No ads, no data collection — development is sustained by optional tips from people who enjoy it.</span>
     </p>
     <div class="modes">
       <div class="mode">
         <span class="num">I</span>
         <h3>お賽銭</h3>
-        <p>アプリ内の賽銭箱から。メニューバーの曼荼羅を右クリック→『お賽銭箱…』。決済はAppleが処理します。<em style="font-style:normal;opacity:.72">（v1.2アップデートで近日登場）</em><span class="en">In-app Tip Jar — right-click the menu-bar mandala → 'Tip Jar…'. Processed by Apple. Coming soon in the v1.2 update.</span></p>
+        <p>アプリ内の賽銭箱から。メニューバーのアイコンを右クリック→『お賽銭箱…』。決済はAppleが処理します。<span class="en">In-app Tip Jar — right-click the menu bar icon → 'Tip Jar…'. Processed by Apple.</span></p>
       </div>
       <!-- KOFI-LANE(#293 step 6): Ko-fi開設後にこのコメントを外し、href と data-kofi に実URLを注入してからデプロイする。
            死リンクのままの公開は禁止（Sharebar 9日放置事故の再発防止・デプロイ規約7）。
@@ -401,7 +421,7 @@
 <section class="close">
   <div class="enso" aria-hidden="true"></div>
   <div class="close-inner">
-    <p class="saying">重いビルドの合間に、<br>Mac という小さな宇宙を、観る。</p>
+    <p class="saying">作業はそのままに、<br>Mac の様子を、そばに。</p>
     <a class="cta" href="https://apps.apple.com/app/id6766777378" data-appstore="">
       Mac App Store で入手
       <small>GET IT ON THE MAC APP STORE</small>
@@ -413,6 +433,7 @@
 <footer>
   <span>© 2026 Keisuke Oikawa</span>
   <nav>
+    <a href="help.html">解説 / Guide</a>
     <a href="privacy.html">プライバシーポリシー / Privacy</a>
     <a href="support.html">サポート / Support</a>
   </nav>
