@@ -7,7 +7,7 @@ Apps — landing / privacy / support pages
 - One web stream for `https://key115.github.io` (`16039657833`).
 - Measurement ID: `G-C7RWHHPVL6`, maintained in `assets/analytics.js`.
 - All public HTML pages include that shared script. Asset-rendering HTML and
-  unpublished source files are excluded. The ClipRecall exporter also includes it.
+  unpublished source files are excluded. ClipRecall's LP and guide are generated from CommandDesk (PRJ-011 `output/site/landing/`) with the same loader.
 - `content_group` identifies the app, or `App directory` for the root pages.
 - `app_store_click` records a public App Store app ID and canonical destination.
   This is a link click, not a confirmed app download or purchase.

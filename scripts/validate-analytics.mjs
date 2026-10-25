@@ -102,6 +102,6 @@ for (const file of pages.filter(file => file.includes(`${path.sep}sharebar${path
   assert.ok(csp.includes("worker-src 'self'"));
   assert.ok(!csp.includes('unsafe-inline') && !csp.includes('unsafe-eval'));
 }
-assert.ok(fs.readFileSync(path.join(root, 'cliprecall/source/scripts/export-pages.cjs'), 'utf8')
-  .includes('<script src="/assets/analytics.js" defer></script>'));
-console.log(`PASS: ${pages.length} public pages; all 7 site groups; sanitized URLs and App Store clicks; no duplicate/local tracking; disclosures in all locales; Sharebar CSP; ClipRecall exporter.`);
+// ClipRecall's LP/guide source lives in CommandDesk (PRJ-011 output/site/landing, #1673).
+assert.ok(!fs.existsSync(path.join(root, 'cliprecall/source')), 'cliprecall/source must not be published');
+console.log(`PASS: ${pages.length} public pages; all 7 site groups; sanitized URLs and App Store clicks; no duplicate/local tracking; disclosures in all locales; Sharebar CSP; ClipRecall source not published.`);
