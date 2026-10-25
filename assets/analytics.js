@@ -4,9 +4,41 @@
 
   // Keep local previews out of production reports and avoid duplicate setup.
   if (window.location.hostname !== 'key115.github.io' || window.key115AnalyticsInitialized) return;
+
+  // Sharebar: the receiver page and any /sharebar/ URL carrying shared state
+  // (#v<digit>...) never run Google code (CommandDesk #1698).
+  var path = window.location.pathname;
+  if (/^\/sharebar\/s(?:\.html)?$/.test(path) ||
+      (path.indexOf('/sharebar/') === 0 && /^#v\d/.test(window.location.hash))) return;
+
+  // EU/EEA/UK, layer 1 (CommandDesk #1545): a browser set to a European time
+  // zone never loads Google code. The zone is only compared here and is never
+  // sent. If it cannot be read, nothing is loaded either.
+  var euZonesOutsideEurope = [
+    'Atlantic/Canary', 'Africa/Ceuta', 'Atlantic/Azores', 'Atlantic/Madeira',
+    'Asia/Nicosia', 'Asia/Famagusta', 'Atlantic/Reykjavik', 'Atlantic/Jan_Mayen', 'Arctic/Longyearbyen',
+    'America/Cayenne', 'America/Guadeloupe', 'America/Martinique', 'America/Marigot',
+    'Indian/Reunion', 'Indian/Mayotte',
+    'GB', 'GB-Eire', 'Eire', 'Iceland', 'Portugal', 'Poland', 'WET', 'CET', 'MET', 'EET'
+  ];
+  var zone;
+  try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (error) { return; }
+  if (typeof zone !== 'string' || /^Europe\//.test(zone) || euZonesOutsideEurope.indexOf(zone) !== -1) return;
+
   window.key115AnalyticsInitialized = true;
 
   var measurementId = 'G-C7RWHHPVL6';
+  // EU/EEA/UK, layer 2: when Google places the visitor in one of these regions
+  // (ISO 3166-1; Google resolves the region), every consent type stays denied,
+  // so GA4 reads and writes no cookies. No banner and no consent update, ever.
+  // EU 27 + outermost regions/Aland with their own codes, EEA (IS LI NO), UK (GB).
+  var notMeasuredRegions = [
+    'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE',
+    'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE',
+    'AX', 'GF', 'GP', 'MQ', 'MF', 'RE', 'YT',
+    'IS', 'LI', 'NO',
+    'GB'
+  ];
   var sites = {
     bigleaf: 'BigLeaf',
     sharebar: 'Sharebar',
@@ -23,7 +55,7 @@
     '6777128789': 'Redact Shot',
     '6766777378': 'Zenrabansho'
   };
-  var contentGroup = sites[window.location.pathname.split('/')[1]] || 'App directory';
+  var contentGroup = sites[path.split('/')[1]] || 'App directory';
 
   // Never include query parameters or fragments (Sharebar encodes state in #).
   function pageUrl(value) {
@@ -39,6 +71,20 @@
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  // Consent defaults must be queued before js/config and before gtag.js loads.
+  window.gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    region: notMeasuredRegions
+  });
+  window.gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'granted'
+  });
   window.gtag('js', new Date());
   window.gtag('config', measurementId, {
     content_group: contentGroup,

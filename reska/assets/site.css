@@ -159,6 +159,11 @@ h3 { font-size: 18px; line-height: 1.35; letter-spacing: -.015em; }
 .button.secondary { background: transparent; color: var(--night); box-shadow: none; }
 .button.secondary:hover { background: rgba(255, 254, 253, .66); }
 
+/* App Store CTA (data-appstore): [hidden] は .button の display より弱いので明示ガード。
+   活性化は assets/site.js の APP_STORE_URL（規約3）・デプロイゲートは規約7。 */
+[hidden] { display: none !important; }
+.price-note { margin-top: 14px; color: var(--muted); font-size: 14px; letter-spacing: .01em; }
+
 .window-scene { position: relative; min-height: 430px; isolation: isolate; }
 .window-scene::before {
   content: "";

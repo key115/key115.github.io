@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reska — A floating live view of any window</title>
-  <meta name="description" content="Reska turns any Mac window into a floating Picture-in-Picture live view. Private by design: nothing is recorded, saved, or sent.">
+  <meta name="description" content="Reska turns any Mac window into a floating Picture-in-Picture live view. The app records, saves, and sends nothing. This website measures page views and App Store link clicks with GA4.">
   <link rel="canonical" href="https://key115.github.io/reska/">
   <link rel="icon" href="assets/appicon.png">
   <link rel="apple-touch-icon" href="assets/appicon.png">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Reska">
   <meta property="og:title" content="Reska — A floating live view of any window">
-  <meta property="og:description" content="Live Picture-in-Picture for any Mac window. Nothing is recorded, saved, or sent.">
+  <meta property="og:description" content="Live Picture-in-Picture for any Mac window. The app records, saves, and sends nothing. This website measures page views and App Store link clicks with GA4.">
   <meta property="og:url" content="https://key115.github.io/reska/">
   <meta property="og:image" content="https://key115.github.io/reska/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -29,7 +29,8 @@
     "operatingSystem": "macOS 14.0 or later",
     "applicationCategory": "UtilitiesApplication",
     "description": "A floating Picture-in-Picture live view of any Mac window.",
-    "url": "https://key115.github.io/reska/"
+    "url": "https://key115.github.io/reska/",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
   }
   </script>
 <!-- Google Analytics 4: shared website measurement -->
@@ -66,9 +67,14 @@
             <span class="ja">Reskaは、どのウィンドウもライブなコピーとして自前のフロートパネルに表示。別の場所で作業していても、見えたままにします。</span>
           </p>
           <div class="hero-actions">
-            <a class="button" href="support.html"><span class="en">Read the guide</span><span class="ja">使い方を見る</span><span aria-hidden="true">→</span></a>
+            <a class="button" data-appstore hidden href="https://apps.apple.com/app/id6790117299" rel="noopener"><span class="en">Download on the Mac App Store</span><span class="ja">Mac App Storeでダウンロード</span><span aria-hidden="true">→</span></a>
+            <a class="button secondary" href="support.html"><span class="en">Read the guide</span><span class="ja">使い方を見る</span></a>
             <a class="button secondary" href="privacy.html"><span class="en">How privacy works</span><span class="ja">プライバシーを見る</span></a>
           </div>
+          <p class="price-note" data-appstore-wrap hidden>
+            <span class="en">Free download · full-featured 14-day trial · one-time unlock $4.99 — no subscription.</span>
+            <span class="ja">無料ダウンロード · 14日間フル機能試用 · 買い切り ¥800 — サブスクはありません。</span>
+          </p>
         </div>
 
         <div class="window-scene" aria-hidden="true" data-reveal>
@@ -108,8 +114,8 @@
           </article>
           <article class="promise-card" data-reveal>
             <span class="number">03 / NO PROFILE</span>
-            <h3><span class="en">Nothing collected</span><span class="ja">収集しない</span></h3>
-            <p><span class="en">No account, analytics, tracking, advertising SDK, or developer telemetry.</span><span class="ja">アカウント、分析、トラッキング、広告SDK、開発者向けテレメトリはありません。</span></p>
+            <h3><span class="en">The app collects nothing</span><span class="ja">アプリは収集しない</span></h3>
+            <p><span class="en">The app has no account, analytics, tracking, advertising SDK, or developer telemetry. This website measures page views and App Store link clicks with Google Analytics 4.</span><span class="ja">アプリには、アカウント、分析、トラッキング、広告SDK、開発者向けテレメトリはありません。このウェブサイトでは、ページの閲覧とApp Storeへのリンクのクリックを、Google Analytics 4で計測しています。</span></p>
           </article>
         </div>
       </div>
@@ -147,6 +153,7 @@
       <div class="footer-grid">
         <a class="brand" href="index.html"><img src="assets/appicon.png" alt="" width="34" height="34">Reska</a>
         <ul class="footer-links">
+          <li data-appstore-wrap hidden><a data-appstore hidden href="https://apps.apple.com/app/id6790117299" rel="noopener"><span class="en">Mac App Store</span><span class="ja">Mac App Store</span></a></li>
           <li><a href="privacy.html"><span class="en">Privacy Policy</span><span class="ja">プライバシーポリシー</span></a></li>
           <li><a href="support.html"><span class="en">Support</span><span class="ja">サポート</span></a></li>
           <li><a href="mailto:k.oikawa119009@gmail.com?subject=Reska%20Support"><span class="en">Contact</span><span class="ja">お問い合わせ</span></a></li>

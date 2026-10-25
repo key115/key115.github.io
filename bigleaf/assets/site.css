@@ -2,7 +2,7 @@
    BigLeaf — site design system
    Production build of the "LP-B Numbers" wireframe (PRJ-013).
    Dark navy × green (app-icon palette). System fonts only —
-   the site makes zero external requests, like the app.
+   the only external request is the shared GA4 loader (../assets/analytics.js).
    ============================================================ */
 
 :root{

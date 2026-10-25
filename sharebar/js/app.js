@@ -25,7 +25,7 @@
 //     original fragment — never the edits, never a previous link (#1331).
 //
 // Tool logic makes no external requests and stores no link content.
-// The separate shared website analytics script measures sanitized page URLs.
+// Website analytics runs only on product pages; the receiver loads no analytics.
 
 'use strict';
 
@@ -232,9 +232,18 @@
     return LINK_FRAGMENT.test(frag || '');
   }
 
+  function isReceiverPath(pathname) {
+    return /\/s(?:\.html)?$/.test(pathname);
+  }
+
   function boot() {
     var myGen = ++gen; // supersede anything still in flight (#218).
     var frag = location.hash || '';
+    // Only the strict-CSP receiver may touch shared state, DOM or the worker.
+    if (isLinkFragment(frag) && !isReceiverPath(location.pathname)) {
+      location.replace('s.html' + location.hash);
+      return;
+    }
     // #1331 — a new hash retires the previous link at once: its editor, result
     // and launch target go away BEFORE the new decode starts, so nothing of the
     // old link can be edited, re-run or opened while the new one is decoding,

@@ -20,18 +20,26 @@
 <main>
   <a href="./">← key115</a>
   <h1>ウェブサイトのプライバシー<br><span lang="en">Website privacy</span></h1>
-  <p class="date">最終更新 / Last updated: 2026-10-04</p>
+  <p class="date">最終更新 / Last updated: 2026-10-25</p>
   <section lang="ja">
     <h2>ウェブサイトのアクセス解析</h2>
-    <p>key115.github.ioと各アプリの紹介・ガイド・サポート・プライバシーページでは、利用状況の把握と改善のためGoogle Analytics 4（GA4）を使用します。ページの閲覧、App Storeへのリンクのクリック、参照元、利用端末・ブラウザ、おおまかな地域などの情報がGoogleへ送信されます。GA4はブラウザを識別するためCookieを使用します。</p>
-    <p>計測するページURLと参照元URLからはクエリ（?以降）とフラグメント（#以降）を除去します。フォームやサイト内検索の自動計測は無効です。Sharebarの共有状態や入力欄の内容、クリップボード、ファイル、画像の内容を解析イベントに含めません。Googleシグナルと広告パーソナライズ機能は無効にしています。</p>
+    <p>key115.github.ioと各アプリの紹介・ガイド・サポート・プライバシーページでは、利用状況の把握と改善のためGoogle Analytics 4（GA4）を使用します。ページの閲覧、App Storeへのリンクのクリック、参照元、利用端末・ブラウザ、おおまかな地域などの情報がGoogleへ送信されます。GA4はブラウザを識別するためCookieを使用します（EU・EEA・英国からの閲覧は下記のとおり）。</p>
+    <p>計測するページURLと参照元URLからはクエリ（?以降）とフラグメント（#以降）を除去します。フォームやサイト内検索の自動計測は無効です。Sharebarの共有状態や入力欄の内容、クリップボード、ファイル、画像の内容を解析イベントに含めません。Sharebarの共有リンク（#v…）を開いた時と、/sharebar/sでは、Googleのタグを読み込みません。Sharebarのページを開いたまま、同じページの中でURLを共有リンク（#v…）に変えた場合、それまでに読み込んだタグは残ります（トップページ（/sharebar/）はすぐに/sharebar/sへ移ります）。履歴の変化による計測はオフにしています。Googleシグナルと広告パーソナライズ機能は無効にしています。</p>
+    <h3>EU・EEA・英国からの閲覧</h3>
+    <p>欧州連合（EU）・欧州経済領域（EEA）・英国からの閲覧は、次のとおり扱います。同意を求めるバナーは表示しません。</p>
+    <p>ブラウザのタイムゾーンがヨーロッパか、ヨーロッパの外にあるEU・EEAの地域（カナリア諸島・キプロス・フランスの海外県など）の場合、このサイトはGoogleのタグを読み込まず、Googleへは何も送信しません。この判定はブラウザの中だけで行い、判定のためにタイムゾーンを送信することはありません。</p>
+    <p>タイムゾーンがそれ以外でも、GoogleがEU・EEA・英国からの閲覧と判定した場合、GA4はCookieを読み書きしません。この場合もGoogleのタグは読み込まれ、Cookieを使わない最小限のデータ（ページのURL・タイトル・参照元、App Storeへのリンクのクリック、ブラウザ・画面サイズ・言語など）が、通信元のIPアドレスとともにGoogleへ届きます。地域の判定はGoogleが行います。</p>
     <p>このアクセス解析はウェブサイトだけを対象とし、アプリ本体へ解析SDKを追加するものではありません。アプリ本体の取り扱いは、各アプリのプライバシーポリシーをご確認ください。</p>
     <p>Googleによるデータの取り扱いは<a href="https://policies.google.com/privacy">Googleプライバシーポリシー</a>と<a href="https://policies.google.com/technologies/partner-sites">Googleのサービスを使用するサイトやアプリから収集した情報の使用</a>をご覧ください。対応するブラウザでは<a href="https://tools.google.com/dlpage/gaoptout">Google Analyticsオプトアウト アドオン</a>を使用できます。</p>
   </section>
   <section lang="en">
     <h2>Website analytics</h2>
-    <p>key115.github.io and the app landing, guide, support, and privacy pages use Google Analytics 4 (GA4) to understand and improve website usage. Page views, clicks on App Store links, referral information, device and browser information, and approximate location are sent to Google. GA4 uses cookies to distinguish browsers.</p>
-    <p>Query strings and URL fragments are removed from the page and referrer URLs supplied to analytics. Automatic form and site-search measurement is disabled. Analytics events do not include Sharebar shared state or tool inputs, clipboard contents, files, or images. Google signals and advertising personalization are disabled.</p>
+    <p>key115.github.io and the app landing, guide, support, and privacy pages use Google Analytics 4 (GA4) to understand and improve website usage. Page views, clicks on App Store links, referral information, device and browser information, and approximate location are sent to Google. GA4 uses cookies to distinguish browsers (see below for visits from the EU, the EEA, and the UK).</p>
+    <p>Query strings and URL fragments are removed from the page and referrer URLs supplied to analytics. Automatic form and site-search measurement is disabled. Analytics events do not include Sharebar shared state or tool inputs, clipboard contents, files, or images. Opening a Sharebar shared link (#v…) or /sharebar/s does not load the Google tag. If an open Sharebar page changes its URL to a shared link (#v…) within the same page, tags already loaded remain (the landing page /sharebar/ immediately redirects to /sharebar/s); history-change measurement is disabled. Google signals and advertising personalization are disabled.</p>
+    <h3>Visits from the EU, the EEA, and the UK</h3>
+    <p>Visits from the European Union (EU), the European Economic Area (EEA), and the United Kingdom are handled as follows. No consent banner is shown.</p>
+    <p>If your browser's time zone is in Europe or in an EU/EEA region outside Europe (such as the Canary Islands, Cyprus, or the French overseas departments), this site does not load the Google tag and sends nothing to Google. This check runs only inside your browser; the time zone is not sent for it.</p>
+    <p>If your time zone is elsewhere but Google determines that the visit comes from the EU, the EEA, or the UK, GA4 does not read or write cookies. The Google tag still loads in that case, and minimal cookieless data (page URL, title, and referrer, App Store link clicks, browser, screen size, language, and similar) reaches Google along with the connection's IP address. Google determines the region.</p>
     <p>This measures the websites only. No analytics SDK is added to the apps. See each app's privacy policy for its own data handling.</p>
     <p>See <a href="https://policies.google.com/privacy">Google's privacy policy</a> and <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from sites and apps that use its services</a>. For supported browsers, the <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a> is available.</p>
   </section>

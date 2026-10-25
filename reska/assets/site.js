@@ -1,6 +1,11 @@
 (function () {
   "use strict";
 
+  // App Store CTA (site-deploy-convention 規約3: 1箇所差込で全 data-appstore を活性化)。
+  // 値が空文字なら CTA は hidden のまま。デプロイ自体のゲートは規約7 =
+  // iTunes Lookup で resultCount>=1 を実測してから（それまでライブへ出さない）。
+  var APP_STORE_URL = "https://apps.apple.com/app/id6790117299";
+
   var root = document.documentElement;
   root.classList.add("js");
 
@@ -27,6 +32,16 @@
   setLanguage(initial);
 
   document.addEventListener("DOMContentLoaded", function () {
+    if (APP_STORE_URL) {
+      document.querySelectorAll("a[data-appstore]").forEach(function (link) {
+        link.href = APP_STORE_URL;
+        link.removeAttribute("hidden");
+      });
+      document.querySelectorAll("[data-appstore-wrap]").forEach(function (item) {
+        item.removeAttribute("hidden");
+      });
+    }
+
     document.querySelectorAll("[data-set-lang]").forEach(function (button) {
       button.addEventListener("click", function () {
         setLanguage(button.getAttribute("data-set-lang"));
