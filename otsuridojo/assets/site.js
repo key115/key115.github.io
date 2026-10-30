@@ -17,11 +17,11 @@
 
   // App Store CTA の唯一の差込口（site-deploy-convention 規約3 の bigleaf 方式）。
   //
-  // 空文字のあいだは全 CTA が「近日公開」の押せない札として出る。ストア公開を
-  // iTunes Lookup（resultCount>=1）で実測したら、**ここ1箇所だけ**に実URLを入れて
+  // 公開済み（2026-08-27・iTunes Lookup 実測 2026-10-30）。
+  // 公開確認後は **ここ1箇所だけ**に実URLを入れて
   // 同一セッション内でデプロイまで完了させる（規約7・Sharebar の9日間放置の再発防止）。
   // 入れる形は https://apps.apple.com/jp/app/id<AppleID> — 契約テストが形を強制する。
-  var APP_STORE_URL = "";
+  var APP_STORE_URL = "https://apps.apple.com/jp/app/id6802313456";
 
   var PENDING_LABEL = "近日公開";
   var DEFAULT_LABEL = "App Store でダウンロード";

@@ -74,6 +74,7 @@
   var live = root.querySelector(".dojo-live");
 
   var order = [], idx = 0, wins = 0, input = "", answer = "", busy = false;
+  var judgeTimer = null;
 
   function shuffle(a) {
     for (var i = a.length - 1; i > 0; i--) {
@@ -136,7 +137,8 @@
     }
     idx++;
 
-    setTimeout(function () {
+    judgeTimer = setTimeout(function () {
+      judgeTimer = null;
       elMark.classList.remove("show");
       if (wins >= 3) {
         elPass.classList.add("show");
@@ -177,6 +179,11 @@
   });
 
   root.querySelector(".dojo-reset").addEventListener("click", function () {
+    if (judgeTimer !== null) {
+      clearTimeout(judgeTimer);
+      judgeTimer = null;
+    }
+    elMark.classList.remove("show");
     wins = 0; idx = 0;
     tallies.forEach(function (t) { t.classList.remove("won"); });
     elPass.classList.remove("show");
