@@ -53,7 +53,8 @@
     '6781006552': 'Sharebar',
     '6777128940': 'ClipRecall',
     '6777128789': 'Redact Shot',
-    '6766777378': 'Zenrabansho'
+    '6766777378': 'Zenrabansho',
+    '6802313456': 'Otsuri Dojo'
   };
   var contentGroup = sites[path.split('/')[1]] || 'App directory';
 
