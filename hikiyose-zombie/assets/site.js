@@ -1,7 +1,7 @@
 (() => {
   "use strict";
-  // Public App Store URL is enabled after iTunes Lookup confirms this app is live.
-  const APP_STORE_URL = "";
+  // iTunes Lookup confirmed version 1.0.0 live in JP and US on 2026-11-21.
+  const APP_STORE_URL = "https://apps.apple.com/jp/app/id6834989273";
   if (!/^https:\/\/apps\.apple\.com\/jp\/app\/id6834989273$/.test(APP_STORE_URL)) return;
   document.querySelectorAll("a[data-appstore]").forEach((link) => {
     link.href = APP_STORE_URL;
